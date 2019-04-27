@@ -1,3 +1,3 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
+app_logout:
+    path: /logout
+    methods: GET

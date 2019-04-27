@@ -36,7 +36,7 @@ Encore
      * https://symfony.com/doc/current/frontend.html#adding-more-features
      */
     .cleanupOutputBeforeBuild()
-    .enableBuildNotifications()
+    .enableBuildNotifications(!Encore.isProduction())
     .enableSourceMaps(!Encore.isProduction())
     // enables hashed filenames (e.g. app.abc123.css)
     .enableVersioning(Encore.isProduction())
@@ -48,7 +48,7 @@ Encore
     })
 
     // enables Sass/SCSS support
-    //.enableSassLoader()
+    .enableSassLoader()
 
     // uncomment if you use TypeScript
     //.enableTypeScriptLoader()
@@ -58,7 +58,7 @@ Encore
     //.enableIntegrityHashes()
 
     // uncomment if you're having problems with a jQuery plugin
-    //.autoProvidejQuery()
+    .autoProvidejQuery()
 
     // uncomment if you use API Platform Admin (composer req api-admin)
     //.enableReactPreset()
