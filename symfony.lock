@@ -81,6 +81,9 @@
     "doctrine/reflection": {
         "version": "v1.0.0"
     },
+    "facebook/webdriver": {
+        "version": "1.6.0"
+    },
     "gedmo/doctrine-extensions": {
         "version": "v2.4.37"
     },
@@ -89,6 +92,9 @@
     },
     "monolog/monolog": {
         "version": "1.24.0"
+    },
+    "nikic/php-parser": {
+        "version": "v4.2.1"
     },
     "ocramius/package-versions": {
         "version": "1.4.0"
@@ -123,6 +129,9 @@
     "symfony/asset": {
         "version": "v4.2.7"
     },
+    "symfony/browser-kit": {
+        "version": "v4.2.7"
+    },
     "symfony/cache": {
         "version": "v4.2.7"
     },
@@ -145,6 +154,9 @@
     "symfony/contracts": {
         "version": "v1.0.2"
     },
+    "symfony/css-selector": {
+        "version": "v4.2.7"
+    },
     "symfony/debug": {
         "version": "v4.2.7"
     },
@@ -152,6 +164,9 @@
         "version": "v4.2.7"
     },
     "symfony/doctrine-bridge": {
+        "version": "v4.2.7"
+    },
+    "symfony/dom-crawler": {
         "version": "v4.2.7"
     },
     "symfony/dotenv": {
@@ -209,6 +224,15 @@
     "symfony/intl": {
         "version": "v4.2.7"
     },
+    "symfony/maker-bundle": {
+        "version": "1.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "1.0",
+            "ref": "fadbfe33303a76e25cb63401050439aa9b1a9c7f"
+        }
+    },
     "symfony/monolog-bridge": {
         "version": "v4.2.7"
     },
@@ -228,6 +252,25 @@
     },
     "symfony/orm-pack": {
         "version": "v1.0.6"
+    },
+    "symfony/panther": {
+        "version": "v0.3.0"
+    },
+    "symfony/phpunit-bridge": {
+        "version": "4.1",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "4.1",
+            "ref": "0e548dd90adba18fabd4ef419b14d361fe4d6c74"
+        },
+        "files": [
+            ".env.test",
+            "bin/phpunit",
+            "config/bootstrap.php",
+            "phpunit.xml.dist",
+            "tests/.gitignore"
+        ]
     },
     "symfony/polyfill-intl-icu": {
         "version": "v1.11.0"
@@ -288,6 +331,9 @@
     },
     "symfony/stopwatch": {
         "version": "v4.2.7"
+    },
+    "symfony/test-pack": {
+        "version": "v1.0.5"
     },
     "symfony/translation": {
         "version": "3.3",
