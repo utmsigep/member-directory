@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Directory{% endblock %}
+
+{% block body %}
+
+<div class="container">
+  {% include 'directory/partials/directory_navigation.html.twig' %}
+  <h1>Alumni</h1>
+  <table class="table">
+    <thead>
+      <tr>
+        <th class="text-center">Chapter #</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone Number</th>
+        <th>Address</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for record in records %}
+      {% include 'directory/partials/directory_row.html.twig' %}
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

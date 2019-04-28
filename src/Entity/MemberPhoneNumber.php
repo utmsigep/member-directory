@@ -77,6 +77,12 @@ class MemberPhoneNumber
 
     public function setPhoneNumber(string $phoneNumber): self
     {
+        // Standardize telephone number format
+        $phoneNumber = preg_replace(
+            '/.*(\d{3})[^\d]{0,7}(\d{3})[^\d]{0,7}(\d{4}).*/',
+            '($1) $2-$3',
+            $phoneNumber
+        );
         $this->phoneNumber = $phoneNumber;
 
         return $this;

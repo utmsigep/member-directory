@@ -105,6 +105,9 @@
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
     },
+    "league/csv": {
+        "version": "9.2.0"
+    },
     "monolog/monolog": {
         "version": "1.24.0"
     },

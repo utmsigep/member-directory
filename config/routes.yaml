@@ -1,3 +1,7 @@
+default:
+    path: /
+    controller: App\Controller\DirectoryController::index
+
 app_logout:
     path: /logout
     methods: GET

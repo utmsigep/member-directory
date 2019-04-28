@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -20,21 +21,25 @@ class Member
 
     /**
      * @ORM\Column(type="string", unique=true, length=255)
+     * @Assert\NotBlank
      */
     private $localIdentifier;
 
     /**
      * @ORM\Column(type="string", unique=true, length=255)
+     * @Assert\NotBlank
      */
     private $externalIdentifier;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\MemberStatus", inversedBy="members")
+     * @Assert\NotBlank
      */
     private $status;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
      */
     private $firstName;
 
@@ -50,16 +55,19 @@ class Member
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
      */
     private $lastName;
 
     /**
      * @ORM\Column(type="date")
+     * @Assert\Date
      */
     private $joinDate;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\NotBlank
      */
     private $classYear;
 
@@ -70,41 +78,39 @@ class Member
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotNull
      */
     private $employer;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotNull
      */
     private $jobTitle;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotNull
      */
     private $occupation;
 
     /**
-     * @ORM\Column(type="text")
-     */
-    private $notes;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\MemberAddress", mappedBy="member")
+     * @ORM\OneToMany(targetEntity="App\Entity\MemberAddress", mappedBy="member", cascade={"persist"})
      */
     private $memberAddresses;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\MemberEmail", mappedBy="member")
+     * @ORM\OneToMany(targetEntity="App\Entity\MemberEmail", mappedBy="member", cascade={"persist"})
      */
     private $memberEmails;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\MemberLink", mappedBy="member")
+     * @ORM\OneToMany(targetEntity="App\Entity\MemberLink", mappedBy="member", cascade={"persist"})
      */
     private $memberLinks;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\MemberPhoneNumber", mappedBy="member")
+     * @ORM\OneToMany(targetEntity="App\Entity\MemberPhoneNumber", mappedBy="member", cascade={"persist"})
      */
     private $memberPhoneNumbers;
 
@@ -277,18 +283,6 @@ class Member
         return $this;
     }
 
-    public function getNotes(): ?string
-    {
-        return $this->notes;
-    }
-
-    public function setNotes(string $notes): self
-    {
-        $this->notes = $notes;
-
-        return $this;
-    }
-
     /**
      * @return Collection|MemberAddress[]
      */
@@ -299,7 +293,11 @@ class Member
 
     public function addMemberAddress(MemberAddress $memberAddress): self
     {
-        if (!$this->memberAddresses->contains($memberAddress)) {
+        $addressExists = count($this->memberAddresses->filter(function (MemberAddress $existingMemberAddress) use ($memberAddress) {
+            return $memberAddress->getAddressLine1() === $existingMemberAddress->getAddressLine1();
+        }));
+
+        if (!$addressExists && !$this->memberAddresses->contains($memberAddress)) {
             $this->memberAddresses[] = $memberAddress;
             $memberAddress->setMember($this);
         }
@@ -330,7 +328,11 @@ class Member
 
     public function addMemberEmail(MemberEmail $memberEmail): self
     {
-        if (!$this->memberEmails->contains($memberEmail)) {
+        $emailExists = count($this->memberEmails->filter(function (MemberEmail $existingMemberEmail) use ($memberEmail) {
+            return $memberEmail->getEmail() === $existingMemberEmail->getEmail();
+        }));
+
+        if (!$emailExists && !$this->memberEmails->contains($memberEmail)) {
             $this->memberEmails[] = $memberEmail;
             $memberEmail->setMember($this);
         }
@@ -392,7 +394,11 @@ class Member
 
     public function addMemberPhoneNumber(MemberPhoneNumber $memberPhoneNumber): self
     {
-        if (!$this->memberPhoneNumbers->contains($memberPhoneNumber)) {
+        $phoneExists = count($this->memberPhoneNumbers->filter(function (MemberPhoneNumber $existingMemberPhoneNumber) use ($memberPhoneNumber) {
+            return $memberPhoneNumber->getPhoneNumber() === $memberPhoneNumber->getPhoneNumber();
+        }));
+
+        if (!$phoneExists && !$this->memberPhoneNumbers->contains($memberPhoneNumber)) {
             $this->memberPhoneNumbers[] = $memberPhoneNumber;
             $memberPhoneNumber->setMember($this);
         }
@@ -411,5 +417,17 @@ class Member
         }
 
         return $this;
+    }
+
+    /**
+     * Entity Methods
+     */
+    public function getPhotoUrl()
+    {
+        $photoHash = md5('notfound@example.com');
+        if ($this->memberEmails->first()) {
+            $photoHash = md5($this->memberEmails->first()->getEmail());
+        }
+        return sprintf('https://www.gravatar.com/avatar/%s?size=400&default=mm', $photoHash);
     }
 }
