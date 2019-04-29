@@ -4,10 +4,10 @@
 
 {% block body %}
 
-<div class="container">
+<div>
   {% include 'directory/partials/directory_navigation.html.twig' %}
 
-  <h1>{{ record.preferredName }} {{ record.lastName }}</h1>
+  <div class="h4">{{ record.preferredName }} {{ record.lastName }}</div>
 
   {% if record.isDeceased %}
   <sup class="badge badge-dark" title="Deceased">Deceased</sup>

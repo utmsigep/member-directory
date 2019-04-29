@@ -8,9 +8,19 @@
         {% endblock %}
     </head>
     <body>
+      <div class="p-2 bg-dark text-light">            
+        {% if is_granted('ROLE_USER') %}
+        <div class="float-right">
+          <a class="btn btn-sm btn-light" href="{{ path('app_logout') }}">Log Out</a>
+        </div>
+        {% endif %}
+        <span class="h3"><a href="{{ path('home') }}" class="text-light">Member Directory</a></span>
+      </div>
+      <div class="container-fluid" id="canvas">
         {% block body %}{% endblock %}
-        {% block javascripts %}
-        {{ encore_entry_script_tags('app') }}
-        {% endblock %}
+      </div>
+      {% block javascripts %}
+      {{ encore_entry_script_tags('app') }}
+      {% endblock %}
     </body>
 </html>
