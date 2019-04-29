@@ -10,22 +10,19 @@
     {% endif %}
   </td>
   <td>
-    {% if record.memberEmails|first %}
-    <a href="mailto:{{ record.memberEmails|first.email }}">{{ record.memberEmails|first.email }}</a>
+    {% if record.primaryEmail %}
+    <a href="mailto:{{ record.primaryEmail }}">{{ record.primaryEmail }}</a>
     {% endif %}
   </td>
   <td>
-    {% if record.memberPhoneNumbers|first %}
-    {{ record.memberPhoneNumbers|first.phoneNumber }}
-    {% endif %}
+    {{ record.primaryTelephoneNumber }}
   </td>
   <td>
-    {% if record.memberAddresses|first %}
-    <div>
-    {{ record.memberAddresses|first.addressLine1 }}<br />
-    {% if record.memberAddresses|first.addressLine2 %}{{ record.memberAddresses|first.addressLine2 }}<br />{% endif %}
-    {{ record.memberAddresses|first.city }} {{ record.memberAddresses|first.state }}, {{ record.memberAddresses|first.postalCode }}<br />
-    {{ record.memberAddresses|first.country }}
+    {% if record.mailingAddressLine1 %}
+    {{ record.mailingAddressLine1 }}<br />
+    {% if record.mailingAddressLine2 %}{{ record.mailingAddressLine2 }}<br />{% endif %}
+    {{ record.mailingCity }} {{ record.mailingState }}, {{ record.mailingPostalCode }}<br />
+    {{ record.mailingCountry }}
     {% endif %}
   </td>
 </tr>

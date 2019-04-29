@@ -11,6 +11,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use League\Csv\Reader as CsvReader;
+use Gedmo\Loggable\LoggableListener;
 
 use App\Entity\Member;
 use App\Entity\MemberStatus;
@@ -33,15 +34,13 @@ class ImportMemberCSVCommand extends Command
     const EMPLOYER_HEADER = 'Employer';
     const JOB_TITLE_HEADER = 'Title';
     const OCCUPATION_HEADER = 'Occupation';
-    const EMAIL_HEADER = 'Email';
-    const ADDRESS_HEADER = 'Mailing Street';
-    const CITY_HEADER = 'Mailing City';
-    const STATE_HEADER = 'Mailing State/Province';
-    const COUNTRY_HEADER = 'Mailing Country';
-    const POSTAL_CODE_HEADER = 'Mailing Zip/Postal Code';
-    const HOME_PHONE_NUMBER_HEADER = 'Home Phone';
-    const WORK_PHONE_NUMBER_HEADER = 'Work Phone';
-    const MOBILE_PHONE_NUMBER_HEADER = 'Mobile';
+    const PRIMARY_EMAIL_HEADER = 'Email';
+    const PRIMARY_TELEPHONE_NUMBER_HEADER = 'Home Phone';
+    const MAILING_ADDRESS_HEADER = 'Mailing Street';
+    const MAILING_CITY_HEADER = 'Mailing City';
+    const MAILING_STATE_HEADER = 'Mailing State/Province';
+    const MAILING_POSTAL_CODE_HEADER = 'Mailing Zip/Postal Code';
+    const MAILING_COUNTRY_HEADER = 'Mailing Country';
     const STATUS_MAP = [
         'Brother' => 'UNDERGRADUATE',
         'Alumnus' => 'ALUMNUS',
@@ -164,53 +163,20 @@ class ImportMemberCSVCommand extends Command
             if (isset($csvRecord[self::OCCUPATION_HEADER])) {
                 $member->setOccupation($csvRecord[self::OCCUPATION_HEADER]);
             }
-            if (isset($csvRecord[self::EMAIL_HEADER]) && $csvRecord[self::EMAIL_HEADER]) {
-                $memberEmail = new MemberEmail();
-                $memberEmail->setLabel('Home');
-                $memberEmail->setEmail($csvRecord[self::EMAIL_HEADER]);
-                $memberEmail->setSort(0);
-                $member->addMemberEmail($memberEmail);
+            if (isset($csvRecord[self::PRIMARY_EMAIL_HEADER]) && $csvRecord[self::PRIMARY_EMAIL_HEADER]) {
+                $member->setPrimaryEmail($csvRecord[self::PRIMARY_EMAIL_HEADER]);
             }
-
-            if (isset($csvRecord[self::ADDRESS_HEADER]) && $csvRecord[self::ADDRESS_HEADER]) {
-                $memberAddress = new MemberAddress();
-                $memberAddress->setLabel('Home');
-                $addressLines = explode("\n", $csvRecord[self::ADDRESS_HEADER]);
-                $memberAddress->setAddressLine1($addressLines[0]);
-                $memberAddress->setAddressLine2(isset($addressLines[1]) ? $addressLines[1] : '');
-                $memberAddress->setCity($csvRecord[self::CITY_HEADER]);
-                $memberAddress->setState($csvRecord[self::STATE_HEADER]);
-                $memberAddress->setPostalCode($csvRecord[self::POSTAL_CODE_HEADER]);
-                $memberAddress->setCountry($csvRecord[self::COUNTRY_HEADER]);
-                $memberAddress->setSort(0);
-                $member->addMemberAddress($memberAddress);
+            if (isset($csvRecord[self::PRIMARY_TELEPHONE_NUMBER_HEADER]) && $csvRecord[self::PRIMARY_TELEPHONE_NUMBER_HEADER]) {
+                $member->setPrimaryTelephoneNumber($csvRecord[self::PRIMARY_TELEPHONE_NUMBER_HEADER]);
             }
-
-            if (isset($csvRecord[self::HOME_PHONE_NUMBER_HEADER]) && $csvRecord[self::HOME_PHONE_NUMBER_HEADER]) {
-                $memberPhoneNumber = new MemberPhoneNumber();
-                $memberPhoneNumber->setLabel('Home');
-                $memberPhoneNumber->setPhoneNumber($csvRecord[self::HOME_PHONE_NUMBER_HEADER]);
-                $memberPhoneNumber->setIsSMS(false);
-                $memberPhoneNumber->setSort(0);
-                $member->addMemberPhoneNumber($memberPhoneNumber);
-            }
-
-            if (isset($csvRecord[self::WORK_PHONE_NUMBER_HEADER]) && $csvRecord[self::WORK_PHONE_NUMBER_HEADER]) {
-                $memberPhoneNumber = new MemberPhoneNumber();
-                $memberPhoneNumber->setLabel('Work');
-                $memberPhoneNumber->setPhoneNumber($csvRecord[self::WORK_PHONE_NUMBER_HEADER]);
-                $memberPhoneNumber->setIsSMS(false);
-                $memberPhoneNumber->setSort(0);
-                $member->addMemberPhoneNumber($memberPhoneNumber);
-            }
-
-            if (isset($csvRecord[self::MOBILE_PHONE_NUMBER_HEADER]) && $csvRecord[self::MOBILE_PHONE_NUMBER_HEADER]) {
-                $memberPhoneNumber = new MemberPhoneNumber();
-                $memberPhoneNumber->setLabel('Mobile');
-                $memberPhoneNumber->setPhoneNumber($csvRecord[self::MOBILE_PHONE_NUMBER_HEADER]);
-                $memberPhoneNumber->setIsSMS(true);
-                $memberPhoneNumber->setSort(0);
-                $member->addMemberPhoneNumber($memberPhoneNumber);
+            if (isset($csvRecord[self::MAILING_ADDRESS_HEADER]) && $csvRecord[self::MAILING_ADDRESS_HEADER]) {
+                $addressLines = explode("\n", $csvRecord[self::MAILING_ADDRESS_HEADER]);
+                $member->setMailingAddressLine1($addressLines[0]);
+                $member->setMailingAddressLine2(isset($addressLines[1]) ? $addressLines[1] : '');
+                $member->setMailingCity($csvRecord[self::MAILING_CITY_HEADER]);
+                $member->setMailingState($csvRecord[self::MAILING_STATE_HEADER]);
+                $member->setMailingPostalCode($csvRecord[self::MAILING_POSTAL_CODE_HEADER]);
+                $member->setMailingCountry(isset($csvRecord[self::MAILING_COUNTRY_HEADER]) ? $csvRecord[self::MAILING_COUNTRY_HEADER] : 'United States');
             }
 
             if (isset($csvRecord[self::STATUS_HEADER])) {

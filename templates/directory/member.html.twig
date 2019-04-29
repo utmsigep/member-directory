@@ -45,33 +45,28 @@
           <tr>
             <th>Email</th>
             <td>
-              {% for email in record.memberEmails %}
-              {% if email.label %}<span class="badge badge-secondary">{{ email.label }}</span><br />{% endif %}
-              <a href="mailto:{{ email.email }}">{{ email.email }}</a>
-              {% endfor %}
+              {% if record.primaryEmail %}
+              <a href="mailto:{{ record.primaryEmail }}">{{ record.primaryEmail }}</a>
+              {% endif %}
             </td>
           </tr>
           <tr>
             <th>Phone Number</th>
             <td>
-              {% for phone in record.memberPhoneNumbers %}
-              {% if phone.label %}<span class="badge badge-secondary">{{ phone.label }}</span><br />{% endif %}
-              {{ phone.phoneNumber }}
-              {% endfor %}
+              {% if record.primaryTelephoneNumber %}
+              {{ record.primaryTelephoneNumber }}
+              {% endif %}
             </td>
           </tr>
           <tr>
             <th>Address</th>
             <td>
-              {% for address in record.memberAddresses %}
-              <div>
-              {% if address.label %}<span class="badge badge-secondary">{{ address.label }}</span><br />{% endif %}
-              {{ address.addressLine1 }}<br />
-              {% if address.addressLine2 %}{{ address.addressLine2 }}<br />{% endif %}
-              {{ address.city }} {{ address.state }}, {{ address.postalCode }}<br />
-              {{ address.country }}
-              </div>
-              {% endfor %}
+              {% if record.mailingAddressLine1 %}
+              {{ record.mailingAddressLine1 }}<br />
+              {% if record.mailingAddressLine2 %}{{ record.mailingAddressLine2 }}<br />{% endif %}
+              {{ record.mailingCity }} {{ record.mailingState }}, {{ record.mailingPostalCode }}<br />
+              {{ record.mailingCountry }}
+              {% endif %}
             </td>
           </tr>
         </tbody>
@@ -80,6 +75,37 @@
     <div class="col-lg-4">
       <img src="{{ record.photoUrl }}" class="img-fluid" />
     </div>
+  </div>
+  <div>
+    {% for logEntry in logEntries %}
+    <div class="card card-default">
+      <div class="card-header">
+        {{ logEntry.action }}: {{ logEntry.loggedAt|date('c') }} {{ logEntry.username }}
+      </div>
+      <div class="card-body">
+        <table class="table table-sm">
+          <thead>
+            <tr>
+              <th>Field</th>
+              <th>Data</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for field, value in logEntry.data %}
+            <tr>
+              <td class="w25">{{ field }}</td>
+              {% if value is iterable %}
+              <td><tt>{{ dump(value) }}</tt></td>
+              {% else %}
+              <td>{{ value }}</td>
+              {% endif %}
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    {% endfor %}
   </div>
 <div>
 {% endblock %}

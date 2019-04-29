@@ -5,6 +5,7 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Gedmo\Loggable\Entity\LogEntry;
 
 use App\Entity\Member;
 
@@ -26,8 +27,10 @@ class DirectoryController extends AbstractController
     {
         $entityManager = $this->getDoctrine()->getManager();
         $record = $entityManager->getRepository(Member::class)->findOneBy(['localIdentifier' => $localIdentifier]);
+        $logEntries = $entityManager->getRepository(LogEntry::class)->getLogEntries($record);
         return $this->render('directory/member.html.twig', [
             'record' => $record,
+            'logEntries' => $logEntries
         ]);
     }
 

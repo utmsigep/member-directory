@@ -6,12 +6,21 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\MemberRepository")
+ * @Gedmo\Loggable
  */
 class Member
 {
+    /**
+     * Hook timestampable behavior
+     * updates createdAt, updatedAt fields
+     */
+    use TimestampableEntity;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -22,40 +31,47 @@ class Member
     /**
      * @ORM\Column(type="string", unique=true, length=255)
      * @Assert\NotBlank
+     * @Gedmo\Versioned
      */
     private $localIdentifier;
 
     /**
      * @ORM\Column(type="string", unique=true, length=255)
      * @Assert\NotBlank
+     * @Gedmo\Versioned
      */
     private $externalIdentifier;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\MemberStatus", inversedBy="members")
      * @Assert\NotBlank
+     * @Gedmo\Versioned
      */
     private $status;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank
+     * @Gedmo\Versioned
      */
     private $firstName;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Gedmo\Versioned
      */
     private $preferredName;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Gedmo\Versioned
      */
     private $middleName;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank
+     * @Gedmo\Versioned
      */
     private $lastName;
 
@@ -66,61 +82,88 @@ class Member
     private $joinDate;
 
     /**
-     * @ORM\Column(type="integer")
-     * @Assert\NotBlank
+     * @ORM\Column(type="integer", nullable=true)
+     * @Gedmo\Versioned
      */
     private $classYear;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Gedmo\Versioned
      */
-    private $isDeceased;
+    private $isDeceased = false;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotNull
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Gedmo\Versioned
      */
     private $employer;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotNull
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Email
+     * @Gedmo\Versioned
+     */
+    private $primaryEmail;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Gedmo\Versioned
+     */
+    private $primaryTelephoneNumber;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Gedmo\Versioned
+     */
+    private $mailingAddressLine1;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Gedmo\Versioned
+     */
+    private $mailingAddressLine2;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Gedmo\Versioned
+     */
+    private $mailingCity;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Gedmo\Versioned
+     */
+    private $mailingState;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Gedmo\Versioned
+     */
+    private $mailingPostalCode;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Gedmo\Versioned
+     */
+    private $mailingCountry;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Gedmo\Versioned
      */
     private $jobTitle;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotNull
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Gedmo\Versioned
      */
     private $occupation;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\MemberAddress", mappedBy="member", cascade={"persist"})
+     * @ORM\Column(type="text", nullable=true)
      */
-    private $memberAddresses;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\MemberEmail", mappedBy="member", cascade={"persist"})
-     */
-    private $memberEmails;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\MemberLink", mappedBy="member", cascade={"persist"})
-     */
-    private $memberLinks;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\MemberPhoneNumber", mappedBy="member", cascade={"persist"})
-     */
-    private $memberPhoneNumbers;
-
-    public function __construct()
-    {
-        $this->memberAddresses = new ArrayCollection();
-        $this->memberEmails = new ArrayCollection();
-        $this->memberLinks = new ArrayCollection();
-        $this->memberPhoneNumbers = new ArrayCollection();
-    }
+    private $directoryNotes;
 
     public function getId(): ?int
     {
@@ -235,7 +278,7 @@ class Member
         return $this;
     }
 
-    public function getIsDeceased(): ?bool
+    public function getIsDeceased(): bool
     {
         return $this->isDeceased;
     }
@@ -243,6 +286,103 @@ class Member
     public function setIsDeceased(bool $isDeceased): self
     {
         $this->isDeceased = $isDeceased;
+
+        return $this;
+    }
+
+    public function getPrimaryEmail(): ?string
+    {
+        return $this->primaryEmail;
+    }
+
+    public function setPrimaryEmail(string $primaryEmail): self
+    {
+        $this->primaryEmail = $primaryEmail;
+
+        return $this;
+    }
+
+    public function getPrimaryTelephoneNumber(): ?string
+    {
+        return $this->primaryTelephoneNumber;
+    }
+
+    public function setPrimaryTelephoneNumber(string $primaryTelephoneNumber): self
+    {
+        $primaryTelephoneNumber = $this->formatTelephoneNumber($primaryTelephoneNumber);
+        $this->primaryTelephoneNumber = $primaryTelephoneNumber;
+
+        return $this;
+    }
+
+    public function getMailingAddressLine1(): ?string
+    {
+        return $this->mailingAddressLine1;
+    }
+
+    public function setMailingAddressLine1(string $mailingAddressLine1): self
+    {
+        $this->mailingAddressLine1 = $mailingAddressLine1;
+
+        return $this;
+    }
+
+    public function getMailingAddressLine2(): ?string
+    {
+        return $this->mailingAddressLine2;
+    }
+
+    public function setMailingAddressLine2(string $mailingAddressLine2): self
+    {
+        $this->mailingAddressLine2 = $mailingAddressLine2;
+
+        return $this;
+    }
+
+    public function getMailingCity(): ?string
+    {
+        return $this->mailingCity;
+    }
+
+    public function setMailingCity(string $mailingCity): self
+    {
+        $this->mailingCity = $mailingCity;
+
+        return $this;
+    }
+
+    public function getMailingState(): ?string
+    {
+        return $this->mailingState;
+    }
+
+    public function setMailingState(string $mailingState): self
+    {
+        $this->mailingState = $mailingState;
+
+        return $this;
+    }
+
+    public function getMailingPostalCode(): ?string
+    {
+        return $this->mailingPostalCode;
+    }
+
+    public function setMailingPostalCode(string $mailingPostalCode): self
+    {
+        $this->mailingPostalCode = $mailingPostalCode;
+
+        return $this;
+    }
+
+    public function getMailingCountry(): string
+    {
+        return $this->mailingCountry;
+    }
+
+    public function setMailingCountry(string $mailingCountry): self
+    {
+        $this->mailingCountry = $mailingCountry;
 
         return $this;
     }
@@ -283,138 +423,14 @@ class Member
         return $this;
     }
 
-    /**
-     * @return Collection|MemberAddress[]
-     */
-    public function getMemberAddresses(): Collection
+    public function getDirectoryNotes(): ?string
     {
-        return $this->memberAddresses;
+        return $this->directoryNotes;
     }
 
-    public function addMemberAddress(MemberAddress $memberAddress): self
+    public function setDirectoryNotes(?string $directoryNotes): self
     {
-        $addressExists = count($this->memberAddresses->filter(function (MemberAddress $existingMemberAddress) use ($memberAddress) {
-            return $memberAddress->getAddressLine1() === $existingMemberAddress->getAddressLine1();
-        }));
-
-        if (!$addressExists && !$this->memberAddresses->contains($memberAddress)) {
-            $this->memberAddresses[] = $memberAddress;
-            $memberAddress->setMember($this);
-        }
-
-        return $this;
-    }
-
-    public function removeMemberAddress(MemberAddress $memberAddress): self
-    {
-        if ($this->memberAddresses->contains($memberAddress)) {
-            $this->memberAddresses->removeElement($memberAddress);
-            // set the owning side to null (unless already changed)
-            if ($memberAddress->getMember() === $this) {
-                $memberAddress->setMember(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|MemberEmail[]
-     */
-    public function getMemberEmails(): Collection
-    {
-        return $this->memberEmails;
-    }
-
-    public function addMemberEmail(MemberEmail $memberEmail): self
-    {
-        $emailExists = count($this->memberEmails->filter(function (MemberEmail $existingMemberEmail) use ($memberEmail) {
-            return $memberEmail->getEmail() === $existingMemberEmail->getEmail();
-        }));
-
-        if (!$emailExists && !$this->memberEmails->contains($memberEmail)) {
-            $this->memberEmails[] = $memberEmail;
-            $memberEmail->setMember($this);
-        }
-
-        return $this;
-    }
-
-    public function removeMemberEmail(MemberEmail $memberEmail): self
-    {
-        if ($this->memberEmails->contains($memberEmail)) {
-            $this->memberEmails->removeElement($memberEmail);
-            // set the owning side to null (unless already changed)
-            if ($memberEmail->getMember() === $this) {
-                $memberEmail->setMember(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|MemberLink[]
-     */
-    public function getMemberLinks(): Collection
-    {
-        return $this->memberLinks;
-    }
-
-    public function addMemberLink(MemberLink $memberLink): self
-    {
-        if (!$this->memberLinks->contains($memberLink)) {
-            $this->memberLinks[] = $memberLink;
-            $memberLink->setMember($this);
-        }
-
-        return $this;
-    }
-
-    public function removeMemberLink(MemberLink $memberLink): self
-    {
-        if ($this->memberLinks->contains($memberLink)) {
-            $this->memberLinks->removeElement($memberLink);
-            // set the owning side to null (unless already changed)
-            if ($memberLink->getMember() === $this) {
-                $memberLink->setMember(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|MemberPhoneNumber[]
-     */
-    public function getMemberPhoneNumbers(): Collection
-    {
-        return $this->memberPhoneNumbers;
-    }
-
-    public function addMemberPhoneNumber(MemberPhoneNumber $memberPhoneNumber): self
-    {
-        $phoneExists = count($this->memberPhoneNumbers->filter(function (MemberPhoneNumber $existingMemberPhoneNumber) use ($memberPhoneNumber) {
-            return $memberPhoneNumber->getPhoneNumber() === $memberPhoneNumber->getPhoneNumber();
-        }));
-
-        if (!$phoneExists && !$this->memberPhoneNumbers->contains($memberPhoneNumber)) {
-            $this->memberPhoneNumbers[] = $memberPhoneNumber;
-            $memberPhoneNumber->setMember($this);
-        }
-
-        return $this;
-    }
-
-    public function removeMemberPhoneNumber(MemberPhoneNumber $memberPhoneNumber): self
-    {
-        if ($this->memberPhoneNumbers->contains($memberPhoneNumber)) {
-            $this->memberPhoneNumbers->removeElement($memberPhoneNumber);
-            // set the owning side to null (unless already changed)
-            if ($memberPhoneNumber->getMember() === $this) {
-                $memberPhoneNumber->setMember(null);
-            }
-        }
+        $this->directoryNotes = $directoryNotes;
 
         return $this;
     }
@@ -425,9 +441,21 @@ class Member
     public function getPhotoUrl()
     {
         $photoHash = md5('notfound@example.com');
-        if ($this->memberEmails->first()) {
-            $photoHash = md5($this->memberEmails->first()->getEmail());
+        if ($this->primaryEmail) {
+            $photoHash = md5($this->primaryEmail);
         }
         return sprintf('https://www.gravatar.com/avatar/%s?size=400&default=mm', $photoHash);
+    }
+
+    /**
+     * Private Methods
+     */
+    private function formatTelephoneNumber($telephoneNumber): string
+    {
+        return $telephoneNumber = preg_replace(
+            '/.*(\d{3})[^\d]{0,7}(\d{3})[^\d]{0,7}(\d{4}).*/',
+            '($1) $2-$3',
+            $telephoneNumber
+        );
     }
 }

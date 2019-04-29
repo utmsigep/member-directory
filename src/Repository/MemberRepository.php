@@ -23,8 +23,6 @@ class MemberRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('m')
             ->join('m.status', 's')
-            ->leftJoin('m.memberEmails', 'e')
-            ->leftJoin('m.memberAddresses', 'a')
             ->andWhere('s.code IN (:statusCodes)')
             ->setParameter('statusCodes', $statusCodes)
             ->orderBy('m.lastName', 'ASC')
