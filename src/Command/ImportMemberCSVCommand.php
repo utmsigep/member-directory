@@ -21,26 +21,29 @@ use App\Entity\MemberPhoneNumber;
 
 class ImportMemberCSVCommand extends Command
 {
-    const LOCAL_IDENTIFIER_HEADER = 'Brother ID';
-    const EXTERNAL_IDENTIFIER_HEADER = '18 digit ID';
-    const FIRST_NAME_HEADER = 'First Name';
-    const MIDDLE_NAME_HEADER = 'Middle Name';
-    const PREFERRED_NAME_HEADER = 'Nickname';
-    const LAST_NAME_HEADER = 'Last Name';
-    const STATUS_HEADER = 'Member Status';
-    const JOIN_DATE_HEADER = 'Joined Date';
-    const CLASS_YEAR_HEADER = 'Class';
-    const DECEASED_HEADER = 'Deceased';
-    const EMPLOYER_HEADER = 'Employer';
-    const JOB_TITLE_HEADER = 'Title';
-    const OCCUPATION_HEADER = 'Occupation';
-    const PRIMARY_EMAIL_HEADER = 'Email';
-    const PRIMARY_TELEPHONE_NUMBER_HEADER = 'Home Phone';
-    const MAILING_ADDRESS_HEADER = 'Mailing Street';
-    const MAILING_CITY_HEADER = 'Mailing City';
-    const MAILING_STATE_HEADER = 'Mailing State/Province';
-    const MAILING_POSTAL_CODE_HEADER = 'Mailing Zip/Postal Code';
-    const MAILING_COUNTRY_HEADER = 'Mailing Country';
+    const LOCAL_IDENTIFIER_HEADER = 'localIdentifier';
+    const EXTERNAL_IDENTIFIER_HEADER = 'externalIdentifier';
+    const FIRST_NAME_HEADER = 'firstName';
+    const MIDDLE_NAME_HEADER = 'middleName';
+    const PREFERRED_NAME_HEADER = 'preferredName';
+    const LAST_NAME_HEADER = 'lastName';
+    const STATUS_HEADER = 'status';
+    const JOIN_DATE_HEADER = 'joinDate';
+    const CLASS_YEAR_HEADER = 'classYear';
+    const DECEASED_HEADER = 'isDeceased';
+    const EMPLOYER_HEADER = 'employer';
+    const JOB_TITLE_HEADER = 'jobTitle';
+    const OCCUPATION_HEADER = 'occupation';
+    const PRIMARY_EMAIL_HEADER = 'primaryEmail';
+    const PRIMARY_TELEPHONE_NUMBER_HEADER = 'primaryTelephoneNumber';
+    const MAILING_ADDRESS_HEADER = 'mailingAddress';
+    const MAILING_CITY_HEADER = 'mailingCity';
+    const MAILING_STATE_HEADER = 'mailingState';
+    const MAILING_POSTAL_CODE_HEADER = 'mailingPostalCode';
+    const MAILING_COUNTRY_HEADER = 'mailingCountry';
+    const LOCAL_DO_NOT_CONTACT = 'isLocalDoNotContact';
+    const EXTERNAL_DO_NOT_CONTACT = 'isExternalDoNotContact';
+
     const STATUS_MAP = [
         'Brother' => 'UNDERGRADUATE',
         'Alumnus' => 'ALUMNUS',
@@ -178,7 +181,12 @@ class ImportMemberCSVCommand extends Command
                 $member->setMailingPostalCode($csvRecord[self::MAILING_POSTAL_CODE_HEADER]);
                 $member->setMailingCountry(isset($csvRecord[self::MAILING_COUNTRY_HEADER]) ? $csvRecord[self::MAILING_COUNTRY_HEADER] : 'United States');
             }
-
+            if (isset($csvRecord[self::LOCAL_DO_NOT_CONTACT])) {
+                $member->setIsLocalDoNotContact((bool) $csvRecord[self::LOCAL_DO_NOT_CONTACT]);
+            }
+            if (isset($csvRecord[self::EXTERNAL_DO_NOT_CONTACT])) {
+                $member->setIsExternalDoNotContact((bool) $csvRecord[self::EXTERNAL_DO_NOT_CONTACT]);
+            }
             if (isset($csvRecord[self::STATUS_HEADER])) {
                 $memberStatus = $this->entityManager->getRepository(MemberStatus::class)->findOneBy([
                     'code' => self::STATUS_MAP[$csvRecord[self::STATUS_HEADER]]

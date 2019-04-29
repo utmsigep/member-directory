@@ -161,6 +161,18 @@ class Member
     private $occupation;
 
     /**
+     * @ORM\Column(type="boolean")
+     * @Gedmo\Versioned
+     */
+    private $isLocalDoNotContact = false;
+
+    /**
+     * @ORM\Column(type="boolean")
+     * @Gedmo\Versioned
+     */
+    private $isExternalDoNotContact = false;
+
+    /**
      * @ORM\Column(type="text", nullable=true)
      */
     private $directoryNotes;
@@ -427,6 +439,30 @@ class Member
     public function getDirectoryNotes(): ?string
     {
         return $this->directoryNotes;
+    }
+
+    public function getIsLocalDoNotContact(): ?bool
+    {
+        return $this->isLocalDoNotContact;
+    }
+
+    public function setIsLocalDoNotContact(bool $isLocalDoNotContact): self
+    {
+        $this->isLocalDoNotContact = $isLocalDoNotContact;
+
+        return $this;
+    }
+
+    public function getIsExternalDoNotContact(): ?bool
+    {
+        return $this->isExternalDoNotContact;
+    }
+
+    public function setIsExternalDoNotContact(bool $isExternalDoNotContact): self
+    {
+        $this->isExternalDoNotContact = $isExternalDoNotContact;
+
+        return $this;
     }
 
     public function setDirectoryNotes(?string $directoryNotes): self
