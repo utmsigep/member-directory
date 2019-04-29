@@ -16,6 +16,8 @@
   <sup class="badge badge-secondary" title="Renaissance">Renaissance</sup>
   {% endif %}
 
+  {% include 'directory/partials/directory_member_navigation.html.twig' %}
+
   <div class="row">
     <div class="col-lg-8">
       <table class="table">
@@ -75,37 +77,6 @@
     <div class="col-lg-4">
       <img src="{{ record.photoUrl }}" class="img-fluid" />
     </div>
-  </div>
-  <div>
-    {% for logEntry in logEntries %}
-    <div class="card card-default">
-      <div class="card-header">
-        {{ logEntry.action }}: {{ logEntry.loggedAt|date('c') }} {{ logEntry.username }}
-      </div>
-      <div class="card-body">
-        <table class="table table-sm">
-          <thead>
-            <tr>
-              <th>Field</th>
-              <th>Data</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for field, value in logEntry.data %}
-            <tr>
-              <td class="w25">{{ field }}</td>
-              {% if value is iterable %}
-              <td><tt>{{ dump(value) }}</tt></td>
-              {% else %}
-              <td>{{ value }}</td>
-              {% endif %}
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
-    </div>
-    {% endfor %}
   </div>
 <div>
 {% endblock %}

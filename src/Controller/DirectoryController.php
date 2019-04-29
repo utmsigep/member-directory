@@ -2,10 +2,11 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Gedmo\Loggable\Entity\LogEntry;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+use Symfony\Component\Routing\Annotation\Route;
 use USPS\Address;
 use USPS\AddressVerify;
 
@@ -29,34 +30,54 @@ class DirectoryController extends AbstractController
     {
         $entityManager = $this->getDoctrine()->getManager();
         $record = $entityManager->getRepository(Member::class)->findOneBy(['localIdentifier' => $localIdentifier]);
-        $logEntries = $entityManager->getRepository(LogEntry::class)->getLogEntries($record);
         return $this->render('directory/member.html.twig', [
+            'record' => $record
+        ]);
+    }
+
+    /**
+     * @Route("/member/{localIdentifier}/change-log", name="member_change_log")
+     */
+    public function changeLog($localIdentifier)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $record = $entityManager->getRepository(Member::class)->findOneBy(['localIdentifier' => $localIdentifier]);
+        $logEntries = $entityManager->getRepository(LogEntry::class)->getLogEntries($record);
+        return $this->render('directory/changelog.html.twig', [
             'record' => $record,
             'logEntries' => $logEntries
         ]);
     }
 
+
     /**
-     * @Route("/member/{localIdentifier}/verify-address", name="verify_address")
+     * @Route("/member/{localIdentifier}/verify-address", name="member_verify_address")
      */
     public function validateMemberAddress($localIdentifier)
     {
         $entityManager = $this->getDoctrine()->getManager();
         $record = $entityManager->getRepository(Member::class)->findOneBy(['localIdentifier' => $localIdentifier]);
 
-        $verify = new AddressVerify($_ENV['USPS_USERNAME']);
-        $address = new Address();
-        $address->setField('Address1', $record->getMailingAddressLine1());
-        $address->setField('Address2', $record->getMailingAddressLine2());
-        $address->setCity($record->getMailingCity());
-        $address->setState($record->getMailingState());
-        $address->setZip5($record->getMailingPostalCode());
-        $address->setZip4('');
-        $verify->addAddress($address);
+        $cache = new FilesystemAdapter();
+        $cacheKey = 'directory.address_verify_' . md5(json_encode([$record->getId(), $record->getUpdatedAt()]));
+        $response = $cache->getItem($cacheKey);
 
-        $response = $verify->verify();
+        if (!$response->isHit()) {
+            $verify = new AddressVerify($_ENV['USPS_USERNAME']);
+            $address = new Address();
+            $address->setField('Address1', $record->getMailingAddressLine1());
+            $address->setField('Address2', $record->getMailingAddressLine2());
+            $address->setCity($record->getMailingCity());
+            $address->setState($record->getMailingState());
+            $address->setZip5($record->getMailingPostalCode());
+            $address->setZip4('');
+            $verify->addAddress($address);
+            $verify->verify();
 
-        return $this->json($verify->getArrayResponse());
+            $response->set($verify->getArrayResponse());
+            $cache->save($response);
+        }
+        return $this->json($response->get());
     }
 
     /**

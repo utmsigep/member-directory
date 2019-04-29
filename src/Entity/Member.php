@@ -297,6 +297,7 @@ class Member
 
     public function setPrimaryEmail(string $primaryEmail): self
     {
+        $primaryEmail = $this->formatEmail($primaryEmail);
         $this->primaryEmail = $primaryEmail;
 
         return $this;
@@ -438,6 +439,7 @@ class Member
     /**
      * Entity Methods
      */
+
     public function getPhotoUrl()
     {
         $photoHash = md5('notfound@example.com');
@@ -450,6 +452,7 @@ class Member
     /**
      * Private Methods
      */
+
     private function formatTelephoneNumber($telephoneNumber): string
     {
         return $telephoneNumber = preg_replace(
@@ -457,5 +460,10 @@ class Member
             '($1) $2-$3',
             $telephoneNumber
         );
+    }
+
+    private function formatEmail($email): string
+    {
+        return trim(mb_strtolower($email));
     }
 }

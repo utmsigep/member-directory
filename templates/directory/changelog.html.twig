@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Directory{% endblock %}
+
+{% block body %}
+
+<div class="container">
+  {% include 'directory/partials/directory_navigation.html.twig' %}
+
+  <h1>{{ record.preferredName }} {{ record.lastName }}</h1>
+
+  {% if record.isDeceased %}
+  <sup class="badge badge-dark" title="Deceased">Deceased</sup>
+  {% endif %}
+  {% if record.status.code == 'RENAISSANCE' %}
+  <sup class="badge badge-secondary" title="Renaissance">Renaissance</sup>
+  {% endif %}
+
+  {% include 'directory/partials/directory_member_navigation.html.twig' %}
+
+  <div>
+    {% for logEntry in logEntries %}
+    <div class="card card-default">
+      <div class="card-header">
+        {{ logEntry.action }}: {{ logEntry.loggedAt|date('c') }} {{ logEntry.username }}
+      </div>
+      <div class="card-body">
+        <table class="table table-sm">
+          <thead>
+            <tr>
+              <th>Field</th>
+              <th>Data</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for field, value in logEntry.data %}
+            <tr>
+              <td class="w-25">{{ field }}</td>
+              {% if value is iterable %}
+              <td><tt>{{ dump(value) }}</tt></td>
+              {% else %}
+              <td>{{ value }}</td>
+              {% endif %}
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+<div>
+{% endblock %}
