@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "57bb937b9d32dd44d9db8755c7d7cd3a",
+    "content-hash": "b02dc28028d55f9612d30918a5055826",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -4606,6 +4606,56 @@
                 "templating"
             ],
             "time": "2019-04-16T17:14:24+00:00"
+        },
+        {
+            "name": "vinceg/usps-php-api",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/VinceG/USPS-php-api.git",
+                "reference": "26c4f17791675c1d568f4cc3b2ab5455922aafa3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/VinceG/USPS-php-api/zipball/26c4f17791675c1d568f4cc3b2ab5455922aafa3",
+                "reference": "26c4f17791675c1d568f4cc3b2ab5455922aafa3",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "php": ">=5.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "USPS\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Vincent Gabriel",
+                    "homepage": "http://vadimg.com",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Alexander Reiff",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Ryan Hayle",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PHP wrapper for USPS Web Tools API",
+            "keywords": [
+                "api",
+                "usps"
+            ],
+            "time": "2019-02-19T18:19:01+00:00"
         },
         {
             "name": "zendframework/zend-code",

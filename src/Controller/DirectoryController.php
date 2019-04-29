@@ -6,6 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Gedmo\Loggable\Entity\LogEntry;
+use USPS\Address;
+use USPS\AddressVerify;
 
 use App\Entity\Member;
 
@@ -32,6 +34,29 @@ class DirectoryController extends AbstractController
             'record' => $record,
             'logEntries' => $logEntries
         ]);
+    }
+
+    /**
+     * @Route("/member/{localIdentifier}/verify-address", name="verify_address")
+     */
+    public function validateMemberAddress($localIdentifier)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $record = $entityManager->getRepository(Member::class)->findOneBy(['localIdentifier' => $localIdentifier]);
+
+        $verify = new AddressVerify($_ENV['USPS_USERNAME']);
+        $address = new Address();
+        $address->setField('Address1', $record->getMailingAddressLine1());
+        $address->setField('Address2', $record->getMailingAddressLine2());
+        $address->setCity($record->getMailingCity());
+        $address->setState($record->getMailingState());
+        $address->setZip5($record->getMailingPostalCode());
+        $address->setZip4('');
+        $verify->addAddress($address);
+
+        $response = $verify->verify();
+
+        return $this->json($verify->getArrayResponse());
     }
 
     /**

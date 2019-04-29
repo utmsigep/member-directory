@@ -473,6 +473,9 @@
     "twig/twig": {
         "version": "v2.8.1"
     },
+    "vinceg/usps-php-api": {
+        "version": "1.0.1"
+    },
     "zendframework/zend-code": {
         "version": "3.3.1"
     },

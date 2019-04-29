@@ -22,7 +22,8 @@
         "symfony/validator": "4.2.*",
         "symfony/webpack-encore-bundle": "^1.5",
         "symfony/yaml": "4.2.*",
-        "twig/extensions": "^1.5"
+        "twig/extensions": "^1.5",
+        "vinceg/usps-php-api": "^1.0"
     },
     "config": {
         "preferred-install": {
