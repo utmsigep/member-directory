@@ -2,7 +2,12 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>{% block title %}Chapter Portal{% endblock %}</title>
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/site.webmanifest">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
         {% block stylesheets -%}
         {{ encore_entry_link_tags('app') }}
         {% endblock %}
@@ -14,7 +19,7 @@
           <a class="btn btn-sm btn-light" href="{{ path('app_logout') }}">Log Out</a>
         </div>
         {% endif %}
-        <span class="h3"><a href="{{ path('home') }}" class="text-light">Member Directory</a></span>
+        <span class="h3"><a href="{{ path('home') }}" class="text-light"><i class="far fa-address-book pr-2"></i> Member Directory</a></span>
       </div>
       <div class="container-fluid" id="canvas">
         {% block body %}{% endblock %}
