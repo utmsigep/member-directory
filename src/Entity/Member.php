@@ -164,6 +164,12 @@ class Member
      * @ORM\Column(type="boolean")
      * @Gedmo\Versioned
      */
+    private $isLost = false;
+
+    /**
+     * @ORM\Column(type="boolean")
+     * @Gedmo\Versioned
+     */
     private $isLocalDoNotContact = false;
 
     /**
@@ -439,6 +445,18 @@ class Member
     public function getDirectoryNotes(): ?string
     {
         return $this->directoryNotes;
+    }
+
+    public function getIsLost(): ?bool
+    {
+        return $this->isLost;
+    }
+
+    public function setIsLost(bool $isLost): self
+    {
+        $this->isLost = $isLost;
+
+        return $this;
     }
 
     public function getIsLocalDoNotContact(): ?bool

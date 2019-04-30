@@ -9,12 +9,7 @@
 
   <div class="h4">{{ record.preferredName }} {{ record.lastName }}</div>
 
-  {% if record.isDeceased %}
-  <sup class="badge badge-dark" title="Deceased">Deceased</sup>
-  {% endif %}
-  {% if record.status.code == 'RENAISSANCE' %}
-  <sup class="badge badge-secondary" title="Renaissance">Renaissance</sup>
-  {% endif %}
+  {% include 'directory/partials/directory_member_badges.html.twig' %}
 
   {% include 'directory/partials/directory_member_navigation.html.twig' %}
 

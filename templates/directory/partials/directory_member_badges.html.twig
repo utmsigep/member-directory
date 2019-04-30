@@ -1,0 +1,17 @@
+<div>
+{% if record.isDeceased %}
+<sup class="badge badge-dark" title="Deceased">Deceased</sup>
+{% endif %}
+{% if record.isLost %}
+<sup class="badge badge-warning" title="Lost">Lost</sup>
+{% endif %}
+{% if record.status.code == 'RENAISSANCE' %}
+<sup class="badge badge-secondary" title="Renaissance">Renaissance</sup>
+{% endif %}
+{% if record.isExternalDoNotContact %}
+<sup class="badge badge-warning" title="External Do Not Contact">Do Not Contact (Nationals)</sup>
+{% endif %}
+{% if record.isLocalDoNotContact %}
+<sup class="badge badge-danger" title="Local Do Not Contact">Do Not Contact (Local)</sup>
+{% endif %}
+</div>

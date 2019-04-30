@@ -41,8 +41,9 @@ class ImportMemberCSVCommand extends Command
     const MAILING_STATE_HEADER = 'mailingState';
     const MAILING_POSTAL_CODE_HEADER = 'mailingPostalCode';
     const MAILING_COUNTRY_HEADER = 'mailingCountry';
-    const LOCAL_DO_NOT_CONTACT = 'isLocalDoNotContact';
-    const EXTERNAL_DO_NOT_CONTACT = 'isExternalDoNotContact';
+    const LOST_HEADER = 'isLost';
+    const LOCAL_DO_NOT_CONTACT_HEADER = 'isLocalDoNotContact';
+    const EXTERNAL_DO_NOT_CONTACT_HEADER = 'isExternalDoNotContact';
 
     const STATUS_MAP = [
         'Brother' => 'UNDERGRADUATE',
@@ -155,7 +156,7 @@ class ImportMemberCSVCommand extends Command
                 $member->setClassYear((int) $csvRecord[self::CLASS_YEAR_HEADER]);
             }
             if (isset($csvRecord[self::DECEASED_HEADER])) {
-                $member->setIsDeceased((bool) $csvRecord[self::DECEASED_HEADER]);
+                $member->setIsDeceased($this->formatBoolean($csvRecord[self::DECEASED_HEADER]));
             }
             if (isset($csvRecord[self::EMPLOYER_HEADER])) {
                 $member->setEmployer($csvRecord[self::EMPLOYER_HEADER]);
@@ -181,11 +182,14 @@ class ImportMemberCSVCommand extends Command
                 $member->setMailingPostalCode($csvRecord[self::MAILING_POSTAL_CODE_HEADER]);
                 $member->setMailingCountry(isset($csvRecord[self::MAILING_COUNTRY_HEADER]) ? $csvRecord[self::MAILING_COUNTRY_HEADER] : 'United States');
             }
-            if (isset($csvRecord[self::LOCAL_DO_NOT_CONTACT])) {
-                $member->setIsLocalDoNotContact((bool) $csvRecord[self::LOCAL_DO_NOT_CONTACT]);
+            if (isset($csvRecord[self::LOST_HEADER])) {
+                $member->setIsLost($this->formatBoolean($csvRecord[self::LOST_HEADER]));
             }
-            if (isset($csvRecord[self::EXTERNAL_DO_NOT_CONTACT])) {
-                $member->setIsExternalDoNotContact((bool) $csvRecord[self::EXTERNAL_DO_NOT_CONTACT]);
+            if (isset($csvRecord[self::LOCAL_DO_NOT_CONTACT_HEADER])) {
+                $member->setIsLocalDoNotContact($this->formatBoolean($csvRecord[self::LOCAL_DO_NOT_CONTACT_HEADER]));
+            }
+            if (isset($csvRecord[self::EXTERNAL_DO_NOT_CONTACT_HEADER])) {
+                $member->setIsExternalDoNotContact($this->formatBoolean($csvRecord[self::EXTERNAL_DO_NOT_CONTACT_HEADER]));
             }
             if (isset($csvRecord[self::STATUS_HEADER])) {
                 $memberStatus = $this->entityManager->getRepository(MemberStatus::class)->findOneBy([
@@ -276,4 +280,29 @@ class ImportMemberCSVCommand extends Command
 
         $io->success('Done!');
     }
+
+    private function formatBoolean($bool): bool
+    {
+        if (is_numeric($bool)) {
+            return $bool == '1';
+        }
+
+        if (is_string($bool)) {
+            $bool = strtoupper($bool);
+            switch ($bool) {
+                case 'Y':
+                case 'YES':
+                case 'ACTIVE':
+                case 'TRUE':
+                case 'T':
+                case 'CHECKED':
+                    return true;
+                    break;
+                default:
+                    return false;
+            }
+        }
+        return (bool) $bool;
+    }
+
 }
