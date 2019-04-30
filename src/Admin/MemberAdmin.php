@@ -9,6 +9,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 final class MemberAdmin extends AbstractAdmin
 {
@@ -19,6 +20,7 @@ final class MemberAdmin extends AbstractAdmin
         $formMapper->add('lastName', TextType::class);
         $formMapper->add('firstName', TextType::class);
         $formMapper->add('primaryEmail', TextType::class);
+        $formMapper->add('status', EntityType::class);
         $formMapper->add('primaryTelephoneNumber', TextType::class);
     }
 
@@ -28,6 +30,16 @@ final class MemberAdmin extends AbstractAdmin
         $datagridMapper->add('externalIdentifier');
         $datagridMapper->add('lastName');
         $datagridMapper->add('firstName');
+        $datagridMapper->add('status.label', 'doctrine_orm_string', [], ChoiceType::class, [
+            'choices' => [
+                'Alumnus' => 'Alumnus',
+                'Renaissance (Honorary)' => 'Renaissance (Honorary)',
+                'Undergraduate' => 'Undergraduate',
+                'Expelled' => 'Expelled',
+                'Resigned' => 'Resigned',
+                'Other / Constituent' => 'Other / Constituent'
+            ]
+        ]);
         $datagridMapper->add('primaryEmail');
     }
 
@@ -36,6 +48,7 @@ final class MemberAdmin extends AbstractAdmin
         $listMapper->addIdentifier('localIdentifier');
         $listMapper->add('lastName');
         $listMapper->add('firstName');
+        $listMapper->add('status.label');
         $listMapper->add('primaryEmail');
     }
 }
