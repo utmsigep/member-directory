@@ -103,7 +103,7 @@ class ImportMemberCSVCommand extends Command
         $csvRecords = $csv->getRecords(); //returns all the CSV records as an Iterator object
 
         // Inspect headers for required fields
-        if (!in_array(self::LOCAL_IDENTIFIER_HEADER, $header) ||
+        if (!in_array(self::LOCAL_IDENTIFIER_HEADER, $header) &&
             !in_array(self::EXTERNAL_IDENTIFIER_HEADER, $header)
         ) {
             $io->error(sprintf(

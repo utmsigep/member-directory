@@ -28,47 +28,53 @@ final class MemberAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->with('Basics', ['class' => 'col-md-8'])
-                ->add('localIdentifier')
-                ->add('externalIdentifier')
-                ->add('firstName')
-                ->add('preferredName')
-                ->add('middleName')
-                ->add('lastName')
-                ->add('joinDate', DateType::class)
-                ->add('classYear')
-                ->add('status', ModelType::class, [
-                    'btn_add' => false
-                ])
-                ->add('primaryEmail')
-                ->add('primaryTelephoneNumber')
+            ->tab('Membership Record')
+                ->with('Basics', ['class' => 'col-md-4'])
+                    ->add('localIdentifier')
+                    ->add('externalIdentifier')
+                    ->add('firstName')
+                    ->add('preferredName')
+                    ->add('middleName')
+                    ->add('lastName')
+                    ->add('primaryEmail')
+                    ->add('primaryTelephoneNumber')
+                    ->end()
+                ->with('Mailing Address', ['class' => 'col-md-4'])
+                    ->add('mailingAddressLine1')
+                    ->add('mailingAddressLine2')
+                    ->add('mailingCity')
+                    ->add('mailingState')
+                    ->add('mailingPostalCode')
+                    ->add('mailingCountry')
+                    ->end()
+                ->with('Details', ['class' => 'col-md-4'])
+                    ->add('joinDate', DateType::class)
+                    ->add('classYear')
+                    ->add('status', ModelType::class, [
+                        'btn_add' => false
+                    ])
+                    ->end()
+                ->with('Contact Flags', ['class' => 'col-md-4'])
+                    ->add('isLost', null, [
+                        'label' => 'Lost Alumnus'
+                    ])
+                    ->add('isLocalDoNotContact', null, [
+                        'label' => 'Do Not Contact (Local)'
+                    ])
+                    ->add('isExternalDoNotContact', null, [
+                        'label' => 'Do Not Contact (National)'
+                    ])
+                    ->end()
                 ->end()
-            ->with('Mailing Address', ['class' => 'col-md-4'])
-                ->add('mailingAddressLine1')
-                ->add('mailingAddressLine2')
-                ->add('mailingCity')
-                ->add('mailingState')
-                ->add('mailingPostalCode')
-                ->add('mailingCountry')
-                ->end()
-            ->with('Work Information', ['class' => 'col-md-8'])
-                ->add('employer')
-                ->add('jobTitle')
-                ->add('occupation')
-                ->end()
-            ->with('Contact Flags', ['class' => 'col-md-4'])
-                ->add('isLost', null, [
-                    'label' => 'Lost Alumnus'
-                ])
-                ->add('isLocalDoNotContact', null, [
-                    'label' => 'Do Not Contact (Local)'
-                ])
-                ->add('isExternalDoNotContact', null, [
-                    'label' => 'Do Not Contact (National)'
-                ])
-                ->end()
-            ->with('Notes')
-                ->add('directoryNotes')
+            ->tab('Additional Information')
+                ->with('Work Information', ['class' => 'col-md-6'])
+                    ->add('employer')
+                    ->add('jobTitle')
+                    ->add('occupation')
+                    ->end()
+                ->with('Notes', ['class' => 'col-md-6'])
+                    ->add('directoryNotes')
+                    ->end()
                 ->end()
         ;
     }
@@ -76,16 +82,14 @@ final class MemberAdmin extends AbstractAdmin
     protected function configureShowFields(ShowMapper $showMapper)
     {
         $showMapper
-            ->with('Basics', ['class' => 'col-md-8'])
+        ->tab('Membership Record')
+            ->with('Basics', ['class' => 'col-md-4'])
                 ->add('localIdentifier')
                 ->add('externalIdentifier')
                 ->add('firstName')
                 ->add('preferredName')
                 ->add('middleName')
                 ->add('lastName')
-                ->add('joinDate')
-                ->add('classYear')
-                ->add('status')
                 ->add('primaryEmail')
                 ->add('primaryTelephoneNumber')
                 ->end()
@@ -97,10 +101,10 @@ final class MemberAdmin extends AbstractAdmin
                 ->add('mailingPostalCode')
                 ->add('mailingCountry')
                 ->end()
-            ->with('Work Information', ['class' => 'col-md-8'])
-                ->add('employer')
-                ->add('jobTitle')
-                ->add('occupation')
+            ->with('Details', ['class' => 'col-md-4'])
+                ->add('joinDate')
+                ->add('classYear')
+                ->add('status')
                 ->end()
             ->with('Contact Flags', ['class' => 'col-md-4'])
                 ->add('isLost', 'choice', [
@@ -125,9 +129,17 @@ final class MemberAdmin extends AbstractAdmin
                     ]
                 ])
                 ->end()
-            ->with('Notes')
+            ->end()
+        ->tab('Additional Information')
+            ->with('Work Information', ['class' => 'col-md-6'])
+                ->add('employer')
+                ->add('jobTitle')
+                ->add('occupation')
+                ->end()
+            ->with('Notes', ['class' => 'col-md-6'])
                 ->add('directoryNotes')
                 ->end()
+            ->end()
         ;
     }
 
@@ -139,13 +151,15 @@ final class MemberAdmin extends AbstractAdmin
             ->add('preferredName')
             ->add('firstName')
             ->add('lastName')
-            ->add('primaryEmail')
             ->add('status', null, [
                 'show_filter' => true
             ], EntityType::class, [
                 'class' => MemberStatus::class,
                 'choice_label' => 'label'
             ])
+            ->add('classYear')
+            ->add('primaryEmail')
+            ->add('primaryTelephoneNumber')
             ->add('isLost', null, [
                 'label' => 'Lost?',
                 'show_filter' => true
@@ -174,7 +188,9 @@ final class MemberAdmin extends AbstractAdmin
                     'name' => 'show'
                 ]
             ])
-            ->add('primaryEmail')
+            ->add('classYear')
+            ->add('primaryEmail', 'email')
+            ->add('primaryTelephoneNumber')
             ->add('isLost', 'choice', [
                 'label' => 'Lost?',
                 'choices' => [

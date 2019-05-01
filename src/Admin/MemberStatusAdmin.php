@@ -64,9 +64,6 @@ final class MemberStatusAdmin extends AbstractAdmin
                 ]
             ])
             ->add('label')
-            ->add('memberCount', null, [
-                'label' => 'Count'
-            ])
             ->add('_action', null, [
                 'actions' => [
                     'edit' => [],

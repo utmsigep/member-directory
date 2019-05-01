@@ -45,11 +45,6 @@ class MemberStatus
      */
     private $members;
 
-    /**
-     * Count of related records
-     */
-    private $memberCount = 0;
-
     public function __construct()
     {
         $this->members = new ArrayCollection();
@@ -118,10 +113,5 @@ class MemberStatus
     public function __toString(): string
     {
          return $this->label;
-    }
-
-    public function getMemberCount(): int
-    {
-        return count($this->members);
     }
 }

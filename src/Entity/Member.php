@@ -11,6 +11,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\MemberRepository")
+ * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
  */
 class Member
@@ -497,6 +498,21 @@ class Member
             $photoHash = md5($this->primaryEmail);
         }
         return sprintf('https://www.gravatar.com/avatar/%s?size=400&default=mm', $photoHash);
+    }
+
+    /**
+     * Event Listeners
+     */
+
+     /**
+      * @ORM\PreFlush
+      */
+    public function updateFieldsIfBlank()
+    {
+        // Ensure preferred name is set to first name if left blank
+        if (!$this->preferredName) {
+            $this->preferredName = $this->firstName;
+        }
     }
 
     /**
