@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c18c2d8addf3c0d4d59fb4ba86949267",
+    "content-hash": "c275c3688c8d829c938eef01356c8891",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -1821,6 +1821,59 @@
                 "service proxies"
             ],
             "time": "2017-05-04T11:12:50+00:00"
+        },
+        {
+            "name": "picoss/sonata-extra-admin-bundle",
+            "version": "4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/picoss/SonataExtraAdminBundle.git",
+                "reference": "2b62f84c4ad5559b62d2e7bf4adda6ac1ca13f67"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/picoss/SonataExtraAdminBundle/zipball/2b62f84c4ad5559b62d2e7bf4adda6ac1ca13f67",
+                "reference": "2b62f84c4ad5559b62d2e7bf4adda6ac1ca13f67",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.6 || ^7.0",
+                "sonata-project/admin-bundle": "^3.1"
+            },
+            "require-dev": {
+                "gedmo/doctrine-extensions": ">=2.2"
+            },
+            "suggest": {
+                "stof/doctrine-extensions-bundle": "1.1.*@dev"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Picoss\\SonataExtraAdminBundle\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Romain HONEL",
+                    "email": "romain.honel@gmail.com"
+                }
+            ],
+            "description": "Sonata Extra admin features",
+            "keywords": [
+                "admin",
+                "sonata",
+                "symfony"
+            ],
+            "time": "2018-02-05T21:04:03+00:00"
         },
         {
             "name": "psr/cache",

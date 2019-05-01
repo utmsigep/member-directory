@@ -41,8 +41,14 @@ class MemberStatus
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Member", mappedBy="status")
+     * @ORM\OrderBy({"lastName": "ASC"})
      */
     private $members;
+
+    /**
+     * Count of related records
+     */
+    private $memberCount = 0;
 
     public function __construct()
     {
@@ -107,5 +113,15 @@ class MemberStatus
         }
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+         return $this->label;
+    }
+
+    public function getMemberCount(): int
+    {
+        return count($this->members);
     }
 }

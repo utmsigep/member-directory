@@ -2,6 +2,8 @@
   <td class="text-center">{{ record.localIdentifier|replace({'337-': ''})|number_format }}</td>
   <td>
     <a href="{{ path('member', {localIdentifier: record.localIdentifier}) }}">{{ record.preferredName }} {{ record.lastName }}</a>
+  </td>
+  <td>
     {% include 'directory/partials/directory_member_badges.html.twig' %}
   </td>
   <td>

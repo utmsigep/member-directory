@@ -1,20 +1,29 @@
 sonata_admin:
     title: 'Directory Admin'
     title_logo: false
+    show_mosaic_button: false
     dashboard:
         blocks:
             - { type: sonata.admin.block.admin_list, position: left }
 
 sonata_block:
     blocks:
+        sonata.admin.block.stats:
+            contexts: [admin]
         sonata.admin.block.admin_list:
+            contexts: [admin]
+        sonata.admin.block.search_result:
             contexts: [admin]
 
 services:
-    app.admin.issue:
+    app.admin.member:
         class: App\Admin\MemberAdmin
         arguments: [~, App\Entity\Member, ~]
-        calls:
-            - [setTemplate, ['show', 'admin/member/show.html.twig']]
         tags:
-            - { name: sonata.admin, manager_type: orm, label: Members }
+            - { group: Directory, name: sonata.admin, manager_type: orm, label: 'Members'}
+
+    app.admin.member_status:
+        class: App\Admin\MemberStatusAdmin
+        arguments: [~, App\Entity\MemberStatus, ~]
+        tags:
+            - { group: Directory, name: sonata.admin, manager_type: orm, label: 'Statuses'}

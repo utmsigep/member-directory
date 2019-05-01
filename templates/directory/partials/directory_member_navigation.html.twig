@@ -1,5 +1,15 @@
-<ul class="nav">
-  <li class="nav-item"><a class="nav-link" href="{{ path('member', {localIdentifier: record.localIdentifier}) }}">Member Profile</a></li>
-  <li class="nav-item"><a class="nav-link" href="{{ path('member_change_log', {localIdentifier: record.localIdentifier}) }}">Change Log</a></li>
-  <li class="nav-item"><a class="nav-link" href="{{ path('member_verify_address', {localIdentifier: record.localIdentifier}) }}">Verify Address</a></li>
-</ul>
+
+<div class="row mb-2">
+  <div class="col-lg-9">
+    <ul class="nav">
+      <li class="nav-item"><a class="nav-link" href="{{ path('member', {localIdentifier: record.localIdentifier}) }}">Member Profile</a></li>
+      <li class="nav-item"><a class="nav-link" href="{{ path('member_change_log', {localIdentifier: record.localIdentifier}) }}">Change Log</a></li>
+      <li class="nav-item"><a class="nav-link" href="{{ path('member_verify_address', {localIdentifier: record.localIdentifier}) }}">Verify Address</a></li>
+    </ul>
+  </div>
+  <div class="col-lg-3 text-right">
+    {% if is_granted('ROLE_ADMIN') %}
+    <a href="{{ path('admin_app_member_edit', {id: record.id}) }}" class="btn btn-primary"><i class="fas fa-pencil"></i> Edit</a>
+    {% endif %}
+  </div>
+</div>

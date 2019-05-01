@@ -29,14 +29,14 @@ class Member
     private $id;
 
     /**
-     * @ORM\Column(type="string", unique=true, length=255)
+     * @ORM\Column(type="string", nullable=true, length=255)
      * @Assert\NotBlank
      * @Gedmo\Versioned
      */
     private $localIdentifier;
 
     /**
-     * @ORM\Column(type="string", unique=true, length=255)
+     * @ORM\Column(type="string", nullable=true, length=255)
      * @Assert\NotBlank
      * @Gedmo\Versioned
      */
@@ -50,33 +50,33 @@ class Member
     private $status;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\NotBlank
      * @Gedmo\Versioned
      */
     private $firstName;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @Gedmo\Versioned
      */
     private $preferredName;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @Gedmo\Versioned
      */
     private $middleName;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\NotBlank
      * @Gedmo\Versioned
      */
     private $lastName;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="date", nullable=true)
      * @Assert\Date
      */
     private $joinDate;
@@ -88,7 +88,7 @@ class Member
     private $classYear;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", nullable=true)
      * @Gedmo\Versioned
      */
     private $isDeceased = false;
@@ -161,19 +161,19 @@ class Member
     private $occupation;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", nullable=true)
      * @Gedmo\Versioned
      */
     private $isLost = false;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", nullable=true)
      * @Gedmo\Versioned
      */
     private $isLocalDoNotContact = false;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", nullable=true)
      * @Gedmo\Versioned
      */
     private $isExternalDoNotContact = false;
@@ -193,7 +193,7 @@ class Member
         return $this->localIdentifier;
     }
 
-    public function setLocalIdentifier(string $localIdentifier): self
+    public function setLocalIdentifier(?string $localIdentifier): self
     {
         $this->localIdentifier = $localIdentifier;
 
@@ -205,7 +205,7 @@ class Member
         return $this->externalIdentifier;
     }
 
-    public function setExternalIdentifier(string $externalIdentifier): self
+    public function setExternalIdentifier(?string $externalIdentifier): self
     {
         $this->externalIdentifier = $externalIdentifier;
 
@@ -229,7 +229,7 @@ class Member
         return $this->firstName;
     }
 
-    public function setFirstName(string $firstName): self
+    public function setFirstName(?string $firstName): self
     {
         $this->firstName = $firstName;
 
@@ -241,7 +241,7 @@ class Member
         return $this->preferredName;
     }
 
-    public function setPreferredName(string $preferredName): self
+    public function setPreferredName(?string $preferredName): self
     {
         $this->preferredName = $preferredName;
 
@@ -253,7 +253,7 @@ class Member
         return $this->middleName;
     }
 
-    public function setMiddleName(string $middleName): self
+    public function setMiddleName(?string $middleName): self
     {
         $this->middleName = $middleName;
 
@@ -265,7 +265,7 @@ class Member
         return $this->lastName;
     }
 
-    public function setLastName(string $lastName): self
+    public function setLastName(?string $lastName): self
     {
         $this->lastName = $lastName;
 
@@ -289,19 +289,19 @@ class Member
         return $this->classYear;
     }
 
-    public function setClassYear(int $classYear): self
+    public function setClassYear(?int $classYear): self
     {
         $this->classYear = $classYear;
 
         return $this;
     }
 
-    public function getIsDeceased(): bool
+    public function getIsDeceased(): ?bool
     {
         return $this->isDeceased;
     }
 
-    public function setIsDeceased(bool $isDeceased): self
+    public function setIsDeceased(?bool $isDeceased): self
     {
         $this->isDeceased = $isDeceased;
 
@@ -313,7 +313,7 @@ class Member
         return $this->primaryEmail;
     }
 
-    public function setPrimaryEmail(string $primaryEmail): self
+    public function setPrimaryEmail(?string $primaryEmail): self
     {
         $primaryEmail = $this->formatEmail($primaryEmail);
         $this->primaryEmail = $primaryEmail;
@@ -326,7 +326,7 @@ class Member
         return $this->primaryTelephoneNumber;
     }
 
-    public function setPrimaryTelephoneNumber(string $primaryTelephoneNumber): self
+    public function setPrimaryTelephoneNumber(?string $primaryTelephoneNumber): self
     {
         $primaryTelephoneNumber = $this->formatTelephoneNumber($primaryTelephoneNumber);
         $this->primaryTelephoneNumber = $primaryTelephoneNumber;
@@ -339,7 +339,7 @@ class Member
         return $this->mailingAddressLine1;
     }
 
-    public function setMailingAddressLine1(string $mailingAddressLine1): self
+    public function setMailingAddressLine1(?string $mailingAddressLine1): self
     {
         $this->mailingAddressLine1 = $mailingAddressLine1;
 
@@ -351,7 +351,7 @@ class Member
         return $this->mailingAddressLine2;
     }
 
-    public function setMailingAddressLine2(string $mailingAddressLine2): self
+    public function setMailingAddressLine2(?string $mailingAddressLine2): self
     {
         $this->mailingAddressLine2 = $mailingAddressLine2;
 
@@ -363,7 +363,7 @@ class Member
         return $this->mailingCity;
     }
 
-    public function setMailingCity(string $mailingCity): self
+    public function setMailingCity(?string $mailingCity): self
     {
         $this->mailingCity = $mailingCity;
 
@@ -375,7 +375,7 @@ class Member
         return $this->mailingState;
     }
 
-    public function setMailingState(string $mailingState): self
+    public function setMailingState(?string $mailingState): self
     {
         $this->mailingState = $mailingState;
 
@@ -387,19 +387,19 @@ class Member
         return $this->mailingPostalCode;
     }
 
-    public function setMailingPostalCode(string $mailingPostalCode): self
+    public function setMailingPostalCode(?string $mailingPostalCode): self
     {
         $this->mailingPostalCode = $mailingPostalCode;
 
         return $this;
     }
 
-    public function getMailingCountry(): string
+    public function getMailingCountry(): ?string
     {
         return $this->mailingCountry;
     }
 
-    public function setMailingCountry(string $mailingCountry): self
+    public function setMailingCountry(?string $mailingCountry): self
     {
         $this->mailingCountry = $mailingCountry;
 
@@ -411,7 +411,7 @@ class Member
         return $this->employer;
     }
 
-    public function setEmployer(string $employer): self
+    public function setEmployer(?string $employer): self
     {
         $this->employer = $employer;
 
@@ -423,7 +423,7 @@ class Member
         return $this->jobTitle;
     }
 
-    public function setJobTitle(string $jobTitle): self
+    public function setJobTitle(?string $jobTitle): self
     {
         $this->jobTitle = $jobTitle;
 
@@ -435,7 +435,7 @@ class Member
         return $this->occupation;
     }
 
-    public function setOccupation(string $occupation): self
+    public function setOccupation(?string $occupation): self
     {
         $this->occupation = $occupation;
 
@@ -447,12 +447,19 @@ class Member
         return $this->directoryNotes;
     }
 
+    public function setDirectoryNotes(?string $directoryNotes): self
+    {
+        $this->directoryNotes = $directoryNotes;
+
+        return $this;
+    }
+
     public function getIsLost(): ?bool
     {
         return $this->isLost;
     }
 
-    public function setIsLost(bool $isLost): self
+    public function setIsLost(?bool $isLost): self
     {
         $this->isLost = $isLost;
 
@@ -464,7 +471,7 @@ class Member
         return $this->isLocalDoNotContact;
     }
 
-    public function setIsLocalDoNotContact(bool $isLocalDoNotContact): self
+    public function setIsLocalDoNotContact(?bool $isLocalDoNotContact): self
     {
         $this->isLocalDoNotContact = $isLocalDoNotContact;
 
@@ -476,25 +483,14 @@ class Member
         return $this->isExternalDoNotContact;
     }
 
-    public function setIsExternalDoNotContact(bool $isExternalDoNotContact): self
+    public function setIsExternalDoNotContact(?bool $isExternalDoNotContact): self
     {
         $this->isExternalDoNotContact = $isExternalDoNotContact;
 
         return $this;
     }
 
-    public function setDirectoryNotes(?string $directoryNotes): self
-    {
-        $this->directoryNotes = $directoryNotes;
-
-        return $this;
-    }
-
-    /**
-     * Entity Methods
-     */
-
-    public function getPhotoUrl()
+    public function getPhotoUrl(): ?string
     {
         $photoHash = md5('notfound@example.com');
         if ($this->primaryEmail) {
@@ -507,7 +503,7 @@ class Member
      * Private Methods
      */
 
-    private function formatTelephoneNumber($telephoneNumber): string
+    private function formatTelephoneNumber(?string $telephoneNumber): string
     {
         return $telephoneNumber = preg_replace(
             '/.*(\d{3})[^\d]{0,7}(\d{3})[^\d]{0,7}(\d{4}).*/',
@@ -516,7 +512,7 @@ class Member
         );
     }
 
-    private function formatEmail($email): string
+    private function formatEmail(?string $email): string
     {
         return trim(mb_strtolower($email));
     }

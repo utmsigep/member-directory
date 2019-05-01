@@ -15,9 +15,9 @@
 
   <div>
     {% for logEntry in logEntries %}
-    <div class="card card-default">
+    <div class="card mb-2">
       <div class="card-header">
-        {{ logEntry.action }}: {{ logEntry.loggedAt|date('c') }} {{ logEntry.username }}
+        <span class="badge badge-secondary">{{ logEntry.action|upper }}</span> {{ logEntry.loggedAt|date('F j, Y g:i a') }} {{ logEntry.username }}
       </div>
       <div class="card-body">
         <table class="table table-sm">

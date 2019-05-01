@@ -43,7 +43,7 @@ class DirectoryController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         $record = $entityManager->getRepository(Member::class)->findOneBy(['localIdentifier' => $localIdentifier]);
         $logEntries = $entityManager->getRepository(LogEntry::class)->getLogEntries($record);
-        return $this->render('directory/changelog.html.twig', [
+        return $this->render('directory/change-log.html.twig', [
             'record' => $record,
             'logEntries' => $logEntries
         ]);
@@ -77,7 +77,11 @@ class DirectoryController extends AbstractController
             $response->set($verify->getArrayResponse());
             $cache->save($response);
         }
-        return $this->json($response->get());
+
+        return $this->render('directory/verify-address.html.twig', [
+            'record' => $record,
+            'verify' => $response->get()['AddressValidateResponse']['Address']
+        ]);
     }
 
     /**

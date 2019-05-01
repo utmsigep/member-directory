@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Member Directory - {{ record.preferredName }} {{ record.lastName }} - Change Log{% endblock %}
+
+{% block body %}
+
+<div>
+  {% include 'directory/partials/directory_navigation.html.twig' %}
+
+  <div class="h4">{{ record.preferredName }} {{ record.lastName }}</div>
+
+  {% include 'directory/partials/directory_member_badges.html.twig' %}
+
+  {% include 'directory/partials/directory_member_navigation.html.twig' %}
+
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="card mb-2">
+        <div class="card-header">
+          Current Address
+        </div>
+        <div class="card-body">
+          {{ record.mailingAddressLine1 }}<br />
+          {{ record.mailingAddressLine2 }}<br />
+          {{ record.mailingCity }}, {{ record.mailingState }} {{ record.mailingPostalCode }}<br />
+          {{ record.mailingCountry }}
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="card mb-2">
+        <div class="card-header">
+          Verified Address
+        </div>
+        <div class="card-body">
+          {% if verify.Error is defined %}
+          <pre>
+            Number: {{ verify.Error.Number }}
+            Source: {{ verify.Error.Source }}
+            Description: {{ verify.Error.Description }}
+            HelpFile: {{ verify.Error.HelpFile }}
+            HelpContext: {{ verify.Error.HelpContext }}
+          </pre>
+          {% else %}
+            {{ verify.Address1|default('') }}<br />
+            {{ verify.Address2|default('') }}<br />
+            {{ verify.City }}, {{ verify.State }} {{ verify.Zip5 }}-{{ verify.Zip4 }}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+<div>
+{% endblock %}
