@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Member Directory - Map{% endblock %}
+
+{% block stylesheets -%}
+{{ parent() }}
+{{ encore_entry_link_tags('map') }}
+{% endblock %}
+
+{% block body %}
+<div>
+  {% include 'directory/partials/directory_navigation.html.twig' %}
+
+  <div class="h4">Map <sup><span class="badge badge-secondary">Beta</span></sup></div>
+  <div id="mapContainer" style="min-height:650px;">
+  </div>
+<div>
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+{{ encore_entry_script_tags('map') }}
+{% endblock %}

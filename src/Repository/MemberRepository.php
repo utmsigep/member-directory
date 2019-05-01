@@ -32,6 +32,21 @@ class MemberRepository extends ServiceEntityRepository
         ;
     }
 
+    public function findGeocodedAddresses($statusCodes = [])
+    {
+        return $this->createQueryBuilder('m')
+            ->join('m.status', 's')
+            ->where('m.mailingLatitude IS NOT NULL')
+            ->andWhere('m.mailingLatitude != 0')
+            ->andWhere('m.mailingLongitude IS NOT NULL')
+            ->andWhere('m.mailingLongitude != 0')
+            ->andWhere('s.code IN (:statusCodes)')
+            ->setParameter('statusCodes', $statusCodes)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     /*
     public function findOneBySomeField($value): ?Member
     {

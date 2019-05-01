@@ -113,4 +113,43 @@ class DirectoryController extends AbstractController
             'records' => $records,
         ]);
     }
+
+    /**
+     * @Route("/map", name="map")
+     */
+    public function map()
+    {
+        return $this->render('directory/map.html.twig');
+    }
+
+    /**
+     * @Route("/map-data", name="map_data")
+     */
+    public function mapData()
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $records = $entityManager->getRepository(Member::class)->findGeocodedAddresses([
+            'UNDERGRADUATE',
+            'ALUMNUS',
+            'RENAISSANCE'
+        ]);
+        $output = [];
+        foreach ($records as $record) {
+            $output[] = [
+                'localIdentifier' => $record->getLocalIdentifier(),
+                'preferredName' => $record->getPreferredName(),
+                'lastName' => $record->getLastName(),
+                'mailingAddressLine1' => $record->getMailingAddressLine1(),
+                'mailingAddressLine2' => $record->getMailingAddressLine2(),
+                'mailingCity' => $record->getMailingCity(),
+                'mailingState' => $record->getMailingState(),
+                'mailingcountry' => $record->getMailingCountry(),
+                'mailingPostalCode' => $record->getMailingPostalCode(),
+                'mailingLatitude' => $record->getMailingLatitude(),
+                'mailingLongitude' => $record->getMailingLongitude(),
+                'status' => $record->getStatus()->getLabel()
+            ];
+        }
+        return $this->json($output);
+    }
 }

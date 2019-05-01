@@ -19,6 +19,8 @@
         "datatables.net": "^1.10.19",
         "datatables.net-bs4": "^1.10.19",
         "jquery": "^3.4.0",
+        "leaflet": "^1.4.0",
+        "leaflet-defaulticon-compatibility": "^0.1.1",
         "popper.js": "^1.15.0",
         "sass-loader": "^7.1.0",
         "underscore": "^1.9.1"

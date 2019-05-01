@@ -7,7 +7,7 @@
 <div>
   {% include 'directory/partials/directory_navigation.html.twig' %}
   <div class="h4">Alumni</div>
-  <table class="table" id="memberTable">
+  <table class="table table-sm" id="memberTable">
     <thead>
       <tr>
         <th class="text-center">Chapter #</th>
@@ -29,13 +29,5 @@
 
 {% block javascripts %}
 {{ parent() }}
-<script>
-$(document).ready(function() {
-    $('#memberTable').DataTable({
-    	dom: "<'row'<'col-sm-3'l><'col-sm-3'f><'col-sm-6'p>>" +
-      "<'row'<'col-sm-12'tr>>" +
-      "<'row'<'col-sm-5'i><'col-sm-7'p>>",
-    });
-});
-</script>
+{{ encore_entry_script_tags('directory') }}
 {% endblock %}

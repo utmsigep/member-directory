@@ -150,6 +150,16 @@ class Member
     private $mailingCountry;
 
     /**
+     * @ORM\Column(type="decimal", precision=10, scale=8, nullable=true)
+     */
+    protected $mailingLatitude;
+
+    /**
+     * @ORM\Column(type="decimal", precision=11, scale=8, nullable=true)
+     */
+    protected $mailingLongitude;
+
+    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Gedmo\Versioned
      */
@@ -403,6 +413,30 @@ class Member
     public function setMailingCountry(?string $mailingCountry): self
     {
         $this->mailingCountry = $mailingCountry;
+
+        return $this;
+    }
+
+    public function getMailingLatitude(): ?float
+    {
+        return (float) $this->mailingLatitude;
+    }
+
+    public function setMailingLatitude(?string $mailingLatitude): self
+    {
+        $this->mailingLatitude = $mailingLatitude;
+
+        return $this;
+    }
+
+    public function getMailingLongitude(): ?float
+    {
+        return (float) $this->mailingLongitude;
+    }
+
+    public function setMailingLongitude(?decimal $mailingLongitude): self
+    {
+        $this->mailingLongitude = $mailingLongitude;
 
         return $this;
     }
