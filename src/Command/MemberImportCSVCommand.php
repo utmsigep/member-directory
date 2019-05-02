@@ -19,7 +19,7 @@ use App\Entity\MemberEmail;
 use App\Entity\MemberAddress;
 use App\Entity\MemberPhoneNumber;
 
-class ImportMemberCSVCommand extends Command
+class MemberImportCSVCommand extends Command
 {
     const LOCAL_IDENTIFIER_HEADER = 'localIdentifier';
     const EXTERNAL_IDENTIFIER_HEADER = 'externalIdentifier';
@@ -60,7 +60,11 @@ class ImportMemberCSVCommand extends Command
         'Remove Candidate' => 'RESIGNED'
     ];
 
-    protected static $defaultName = 'import:membercsv';
+    protected static $defaultName = 'app:member:importcsv';
+
+    protected $entityManager;
+
+    protected $validator;
 
     public function __construct(EntityManagerInterface $entityManager, ValidatorInterface $validator)
     {
@@ -240,10 +244,7 @@ class ImportMemberCSVCommand extends Command
                 continue;
             }
 
-            // Persist record in the database if not dry-run
-            if (!$dryRun) {
-                $this->entityManager->persist($member);
-            }
+            $this->entityManager->persist($member);
 
             // Set values for script output
             $outputRows[] = [

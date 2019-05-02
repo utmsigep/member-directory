@@ -151,11 +151,13 @@ class Member
 
     /**
      * @ORM\Column(type="decimal", precision=10, scale=8, nullable=true)
+     * @Gedmo\Versioned
      */
     protected $mailingLatitude;
 
     /**
      * @ORM\Column(type="decimal", precision=11, scale=8, nullable=true)
+     * @Gedmo\Versioned
      */
     protected $mailingLongitude;
 
@@ -434,7 +436,7 @@ class Member
         return (float) $this->mailingLongitude;
     }
 
-    public function setMailingLongitude(?decimal $mailingLongitude): self
+    public function setMailingLongitude(?string $mailingLongitude): self
     {
         $this->mailingLongitude = $mailingLongitude;
 

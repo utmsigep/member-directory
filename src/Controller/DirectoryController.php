@@ -9,7 +9,8 @@ use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Routing\Annotation\Route;
 use USPS\Address;
 use USPS\AddressVerify;
-
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\HttpFoundation\Response;
 use App\Entity\Member;
 
 /**
@@ -125,7 +126,7 @@ class DirectoryController extends AbstractController
     /**
      * @Route("/map-data", name="map_data")
      */
-    public function mapData()
+    public function mapData(SerializerInterface $serializer)
     {
         $entityManager = $this->getDoctrine()->getManager();
         $records = $entityManager->getRepository(Member::class)->findGeocodedAddresses([
@@ -133,23 +134,33 @@ class DirectoryController extends AbstractController
             'ALUMNUS',
             'RENAISSANCE'
         ]);
-        $output = [];
-        foreach ($records as $record) {
-            $output[] = [
-                'localIdentifier' => $record->getLocalIdentifier(),
-                'preferredName' => $record->getPreferredName(),
-                'lastName' => $record->getLastName(),
-                'mailingAddressLine1' => $record->getMailingAddressLine1(),
-                'mailingAddressLine2' => $record->getMailingAddressLine2(),
-                'mailingCity' => $record->getMailingCity(),
-                'mailingState' => $record->getMailingState(),
-                'mailingcountry' => $record->getMailingCountry(),
-                'mailingPostalCode' => $record->getMailingPostalCode(),
-                'mailingLatitude' => $record->getMailingLatitude(),
-                'mailingLongitude' => $record->getMailingLongitude(),
-                'status' => $record->getStatus()->getLabel()
-            ];
-        }
-        return $this->json($output);
+
+        $jsonObject = $serializer->serialize($records, 'json', [
+            'ignored_attributes' => ['status' => 'members'],
+            'circular_reference_handler' => function ($object) {
+                return $object->getId();
+            }
+        ]);
+
+        return new Response($jsonObject, 200, ['Content-Type' => 'application/json']);
+
+        // $output = [];
+        // foreach ($records as $record) {
+        //     $output[] = [
+        //         'localIdentifier' => $record->getLocalIdentifier(),
+        //         'preferredName' => $record->getPreferredName(),
+        //         'lastName' => $record->getLastName(),
+        //         'mailingAddressLine1' => $record->getMailingAddressLine1(),
+        //         'mailingAddressLine2' => $record->getMailingAddressLine2(),
+        //         'mailingCity' => $record->getMailingCity(),
+        //         'mailingState' => $record->getMailingState(),
+        //         'mailingcountry' => $record->getMailingCountry(),
+        //         'mailingPostalCode' => $record->getMailingPostalCode(),
+        //         'mailingLatitude' => $record->getMailingLatitude(),
+        //         'mailingLongitude' => $record->getMailingLongitude(),
+        //         'status' => $record->getStatus()->getLabel()
+        //     ];
+        // }
+        // return $this->json($output);
     }
 }

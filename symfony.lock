@@ -105,8 +105,14 @@
     "gedmo/doctrine-extensions": {
         "version": "v2.4.37"
     },
-    "geocoder-php/plugin": {
-        "version": "1.1.0"
+    "guzzlehttp/guzzle": {
+        "version": "6.3.3"
+    },
+    "guzzlehttp/promises": {
+        "version": "v1.3.1"
+    },
+    "guzzlehttp/psr7": {
+        "version": "1.5.2"
     },
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
@@ -132,9 +138,6 @@
     "ocramius/proxy-manager": {
         "version": "2.1.1"
     },
-    "php-http/promise": {
-        "version": "v1.0.0"
-    },
     "picoss/sonata-extra-admin-bundle": {
         "version": "4.0"
     },
@@ -144,11 +147,17 @@
     "psr/container": {
         "version": "1.0.0"
     },
+    "psr/http-message": {
+        "version": "1.0.1"
+    },
     "psr/log": {
         "version": "1.1.0"
     },
     "psr/simple-cache": {
         "version": "1.0.1"
+    },
+    "ralouphie/getallheaders": {
+        "version": "2.0.5"
     },
     "sensio/framework-extra-bundle": {
         "version": "5.2",
@@ -433,6 +442,9 @@
     "symfony/security-http": {
         "version": "v4.2.7"
     },
+    "symfony/serializer": {
+        "version": "v4.2.8"
+    },
     "symfony/stopwatch": {
         "version": "v4.2.7"
     },
@@ -552,21 +564,6 @@
     },
     "vinceg/usps-php-api": {
         "version": "1.0.1"
-    },
-    "willdurand/geocoder": {
-        "version": "4.2.1"
-    },
-    "willdurand/geocoder-bundle": {
-        "version": "5.0",
-        "recipe": {
-            "repo": "github.com/symfony/recipes-contrib",
-            "branch": "master",
-            "version": "5.0",
-            "ref": "b272ad4fbfcd45a20e7cbfdc4ad1b0e27a62fd3b"
-        },
-        "files": [
-            "config/packages/bazinga_geocoder.yaml"
-        ]
     },
     "zendframework/zend-code": {
         "version": "3.3.1"
