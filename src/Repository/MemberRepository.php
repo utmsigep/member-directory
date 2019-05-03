@@ -47,15 +47,29 @@ class MemberRepository extends ServiceEntityRepository
         ;
     }
 
-    /*
-    public function findOneBySomeField($value): ?Member
+    public function findMembersWithinRadius($latitude, $longitude, $radius, array $statusCodes = [])
     {
-        return $this->createQueryBuilder('m')
-            ->andWhere('m.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
+        $entityManager = $this->getEntityManager();
+        return $entityManager->createQuery('SELECT
+                    m, (
+                      3959 * acos (
+                      cos ( radians(:latitude) )
+                      * cos( radians( m.mailingLatitude ) )
+                      * cos( radians( m.mailingLongitude ) - radians(:longitude) )
+                      + sin ( radians(:latitude) )
+                      * sin( radians( m.mailingLatitude ) )
+                    )
+                ) AS distance
+                FROM App\Entity\Member m JOIN m.status ms
+                WHERE ms.code IN (:statusCodes)
+                HAVING distance < :radius
+                ORDER BY distance
+            ')
+            ->setParameter('latitude', $latitude)
+            ->setParameter('longitude', $longitude)
+            ->setParameter('radius', $radius)
+            ->setParameter('statusCodes', $statusCodes)
+            ->getResult()
         ;
     }
-    */
 }

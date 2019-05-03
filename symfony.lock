@@ -1,4 +1,7 @@
 {
+    "beberlei/doctrineextensions": {
+        "version": "v1.2.0"
+    },
     "behat/transliterator": {
         "version": "v1.2.0"
     },
@@ -101,6 +104,18 @@
     },
     "facebook/webdriver": {
         "version": "1.6.0"
+    },
+    "friendsofsymfony/jsrouting-bundle": {
+        "version": "2.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "2.3",
+            "ref": "a9f2e49180f75cdc71ae279a929c4b2e0638de84"
+        },
+        "files": [
+            "config/routes/fos_js_routing.yaml"
+        ]
     },
     "gedmo/doctrine-extensions": {
         "version": "v2.4.37"
@@ -564,6 +579,9 @@
     },
     "vinceg/usps-php-api": {
         "version": "1.0.1"
+    },
+    "willdurand/jsonp-callback-validator": {
+        "version": "v1.1.0"
     },
     "zendframework/zend-code": {
         "version": "3.3.1"

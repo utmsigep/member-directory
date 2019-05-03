@@ -10,6 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use USPS\Address;
 use USPS\AddressVerify;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use App\Entity\Member;
 
@@ -25,7 +26,7 @@ class DirectoryController extends AbstractController
     }
 
     /**
-     * @Route("/member/{localIdentifier}", name="member")
+     * @Route("/member/{localIdentifier}", name="member", options={"expose" = true})
      */
     public function member($localIdentifier)
     {
@@ -124,7 +125,34 @@ class DirectoryController extends AbstractController
     }
 
     /**
-     * @Route("/map-data", name="map_data")
+     * @Route("/map-search", name="map_search", options={"expose" = true})
+     */
+    public function mapSearch(Request $request, SerializerInterface $serializer)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $records = $entityManager->getRepository(Member::class)->findMembersWithinRadius(
+            $request->get('latitude'),
+            $request->get('longitude'),
+            $request->get('radius'),
+            [
+                'UNDERGRADUATE',
+                'ALUMNUS',
+                'RENAISSANCE'
+            ]
+        );
+
+        $jsonObject = $serializer->serialize($records, 'json', [
+            'ignored_attributes' => ['status' => 'members'],
+            'circular_reference_handler' => function ($object) {
+                return $object->getId();
+            }
+        ]);
+
+        return new Response($jsonObject, 200, ['Content-Type' => 'application/json']);
+    }
+
+    /**
+     * @Route("/map-data", name="map_data", options={"expose" = true})
      */
     public function mapData(SerializerInterface $serializer)
     {
@@ -143,24 +171,5 @@ class DirectoryController extends AbstractController
         ]);
 
         return new Response($jsonObject, 200, ['Content-Type' => 'application/json']);
-
-        // $output = [];
-        // foreach ($records as $record) {
-        //     $output[] = [
-        //         'localIdentifier' => $record->getLocalIdentifier(),
-        //         'preferredName' => $record->getPreferredName(),
-        //         'lastName' => $record->getLastName(),
-        //         'mailingAddressLine1' => $record->getMailingAddressLine1(),
-        //         'mailingAddressLine2' => $record->getMailingAddressLine2(),
-        //         'mailingCity' => $record->getMailingCity(),
-        //         'mailingState' => $record->getMailingState(),
-        //         'mailingcountry' => $record->getMailingCountry(),
-        //         'mailingPostalCode' => $record->getMailingPostalCode(),
-        //         'mailingLatitude' => $record->getMailingLatitude(),
-        //         'mailingLongitude' => $record->getMailingLongitude(),
-        //         'status' => $record->getStatus()->getLabel()
-        //     ];
-        // }
-        // return $this->json($output);
     }
 }

@@ -2,8 +2,12 @@
 
 {% block title %}Member Directory - {{ record.preferredName }} {{ record.lastName }}{% endblock %}
 
-{% block body %}
+{% block stylesheets -%}
+{{ parent() }}
+{{ encore_entry_link_tags('member') }}
+{% endblock %}
 
+{% block body %}
 <div>
   {% include 'directory/partials/directory_navigation.html.twig' %}
 
@@ -29,7 +33,7 @@
           </tr>
           <tr>
             <th>Chapter Number</th>
-            <td>{{ record.localIdentifier|replace({'337-': ''})|number_format }}</td>
+            <td>{{ record.localIdentifierShort }}</td>
           </tr>
           <tr>
             <th>Join Date</th>
@@ -66,12 +70,39 @@
               {% endif %}
             </td>
           </tr>
+          {% if record.mailingLatitude and record.mailingLongitude %}
+          <tr>
+            <td colspan="2">
+              <div id="mapContainer" style="min-height:200px;" data-mailing_latitude="{{ record.mailingLatitude }}" data-mailing_longitude="{{ record.mailingLongitude }}" data-map_label="{{ record.preferredName }} {{ record.lastName }}"></div>
+            </td>
+          </tr>
+          {% endif %}
+          <tr>
+            <th>Employer</th>
+            <td>{{ record.employer }}</td>
+          </tr>
+          <tr>
+            <th>Job Title</th>
+            <td>{{ record.jobTitle }}</td>
+          </tr>
+          <tr>
+            <th>Occupation</th>
+            <td>{{ record.occupation }}</td>
+          </tr>
         </tbody>
       </table>
     </div>
     <div class="col-lg-4">
-      <img src="{{ record.photoUrl }}" class="img-fluid" />
+      <div class="tet-center">
+        <img src="{{ record.photoUrl }}" class="img-fluid" />
+      </div>
+      
     </div>
   </div>
 <div>
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+{{ encore_entry_script_tags('member') }}
 {% endblock %}

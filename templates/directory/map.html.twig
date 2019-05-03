@@ -8,11 +8,22 @@
 {% endblock %}
 
 {% block body %}
-<div>
-  {% include 'directory/partials/directory_navigation.html.twig' %}
+{% include 'directory/partials/directory_navigation.html.twig' %}
 
-  <div class="h4">Map <sup><span class="badge badge-secondary">Beta</span></sup></div>
-  <div id="mapContainer" style="min-height:650px;">
+<div class="h4">Map <sup><span class="badge badge-secondary">Beta</span></sup></div>
+
+<div class="row">
+  <div class="col-lg-3">
+    <form>
+      <div class="form-group">
+        <label >Search Radius (in miles)</label>
+        <input type="number" value="25" class="form-control" id="search-radius" />
+      </div>
+    </form>
+    <div id="searchResults" style="height: 65vh; overflow-y:auto;"></div>
+  </div>
+  <div class="col-lg-9">
+    <div id="mapContainer" style="height: 75vh" class="mb-2"></div>
   </div>
 <div>
 {% endblock %}

@@ -527,6 +527,11 @@ class Member
         return $this;
     }
 
+    public function getLocalIdentifierShort(): string
+    {
+        return (int) preg_replace('/337\-/', '', $this->localIdentifier);
+    }
+
     public function getPhotoUrl(): ?string
     {
         $photoHash = md5('notfound@example.com');
