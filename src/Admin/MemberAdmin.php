@@ -9,6 +9,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Sonata\AdminBundle\Form\Type\ModelType;
@@ -168,9 +169,10 @@ final class MemberAdmin extends AbstractAdmin
             ->add('classYear')
             ->add('primaryEmail')
             ->add('primaryTelephoneNumber')
+            ->add('mailingState')
+            ->add('mailingCity')
             ->add('isLost', null, [
-                'label' => 'Lost?',
-                'show_filter' => true
+                'label' => 'Lost?'
             ])
             ->add('isLocalDoNotContact', null, [
                 'label' => 'Do Not Contact (Local)?'
@@ -199,6 +201,8 @@ final class MemberAdmin extends AbstractAdmin
             ->add('classYear')
             ->add('primaryEmail', 'email')
             ->add('primaryTelephoneNumber')
+            ->add('mailingState')
+            ->add('mailingCity')
             ->add('isLost', 'choice', [
                 'label' => 'Lost?',
                 'choices' => [
