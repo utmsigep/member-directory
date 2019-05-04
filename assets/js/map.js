@@ -57,10 +57,11 @@ mymap.on('click', function(ev) {
               localIdentifierShort: row[0].localIdentifierShort,
               distance: row.distance,
               status: row[0].status.label,
-              link: Routing.generate('member', {localIdentifier: row[0].localIdentifier})
+              link: Routing.generate('member', {localIdentifier: row[0].localIdentifier}),
+              photoUrl: row[0].photoUrl
             }
             searchResultsContainer.append(L.Util.template(
-              '<div class="card mb-1"><div class="card-body"><strong><a href="{link}">{fullName}</a></strong><br />{localIdentifierShort} / {status}</div></div>', result
+              '<div class="card mb-1"><div class="card-body"><div class="float-left w-25 mr-2"><img src="{photoUrl}" class="img-fluid" /></div><strong><a href="{link}">{fullName}</a></strong><br />{localIdentifierShort} / {status}</div></div>', result
             ))
           })
           searchResultsContainer.append($('<p class="text-center"><strong>Records:</strong> ' + data.length + '</p>'))

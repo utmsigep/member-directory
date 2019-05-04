@@ -46,10 +46,6 @@ class MemberGeocodeCommand extends Command
         $io = new SymfonyStyle($input, $output);
         $localIdentifier = $input->getArgument('localIdentifier');
 
-        if ($localIdentifier) {
-            $io->note(sprintf('Geocoding address for: %s', $localIdentifier));
-        }
-
         $member = $this->entityManager->getRepository(Member::class)->findOneBy([
             'localIdentifier' => $localIdentifier
         ]);
@@ -58,11 +54,21 @@ class MemberGeocodeCommand extends Command
             return 1;
         }
 
+        // Clear existing coordinates
+        $member->setMailingLatitude(null);
+        $member->setMailingLongitude(null);
+
         try {
-            $io->writeln($member->getPreferredName());
-            $io->writeln($member->getMailingLatitude());
-            $io->writeln($member->getMailingLongitude());
+            $io->title($member->getPreferredName() . ' ' . $member->getLastName());
+            $io->writeln('<options=bold>Address Line 1:</>  ' . $member->getMailingAddressLine1());
+            $io->writeln('<options=bold>Address Line 2:</>  ' . $member->getMailingAddressLine2());
+            $io->writeln('<options=bold>City:</>            ' . $member->getMailingCity());
+            $io->writeln('<options=bold>State:</>           ' . $member->getMailingState());
+            $io->writeln('<options=bold>Postal Code:</>     ' . $member->getMailingPostalCode());
+            $io->writeln('');
             $this->geocoderService->geocodeMemberMailingAddress($member);
+            $io->writeln('<options=bold>Latitude:</>        ' . $member->getMailingLatitude());
+            $io->writeln('<options=bold>Longitude:</>       ' . $member->getMailingLongitude());
         } catch (\Exception $e) {
             $io->error($e->getMessage());
             return 1;

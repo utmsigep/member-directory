@@ -39,6 +39,7 @@ final class MemberAdmin extends AbstractAdmin
                     ->add('lastName')
                     ->add('primaryEmail')
                     ->add('primaryTelephoneNumber')
+                    ->add('facebookIdentifier')
                     ->end()
                 ->with('Mailing Address', ['class' => 'col-md-4'])
                     ->add('mailingAddressLine1')
@@ -97,6 +98,7 @@ final class MemberAdmin extends AbstractAdmin
                 ->add('lastName')
                 ->add('primaryEmail')
                 ->add('primaryTelephoneNumber')
+                ->add('facebookIdentifier')
                 ->end()
             ->with('Mailing Address', ['class' => 'col-md-4'])
                 ->add('mailingAddressLine1')
@@ -201,8 +203,8 @@ final class MemberAdmin extends AbstractAdmin
             ->add('classYear')
             ->add('primaryEmail', 'email')
             ->add('primaryTelephoneNumber')
-            ->add('mailingState')
             ->add('mailingCity')
+            ->add('mailingState')
             ->add('isLost', 'choice', [
                 'label' => 'Lost?',
                 'choices' => [

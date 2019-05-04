@@ -26,8 +26,11 @@ class GeocodeMemberSubscriber
             || $eventArgs->hasChangedField('mailingCity')
             || $eventArgs->hasChangedField('mailingState')
             || $eventArgs->hasChangedField('mailingPostalCode')
-            || $eventArgs->hasChangedField('mailingcountry')
+            || $eventArgs->hasChangedField('mailingCountry')
         ) {
+            // Clear existing coordinates on save
+            $member->setMailingLatitude(null);
+            $member->setMailingLongitude(null);
             $this->geocoderService->geocodeMemberMailingAddress($member);
         }
     }
@@ -41,7 +44,10 @@ class GeocodeMemberSubscriber
             || $member->getMailingPostalCode()
             || $member->getMailingcountry()
         ) {
-            $this->geocoderService->geocodeMemberMailingAddress($member);
+            // Do not call service if the created record includes coordinates
+            if (!$member->getMailingLatitude() && !$member->getMailingLongitude()) {
+                $this->geocoderService->geocodeMemberMailingAddress($member);
+            }
         }
     }
 }

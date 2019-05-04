@@ -174,6 +174,12 @@ class Member
     private $occupation;
 
     /**
+     * @ORM\Column(type="integer", nullable=true)
+     * @Gedmo\Versioned
+     */
+    private $facebookIdentifier;
+
+    /**
      * @ORM\Column(type="boolean", nullable=true)
      * @Gedmo\Versioned
      */
@@ -479,6 +485,18 @@ class Member
         return $this;
     }
 
+    public function getFacebookIdentifier(): ?int
+    {
+        return $this->facebookIdentifier;
+    }
+
+    public function setFacebookIdentifier(?int $facebookIdentifier): self
+    {
+        $this->facebookIdentifier = $facebookIdentifier;
+
+        return $this;
+    }
+
     public function getDirectoryNotes(): ?string
     {
         return $this->directoryNotes;
@@ -534,11 +552,14 @@ class Member
 
     public function getPhotoUrl(): ?string
     {
-        $photoHash = md5('notfound@example.com');
-        if ($this->primaryEmail) {
-            $photoHash = md5($this->primaryEmail);
+        if ($this->facebookIdentifier) {
+            return sprintf('https://graph.facebook.com/v3.3/%d/picture?width=400', $this->facebookIdentifier);
         }
-        return sprintf('https://www.gravatar.com/avatar/%s?size=400&default=mm', $photoHash);
+        if ($this->primaryEmail) {
+            return sprintf('https://www.gravatar.com/avatar/%s?size=400&default=mm', md5($this->primaryEmail));
+        }
+        // Default Gravatar image
+        return 'https://www.gravatar.com/avatar/3c2eb7b3dd3134bd26afcd43c5941ae1?size=400&default=mm';
     }
 
     /**
@@ -553,6 +574,10 @@ class Member
         // Ensure preferred name is set to first name if left blank
         if (!$this->preferredName) {
             $this->preferredName = $this->firstName;
+        }
+        // Ensure mailing country is set if mailingAddressLine1 is set
+        if (!$this->mailingCountry && $this->mailingAddressLine1) {
+            $this->mailingCountry = 'United States';
         }
     }
 

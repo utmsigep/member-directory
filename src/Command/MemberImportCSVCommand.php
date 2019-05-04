@@ -12,6 +12,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use League\Csv\Reader as CsvReader;
 use Gedmo\Loggable\LoggableListener;
+use Symfony\Component\Console\Helper\ProgressBar;
 
 use App\Entity\Member;
 use App\Entity\MemberStatus;
@@ -105,6 +106,7 @@ class MemberImportCSVCommand extends Command
         $csv->setHeaderOffset(0);
         $header = $csv->getHeader(); //returns the CSV header record
         $csvRecords = $csv->getRecords(); //returns all the CSV records as an Iterator object
+        $recordCount = count($csv);
 
         // Inspect headers for required fields
         if (!in_array(self::LOCAL_IDENTIFIER_HEADER, $header) &&
@@ -118,8 +120,14 @@ class MemberImportCSVCommand extends Command
             return 1;
         }
 
-        // Main import loop
         $outputRows = [];
+        $errorRows = [];
+
+        // Set up progress bar
+        $progressBar = new ProgressBar($output, $recordCount);
+        $progressBar->start();
+
+        // Main import loop
         foreach ($csvRecords as $rowI => $csvRecord) {
             // Find a match record in the database, if exists, by either internal or external identifier
             $member = $this->entityManager->getRepository(Member::class)->findOneBy([
@@ -184,7 +192,13 @@ class MemberImportCSVCommand extends Command
                 $member->setMailingCity($csvRecord[self::MAILING_CITY_HEADER]);
                 $member->setMailingState($csvRecord[self::MAILING_STATE_HEADER]);
                 $member->setMailingPostalCode($csvRecord[self::MAILING_POSTAL_CODE_HEADER]);
-                $member->setMailingCountry(isset($csvRecord[self::MAILING_COUNTRY_HEADER]) ? $csvRecord[self::MAILING_COUNTRY_HEADER] : 'United States');
+                if (isset($csvRecord[self::MAILING_COUNTRY_HEADER]) && $csvRecord[self::MAILING_COUNTRY_HEADER]) {
+                    $mailingCountry = $csvRecord[self::MAILING_COUNTRY_HEADER];
+                    if ($mailingCountry == 'US') {
+                        $mailingCountry = 'United States';
+                    }
+                    $member->setMailingCountry($mailingCountry);
+                }
             }
             if (isset($csvRecord[self::LOST_HEADER])) {
                 $member->setIsLost($this->formatBoolean($csvRecord[self::LOST_HEADER]));
@@ -202,18 +216,18 @@ class MemberImportCSVCommand extends Command
                     : null
                 ]);
                 if ($memberStatus === null) {
-                    $io->error(sprintf(
+                    $errorRows[] = sprintf(
                         '[%s|%s %s, %s] Unable to set status to "%s" (not mapped)',
                         $member->getExternalIdentifier(),
                         $member->getLocalIdentifier(),
                         $member->getLastName(),
                         $member->getFirstName(),
                         $csvRecord[self::STATUS_HEADER]
-                    ));
+                    );
                     continue;
                 }
                 if (!$forceStatusUpdate && $member->getStatus() && $member->getStatus() !== $memberStatus) {
-                    $io->error(sprintf(
+                    $errorRows[] = sprintf(
                         '[%s|%s %s, %s] Status update from %s to %s denied.',
                         $member->getExternalIdentifier(),
                         $member->getLocalIdentifier(),
@@ -221,17 +235,19 @@ class MemberImportCSVCommand extends Command
                         $member->getFirstName(),
                         $member->getStatus()->getCode(),
                         $memberStatus->getCode()
-                    ));
+                    );
                 } else {
                     $member->setStatus($memberStatus);
                 }
             }
 
+            $progressBar->advance();
+
             // Validate records
             $errors = $this->validator->validate($member);
             if (count($errors) > 0) {
                 foreach ($errors->getIterator() as $error) {
-                    $io->error(sprintf(
+                    $errorRows[] = sprintf(
                         '[%s|%s %s, %s] %s %s',
                         $member->getExternalIdentifier(),
                         $member->getLocalIdentifier(),
@@ -239,12 +255,15 @@ class MemberImportCSVCommand extends Command
                         $member->getFirstName(),
                         $error->getPropertyPath(),
                         $error->getMessage()
-                    ));
+                    );
                 }
                 continue;
             }
 
             $this->entityManager->persist($member);
+            if (!$dryRun) {
+                $this->entityManager->flush();
+            }
 
             // Set values for script output
             $outputRows[] = [
@@ -257,6 +276,8 @@ class MemberImportCSVCommand extends Command
                 $member->getStatus()->getLabel()
             ];
         }
+
+        $progressBar->finish();
 
         // Print output table
         $io->table(
@@ -272,10 +293,10 @@ class MemberImportCSVCommand extends Command
             $outputRows
         );
 
+        $io->error(join("\n", $errorRows));
+
         // Save records in the database
-        if (!$dryRun) {
-            $this->entityManager->flush();
-        } else {
+        if ($dryRun) {
             $io->note('This was a dry-run of the importer. No records were imported.');
         }
 
