@@ -42,6 +42,8 @@ class MemberImportCSVCommand extends Command
     const MAILING_STATE_HEADER = 'mailingState';
     const MAILING_POSTAL_CODE_HEADER = 'mailingPostalCode';
     const MAILING_COUNTRY_HEADER = 'mailingCountry';
+    const MAILING_LATITUDE_HEADER = 'mailingLatitude';
+    const MAILING_LONGITUDE_HEADER = 'mailingLongitude';
     const LOST_HEADER = 'isLost';
     const LOCAL_DO_NOT_CONTACT_HEADER = 'isLocalDoNotContact';
     const EXTERNAL_DO_NOT_CONTACT_HEADER = 'isExternalDoNotContact';
@@ -200,6 +202,12 @@ class MemberImportCSVCommand extends Command
                     $member->setMailingCountry($mailingCountry);
                 }
             }
+            if (isset($csvRecord[self::MAILING_LATITUDE_HEADER]) && $csvRecord[self::MAILING_LATITUDE_HEADER]) {
+                $member->setMailingLatitude($csvRecord[self::MAILING_LATITUDE_HEADER]);
+            }
+            if (isset($csvRecord[self::MAILING_LONGITUDE_HEADER]) && $csvRecord[self::MAILING_LONGITUDE_HEADER]) {
+                $member->setMailingLongitude($csvRecord[self::MAILING_LONGITUDE_HEADER]);
+            }
             if (isset($csvRecord[self::LOST_HEADER])) {
                 $member->setIsLost($this->formatBoolean($csvRecord[self::LOST_HEADER]));
             }
@@ -279,7 +287,8 @@ class MemberImportCSVCommand extends Command
 
         $progressBar->finish();
 
-        // Print output table
+        // Print record rows
+        $io->writeln();
         $io->table(
             [
                 'External Identifier',
@@ -293,7 +302,10 @@ class MemberImportCSVCommand extends Command
             $outputRows
         );
 
-        $io->error(join("\n", $errorRows));
+        // Show errors, if any
+        if (count($errorRows)) {
+            $io->error(join("\n", $errorRows));
+        }
 
         // Save records in the database
         if ($dryRun) {

@@ -96,12 +96,6 @@ class Member
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Gedmo\Versioned
-     */
-    private $employer;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\Email
      * @Gedmo\Versioned
      */
@@ -160,6 +154,12 @@ class Member
      * @Gedmo\Versioned
      */
     protected $mailingLongitude;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Gedmo\Versioned
+     */
+    private $employer;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
