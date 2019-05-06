@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Member Directory - Map{% endblock %}
+{% block title %}Member Directory - Member Map{% endblock %}
 
 {% block stylesheets -%}
 {{ parent() }}
@@ -8,12 +8,9 @@
 {% endblock %}
 
 {% block body %}
-{% include 'directory/partials/directory_navigation.html.twig' %}
-
-<div class="h4">Map <sup><span class="badge badge-secondary">Beta</span></sup></div>
-
 <div class="row">
   <div class="col-lg-3">
+    <div class="h4">Member Map <sup><span class="badge badge-secondary">Beta</span></sup></div>
     <form>
       <div class="form-group">
         <label >Search Radius (in miles)</label>

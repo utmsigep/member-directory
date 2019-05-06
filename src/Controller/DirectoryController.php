@@ -20,6 +20,9 @@ use App\Entity\Member;
  */
 class DirectoryController extends AbstractController
 {
+    /**
+     * @Route("/", name="home")
+     */
     public function index()
     {
         return $this->redirectToRoute('alumni');
@@ -88,7 +91,6 @@ class DirectoryController extends AbstractController
 
     /**
      * @Route("/alumni", name="alumni")
-     * @Route("/", name="home")
      */
     public function alumni()
     {

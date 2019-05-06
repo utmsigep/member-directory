@@ -1,33 +1,63 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Chapter Portal{% endblock %}</title>
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-        <link rel="manifest" href="/site.webmanifest">
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-        {% block stylesheets -%}
-        {{ encore_entry_link_tags('app') }}
-        {% endblock %}
-    </head>
-    <body>
-      <div class="p-2 bg-dark text-light">            
-        {% if is_granted('ROLE_USER') %}
-        <div class="float-right">
-          <a class="btn btn-sm btn-light" href="{{ path('app_logout') }}">Log Out</a>
-        </div>
-        {% endif %}
-        <span class="h3"><a href="{{ path('home') }}" class="text-light"><i class="far fa-address-book pr-2"></i> Member Directory</a></span>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{% block title %}Chapter Portal{% endblock %}</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    {% block stylesheets -%}
+    {{ encore_entry_link_tags('app') }}
+    {% endblock %}
+  </head>
+
+  <body>
+    <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
+      <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="{{ path('home') }}"><i class="far fa-address-book"></i> Member Directory</a>
+      <ul class="navbar-nav px-3">
+        <li class="nav-item text-nowrap">
+          {% if is_granted('ROLE_USER') %}
+          <a class="nav-link" href="{{ path('app_logout') }}">Log Out</a>
+          {% endif %}
+        </li>
+      </ul>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="row">
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+          <div class="sidebar-sticky">
+            <ul class="nav flex-column">
+              {% if is_granted('ROLE_USER') %}
+              {% include 'partials/main_nav.html.twig' %}
+              {% endif %}
+            </ul>
+          </div>
+        </nav>
+
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+          {% for type, messages in app.session.flashBag.all %}
+          <div class="py-2">
+              {% for message in messages %}
+                  {%if type == 'error'%} {% set type = 'danger' %} {%endif%}
+                  <div class="alert alert-{{ type }}">
+                      {{ message|raw }}
+                  </div>
+              {% endfor %}
+          </div>
+          {% endfor %}
+          {% block body %}{% endblock %}
+        </main>
       </div>
-      <div class="container-fluid" id="canvas">
-        {% block body %}{% endblock %}
-      </div>
-      {% block javascripts %}
-      <script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
-      <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
-      {{ encore_entry_script_tags('app') }}
-      {% endblock %}
-    </body>
+    </div>
+    {% block javascripts %}
+    <script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+    {{ encore_entry_script_tags('app') }}
+    {% endblock %}
+  </body>
 </html>
