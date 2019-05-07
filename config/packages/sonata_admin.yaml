@@ -1,6 +1,6 @@
 sonata_admin:
     title: 'Directory Admin'
-    title_logo: false
+    title_logo: favicon-16x16.png
     show_mosaic_button: false
     dashboard:
         blocks:
