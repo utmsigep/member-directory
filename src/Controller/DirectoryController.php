@@ -119,6 +119,51 @@ class DirectoryController extends AbstractController
     }
 
     /**
+     * @Route("/resigned-expelled", name="resigned_expelled")
+     */
+    public function resignedExpelled()
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $records = $entityManager->getRepository(Member::class)->findByStatusCodes([
+            'RESIGNED',
+            'EXPELLED'
+        ]);
+        return $this->render('directory/resigned-expelled.html.twig', [
+            'records' => $records,
+        ]);
+    }
+
+    /**
+     * @Route("/lost", name="lost")
+     */
+    public function lost()
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $records = $entityManager->getRepository(Member::class)->findLostByStatusCodes([
+            'ALUMNUS',
+            'RENAISSANCE'
+        ]);
+        return $this->render('directory/lost.html.twig', [
+            'records' => $records,
+        ]);
+    }
+
+    /**
+     * @Route("/other", name="other")
+     */
+    public function other()
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $records = $entityManager->getRepository(Member::class)->findByStatusCodes([
+            'OTHER'
+        ]);
+        return $this->render('directory/other.html.twig', [
+            'records' => $records,
+        ]);
+    }
+
+
+    /**
      * @Route("/map", name="map")
      */
     public function map()

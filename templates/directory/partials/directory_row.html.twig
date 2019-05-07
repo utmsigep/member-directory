@@ -6,6 +6,14 @@
   <td>
     {% include 'directory/partials/directory_member_badges.html.twig' %}
   </td>
+  {% if showStatus is defined and showStatus %}
+  <td>
+    {{ record.status.label }}
+  </td>
+  {% endif %}
+  <td>
+    {{ record.classYear|default('-') }}
+  </td>
   <td>
     {% if record.primaryEmail %}
     <a href="mailto:{{ record.primaryEmail }}">{{ record.primaryEmail }}</a>

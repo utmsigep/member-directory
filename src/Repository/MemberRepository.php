@@ -32,6 +32,20 @@ class MemberRepository extends ServiceEntityRepository
         ;
     }
 
+    public function findLostByStatusCodes($statusCodes = [])
+    {
+        return $this->createQueryBuilder('m')
+            ->join('m.status', 's')
+            ->andWhere('s.code IN (:statusCodes)')
+            ->andWhere('m.isLost = 1')
+            ->setParameter('statusCodes', $statusCodes)
+            ->orderBy('m.lastName', 'ASC')
+            ->addOrderBy('m.firstName', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     public function findGeocodedAddresses($statusCodes = [])
     {
         return $this->createQueryBuilder('m')

@@ -1,17 +1,18 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Member Directory - Undergraduates{% endblock %}
+{% block title %}Member Directory - Resigned/Expelled{% endblock %}
 
 {% block body %}
 
 <div>
-  <div class="h4">Undergraduates</div>
+  <div class="h4">Resigned/Expelled</div>
   <table class="table table-sm" id="memberTable">
     <thead>
       <tr>
         <th class="text-center">Chapter #</th>
         <th>Name</th>
         <th>Labels</th>
+        <th>Status</th>
         <th>Class</th>
         <th>Email</th>
         <th>Phone Number</th>
@@ -20,7 +21,7 @@
     </thead>
     <tbody>
       {% for record in records %}
-      {% include 'directory/partials/directory_row.html.twig' %}
+      {% include 'directory/partials/directory_row.html.twig' with {showStatus: true} %}
       {% endfor %}
     </tbody>
   </table>

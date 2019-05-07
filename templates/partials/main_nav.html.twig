@@ -1,5 +1,8 @@
   <a class="nav-link {{ app.request.get('_route') == 'home' ? 'active' }}" href="{{ path('home') }}">Home</a>
   <a class="nav-link {{ app.request.get('_route') == 'alumni' ? 'active' }}" href="{{ path('alumni') }}"><i class="fas fa-user-graduate fa-fw text-muted"></i> Alumni</a>
+  <a class="ml-3 nav-link {{ app.request.get('_route') == 'lost' ? 'active' }}" href="{{ path('lost')}}"><i class="fas fa-frown-open fa-fw text-muted"></i> Lost Alumni</a>
   <a class="nav-link {{ app.request.get('_route') == 'undergraduates' ? 'active' }}" href="{{ path('undergraduates')}}"><i class="fas fa-user fa-fw text-muted"></i> Undergraduates</a>
+  <a class="nav-link {{ app.request.get('_route') == 'resigned_expelled' ? 'active' }}" href="{{ path('resigned_expelled')}}"><i class="fas fa-thumbs-down fa-fw text-muted"></i> Resigned/Expelled</a>
+  <a class="nav-link {{ app.request.get('_route') == 'other' ? 'active' }}" href="{{ path('other')}}"><i class="fas fa-user-friends fa-fw text-muted"></i> Other</a>
   <span class="divider"><hr /></span>
   <a class="nav-link {{ app.request.get('_route') == 'map' ? 'active' }}" href="{{ path('map')}}"><i class="fas fa-map fa-fw text-muted"></i> Member Map</a>
