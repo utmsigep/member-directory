@@ -97,10 +97,14 @@
       </table>
     </div>
     <div class="col-lg-4">
-      <div class="tet-center">
-        <img src="{{ record.photoUrl }}" class="img-fluid" />
+      <div class="text-center mb-5">
+        <img src="{{ record.photoUrl }}" class="img-fluid img-thumbnail" />
       </div>
-      
+      <div class="text-center">
+        {% if record.facebookIdentifier %}
+        <a href="https://facebook.com/{{ record.facebookIdentifier }}"><i class="fab fa-facebook fa-2x"></i></a>
+        {% endif %}
+      </div>
     </div>
   </div>
 <div>

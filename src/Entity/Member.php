@@ -547,7 +547,7 @@ class Member
 
     public function getLocalIdentifierShort(): string
     {
-        return (int) preg_replace('/337\-/', '', $this->localIdentifier);
+        return (int) preg_replace('/^\d+\-/', '', $this->localIdentifier);
     }
 
     public function getPhotoUrl(): ?string

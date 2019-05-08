@@ -1,6 +1,7 @@
 <tr>
-  <td class="text-center">{{ record.localIdentifier|replace({'337-': ''})|number_format }}</td>
+  <td class="text-center">{{ record.localIdentifierShort }}</td>
   <td>
+    <img src="{{ record.photoUrl }}" class="img-fluid" style="max-width:32px;" />
     <a href="{{ path('member', {localIdentifier: record.localIdentifier}) }}">{{ record.preferredName }} {{ record.lastName }}</a>
   </td>
   <td>
