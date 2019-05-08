@@ -14,4 +14,7 @@
 {% if record.isLocalDoNotContact %}
 <sup class="badge badge-danger" title="Local Do Not Contact">Do Not Contact (Local)</sup>
 {% endif %}
+{% for tag in record.tags %}
+<sup class="badge badge-secondary" title="{{ tag.tagName }}">{{ tag.tagName }}</sup>
+{% endfor %}
 </div>

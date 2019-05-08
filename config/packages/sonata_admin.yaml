@@ -20,10 +20,17 @@ services:
         class: App\Admin\MemberAdmin
         arguments: [~, App\Entity\Member, ~]
         tags:
-            - { group: Directory, name: sonata.admin, manager_type: orm, label: 'Members'}
+            - { name: sonata.admin, manager_type: orm, group: Directory, label: 'Members' }
 
     app.admin.member_status:
         class: App\Admin\MemberStatusAdmin
         arguments: [~, App\Entity\MemberStatus, ~]
         tags:
-            - { group: Directory, name: sonata.admin, manager_type: orm, label: 'Statuses'}
+            - { name: sonata.admin, manager_type: orm, group: Directory, label: 'Statuses' }
+
+    app.admin.tag:
+        class: App\Admin\TagAdmin
+        arguments: [~, App\Entity\Tag, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Directory, label: 'Tags' }
+        public: true

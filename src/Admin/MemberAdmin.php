@@ -13,9 +13,12 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Sonata\AdminBundle\Form\Type\ModelType;
+use Sonata\AdminBundle\Form\Type\ModelListType;
+use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 
 use App\Entity\Member;
 use App\Entity\MemberStatus;
+use App\Entity\Tag;
 
 final class MemberAdmin extends AbstractAdmin
 {
@@ -80,6 +83,18 @@ final class MemberAdmin extends AbstractAdmin
                     ->end()
                 ->with('Notes', ['class' => 'col-md-6'])
                     ->add('directoryNotes')
+                    ->add('tags', ModelAutocompleteType::class, [
+                        'property' => 'tagName',
+                        'multiple' => true,
+                        'callback' => function ($admin, $property, $value) {
+                            $datagrid = $admin->getDatagrid();
+                            $queryBuilder = $datagrid->getQuery();
+                            $queryBuilder
+                                ->orderBy('o.tagName', 'ASC')
+                            ;
+                            $datagrid->setValue($property, null, $value);
+                        }
+                    ])
                     ->end()
                 ->end()
         ;
@@ -149,6 +164,7 @@ final class MemberAdmin extends AbstractAdmin
                 ->end()
             ->with('Notes', ['class' => 'col-md-6'])
                 ->add('directoryNotes')
+                ->add('tags')
                 ->end()
             ->end()
         ;
@@ -181,6 +197,10 @@ final class MemberAdmin extends AbstractAdmin
             ])
             ->add('isExternalDoNotContact', null, [
                 'label' => 'Do Not Contact (National)?'
+            ])
+            ->add('tags', null, ['label' => 'Tag'], EntityType::class, [
+                'class' => Tag::class,
+                'choice_label' => 'tagName'
             ])
         ;
     }

@@ -202,6 +202,17 @@ class Member
      */
     private $directoryNotes;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Tag", mappedBy="members")
+     * @ORM\OrderBy({"tagName": "ASC"})
+     */
+    private $tags;
+
+    public function __construct()
+    {
+        $this->tags = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -545,6 +556,43 @@ class Member
         return $this;
     }
 
+    /**
+     * @return Collection|Tag[]
+     */
+    public function getTags(): Collection
+    {
+        return $this->tags;
+    }
+
+    public function addTag(Tag $tag): self
+    {
+        if (!$this->tags->contains($tag)) {
+            $this->tags[] = $tag;
+            $tag->addMember($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTag(Tag $tag): self
+    {
+        if ($this->tags->contains($tag)) {
+            $this->tags->removeElement($tag);
+            $tag->removeMember($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Model Methods
+     */
+
+    public function __toString(): string
+    {
+        return sprintf('%s, %s (%s)', $this->lastName, $this->firstName, $this->localIdentifier);
+    }
+
     public function getLocalIdentifierShort(): string
     {
         return (int) preg_replace('/^\d+\-/', '', $this->localIdentifier);
@@ -598,4 +646,5 @@ class Member
     {
         return trim(mb_strtolower($email));
     }
+
 }
