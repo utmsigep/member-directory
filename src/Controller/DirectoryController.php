@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Entity\Member;
 
 /**
- * @IsGranted("ROLE_ADMIN")
+ * @IsGranted("ROLE_USER")
  * @Route("/directory")
  */
 class DirectoryController extends AbstractController
