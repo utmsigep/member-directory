@@ -16,15 +16,22 @@
   </head>
 
   <body>
-    <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
+    <nav class="navbar navbar-dark sticky-top bg-dark p-0">
       <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="{{ path('home') }}"><i class="far fa-address-book"></i> Member Directory</a>
-      <ul class="navbar-nav px-3">
-        <li class="nav-item text-nowrap">
-          {% if is_granted('ROLE_USER') %}
-          <a class="nav-link" href="{{ path('app_logout') }}">Log Out</a>
-          {% endif %}
+      {% if is_granted('ROLE_USER') %}
+      <ul class="nav">
+        <li class="nav-item dropdown">
+          <a class="nav-link text-light dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-id-card"></i> {{ app.user.email }}
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="{{ path('app_profile') }}">Edit Profile</a>
+            <a class="dropdown-item" href="{{ path('app_change_password') }}">Change Password</a>
+            <a class="dropdown-item" href="{{ path('app_logout') }}">Log Out</a>
+          </div>
         </li>
       </ul>
+      {% endif %}
     </nav>
 
     <div class="d-md-none bg-light">
