@@ -599,16 +599,29 @@ class Member
         return ($short > 0) ? $short : 'N/A';
     }
 
-    public function getPhotoUrl(): ?string
+    public function getPhotoUrl(int $size = 400): ?string
     {
         if ($this->facebookIdentifier) {
-            return sprintf('https://graph.facebook.com/v3.3/%d/picture?width=400', $this->facebookIdentifier);
+            return sprintf(
+                'https://graph.facebook.com/v3.3/%d/picture?width=%d&height=%d&type=square',
+                $this->facebookIdentifier,
+                $size,
+                $size
+            );
         }
         if ($this->primaryEmail) {
-            return sprintf('https://www.gravatar.com/avatar/%s?size=400&default=mm', md5($this->primaryEmail));
+            return sprintf(
+                'https://www.gravatar.com/avatar/%s?size=%d&default=mm',
+                md5($this->primaryEmail),
+                $size
+            );
         }
         // Default Gravatar image
-        return 'https://www.gravatar.com/avatar/3c2eb7b3dd3134bd26afcd43c5941ae1?size=400&default=mm';
+        return sprintf(
+            'https://www.gravatar.com/avatar/%s?size=%d&default=mm',
+            md5('unknown-user@example.com'),
+            $size
+        );
     }
 
     /**
