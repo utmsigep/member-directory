@@ -132,6 +132,9 @@
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
     },
+    "jeroendesloovere/vcard": {
+        "version": "1.7.2"
+    },
     "knplabs/knp-menu": {
         "version": "2.3.0"
     },

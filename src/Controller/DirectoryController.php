@@ -9,6 +9,7 @@ use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Routing\Annotation\Route;
 use USPS\Address;
 use USPS\AddressVerify;
+use JeroenDesloovere\VCard\VCard;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -54,7 +55,6 @@ class DirectoryController extends AbstractController
         ]);
     }
 
-
     /**
      * @Route("/member/{localIdentifier}/verify-address", name="member_verify_address")
      */
@@ -87,6 +87,35 @@ class DirectoryController extends AbstractController
             'record' => $record,
             'verify' => $response->get()['AddressValidateResponse']['Address']
         ]);
+    }
+
+    /**
+     * @Route("/member/{localIdentifier}/vcard", name="member_vcard")
+     */
+    public function generateVCard($localIdentifier)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $record = $entityManager->getRepository(Member::class)->findOneBy(['localIdentifier' => $localIdentifier]);
+
+        // Create the VCard
+        $vcard = new VCard();
+        $vcard->addName($record->getLastName(), $record->getPreferredName());
+        $vcard->addJobtitle($record->getJobTitle());
+        $vcard->addCompany($record->getEmployer());
+        $vcard->addEmail($record->getPrimaryEmail(), 'PREF;HOME');
+        $vcard->addPhoneNumber($record->getPrimaryTelephoneNumber(), 'PREF;HOME;VOICE');
+        $vcard->addAddress(
+            '',
+            $record->getMailingAddressLine2(),
+            $record->getMailingAddressLine1(),
+            $record->getMailingCity(),
+            $record->getMailingState(),
+            $record->getMailingPostalCode(),
+            $record->getMailingCountry(),
+            'HOME;POSTAL'
+        );
+
+        return new Response($vcard->getOutput(), 200, $vcard->getHeaders(true));
     }
 
     /**

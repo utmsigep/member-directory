@@ -8,6 +8,7 @@
         "beberlei/DoctrineExtensions": "^1.2",
         "friendsofsymfony/jsrouting-bundle": "^2.3",
         "guzzlehttp/guzzle": "^6.3",
+        "jeroendesloovere/vcard": "^1.7",
         "league/csv": "^9.2",
         "picoss/sonata-extra-admin-bundle": "^4.0",
         "sensio/framework-extra-bundle": "^5.3",
