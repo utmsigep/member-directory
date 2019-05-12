@@ -17,4 +17,14 @@ require('../../node_modules/bootstrap/dist/css/bootstrap.css')
 require('../../node_modules/datatables.net-bs4/css/dataTables.bootstrap4.css')
 require('../css/app.scss')
 
+// Tooltips
 $('[data-toggle="tooltip"]').tooltip();
+
+// Show privacy warning once per day
+if (typeof localStorage != undefined) {
+  var privacyWarning = localStorage.getItem('privacyWarning') || 0;
+  if (parseInt(privacyWarning, 10) < Date.now() - (1000 * 60 * 60 * 24)) {
+    $('#modalConfidential').modal('show')
+    localStorage.setItem('privacyWarning', Date.now());
+  }
+}
