@@ -41,12 +41,11 @@ class UserAddCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
         $email = $input->getArgument('email');
+        $roles = $input->getOption('roles');
 
         if ($email) {
             $io->note(sprintf('Adding user: %s', $email));
         }
-
-
 
         $helper = $this->getHelper('question');
 
