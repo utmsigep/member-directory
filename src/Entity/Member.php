@@ -599,6 +599,11 @@ class Member
         return ($short > 0) ? $short : 'N/A';
     }
 
+    public function getDisplayName(): string
+    {
+        return $this->preferredName . ' ' . $this->lastName;
+    }
+
     public function getPhotoUrl(int $size = 400): ?string
     {
         if ($this->facebookIdentifier) {
