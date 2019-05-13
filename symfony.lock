@@ -5,6 +5,9 @@
     "behat/transliterator": {
         "version": "v1.2.0"
     },
+    "campaignmonitor/createsend-php": {
+        "version": "v6.0.0"
+    },
     "cocur/slugify": {
         "version": "v3.2"
     },
