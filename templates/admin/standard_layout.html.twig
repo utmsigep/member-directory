@@ -1,0 +1,8 @@
+{% extends '@SonataAdmin/standard_layout.html.twig' %}
+
+{% block side_bar_after_nav_content %}
+{{ parent() }}
+<div class="text-center">
+  <a class="btn btn-secondary" href="{{ path('home') }}">&laquo; Back to Directory</a>
+</div>
+{% endblock %}
