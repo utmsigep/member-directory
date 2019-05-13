@@ -7,12 +7,12 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Routing\Annotation\Route;
-use USPS\Address;
-use USPS\AddressVerify;
 use JeroenDesloovere\VCard\VCard;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+
+use App\Service\PostalValidatorService;
 use App\Entity\Member;
 
 /**
@@ -58,7 +58,7 @@ class DirectoryController extends AbstractController
     /**
      * @Route("/member/{localIdentifier}/verify-address", name="member_verify_address")
      */
-    public function validateMemberAddress($localIdentifier)
+    public function validateMemberAddress($localIdentifier, PostalValidatorService $postalValidatorService)
     {
         $entityManager = $this->getDoctrine()->getManager();
         $record = $entityManager->getRepository(Member::class)->findOneBy(['localIdentifier' => $localIdentifier]);
@@ -68,18 +68,7 @@ class DirectoryController extends AbstractController
         $response = $cache->getItem($cacheKey);
 
         if (!$response->isHit()) {
-            $verify = new AddressVerify($_ENV['USPS_USERNAME']);
-            $address = new Address();
-            $address->setField('Address1', $record->getMailingAddressLine1());
-            $address->setField('Address2', $record->getMailingAddressLine2());
-            $address->setCity($record->getMailingCity());
-            $address->setState($record->getMailingState());
-            $address->setZip5($record->getMailingPostalCode());
-            $address->setZip4('');
-            $verify->addAddress($address);
-            $verify->verify();
-
-            $response->set($verify->getArrayResponse());
+            $response->set($postalValidatorService->validate($record));
             $cache->save($response);
         }
 
