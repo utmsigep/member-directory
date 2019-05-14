@@ -2,7 +2,7 @@
   <td class="text-center">{{ record.localIdentifierShort }}</td>
   <td>
     <img src="{{ record.photoUrl }}" class="img-fluid" style="max-width:32px;" />
-    <a href="{{ path('member', {localIdentifier: record.localIdentifier}) }}">{{ record.preferredName }} {{ record.lastName }}</a>
+    <a href="{{ path('member', {localIdentifier: record.localIdentifier}) }}">{{ record.displayName }} </a>
   </td>
   <td>
     {% include 'directory/partials/directory_member_badges.html.twig' %}

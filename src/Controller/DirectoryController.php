@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 use App\Service\PostalValidatorService;
+use App\Service\EmailService;
 use App\Entity\Member;
 
 /**
@@ -32,7 +33,7 @@ class DirectoryController extends AbstractController
     /**
      * @Route("/member/{localIdentifier}", name="member", options={"expose" = true})
      */
-    public function member($localIdentifier)
+    public function member($localIdentifier): Response
     {
         $entityManager = $this->getDoctrine()->getManager();
         $record = $entityManager->getRepository(Member::class)->findOneBy(['localIdentifier' => $localIdentifier]);
@@ -44,7 +45,7 @@ class DirectoryController extends AbstractController
     /**
      * @Route("/member/{localIdentifier}/change-log", name="member_change_log")
      */
-    public function changeLog($localIdentifier)
+    public function changeLog($localIdentifier): Response
     {
         $entityManager = $this->getDoctrine()->getManager();
         $record = $entityManager->getRepository(Member::class)->findOneBy(['localIdentifier' => $localIdentifier]);
@@ -58,7 +59,7 @@ class DirectoryController extends AbstractController
     /**
      * @Route("/member/{localIdentifier}/verify-address", name="member_verify_address")
      */
-    public function validateMemberAddress($localIdentifier, PostalValidatorService $postalValidatorService)
+    public function validateMemberAddress($localIdentifier, PostalValidatorService $postalValidatorService): Response
     {
         $entityManager = $this->getDoctrine()->getManager();
         $record = $entityManager->getRepository(Member::class)->findOneBy(['localIdentifier' => $localIdentifier]);
@@ -79,9 +80,74 @@ class DirectoryController extends AbstractController
     }
 
     /**
+     * @Route("/member/{localIdentifier}/email-subscription", name="member_email_subscription")
+     */
+    public function emailSubscription($localIdentifier): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $record = $entityManager->getRepository(Member::class)->findOneBy(['localIdentifier' => $localIdentifier]);
+
+        $emailService = new EmailService();
+        $subscriber = $emailService->getMemberSubscription($record);
+        $subscriberHistory = $emailService->getMemberSubscriptionHistory($record);
+
+        return $this->render('directory/email-subscription.html.twig', [
+            'record' => $record,
+            'subscriber' => $subscriber,
+            'subscriberHistory' => $subscriberHistory
+        ]);
+    }
+
+    /**
+     * @Route("/member/{localIdentifier}/add-subscriber", name="member_email_subscribe")
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function addSubscriber($localIdentifier, EmailService $emailService): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $record = $entityManager->getRepository(Member::class)->findOneBy(['localIdentifier' => $localIdentifier]);
+        if ($emailService->subscribeMember($record)) {
+            $this->addFlash('success', 'Subscriber record created!');
+        } else {
+            $this->addFlash('danger', 'Unable to subscribe user. Is the email address valid?');
+        }
+        return $this->redirectToRoute('member_email_subscription', ['localIdentifier' => $localIdentifier]);
+    }
+    /**
+     * @Route("/member/{localIdentifier}/update-subscriber", name="member_email_update")
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function updateSubscriber($localIdentifier, EmailService $emailService): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $record = $entityManager->getRepository(Member::class)->findOneBy(['localIdentifier' => $localIdentifier]);
+        if ($emailService->updateMember($record)) {
+            $this->addFlash('success', 'Subscriber record updated!');
+        } else {
+            $this->addFlash('danger', 'Unable to update user.');
+        }
+        return $this->redirectToRoute('member_email_subscription', ['localIdentifier' => $localIdentifier]);
+    }
+    /**
+     * @Route("/member/{localIdentifier}/remove-subscriber", name="member_email_remove")
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function removeSubscriber($localIdentifier, EmailService $emailService): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $record = $entityManager->getRepository(Member::class)->findOneBy(['localIdentifier' => $localIdentifier]);
+        if ($emailService->unsubscribeMember($record)) {
+            $this->addFlash('success', 'Subscriber record removed!');
+        } else {
+            $this->addFlash('danger', 'Unable to unsubscribe user.');
+        }
+        return $this->redirectToRoute('member_email_subscription', ['localIdentifier' => $localIdentifier]);
+    }
+
+    /**
      * @Route("/member/{localIdentifier}/vcard", name="member_vcard")
      */
-    public function generateVCard($localIdentifier)
+    public function generateVCard($localIdentifier): Response
     {
         $entityManager = $this->getDoctrine()->getManager();
         $record = $entityManager->getRepository(Member::class)->findOneBy(['localIdentifier' => $localIdentifier]);
@@ -110,7 +176,7 @@ class DirectoryController extends AbstractController
     /**
      * @Route("/alumni", name="alumni")
      */
-    public function alumni()
+    public function alumni(): Response
     {
         $entityManager = $this->getDoctrine()->getManager();
         $records = $entityManager->getRepository(Member::class)->findByStatusCodes([

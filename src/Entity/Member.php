@@ -595,13 +595,22 @@ class Member
 
     public function getLocalIdentifierShort(): string
     {
-        $short = (int) preg_replace('/^\d+\-/', '', $this->localIdentifier);
-        return ($short > 0) ? $short : 'N/A';
+        preg_match('/(\d+)\-(\d+)/', $this->localIdentifier, $matches);
+        return isset($matches[2]) ? number_format($matches[2], 0) : 'N/A';
     }
 
     public function getDisplayName(): string
     {
         return $this->preferredName . ' ' . $this->lastName;
+    }
+
+    public function getTagsAsCSV(): string
+    {
+        $output = [];
+        foreach ($this->tags as $tag) {
+            $output[] = $tag->getTagName();
+        }
+        return join(',', $output);
     }
 
     public function getPhotoUrl(int $size = 400): ?string

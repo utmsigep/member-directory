@@ -26,17 +26,16 @@ class EmailService
         );
     }
 
-    public function getMemberSubscription(Member $member): array
+    public function getMemberSubscription(Member $member)
     {
         if (!$member->getPrimaryEmail()) {
             return [];
         }
-
         $result = $this->client->get($member->getPrimaryEmail(), true);
         return $result->response;
     }
 
-    public function getMemberSubscriptionHistory(Member $member): object
+    public function getMemberSubscriptionHistory(Member $member)
     {
         if (!$member->getPrimaryEmail()) {
             return [];
@@ -45,21 +44,52 @@ class EmailService
         return $result->response;
     }
 
-    public function subscribeMember(Member $member): boolean
+    public function subscribeMember(Member $member, $resubscribe = false): bool
     {
-        if (!$member->getPrimaryEmail()) {
+        if (!$member->getPrimaryEmail() || $member->getIsLocalDoNotContact()) {
             return false;
         }
         $result = $this->client->add([
             'EmailAddress' => $member->getPrimaryEmail(),
             'Name' => $member->getDisplayName(),
-            'Custom Fields' => $this->builtCustomFieldArray($member),
-            'ConsentToTrack' => true,
-            'Resubscribe' => true
+            'CustomFields' => $this->buildCustomFieldArray($member),
+            'ConsentToTrack' => 'yes',
+            'Resubscribe' => $resubscribe
         ]);
         if ($result->was_successful()) {
             return true;
         }
+        error_log(json_encode($result->response));
+        return false;
+    }
+
+    public function updateMember(Member $member): bool
+    {
+        if (!$member->getPrimaryEmail()) {
+            return false;
+        }
+        $result = $this->client->update($member->getPrimaryEmail(), [
+            'Name' => $member->getDisplayName(),
+            'CustomFields' => $this->buildCustomFieldArray($member),
+            'ConsentToTrack' => 'yes'
+        ]);
+        if ($result->was_successful()) {
+            return true;
+        }
+        error_log(json_encode($result->response));
+        return false;
+    }
+
+    public function unsubscribeMember(Member $member): bool
+    {
+        if (!$member->getPrimaryEmail()) {
+            return false;
+        }
+        $result = $this->client->unsubscribe($member->getPrimaryEmail());
+        if ($result->was_successful()) {
+            return true;
+        }
+        error_log(json_encode($result->response));
         return false;
     }
 
@@ -69,72 +99,84 @@ class EmailService
     {
         return [
             [
-                'Key' => 'firstName',
+                'Key' => 'Member Status',
+                'Value' => $member->getStatus()->getLabel()
+            ],
+            [
+                'Key' => 'First Name',
                 'Value' => $member->getFirstName()
             ],
             [
-                'Key' => 'preferredName',
+                'Key' => 'Preferred Name',
                 'Value' => $member->getPreferredName()
             ],
             [
-                'Key' => 'middleName',
+                'Key' => 'Middle Name',
                 'Value' => $member->getMiddleName()
             ],
             [
-                'Key' => 'lastName',
+                'Key' => 'Last Name',
                 'Value' => $member->getLastName()
             ],
             [
-                'Key' => 'localIdentifier',
+                'Key' => 'Class Year',
+                'Value' => $member->getClassYear()
+            ],
+            [
+                'Key' => 'Local Identifier',
                 'Value' => $member->getLocalIdentifier()
             ],
             [
-                'Key' => 'localIdentifierShort',
+                'Key' => 'Local Identifier Short',
                 'Value' => $member->getLocalIdentifierShort()
             ],
             [
-                'Key' => 'externalIdentifier',
+                'Key' => 'External Identifier',
                 'Value' => $member->getExternalIdentifier()
             ],
             [
-                'Key' => 'primaryTelephoneNumber',
+                'Key' => 'Primary Telephone Number',
                 'Value' => $member->getPrimaryTelephoneNumber()
             ],
             [
-                'Key' => 'mailingAddressLine1',
+                'Key' => 'Mailing Address Line 1',
                 'Value' => $member->getMailingAddressLine1()
             ],
             [
-                'Key' => 'mailingAddressLine2',
+                'Key' => 'Mailing Address Line 2',
                 'Value' => $member->getMailingAddressLine2()
             ],
             [
-                'Key' => 'mailingCity',
+                'Key' => 'Mailing City',
                 'Value' => $member->getMailingCity()
             ],
             [
-                'Key' => 'mailingState',
+                'Key' => 'Mailing State',
                 'Value' => $member->getMailingState()
             ],
             [
-                'Key' => 'mailingPostalCode',
+                'Key' => 'Mailing Postal Code',
                 'Value' => $member->getMailingPostalCode()
             ],
             [
-                'Key' => 'mailingCountry',
+                'Key' => 'Mailing Country',
                 'Value' => $member->getMailingCountry()
             ],
             [
-                'Key' => 'employer',
+                'Key' => 'Employer',
                 'Value' => $member->getEmployer()
             ],
             [
-                'Key' => 'jobTitle',
+                'Key' => 'Job Title',
                 'Value' => $member->getJobTitle()
             ],
             [
-                'Key' => 'occupation',
+                'Key' => 'Occupation',
                 'Value' => $member->getOccupation()
+            ],
+            [
+                'Key' => 'Tags',
+                'Value' => $member->getTagsAsCSV()
             ]
         ];
     }
