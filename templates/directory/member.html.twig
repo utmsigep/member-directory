@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Member Directory - {{ record.preferredName }} {{ record.lastName }}{% endblock %}
+{% block title %}Member Directory - {{ record.displayName }} {% endblock %}
 
 {% block stylesheets -%}
 {{ parent() }}
@@ -15,7 +15,7 @@
     {% endif %}
   </div>
 
-  <div class="h4">{{ record.preferredName }} {{ record.lastName }}</div>
+  <div class="h4">{{ record.displayName }} </div>
 
   {% include 'directory/partials/directory_member_badges.html.twig' %}
 
@@ -77,7 +77,7 @@
           {% if record.mailingLatitude and record.mailingLongitude %}
           <tr>
             <td colspan="2">
-              <div id="mapContainer" style="min-height:200px;" data-mailing_latitude="{{ record.mailingLatitude }}" data-mailing_longitude="{{ record.mailingLongitude }}" data-map_label="{{ record.preferredName }} {{ record.lastName }}"></div>
+              <div id="mapContainer" style="min-height:200px;" data-mailing_latitude="{{ record.mailingLatitude }}" data-mailing_longitude="{{ record.mailingLongitude }}" data-map_label="{{ record.displayName }} "></div>
             </td>
           </tr>
           {% endif %}

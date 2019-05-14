@@ -6,6 +6,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "beberlei/DoctrineExtensions": "^1.2",
+        "campaignmonitor/createsend-php": "^6.0",
         "friendsofsymfony/jsrouting-bundle": "^2.3",
         "guzzlehttp/guzzle": "^6.3",
         "jeroendesloovere/vcard": "^1.7",

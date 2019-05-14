@@ -31,3 +31,8 @@ services:
         tags:
             - { name: "doctrine.orm.entity_listener", entity: App\Entity\Member, event: preUpdate, method: preUpdate, lazy: true }
             - { name: "doctrine.orm.entity_listener", entity: App\Entity\Member, event: prePersist, method: prePersist, lazy: true }
+
+    App\EventListener\EmailServiceSubscriber:
+        tags:
+            - { name: "doctrine.orm.entity_listener", entity: App\Entity\Member, event: preUpdate, method: preUpdate, lazy: true }
+            - { name: "doctrine.orm.entity_listener", entity: App\Entity\Member, event: prePersist, method: prePersist, lazy: true }

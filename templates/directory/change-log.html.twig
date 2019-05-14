@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Member Directory - {{ record.preferredName }} {{ record.lastName }} - Change Log{% endblock %}
+{% block title %}Member Directory - {{ record.displayName }}  - Change Log{% endblock %}
 
 {% block body %}
 
 <div>
-  <div class="h4">{{ record.preferredName }} {{ record.lastName }}</div>
+  <div class="h4">{{ record.displayName }} </div>
 
   {% include 'directory/partials/directory_member_badges.html.twig' %}
 
