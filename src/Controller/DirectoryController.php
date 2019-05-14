@@ -121,7 +121,7 @@ class DirectoryController extends AbstractController
     {
         $entityManager = $this->getDoctrine()->getManager();
         $record = $entityManager->getRepository(Member::class)->findOneBy(['localIdentifier' => $localIdentifier]);
-        if ($emailService->updateMember($record)) {
+        if ($emailService->updateMember($record->getPrimaryEmail(), $record)) {
             $this->addFlash('success', 'Subscriber record updated!');
         } else {
             $this->addFlash('danger', 'Unable to update user.');

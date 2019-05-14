@@ -46,7 +46,13 @@ class EmailService
 
     public function subscribeMember(Member $member, $resubscribe = false): bool
     {
-        if (!$member->getPrimaryEmail() || $member->getIsLocalDoNotContact()) {
+        if (!$member->getPrimaryEmail()
+            || $member->getIsLocalDoNotContact()
+            || in_array($member->getStatus()->getCode(), [
+                'RESIGNED',
+                'EXPELLED'
+            ])
+        ) {
             return false;
         }
         $result = $this->client->add([
@@ -63,12 +69,13 @@ class EmailService
         return false;
     }
 
-    public function updateMember(Member $member): bool
+    public function updateMember(string $existingEmail, Member $member): bool
     {
         if (!$member->getPrimaryEmail()) {
             return false;
         }
-        $result = $this->client->update($member->getPrimaryEmail(), [
+        $result = $this->client->update($existingEmail, [
+            'EmailAddress' => $member->getPrimaryEmail(),
             'Name' => $member->getDisplayName(),
             'CustomFields' => $this->buildCustomFieldArray($member),
             'ConsentToTrack' => 'yes'
