@@ -53,25 +53,49 @@ class EspSyncCommand extends Command
         $progressBar->start();
 
         // Main loop
+        $output = [
+            'subscribed' => [],
+            'unsubscribed' => [],
+            'updated' => [],
+            'ignored' => []
+        ];
         foreach ($members as $member) {
             $subscription = $this->emailService->getMemberSubscription($member);
             // If not found, attempt to subscribe user
             if (!$subscription || empty($subscription) || property_exists($subscription, 'Code')) {
-                $io->writeln('Subscribing ' . $member->getDisplayName());
-                $this->emailService->subscribeMember($member);
+                if (!$member->getIsLocalDoNotContact()) {
+                    $output['subscribed'][] = $member->getDisplayName();
+                    $this->emailService->subscribeMember($member);
+                } else {
+                    $output['ignored'] = $member->getDisplayName();
+                }
             // If is found, check subscription status and update if Active
             } else {
                 if ($subscription->State == 'Active') {
-                    $io->writeln('Updating ' . $member->getDisplayName());
-                    $this->emailService->updateMember($member->getPrimaryEmail(), $member);
+                    if (!$member->getIsLocalDoNotContact()) {
+                        $output['updated'][] = $member->getDisplayName();
+                        $this->emailService->updateMember($member->getPrimaryEmail(), $member);
+                    } else {
+                        $output['unsubscribed'][] = $member->getDisplayName();
+                        $this->emailService->unsubscribeMember($member);
+                    }
                 } else {
-                    $io->writeln('Ignoring unsubscribed ' . $member->getDisplayName());
+                    $output['ignored'] = $member->getDisplayName();
                 }
             }
             $progressBar->advance();
         }
 
         $progressBar->finish();
+
+        $io->title('Subscribed');
+        $io->writeln(implode(PHP_EOL, $output['subscribed']));
+        $io->title('Unsubscribed');
+        $io->writeln(implode(PHP_EOL, $output['unsubscribed']));
+        $io->title('Updated');
+        $io->writeln(implode(PHP_EOL, $output['updated']));
+        $io->title('Ignored (Unsubscribed)');
+        $io->writeln(implode(PHP_EOL, $output['ignored']));
 
         $io->success('Done!');
     }
