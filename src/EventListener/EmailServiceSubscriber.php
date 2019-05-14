@@ -21,6 +21,11 @@ class EmailServiceSubscriber
 
     public function preUpdate(Member $member, PreUpdateEventArgs $eventArgs)
     {
+        // If set to 'Do Not Contact (Local)', unsubscribe the user
+        if ($eventArgs->hasChangedField('isLocalDoNotContact') && $member->isLocalDoNotContact()) {
+            $this->emailService->unsubscribeMember($member);
+            return;
+        }
         // If an email address was set and has been changed, update email address in ESP
         if ($eventArgs->hasChangedField('primaryEmail')
             && $eventArgs->getOldValue('primaryEmail')
