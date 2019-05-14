@@ -22,7 +22,7 @@ class EmailServiceSubscriber
     public function preUpdate(Member $member, PreUpdateEventArgs $eventArgs)
     {
         // If set to 'Do Not Contact (Local)', unsubscribe the user
-        if ($eventArgs->hasChangedField('isLocalDoNotContact') && $member->isLocalDoNotContact()) {
+        if ($eventArgs->hasChangedField('isLocalDoNotContact') && $member->getIsLocalDoNotContact()) {
             $this->emailService->unsubscribeMember($member);
             return;
         }

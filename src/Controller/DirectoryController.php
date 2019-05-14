@@ -106,7 +106,7 @@ class DirectoryController extends AbstractController
     {
         $entityManager = $this->getDoctrine()->getManager();
         $record = $entityManager->getRepository(Member::class)->findOneBy(['localIdentifier' => $localIdentifier]);
-        if ($emailService->subscribeMember($record)) {
+        if ($emailService->subscribeMember($record, true)) {
             $this->addFlash('success', 'Subscriber record created!');
         } else {
             $this->addFlash('danger', 'Unable to subscribe user. Is the email address valid?');

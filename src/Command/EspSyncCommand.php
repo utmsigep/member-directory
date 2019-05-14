@@ -39,7 +39,7 @@ class EspSyncCommand extends Command
         $members = $this->entityManager->getRepository(Member::class)->findByStatusCodes([
             'ALUMNUS',
             'RENAISSANCE',
-            'UNDERGRDAUTE',
+            'UNDERGRADUATE',
             'OTHER'
         ]);
         // Only work with records that have an email set
@@ -67,7 +67,7 @@ class EspSyncCommand extends Command
                     $output['subscribed'][] = $member->getDisplayName();
                     $this->emailService->subscribeMember($member);
                 } else {
-                    $output['ignored'] = $member->getDisplayName();
+                    $output['ignored'][] = $member->getDisplayName();
                 }
             // If is found, check subscription status and update if Active
             } else {
@@ -80,7 +80,7 @@ class EspSyncCommand extends Command
                         $this->emailService->unsubscribeMember($member);
                     }
                 } else {
-                    $output['ignored'] = $member->getDisplayName();
+                    $output['ignored'][] = $member->getDisplayName();
                 }
             }
             $progressBar->advance();
@@ -94,7 +94,7 @@ class EspSyncCommand extends Command
         $io->writeln(implode(PHP_EOL, $output['unsubscribed']));
         $io->title('Updated');
         $io->writeln(implode(PHP_EOL, $output['updated']));
-        $io->title('Ignored (Unsubscribed)');
+        $io->title('Ignored (Unsubscribed/Do Not Contact)');
         $io->writeln(implode(PHP_EOL, $output['ignored']));
 
         $io->success('Done!');
