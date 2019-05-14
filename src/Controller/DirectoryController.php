@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Service\PostalValidatorService;
 use App\Service\EmailService;
 use App\Entity\Member;
+use App\Entity\Tag;
 
 /**
  * @IsGranted("ROLE_USER")
@@ -37,6 +38,9 @@ class DirectoryController extends AbstractController
     {
         $entityManager = $this->getDoctrine()->getManager();
         $record = $entityManager->getRepository(Member::class)->findOneBy(['localIdentifier' => $localIdentifier]);
+        if (is_null($record)) {
+            throw $this->createNotFoundException('Member not found.');
+        }
         return $this->render('directory/member.html.twig', [
             'record' => $record
         ]);
@@ -49,6 +53,9 @@ class DirectoryController extends AbstractController
     {
         $entityManager = $this->getDoctrine()->getManager();
         $record = $entityManager->getRepository(Member::class)->findOneBy(['localIdentifier' => $localIdentifier]);
+        if (is_null($record)) {
+            throw $this->createNotFoundException('Member not found.');
+        }
         $logEntries = $entityManager->getRepository(LogEntry::class)->getLogEntries($record);
         return $this->render('directory/change-log.html.twig', [
             'record' => $record,
@@ -63,7 +70,9 @@ class DirectoryController extends AbstractController
     {
         $entityManager = $this->getDoctrine()->getManager();
         $record = $entityManager->getRepository(Member::class)->findOneBy(['localIdentifier' => $localIdentifier]);
-
+        if (is_null($record)) {
+            throw $this->createNotFoundException('Member not found.');
+        }
         $cache = new FilesystemAdapter();
         $cacheKey = 'directory.address_verify_' . md5(json_encode([$record->getId(), $record->getUpdatedAt()]));
         $response = $cache->getItem($cacheKey);
@@ -86,7 +95,9 @@ class DirectoryController extends AbstractController
     {
         $entityManager = $this->getDoctrine()->getManager();
         $record = $entityManager->getRepository(Member::class)->findOneBy(['localIdentifier' => $localIdentifier]);
-
+        if (is_null($record)) {
+            throw $this->createNotFoundException('Member not found.');
+        }
         $emailService = new EmailService();
         $subscriber = $emailService->getMemberSubscription($record);
         $subscriberHistory = $emailService->getMemberSubscriptionHistory($record);
@@ -106,6 +117,9 @@ class DirectoryController extends AbstractController
     {
         $entityManager = $this->getDoctrine()->getManager();
         $record = $entityManager->getRepository(Member::class)->findOneBy(['localIdentifier' => $localIdentifier]);
+        if (is_null($record)) {
+            throw $this->createNotFoundException('Member not found.');
+        }
         if ($emailService->subscribeMember($record, true)) {
             $this->addFlash('success', 'Subscriber record created!');
         } else {
@@ -121,6 +135,9 @@ class DirectoryController extends AbstractController
     {
         $entityManager = $this->getDoctrine()->getManager();
         $record = $entityManager->getRepository(Member::class)->findOneBy(['localIdentifier' => $localIdentifier]);
+        if (is_null($record)) {
+            throw $this->createNotFoundException('Member not found.');
+        }
         if ($emailService->updateMember($record->getPrimaryEmail(), $record)) {
             $this->addFlash('success', 'Subscriber record updated!');
         } else {
@@ -136,6 +153,9 @@ class DirectoryController extends AbstractController
     {
         $entityManager = $this->getDoctrine()->getManager();
         $record = $entityManager->getRepository(Member::class)->findOneBy(['localIdentifier' => $localIdentifier]);
+        if (is_null($record)) {
+            throw $this->createNotFoundException('Member not found.');
+        }
         if ($emailService->unsubscribeMember($record)) {
             $this->addFlash('success', 'Subscriber record removed!');
         } else {
@@ -151,6 +171,9 @@ class DirectoryController extends AbstractController
     {
         $entityManager = $this->getDoctrine()->getManager();
         $record = $entityManager->getRepository(Member::class)->findOneBy(['localIdentifier' => $localIdentifier]);
+        if (is_null($record)) {
+            throw $this->createNotFoundException('Member not found.');
+        }
 
         // Create the VCard
         $vcard = new VCard();
@@ -246,6 +269,21 @@ class DirectoryController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/tags/{tagId}", name="tag")
+     */
+    public function tag($tagId)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $tag = $entityManager->getRepository(Tag::class)->find($tagId);
+        if (is_null($tag)) {
+            throw $this->createNotFoundException('Tag not found.');
+        }
+        return $this->render('directory/tag.html.twig', [
+            'tag' => $tag,
+            'records' => $tag->getMembers(),
+        ]);
+    }
 
     /**
      * @Route("/map", name="map")
