@@ -127,6 +127,7 @@ class DirectoryController extends AbstractController
         }
         return $this->redirectToRoute('member_email_subscription', ['localIdentifier' => $localIdentifier]);
     }
+
     /**
      * @Route("/member/{localIdentifier}/update-subscriber", name="member_email_update")
      * @IsGranted("ROLE_ADMIN")
@@ -138,13 +139,14 @@ class DirectoryController extends AbstractController
         if (is_null($record)) {
             throw $this->createNotFoundException('Member not found.');
         }
-        if ($emailService->updateMember($record->getPrimaryEmail(), $record)) {
+        if ($record->getPrimaryEmail() && $emailService->updateMember($record->getPrimaryEmail(), $record)) {
             $this->addFlash('success', 'Subscriber record updated!');
         } else {
             $this->addFlash('danger', 'Unable to update user.');
         }
         return $this->redirectToRoute('member_email_subscription', ['localIdentifier' => $localIdentifier]);
     }
+
     /**
      * @Route("/member/{localIdentifier}/remove-subscriber", name="member_email_remove")
      * @IsGranted("ROLE_ADMIN")
