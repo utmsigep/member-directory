@@ -27,7 +27,7 @@ class AppExtension extends AbstractExtension
 
     public function getTags()
     {
-        $tags = $this->entityManager->getRepository(Tag::class)->findAll();
+        $tags = $this->entityManager->getRepository(Tag::class)->findBy([], ['tagName' => 'ASC']);
         return $tags;
     }
 }
