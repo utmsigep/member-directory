@@ -26,6 +26,14 @@ class EmailServiceSubscriber
             $this->emailService->unsubscribeMember($member);
             return;
         }
+        // If status moved to Resigned/Expelled, delete the user user's subscription
+        if ($eventArgs->hasChangedField('status') && in_array($member->getStatus()->getCode(), [
+            'RESIGNED',
+            'EXPELLED'
+        ])) {
+            $this->emailService->deleteMember($member);
+            return;
+        }
         // If an email address was set and has been changed, update email address in ESP
         if ($eventArgs->hasChangedField('primaryEmail')
             && $eventArgs->getOldValue('primaryEmail')

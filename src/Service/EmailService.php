@@ -100,6 +100,19 @@ class EmailService
         return false;
     }
 
+    public function deleteMember(Member $member): bool
+    {
+        if (!$member->getPrimaryEmail()) {
+            return false;
+        }
+        $result = $this->client->delete($member->getPrimaryEmail());
+        if ($result->was_successful()) {
+            return true;
+        }
+        error_log(json_encode($result->response));
+        return false;
+    }
+
     /* Private Methods */
 
     private function buildCustomFieldArray(Member $member): array
