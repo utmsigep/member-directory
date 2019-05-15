@@ -36,10 +36,12 @@ class EmailServiceSubscriber
                 $member
             );
         } else {
-            $this->emailService->updateMember(
-                $member->getPrimaryEmail(),
-                $member
-            );
+            if ($member->getPrimaryEmail()) {
+                $this->emailService->updateMember(
+                    $member->getPrimaryEmail(),
+                    $member
+                );
+            }
         }
     }
 
