@@ -1,7 +1,7 @@
 production:
   domain: "deploy@utmsigep.org"
-  deploy_to: "/sites/chapterportal"
-  repository: "git@github.com:/stephenyeargin/chapterportal.git"
+  deploy_to: "/sites/sigep_member_directory"
+  repository: "git@github.com:/stephenyeargin/member-directory.git"
   branch: "master"
   post_deploy_script: "config/post_deploy.sh"
   
