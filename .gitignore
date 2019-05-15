@@ -1,3 +1,5 @@
+# Deployment Configuration
+/config/deploy.yml
 
 ###> symfony/framework-bundle ###
 /.env.local
