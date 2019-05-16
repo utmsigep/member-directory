@@ -36,7 +36,9 @@
 
     <div class="d-md-none bg-light">
       <ul class="nav flex-column">
+        {% if is_granted('ROLE_USER') %}
         {% include 'partials/main_nav.html.twig' %}
+        {% endif%}
       </ul>
     </div>
 

@@ -19,7 +19,7 @@ body {
 .sidebar-sticky {
   position: -webkit-sticky;
   position: sticky;
-  top: 48px; /* Height of navbar */
+  margin-top: 48px; /* Height of navbar */
   height: calc(100vh - 48px);
   padding-top: .5rem;
   overflow-x: hidden;

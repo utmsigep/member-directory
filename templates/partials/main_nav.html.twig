@@ -1,4 +1,3 @@
-  <a class="nav-link {{ app.request.get('_route') == 'home' ? 'active' }}" href="{{ path('home') }}">Home</a>
   <a class="nav-link {{ app.request.get('_route') == 'alumni' ? 'active' }}" href="{{ path('alumni') }}"><i class="fas fa-user-graduate fa-fw text-muted"></i> Alumni</a>
   <a class="ml-3 nav-link {{ app.request.get('_route') == 'lost' ? 'active' }}" href="{{ path('lost')}}"><i class="fas fa-frown-open fa-fw text-muted"></i> Lost Alumni</a>
   <a class="nav-link {{ app.request.get('_route') == 'undergraduates' ? 'active' }}" href="{{ path('undergraduates')}}"><i class="fas fa-user fa-fw text-muted"></i> Undergraduates</a>
