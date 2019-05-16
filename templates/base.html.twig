@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>{% block title %}Member Directory{% endblock %}</title>
+    <title>{% block title %}{{ config.app_name }}{% endblock %}</title>
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -17,7 +17,7 @@
 
   <body>
     <nav class="navbar navbar-dark sticky-top bg-dark p-0">
-      <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="{{ path('home') }}"><i class="far fa-address-book"></i> Member Directory</a>
+      <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="{{ path('home') }}"><i class="far fa-address-book"></i> {{ config.app_name }}</a>
       {% if is_granted('ROLE_USER') %}
       <ul class="nav">
         <li class="nav-item dropdown">

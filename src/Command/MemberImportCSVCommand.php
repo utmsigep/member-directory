@@ -229,7 +229,7 @@ class MemberImportCSVCommand extends Command
                         $member->getExternalIdentifier(),
                         $member->getLocalIdentifier(),
                         $member->getLastName(),
-                        $member->getFirstName(),
+                        $member->getPreferredName(),
                         $csvRecord[self::STATUS_HEADER]
                     );
                     continue;
@@ -240,7 +240,7 @@ class MemberImportCSVCommand extends Command
                         $member->getExternalIdentifier(),
                         $member->getLocalIdentifier(),
                         $member->getLastName(),
-                        $member->getFirstName(),
+                        $member->getPreferredName(),
                         $member->getStatus()->getCode(),
                         $memberStatus->getCode()
                     );
@@ -260,7 +260,7 @@ class MemberImportCSVCommand extends Command
                         $member->getExternalIdentifier(),
                         $member->getLocalIdentifier(),
                         $member->getLastName(),
-                        $member->getFirstName(),
+                        $member->getPreferredName(),
                         $error->getPropertyPath(),
                         $error->getMessage()
                     );
@@ -277,9 +277,7 @@ class MemberImportCSVCommand extends Command
             $outputRows[] = [
                 $member->getExternalIdentifier(),
                 $member->getLocalIdentifier(),
-                $member->getFirstName(),
                 $member->getPreferredName(),
-                $member->getMiddleName(),
                 $member->getLastName(),
                 $member->getStatus()->getLabel()
             ];
@@ -293,9 +291,7 @@ class MemberImportCSVCommand extends Command
             [
                 'External Identifier',
                 'Local Identifier',
-                'First Name',
                 'Preferred Name',
-                'Middle Name',
                 'Last Name',
                 'Status'
             ],
