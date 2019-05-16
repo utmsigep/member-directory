@@ -68,6 +68,10 @@ class DirectoryController extends AbstractController
      */
     public function validateMemberAddress($localIdentifier, PostalValidatorService $postalValidatorService): Response
     {
+        if (!$postalValidatorService->isConfigured()) {
+            $this->addFlash('danger', 'Mailing validation service not configured.');
+            return $this->redirectToRoute('member', ['localIdentifier' => $localIdentifier]);
+        }
         $entityManager = $this->getDoctrine()->getManager();
         $record = $entityManager->getRepository(Member::class)->findOneBy(['localIdentifier' => $localIdentifier]);
         if (is_null($record)) {
@@ -91,14 +95,17 @@ class DirectoryController extends AbstractController
     /**
      * @Route("/member/{localIdentifier}/email-subscription", name="member_email_subscription")
      */
-    public function emailSubscription($localIdentifier): Response
+    public function emailSubscription($localIdentifier, EmailService $emailService): Response
     {
+        if (!$emailService->isConfigured()) {
+            $this->addFlash('danger', 'Email service not configured.');
+            return $this->redirectToRoute('member', ['localIdentifier' => $localIdentifier]);
+        }
         $entityManager = $this->getDoctrine()->getManager();
         $record = $entityManager->getRepository(Member::class)->findOneBy(['localIdentifier' => $localIdentifier]);
         if (is_null($record)) {
             throw $this->createNotFoundException('Member not found.');
         }
-        $emailService = new EmailService();
         $subscriber = $emailService->getMemberSubscription($record);
         $subscriberHistory = $emailService->getMemberSubscriptionHistory($record);
 
@@ -115,6 +122,10 @@ class DirectoryController extends AbstractController
      */
     public function addSubscriber($localIdentifier, EmailService $emailService): Response
     {
+        if (!$emailService->isConfigured()) {
+            $this->addFlash('danger', 'Email service not configured.');
+            return $this->redirectToRoute('member', ['localIdentifier' => $localIdentifier]);
+        }
         $entityManager = $this->getDoctrine()->getManager();
         $record = $entityManager->getRepository(Member::class)->findOneBy(['localIdentifier' => $localIdentifier]);
         if (is_null($record)) {
@@ -134,6 +145,10 @@ class DirectoryController extends AbstractController
      */
     public function updateSubscriber($localIdentifier, EmailService $emailService): Response
     {
+        if (!$emailService->isConfigured()) {
+            $this->addFlash('danger', 'Email service not configured.');
+            return $this->redirectToRoute('member', ['localIdentifier' => $localIdentifier]);
+        }
         $entityManager = $this->getDoctrine()->getManager();
         $record = $entityManager->getRepository(Member::class)->findOneBy(['localIdentifier' => $localIdentifier]);
         if (is_null($record)) {
@@ -153,6 +168,10 @@ class DirectoryController extends AbstractController
      */
     public function removeSubscriber($localIdentifier, EmailService $emailService): Response
     {
+        if (!$emailService->isConfigured()) {
+            $this->addFlash('danger', 'Email service not configured.');
+            return $this->redirectToRoute('member', ['localIdentifier' => $localIdentifier]);
+        }
         $entityManager = $this->getDoctrine()->getManager();
         $record = $entityManager->getRepository(Member::class)->findOneBy(['localIdentifier' => $localIdentifier]);
         if (is_null($record)) {

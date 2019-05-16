@@ -16,14 +16,22 @@ class EmailService
 
     public function __construct()
     {
-        $this->apiKey = $_ENV['CAMPAIGN_MONITOR_API_KEY'];
-        $this->defaultListId = $_ENV['CAMPAIGN_MONITOR_DEFAULT_LIST_ID'];
+        $this->apiKey = getenv('CAMPAIGN_MONITOR_API_KEY');
+        $this->defaultListId = getenv('CAMPAIGN_MONITOR_DEFAULT_LIST_ID');
         $this->client = new CS_REST_Subscribers(
             $this->defaultListId,
             [
                 'api_key' => $this->apiKey
             ]
         );
+    }
+
+    public function isConfigured(): bool
+    {
+        if (getenv('CAMPAIGN_MONITOR_API_KEY') && getenv('CAMPAIGN_MONITOR_API_KEY')) {
+            return true;
+        }
+        return false;
     }
 
     public function getMemberSubscription(Member $member)

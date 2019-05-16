@@ -21,6 +21,9 @@ class EmailServiceSubscriber
 
     public function preUpdate(Member $member, PreUpdateEventArgs $eventArgs)
     {
+        if (!$this->emailService->isConfigured()) {
+            return;
+        }
         // If set to 'Do Not Contact (Local)', unsubscribe the user
         if ($eventArgs->hasChangedField('isLocalDoNotContact') && $member->getIsLocalDoNotContact()) {
             $this->emailService->unsubscribeMember($member);
@@ -55,7 +58,12 @@ class EmailServiceSubscriber
 
     public function prePersist(Member $member, LifecycleEventArgs $eventArgs)
     {
+        if (!$this->emailService->isConfigured()) {
+            return;
+        }
         // Auto subscribe added members
-        $this->emailService->subscribeMember($member);
+        if ($member->getPrimaryEmail()) {
+            $this->emailService->subscribeMember($member);
+        }
     }
 }
