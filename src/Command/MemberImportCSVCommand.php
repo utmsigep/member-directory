@@ -47,6 +47,7 @@ class MemberImportCSVCommand extends Command
     const LOST_HEADER = 'isLost';
     const LOCAL_DO_NOT_CONTACT_HEADER = 'isLocalDoNotContact';
     const EXTERNAL_DO_NOT_CONTACT_HEADER = 'isExternalDoNotContact';
+    const DIRECTORY_NOTES_HEADER = 'directoryNotes';
 
     const STATUS_MAP = [
         'Brother' => 'UNDERGRADUATE',
@@ -218,6 +219,9 @@ class MemberImportCSVCommand extends Command
             if (isset($csvRecord[self::EXTERNAL_DO_NOT_CONTACT_HEADER])) {
                 $member->setIsExternalDoNotContact($this->formatBoolean($csvRecord[self::EXTERNAL_DO_NOT_CONTACT_HEADER]));
             }
+            if (isset($csvRecord[self::DIRECTORY_NOTES_HEADER])) {
+                $member->setDirectoryNotes($csvRecord[self::DIRECTORY_NOTES_HEADER]);
+            }
             if (isset($csvRecord[self::STATUS_HEADER])) {
                 $memberStatus = $this->entityManager->getRepository(MemberStatus::class)->findOneBy([
                     'code' => self::STATUS_MAP[$csvRecord[self::STATUS_HEADER]]
@@ -287,7 +291,7 @@ class MemberImportCSVCommand extends Command
         $progressBar->finish();
 
         // Print record rows
-        $io->writeln();
+        $io->writeln('');
         $io->table(
             [
                 'External Identifier',
@@ -335,5 +339,4 @@ class MemberImportCSVCommand extends Command
         }
         return (bool) $bool;
     }
-
 }
