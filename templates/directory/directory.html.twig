@@ -1,17 +1,20 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ config.app_name }} - Lost Alumni{% endblock %}
+{% block title %}{{ config.app_name }} - {{ view_name }}{% endblock %}
 
 {% block body %}
 
 <div>
-  <div class="h4">Lost Alumni</div>
+  <div class="h4">{{ view_name }}</div>
   <table class="table table-sm" id="memberTable">
     <thead>
       <tr>
         <th class="text-center">Roll #</th>
         <th></th>
         <th>Name</th>
+        {% if show_status %}
+        <th>Status</th>
+        {% endif %}
         <th>Class</th>
         <th>Email</th>
         <th>Phone Number</th>

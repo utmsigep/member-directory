@@ -227,8 +227,10 @@ class DirectoryController extends AbstractController
             'ALUMNUS',
             'RENAISSANCE'
         ]);
-        return $this->render('directory/alumni.html.twig', [
-            'records' => $records,
+        return $this->render('directory/directory.html.twig', [
+            'view_name' => 'Alumni',
+            'show_status' => false,
+            'records' => $records
         ]);
     }
 
@@ -241,8 +243,10 @@ class DirectoryController extends AbstractController
         $records = $entityManager->getRepository(Member::class)->findByStatusCodes([
             'UNDERGRADUATE'
         ]);
-        return $this->render('directory/undergraduates.html.twig', [
-            'records' => $records,
+        return $this->render('directory/directory.html.twig', [
+            'view_name' => 'Undergraduates',
+            'show_status' => false,
+            'records' => $records
         ]);
     }
 
@@ -254,11 +258,12 @@ class DirectoryController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         $records = $entityManager->getRepository(Member::class)->findByStatusCodes([
             'RESIGNED',
-            'EXPELLED',
-            'TRANSFERRED'
+            'EXPELLED'
         ]);
-        return $this->render('directory/resigned-expelled.html.twig', [
-            'records' => $records,
+        return $this->render('directory/directory.html.twig', [
+            'view_name' => 'Resigned/Expelled',
+            'show_status' => true,
+            'records' => $records
         ]);
     }
 
@@ -272,8 +277,26 @@ class DirectoryController extends AbstractController
             'ALUMNUS',
             'RENAISSANCE'
         ]);
-        return $this->render('directory/lost.html.twig', [
-            'records' => $records,
+        return $this->render('directory/directory.html.twig', [
+            'view_name' => 'Lost Alumni',
+            'show_status' => false,
+            'records' => $records
+        ]);
+    }
+
+    /**
+     * @Route("/transferred", name="transferred")
+     */
+    public function transferred()
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $records = $entityManager->getRepository(Member::class)->findByStatusCodes([
+            'TRANSFERRED'
+        ]);
+        return $this->render('directory/directory.html.twig', [
+            'view_name' => 'Transferred',
+            'show_status' => false,
+            'records' => $records
         ]);
     }
 
@@ -286,8 +309,10 @@ class DirectoryController extends AbstractController
         $records = $entityManager->getRepository(Member::class)->findByStatusCodes([
             'OTHER'
         ]);
-        return $this->render('directory/other.html.twig', [
-            'records' => $records,
+        return $this->render('directory/directory.html.twig', [
+            'view_name' => 'Other',
+            'show_status' => false,
+            'records' => $records
         ]);
     }
 
