@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Member Directory - Other{% endblock %}
+{% block title %}{{ config.app_name }} - Other{% endblock %}
 
 {% block body %}
 
@@ -10,8 +10,8 @@
     <thead>
       <tr>
         <th class="text-center">Roll #</th>
+        <th></th>
         <th>Name</th>
-        <th>Labels</th>
         <th>Class</th>
         <th>Email</th>
         <th>Phone Number</th>

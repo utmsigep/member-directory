@@ -59,7 +59,7 @@ class MemberGeocodeCommand extends Command
         $member->setMailingLongitude(null);
 
         try {
-            $io->title($member->getPreferredName() . ' ' . $member->getLastName());
+            $io->title($member->getDisplayName());
             $io->writeln('<options=bold>Address Line 1:</>  ' . $member->getMailingAddressLine1());
             $io->writeln('<options=bold>Address Line 2:</>  ' . $member->getMailingAddressLine2());
             $io->writeln('<options=bold>City:</>            ' . $member->getMailingCity());
