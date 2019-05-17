@@ -93,7 +93,8 @@ final class MemberAdmin extends AbstractAdmin
                                 ->orderBy('o.tagName', 'ASC')
                             ;
                             $datagrid->setValue($property, null, $value);
-                        }
+                        },
+                        'required' => false
                     ])
                     ->end()
                 ->end()
