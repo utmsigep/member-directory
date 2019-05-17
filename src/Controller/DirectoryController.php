@@ -254,7 +254,8 @@ class DirectoryController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         $records = $entityManager->getRepository(Member::class)->findByStatusCodes([
             'RESIGNED',
-            'EXPELLED'
+            'EXPELLED',
+            'TRANSFERRED'
         ]);
         return $this->render('directory/resigned-expelled.html.twig', [
             'records' => $records,

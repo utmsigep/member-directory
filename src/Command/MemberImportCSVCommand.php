@@ -60,7 +60,8 @@ class MemberImportCSVCommand extends Command
         'Quit LM Refund' => 'RESIGNED',
         'Resigned Life Member' => 'RESIGNED',
         'Remove Accepted' => 'RESIGNED',
-        'Remove Candidate' => 'RESIGNED'
+        'Remove Candidate' => 'RESIGNED',
+        'Transferred' => 'TRANSFERRED'
     ];
 
     protected static $defaultName = 'app:member:importcsv';
@@ -130,7 +131,7 @@ class MemberImportCSVCommand extends Command
         $progressBar->start();
 
         // Main import loop
-        foreach ($csvRecords as $rowI => $csvRecord) {
+        foreach ($csvRecords as $i => $csvRecord) {
             // Find a match record in the database, if exists, by either internal or external identifier
             $member = $this->entityManager->getRepository(Member::class)->findOneBy([
                 'localIdentifier' => $csvRecord[self::LOCAL_IDENTIFIER_HEADER]

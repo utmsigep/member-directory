@@ -32,7 +32,8 @@ class EmailServiceSubscriber
         // If status moved to Resigned/Expelled, delete the user user's subscription
         if ($eventArgs->hasChangedField('status') && in_array($member->getStatus()->getCode(), [
             'RESIGNED',
-            'EXPELLED'
+            'EXPELLED',
+            'TRANSFERRED'
         ])) {
             $this->emailService->deleteMember($member);
             return;
@@ -58,7 +59,13 @@ class EmailServiceSubscriber
 
     public function prePersist(Member $member, LifecycleEventArgs $eventArgs)
     {
-        if (!$this->emailService->isConfigured()) {
+        if (!$this->emailService->isConfigured()
+            || in_array($member->getStatus()->getCode(), [
+                'RESIGNED',
+                'EXPELLED',
+                'TRANSFERRED'
+            ])
+        ) {
             return;
         }
         // Auto subscribe added members

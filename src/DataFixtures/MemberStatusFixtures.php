@@ -41,6 +41,11 @@ class MemberStatusFixtures extends Fixture
         $memberStatus->setLabel('Expelled');
         $manager->persist($memberStatus);
 
+        $memberStatus = new MemberStatus();
+        $memberStatus->setCode('TRANSFERRED');
+        $memberStatus->setLabel('Transferred');
+        $manager->persist($memberStatus);
+
         $manager->flush();
     }
 }
