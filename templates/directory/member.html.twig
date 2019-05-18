@@ -41,7 +41,7 @@
           </tr>
           <tr>
             <th>Join Date</th>
-            <td>{{ record.joinDate|date('F j, Y')|default('-') }}
+            <td>{{ record.joinDate ? record.joinDate|date('F j, Y') : '-' }}
           </tr>
           <tr>
             <th>Class Year</th>

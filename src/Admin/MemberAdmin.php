@@ -57,7 +57,10 @@ final class MemberAdmin extends AbstractAdmin
                     ->add('mailingLongitude')
                     ->end()
                 ->with('Details', ['class' => 'col-md-4'])
-                    ->add('joinDate', DateType::class)
+                    ->add('joinDate', DateType::class, [
+                        'required' => false,
+                        'widget' => 'single_text',
+                    ])
                     ->add('classYear')
                     ->add('status', ModelType::class, [
                         'btn_add' => false

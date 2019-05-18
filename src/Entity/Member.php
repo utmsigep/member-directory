@@ -79,6 +79,7 @@ class Member
     /**
      * @ORM\Column(type="date", nullable=true)
      * @Assert\Date
+     * @Gedmo\Versioned
      */
     private $joinDate;
 
@@ -199,6 +200,7 @@ class Member
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Gedmo\Versioned
      */
     private $directoryNotes;
 
