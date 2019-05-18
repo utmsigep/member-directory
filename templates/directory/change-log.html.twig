@@ -29,7 +29,9 @@
             {% for field, value in logEntry.data %}
             <tr>
               <td class="w-25">{{ field }}</td>
-              {% if value is iterable %}
+              {% if value.timestamp is defined %}
+              <td><tt>{{ value|date('c') }}</tt></td>
+              {% elseif value is iterable %}
               <td><tt>{{ dump(value) }}</tt></td>
               {% else %}
               <td>{{ value }}</td>
