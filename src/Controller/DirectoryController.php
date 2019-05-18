@@ -326,7 +326,7 @@ class DirectoryController extends AbstractController
         if (is_null($tag)) {
             throw $this->createNotFoundException('Tag not found.');
         }
-        return $this->render('directory/tag.html.twig', [
+        return $this->render('directory/directory.html.twig', [
             'tag' => $tag,
             'records' => $tag->getMembers(),
         ]);
