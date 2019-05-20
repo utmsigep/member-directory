@@ -6,6 +6,7 @@
   <a class="nav-link {{ app.request.get('_route') == 'other' ? 'active' }}" href="{{ path('other')}}"><i class="fas fa-user-friends fa-fw text-muted"></i> Other</a>
   <span class="divider"><hr /></span>
   <a class="nav-link {{ app.request.get('_route') == 'map' ? 'active' }}" href="{{ path('map')}}"><i class="fas fa-map fa-fw text-muted"></i> Member Map</a>
+  <a class="nav-link {{ app.request.get('_route') == 'member_changes' ? 'active' }}" href="{{ path('member_changes')}}"><i class="fas fa-satellite-dish fa-fw text-muted"></i> Recent Changes</a>
   <span class="divider"><hr /></span>
   <a class="nav-link"><strong>Tags</strong></a>
   {% for _tag in get_tags() %}

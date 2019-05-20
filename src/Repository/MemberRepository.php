@@ -86,4 +86,15 @@ class MemberRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+
+    public function findRecentUpdates(array $criteria)
+    {
+        return $this->createQueryBuilder('m')
+            ->where('m.updatedAt > :since')
+            ->setParameter('since', $criteria['since'])
+            ->orderBy('m.updatedAt', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

@@ -11,6 +11,9 @@ use JeroenDesloovere\VCard\VCard;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Validator\Constraints\Date;
 
 use App\Service\PostalValidatorService;
 use App\Service\EmailService;
@@ -313,6 +316,37 @@ class DirectoryController extends AbstractController
             'view_name' => 'Other',
             'show_status' => false,
             'records' => $records
+        ]);
+    }
+
+    /**
+     * @Route("/recent-changes", name="member_changes")
+     */
+    public function recentChanges(Request $request)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $form = $this->createFormBuilder([
+            'since' => $request->get('since', new \DateTime(date('Y-m-d', strtotime('-30 day'))))
+        ])
+            ->add('since', DateType::class, [
+                'label' => false,
+                'attr' => [
+                    'class' => 'form-control mr-sm-2',
+                ],
+                'widget' => 'single_text',
+            ])
+            ->add('Submit', SubmitType::class)
+            ->getForm()
+            ;
+
+        $form->handleRequest($request);
+        $data = $form->getData();
+        $records = $entityManager->getRepository(Member::class)->findRecentUpdates($data);
+
+        return $this->render('directory/recent-changes.html.twig', [
+            'records' => $records,
+            'form' => $form->createView()
         ]);
     }
 
