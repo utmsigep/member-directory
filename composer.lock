@@ -605,16 +605,16 @@
         },
         {
             "name": "doctrine/doctrine-bundle",
-            "version": "1.11.0",
+            "version": "1.11.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/DoctrineBundle.git",
-                "reference": "6e15d2d9a8f90c0f9b5664b0db92686ff14fcd7d"
+                "reference": "09a38417339dc93849d051b914aae3947eb231a7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/DoctrineBundle/zipball/6e15d2d9a8f90c0f9b5664b0db92686ff14fcd7d",
-                "reference": "6e15d2d9a8f90c0f9b5664b0db92686ff14fcd7d",
+                "url": "https://api.github.com/repos/doctrine/DoctrineBundle/zipball/09a38417339dc93849d051b914aae3947eb231a7",
+                "reference": "09a38417339dc93849d051b914aae3947eb231a7",
                 "shasum": ""
             },
             "require": {
@@ -690,7 +690,7 @@
                 "orm",
                 "persistence"
             ],
-            "time": "2019-05-10T13:27:28+00:00"
+            "time": "2019-05-13T14:30:38+00:00"
         },
         {
             "name": "doctrine/doctrine-cache-bundle",
@@ -2641,16 +2641,16 @@
         },
         {
             "name": "sonata-project/admin-bundle",
-            "version": "3.48.1",
+            "version": "3.48.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sonata-project/SonataAdminBundle.git",
-                "reference": "97a2c6304bc0f9b73c2a516f01e09f462b992665"
+                "reference": "d83ce5aba749fb54d91ab1ca9c64f13f0fbc045a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sonata-project/SonataAdminBundle/zipball/97a2c6304bc0f9b73c2a516f01e09f462b992665",
-                "reference": "97a2c6304bc0f9b73c2a516f01e09f462b992665",
+                "url": "https://api.github.com/repos/sonata-project/SonataAdminBundle/zipball/d83ce5aba749fb54d91ab1ca9c64f13f0fbc045a",
+                "reference": "d83ce5aba749fb54d91ab1ca9c64f13f0fbc045a",
                 "shasum": ""
             },
             "require": {
@@ -2742,7 +2742,7 @@
                 "bootstrap",
                 "sonata"
             ],
-            "time": "2019-04-13T09:00:14+00:00"
+            "time": "2019-05-16T05:50:14+00:00"
         },
         {
             "name": "sonata-project/block-bundle",
@@ -6298,16 +6298,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v2.9.0",
+            "version": "v2.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "82a1c055c8ed4c4705023bfd0405f3c74db6e3ae"
+                "reference": "5240e21982885b76629552d83b4ebb6d41ccde6b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/82a1c055c8ed4c4705023bfd0405f3c74db6e3ae",
-                "reference": "82a1c055c8ed4c4705023bfd0405f3c74db6e3ae",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/5240e21982885b76629552d83b4ebb6d41ccde6b",
+                "reference": "5240e21982885b76629552d83b4ebb6d41ccde6b",
                 "shasum": ""
             },
             "require": {
@@ -6323,7 +6323,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.9-dev"
+                    "dev-master": "2.10-dev"
                 }
             },
             "autoload": {
@@ -6361,20 +6361,20 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2019-04-28T06:57:38+00:00"
+            "time": "2019-05-14T12:03:52+00:00"
         },
         {
             "name": "vinceg/usps-php-api",
-            "version": "1.0.1",
+            "version": "1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/VinceG/USPS-php-api.git",
-                "reference": "26c4f17791675c1d568f4cc3b2ab5455922aafa3"
+                "reference": "5787470b5bc3d37792c85c5b0f4a22fdf6d579cf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/VinceG/USPS-php-api/zipball/26c4f17791675c1d568f4cc3b2ab5455922aafa3",
-                "reference": "26c4f17791675c1d568f4cc3b2ab5455922aafa3",
+                "url": "https://api.github.com/repos/VinceG/USPS-php-api/zipball/5787470b5bc3d37792c85c5b0f4a22fdf6d579cf",
+                "reference": "5787470b5bc3d37792c85c5b0f4a22fdf6d579cf",
                 "shasum": ""
             },
             "require": {
@@ -6411,7 +6411,7 @@
                 "api",
                 "usps"
             ],
-            "time": "2019-02-19T18:19:01+00:00"
+            "time": "2019-05-17T20:55:29+00:00"
         },
         {
             "name": "willdurand/jsonp-callback-validator",
