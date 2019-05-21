@@ -16,31 +16,40 @@
   </head>
 
   <body>
-    <nav class="navbar navbar-dark sticky-top bg-dark p-0">
-      <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="{{ path('home') }}"><i class="far fa-address-book"></i> {{ config.app_name }}</a>
-      {% if is_granted('ROLE_USER') %}
-      <ul class="nav">
-        <li class="nav-item dropdown">
-          <a class="nav-link text-light dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fas fa-id-card"></i> {{ app.user.email }}
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="{{ path('app_profile') }}">Edit Profile</a>
-            <a class="dropdown-item" href="{{ path('app_change_password') }}">Change Password</a>
-            <a class="dropdown-item" href="{{ path('app_logout') }}">Log Out</a>
-          </div>
-        </li>
-      </ul>
-      {% endif %}
-    </nav>
-
-    <div class="d-md-none bg-light">
-      <ul class="nav flex-column">
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top bg-dark p-0">
+      <a class="navbar-brand p-2" href="{{ path('home') }}"><i class="far fa-address-book mr-2"></i> {{ config.app_name }}</a>
+      <div class="d-inline d-sm d-lg-none">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#toggleNavbar" aria-controls="toggleNavbar" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+      <div class="collapse mr-auto navbar-collapse" id="toggleNavbar">
+        <div class="container"></div>
         {% if is_granted('ROLE_USER') %}
-        {% include 'partials/main_nav.html.twig' %}
-        {% endif%}
-      </ul>
-    </div>
+        <div>
+          <ul class="nav">
+            <li class="nav-item dropdown">
+              <a class="nav-link text-light dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-id-card"></i> {{ app.user.email }}
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="{{ path('app_profile') }}">Edit Profile</a>
+                <a class="dropdown-item" href="{{ path('app_change_password') }}">Change Password</a>
+                <a class="dropdown-item" href="{{ path('app_logout') }}">Log Out</a>
+              </div>
+            </li>
+          </ul>
+        </div>
+        {% endif %}
+        <div class="d-md-none bg-light">
+          <ul class="nav flex-column">
+            {% if is_granted('ROLE_USER') %}
+            {% include 'partials/main_nav.html.twig' %}
+            {% endif%}
+          </ul>
+        </div>
+      </div>
+    </nav>
 
     <div class="container-fluid">
       <div class="row">
