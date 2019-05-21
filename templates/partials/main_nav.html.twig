@@ -11,5 +11,4 @@
   <a class="nav-link"><strong>Tags</strong></a>
   {% for _tag in get_tags() %}
   <a class="nav-link {{ app.request.get('_route') == 'tag' and tag is defined and tag.id == _tag.id ? 'active' }}" href="{{ path('tag', {tagId: _tag.id})}}"><i class="fas fa-tag fa-fw text-muted"></i> {{ _tag.tagName }}</a>
-  <br />
   {% endfor %}
