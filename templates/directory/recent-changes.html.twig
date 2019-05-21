@@ -7,64 +7,68 @@
 <div>
   <div class="h4">Recent Changes</div>
 
-  {{ form(form, {attr: {class: 'form-inline mb-2'}}) }}
+  {{ form(form, {attr: {id: 'filter-form', class: 'form-inline mb-2'}}) }}
 
-  <table class="table table-sm" id="memberTable">
-    <thead>
-      <tr>
-        <th>Updated</th>
-        <th class="text-center">Roll #</th>
-        <th></th>
-        <th>Name</th>
-        <th>Status</th>
-        <th>Email</th>
-        <th>Phone Number</th>
-        <th>Mailing Address</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for record in records %}
-      <tr>
-        <td class="text-muted" nowrap>
-          {{ record.updatedAt|date('F j, Y') }}
-          <br />{{ record.updatedAt|date('h:i a') }}
-        </td>
-        <td class="text-center">{{ record.localIdentifierShort }}</td>
-        <td width="32">
-          <a href="{{ path('member', {localIdentifier: record.localIdentifier}) }}"><img src="{{ record.photoUrl }}" class="img-fluid" style="max-width:32px;" /></a>
-        </td>
-        <td>
-          <a href="{{ path('member', {localIdentifier: record.localIdentifier}) }}">{{ record.displayName }} </a>
-          {% include 'directory/partials/directory_member_badges.html.twig' %}
-        </td>
-        <td>
-          {{ record.status.label }}
-        </td>
-        <td>
-          {% if record.primaryEmail %}
-          <a href="mailto:{{ record.primaryEmail }}">{{ record.primaryEmail }}</a>
-          {% endif %}
-        </td>
-        <td>
-          {{ record.primaryTelephoneNumber }}
-        </td>
-        <td>
-          {% if record.mailingAddressLine1 %}
-          {{ record.mailingAddressLine1 }}<br />
-          {% if record.mailingAddressLine2 %}{{ record.mailingAddressLine2 }}<br />{% endif %}
-          {{ record.mailingCity }} {{ record.mailingState }}, {{ record.mailingPostalCode }}<br />
-          {%- if record.mailingCountry != 'United States' and record.mailingCountry != 'US' %}
-          {{ record.mailingCountry }}
-          {% endif %}
-          {% endif %}
-        </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+  <div class="table-responsive">
+    <table class="table table-sm" id="memberTable">
+      <thead>
+        <tr>
+          <th>Updated</th>
+          <th class="text-center">Roll #</th>
+          <th></th>
+          <th>Name</th>
+          <th>Status</th>
+          <th>Contact</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for record in records %}
+        <tr>
+          <td class="text-muted small" nowrap>
+            {{ record.updatedAt|date('n/j/Y h:i a') }}
+          </td>
+          <td class="text-center">{{ record.localIdentifierShort }}</td>
+          <td width="32">
+            <a href="{{ path('member', {localIdentifier: record.localIdentifier}) }}"><img src="{{ record.photoUrl }}" class="img-fluid" style="max-width:32px;" /></a>
+          </td>
+          <td>
+            <a href="{{ path('member', {localIdentifier: record.localIdentifier}) }}">{{ record.displayName }} </a>
+            {% include 'directory/partials/directory_member_badges.html.twig' %}
+          </td>
+          <td>{{ record.status.label }}</td>
+          <td>
+            <ul class="list-inline">
+              <li>
+                {% if record.primaryEmail %}
+                <a href="mailto:{{ record.primaryEmail }}">{{ record.primaryEmail }}</a>
+                {% endif %}
+              </li>
+              <li>{{ record.primaryTelephoneNumber }}</li>
+              <li>
+                {% if record.mailingAddressLine1 %}
+                {{ record.mailingAddressLine1 }}<br />
+                {% if record.mailingAddressLine2 %}{{ record.mailingAddressLine2 }}<br />{% endif %}
+                {{ record.mailingCity }} {{ record.mailingState }}, {{ record.mailingPostalCode }}<br />
+                {%- if record.mailingCountry != 'United States' and record.mailingCountry != 'US' %}
+                {{ record.mailingCountry }}
+                {% endif %}
+                {% endif %}
+              </li>
+            </ul>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 </div>
 {% endblock %}
 
 {% block javascripts %}
 {{ parent() }}
+<script>
+$('#filter-form :input').on('change', function () {
+  $('#filter-form').submit()
+})
+</script>
 {% endblock %}

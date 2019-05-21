@@ -18,27 +18,29 @@
         <span class="badge badge-secondary">{{ logEntry.action|upper }}</span> {{ logEntry.loggedAt|date('F j, Y g:i a') }} {{ logEntry.username }}
       </div>
       <div class="card-body">
-        <table class="table table-sm">
-          <thead>
-            <tr>
-              <th>Field</th>
-              <th>Data</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for field, value in logEntry.data %}
-            <tr>
-              <td class="w-25">{{ field }}</td>
-              {% if value.timestamp is defined %}
-              <td><tt>{{ value|date('c') }}</tt></td>
-              {% elseif value is iterable %}
-              <td><tt>{{ dump(value) }}</tt></td>
-              {% else %}
-              <td>{{ value }}</td>
-              {% endif %}
-            </tr>
-            {% endfor %}
-          </tbody>
+        <div class="table-responsive">
+          <table class="table table-sm">
+            <thead>
+              <tr>
+                <th>Field</th>
+                <th>Data</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for field, value in logEntry.data %}
+              <tr>
+                <td class="w-25">{{ field }}</td>
+                {% if value.timestamp is defined %}
+                <td><tt>{{ value|date('c') }}</tt></td>
+                {% elseif value is iterable %}
+                <td><tt>{{ dump(value) }}</tt></td>
+                {% else %}
+                <td>{{ value }}</td>
+                {% endif %}
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
         </table>
       </div>
     </div>

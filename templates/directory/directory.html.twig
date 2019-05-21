@@ -6,27 +6,29 @@
 
 <div>
   <div class="h4">{{ view_name }}</div>
-  <table class="table table-sm" id="memberTable">
-    <thead>
-      <tr>
-        <th class="text-center">Roll #</th>
-        <th></th>
-        <th>Name</th>
-        {% if show_status %}
-        <th>Status</th>
-        {% endif %}
-        <th>Class</th>
-        <th>Email</th>
-        <th>Phone Number</th>
-        <th>Mailing Address</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for record in records %}
-      {% include 'directory/partials/directory_row.html.twig' %}
-      {% endfor %}
-    </tbody>
-  </table>
+  <div class="table-responsive">
+    <table class="table table-sm" id="memberTable">
+      <thead>
+        <tr>
+          <th class="text-center">Roll #</th>
+          <th></th>
+          <th>Name</th>
+          {% if show_status %}
+          <th>Status</th>
+          {% endif %}
+          <th>Class</th>
+          <th>Email</th>
+          <th>Phone Number</th>
+          <th>Mailing Address</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for record in records %}
+        {% include 'directory/partials/directory_row.html.twig' %}
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 </div>
 {% endblock %}
 

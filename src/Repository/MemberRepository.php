@@ -89,9 +89,18 @@ class MemberRepository extends ServiceEntityRepository
 
     public function findRecentUpdates(array $criteria)
     {
+        if (isset($criteria['exclude_inactive']) && $criteria['exclude_inactive']) {
+            $statuses = ['ALUMNUS', 'UNDERGRADUATE', 'OTHER'];
+        } else {
+            $statuses = ['ALUMNUS', 'UNDERGRADUATE', 'OTHER', 'RESIGNED', 'EXPELLED', 'TRANSFERRED'];
+        }
+
         return $this->createQueryBuilder('m')
+            ->join('m.status', 's')
             ->where('m.updatedAt > :since')
+            ->andWhere('s.code IN (:statuses)')
             ->setParameter('since', $criteria['since'])
+            ->setParameter('statuses', $statuses)
             ->orderBy('m.updatedAt', 'DESC')
             ->getQuery()
             ->getResult()

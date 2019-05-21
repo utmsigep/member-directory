@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Validator\Constraints\Date;
 
 use App\Service\PostalValidatorService;
@@ -327,7 +328,8 @@ class DirectoryController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
 
         $form = $this->createFormBuilder([
-            'since' => $request->get('since', new \DateTime(date('Y-m-d', strtotime('-30 day'))))
+            'since' => $request->get('since', new \DateTime(date('Y-m-d', strtotime('-30 day')))),
+            'exclude_inactive' => $request->get('exclude_inactive', true)
         ])
             ->add('since', DateType::class, [
                 'label' => false,
@@ -336,7 +338,13 @@ class DirectoryController extends AbstractController
                 ],
                 'widget' => 'single_text',
             ])
-            ->add('Submit', SubmitType::class)
+            ->add('exclude_inactive', CheckboxType::class, [
+                'label' => 'Exclude Inactive',
+                'required' => false,
+                'label_attr' => [
+                    'class' => 'mr-sm-2',
+                ],
+            ])
             ->getForm()
             ;
 
