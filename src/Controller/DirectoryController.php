@@ -321,6 +321,22 @@ class DirectoryController extends AbstractController
     }
 
     /**
+     * @Route("/facebook", name="facebook")
+     */
+    public function facebook()
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $records = $entityManager->getRepository(Member::class)->findByStatusCodes([
+            'ALUMNUS',
+            'UNDERGRADUATE',
+            'RENAISSANCE'
+        ]);
+        return $this->render('directory/facebook.html.twig', [
+            'records' => $records
+        ]);
+    }
+
+    /**
      * @Route("/recent-changes", name="member_changes")
      */
     public function recentChanges(Request $request)
