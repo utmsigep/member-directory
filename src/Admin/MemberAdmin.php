@@ -11,6 +11,7 @@ use Sonata\AdminBundle\Show\ShowMapper;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Sonata\AdminBundle\Form\Type\ModelType;
 use Sonata\AdminBundle\Form\Type\ModelListType;
@@ -53,8 +54,12 @@ final class MemberAdmin extends AbstractAdmin
                     ->add('mailingCountry')
                     ->end()
                 ->with('GPS Coordinates', ['class' => 'col-md-4'])
-                    ->add('mailingLatitude')
-                    ->add('mailingLongitude')
+                    ->add('mailingLatitude', NumberType::class, [
+                        'scale' => 8
+                    ])
+                    ->add('mailingLongitude', NumberType::class, [
+                        'scale' => 8
+                    ])
                     ->end()
                 ->with('Details', ['class' => 'col-md-4'])
                     ->add('joinDate', DateType::class, [
