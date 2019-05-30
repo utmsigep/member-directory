@@ -2,22 +2,26 @@
 
 namespace App\Service;
 
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use CS_REST_Subscribers;
 
 use App\Entity\Member;
 
 class EmailService
 {
+    protected $params;
+
     protected $apiKey;
 
     protected $defaultListId;
 
     protected $client;
 
-    public function __construct()
+    public function __construct(ParameterBagInterface $params)
     {
-        $this->apiKey = getenv('CAMPAIGN_MONITOR_API_KEY');
-        $this->defaultListId = getenv('CAMPAIGN_MONITOR_DEFAULT_LIST_ID');
+        $this->params = $params;
+        $this->apiKey = $params->get('campaign_monitor.api_key');
+        $this->defaultListId = $params->get('campaign_monitor.default_list_id');
         $this->client = new CS_REST_Subscribers(
             $this->defaultListId,
             [
@@ -28,7 +32,7 @@ class EmailService
 
     public function isConfigured(): bool
     {
-        if (getenv('CAMPAIGN_MONITOR_API_KEY') && getenv('CAMPAIGN_MONITOR_API_KEY')) {
+        if ($this->params->get('campaign_monitor.api_key') && $this->params->get('campaign_monitor.default_list_id')) {
             return true;
         }
         return false;

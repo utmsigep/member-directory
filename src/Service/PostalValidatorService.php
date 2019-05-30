@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use USPS\Address;
 use USPS\AddressVerify;
 
@@ -9,9 +10,16 @@ use App\Entity\Member;
 
 class PostalValidatorService
 {
+    protected $params;
+
+    public function __construct(ParameterBagInterface $params)
+    {
+        $this->params = $params;
+    }
+
     public function isConfigured(): bool
     {
-        if (getenv('USPS_USERNAME')) {
+        if ($this->params->get('usps.username')) {
             return true;
         }
         return false;
@@ -19,7 +27,7 @@ class PostalValidatorService
 
     public function validate(Member $member): array
     {
-        $verify = new AddressVerify(getenv('USPS_USERNAME'));
+        $verify = new AddressVerify($this->params->get('usps.username'));
         $address = new Address();
         $address->setField('Address1', $member->getMailingAddressLine1());
         $address->setField('Address2', $member->getMailingAddressLine2());

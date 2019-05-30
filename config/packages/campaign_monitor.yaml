@@ -1,0 +1,3 @@
+parameters:
+  campaign_monitor.api_key: '%env(CAMPAIGN_MONITOR_API_KEY)%'
+  campaign_monitor.default_list_id: '%env(CAMPAIGN_MONITOR_DEFAULT_LIST_ID)%'

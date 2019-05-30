@@ -1,0 +1,3 @@
+parameters:
+  usps.username: '%env(USPS_USERNAME)%'
+  usps.password: '%env(USPS_PASSWORD)%'
