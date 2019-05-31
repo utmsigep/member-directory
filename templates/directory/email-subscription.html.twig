@@ -68,7 +68,7 @@
           <table class="table mb-2">
             <tbody>
               <tr>
-                <th>Type</th>
+                <th class="w-25">Type</th>
                 <td>{{ item.Type }}</td>
               </tr>
               <tr>
@@ -78,11 +78,13 @@
               <tr>
                 <th>Actions</th>
                 <td>
-                  {% for itemAction in item.Action %}
-                    <table class="table table-borderless">
+                  <a href="#campaign-actions-{{ item.ID }}" data-toggle="collapse">{{ item.Actions|length }}</a>
+                  <div class="collapse" id="campaign-actions-{{ item.ID }}">
+                  {% for itemAction in item.Actions %}
+                    <table class="table table-sm table-borderless table-striped">
                       <tbody>
                         <tr>
-                          <th>Event</th>
+                          <th class="w-25">Event</th>
                           <td>{{ itemAction.Event }}</td>
                         </tr>
                         <tr>
@@ -100,6 +102,7 @@
                       </tbody>
                     </table>
                   {% endfor %}
+                  </div>
                 </td>
               </tr>
             </tbody>
