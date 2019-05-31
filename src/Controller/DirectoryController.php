@@ -289,6 +289,26 @@ class DirectoryController extends AbstractController
     }
 
     /**
+     * @Route("/year", name="year")
+     */
+    public function year()
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $group = $entityManager->getRepository(Member::class)->findByStatusCodesGroupByClassYear(
+            [
+                'ALUMNUS',
+                'RENAISSANCE'
+            ]
+        );
+        return $this->render('directory/directory-group.html.twig', [
+            'view_name' => 'Class Year',
+            'show_status' => false,
+            'group' => $group
+        ]);
+    }
+
+
+    /**
      * @Route("/transferred", name="transferred")
      */
     public function transferred()

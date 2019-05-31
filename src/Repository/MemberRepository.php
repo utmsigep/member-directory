@@ -46,6 +46,25 @@ class MemberRepository extends ServiceEntityRepository
         ;
     }
 
+    public function findByStatusCodesGroupByClassYear($statusCodes = [])
+    {
+        $results = $this->createQueryBuilder('m')
+            ->join('m.status', 's')
+            ->andWhere('s.code IN (:statusCodes)')
+            ->setParameter('statusCodes', $statusCodes)
+            ->orderBy('m.classYear', 'ASC')
+            ->addOrderBy('m.lastName', 'ASC')
+            ->addOrderBy('m.firstName', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+        $output = [];
+        foreach ($results as $row) {
+            $output[$row->getClassYear()][] = $row;
+        }
+        return $output;
+    }
+
     public function findGeocodedAddresses($statusCodes = [])
     {
         return $this->createQueryBuilder('m')
