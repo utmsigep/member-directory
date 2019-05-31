@@ -31,7 +31,13 @@ class GeocodeMemberSubscriber
             // Clear existing coordinates on save
             $member->setMailingLatitude(null);
             $member->setMailingLongitude(null);
-            $this->geocoderService->geocodeMemberMailingAddress($member);
+            if ($member->getMailingAddressLine1() || $member->getMailingAddressLine2()) {
+                try {
+                    $this->geocoderService->geocodeMemberMailingAddress($member);
+                } catch (\Exception $e) {
+                    error_log($e->getMessage());
+                }
+            }
         }
     }
 
@@ -46,7 +52,11 @@ class GeocodeMemberSubscriber
         ) {
             // Do not call service if the created record includes coordinates
             if (!$member->getMailingLatitude() && !$member->getMailingLongitude()) {
-                $this->geocoderService->geocodeMemberMailingAddress($member);
+                try {
+                    $this->geocoderService->geocodeMemberMailingAddress($member);
+                } catch (\Exception $e) {
+                    error_log($e->getMessage());
+                }
             }
         }
     }
