@@ -24,6 +24,7 @@
         "symfony/flex": "^1.1",
         "symfony/framework-bundle": "^4.0",
         "symfony/intl": "^4.0",
+        "symfony/mailer": "^4.0",
         "symfony/monolog-bundle": "^3.3",
         "symfony/orm-pack": "^1.0",
         "symfony/security-bundle": "^4.0",

@@ -1,3 +1,5 @@
 parameters:
   app.name: '%env(APP_NAME)%'
   app.logo: '%env(APP_LOGO)%'
+  app.email.to: '%env(APP_EMAIL_TO)%'
+  app.email.from: '%env(APP_EMAIL_FROM)%'
