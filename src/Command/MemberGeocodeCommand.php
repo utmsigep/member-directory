@@ -37,7 +37,7 @@ class MemberGeocodeCommand extends Command
         $this
             ->setDescription('Geocode a member\'s address')
             ->addArgument('localIdentifier', InputArgument::REQUIRED, 'Local Identifier for member.')
-            ->addOption('save', null, InputOption::VALUE_NONE, 'Save the result to the Member record.')
+            ->addOption('save', null, InputOption::VALUE_NONE, 'Save the result to the Member Record.')
         ;
     }
 

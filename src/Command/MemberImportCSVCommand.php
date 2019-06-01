@@ -81,7 +81,7 @@ class MemberImportCSVCommand extends Command
     protected function configure()
     {
         $this
-            ->setDescription('Imports Member records from a CSV.')
+            ->setDescription('Imports Member Records from a CSV.')
             ->addArgument('filepath', InputArgument::OPTIONAL, 'Path to CSV to import.')
             ->addOption('dry-run', null, InputOption::VALUE_NONE, 'Preview records to import, but do not import.')
             ->addOption('force-status-update', null, InputOption::VALUE_NONE, 'Update status field with new values.')

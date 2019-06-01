@@ -14,7 +14,7 @@ use App\Entity\Member;
 class UpdateController extends AbstractController
 {
     /**
-     * @Route("/update-my-info", name="update")
+     * @Route("/update-my-info", name="self_service_update")
      */
     public function update(Request $request, MailerInterface $mailer)
     {

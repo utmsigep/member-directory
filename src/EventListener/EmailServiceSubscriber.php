@@ -64,7 +64,7 @@ class EmailServiceSubscriber
             $this->emailService->subscribeMember($member);
             return;
         }
-        // Update member record in ESP, if email exists
+        // Update Member Record in ESP, if email exists
         if ($member->getPrimaryEmail()) {
             $this->emailService->updateMember(
                 $member->getPrimaryEmail(),
