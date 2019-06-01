@@ -209,6 +209,10 @@ class EmailService
             [
                 'Key' => 'Tags',
                 'Value' => $member->getTagsAsCSV()
+            ],
+            [
+                'Key' => 'Update Token',
+                'Value' => $member->getUpdateToken()
             ]
         ];
     }

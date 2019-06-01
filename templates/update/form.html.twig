@@ -1,0 +1,20 @@
+{% extends 'base-public.html.twig' %}
+
+{% block title %}Update My Member Record{% endblock %}
+
+{% block body %}
+{% if config.app_logo %}
+<div class="text-center mb-5">
+  <img src="{{ config.app_logo }}" class="img-fluid" style="max-height:40vh" />
+</div>
+{% endif %}
+<div>
+  <div class="h4">Update My Member Record</div>
+  {% if member.id %}
+  <div class="alert alert-info">Hello <strong>{{ member.displayName }}</strong>! We have pre-loaded your information for you. This link will expire once the update is processed.</div>
+  {{ form(form) }}
+  {% else %}
+  <p>Sorry, the link you were given has expired for privacy reasons. Please reply to the original message that brought you here to update your Member Record.</p>
+  {% endif %}
+</div>
+{% endblock %}
