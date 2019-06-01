@@ -38,7 +38,7 @@ class EmailServiceSubscriber
             $this->emailService->deleteMember($member);
             return;
         }
-        // If an email address was set and has been changed, update email address in ESP
+        // If email was previously set and has been changed, update email address in ESP
         if ($eventArgs->hasChangedField('primaryEmail')
             && $eventArgs->getOldValue('primaryEmail')
             && $eventArgs->getNewValue('primaryEmail')
@@ -47,13 +47,29 @@ class EmailServiceSubscriber
                 $eventArgs->getOldValue('primaryEmail'),
                 $member
             );
-        } else {
-            if ($member->getPrimaryEmail()) {
-                $this->emailService->updateMember(
-                    $member->getPrimaryEmail(),
-                    $member
-                );
-            }
+            return;
+        }
+        // If email was removed from record, delete previous record in ESP
+        if ($eventArgs->hasChangedField('primaryEmail')
+            && $eventArgs->getOldValue('primaryEmail')
+            && !$eventArgs->getNewValue('primaryEmail')
+        ) {
+            $this->emailService->deleteMember($member);
+        }
+        // If email added to a record, subscribe in ESP
+        if ($eventArgs->hasChangedField('primaryEmail')
+            && !$eventArgs->getOldValue('primaryEmail')
+            && $eventArgs->getNewValue('primaryEmail')
+        ) {
+            $this->emailService->subscribeMember($member);
+            return;
+        }
+        // Update member record in ESP, if email exists
+        if ($member->getPrimaryEmail()) {
+            $this->emailService->updateMember(
+                $member->getPrimaryEmail(),
+                $member
+            );
         }
     }
 
