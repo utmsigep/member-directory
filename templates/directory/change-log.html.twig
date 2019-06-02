@@ -33,7 +33,7 @@
                 {% if value.timestamp is defined %}
                 <td><tt>{{ value|date('c') }}</tt></td>
                 {% elseif value is iterable %}
-                <td><tt>{{ dump(value) }}</tt></td>
+                <td><tt>{{ value|json_encode() }}</tt></td>
                 {% else %}
                 <td>{{ value }}</td>
                 {% endif %}
