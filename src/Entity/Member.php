@@ -309,7 +309,7 @@ class Member
         return $this->joinDate;
     }
 
-    public function setJoinDate(\DateTimeInterface $joinDate): self
+    public function setJoinDate(?\DateTimeInterface $joinDate): self
     {
         $this->joinDate = $joinDate;
 
