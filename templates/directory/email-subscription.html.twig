@@ -41,12 +41,14 @@
                 <th>Status</th>
                 <td>{{ subscriber.State }}</td>
               </tr>
+              {% if is_granted('ROLE_ADMIN') %}
               {% for field in subscriber.CustomFields %}
               <tr class="table-secondary">
                 <th>{{ field.Key }}</th>
                 <td>{{ field.Value }}</td>
               </tr>
               {% endfor %}
+              {% endif %}
             </tbody>
           </table>
           {% endif %}
