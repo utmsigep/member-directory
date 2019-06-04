@@ -75,6 +75,9 @@ final class MemberAdmin extends AbstractAdmin
                     ->add('isLost', null, [
                         'label' => 'Lost Alumnus'
                     ])
+                    ->add('isDeceased', null, [
+                        'label' => 'Deceased'
+                    ])
                     ->add('isLocalDoNotContact', null, [
                         'label' => 'Do Not Contact (Local)'
                     ])
@@ -149,6 +152,13 @@ final class MemberAdmin extends AbstractAdmin
                         false => 'No'
                     ]
                 ])
+                ->add('isDeceased', 'choice', [
+                    'label' => 'Deceased',
+                    'choices' => [
+                        true => 'Yes',
+                        false => 'No'
+                    ]
+                ])
                 ->add('isLocalDoNotContact', 'choice', [
                     'label' => 'Do Not Contact (Local)',
                     'choices' => [
@@ -200,6 +210,9 @@ final class MemberAdmin extends AbstractAdmin
             ->add('mailingCity')
             ->add('isLost', null, [
                 'label' => 'Lost?'
+            ])
+            ->add('isDeceased', null, [
+                'label' => 'Deceased?'
             ])
             ->add('isLocalDoNotContact', null, [
                 'label' => 'Do Not Contact (Local)?'
