@@ -25,7 +25,7 @@ class UpdateController extends AbstractController
             ]);
             // If mismatch of updated token, deceased, or in banned statuses, ignore
             if ($request->get('updateToken') != $member->getUpdateToken()
-                || $member->isDeceased()
+                || $member->getIsDeceased()
                 || in_array($member->getStatus()->getCode(), ['RESIGNED', 'EXPELLED'])
             ) {
                 $member = new Member();
