@@ -11,7 +11,9 @@
 <div>
   <div class="float-right">
     {% if is_granted('ROLE_ADMIN') %}
+    {% if record.status.code not in ['RESIGNED', 'EXPELLED'] and record.isDeceased == false %}
     <a href="#modalEditLink" data-toggle="modal" class="btn btn-sm btn-secondary"><i class="fas fa-link"></i></a>
+    {% endif %}
     <a href="{{ path('admin_app_member_edit', {id: record.id}) }}" class="btn btn-sm btn-primary"><i class="fas fa-pencil-alt"></i> Edit</a>
     {% endif %}
   </div>

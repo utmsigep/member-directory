@@ -23,7 +23,11 @@ class UpdateController extends AbstractController
             $member = $this->getDoctrine()->getRepository(Member::class)->findOneBy([
                 'externalIdentifier' => $request->get('externalIdentifier')
             ]);
-            if ($request->get('updateToken') != $member->getUpdateToken()) {
+            // If mismatch of updated token, deceased, or in banned statuses, ignore
+            if ($request->get('updateToken') != $member->getUpdateToken()
+                || $member->isDeceased()
+                || in_array($member->getStatus()->getCode(), ['RESIGNED', 'EXPELLED'])
+            ) {
                 $member = new Member();
             }
         } else {
@@ -76,6 +80,8 @@ class UpdateController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $member = $form->getData();
+            // If form is submitted, member is no longer "lost"
+            $member->setIsLost(false);
             $message = new TemplatedEmail();
             $message
                 ->to($this->getParameter('app.email.to'))
