@@ -1,0 +1,41 @@
+language: generic
+dist: xenial
+sudo: false
+
+cache:
+  directories:
+    - $HOME/.composer/cache/files
+    - ./bin/.phpunit
+
+env:
+  global:
+    - APP_ENV=test
+    - SYMFONY_PHPUNIT_DIR=./bin/.phpunit
+    - SYMFONY_DEPRECATIONS_HELPER=disabled
+
+matrix:
+  fast_finish: true
+  include:
+    - php: 7.1
+    - php: 7.2
+
+before_install:
+  - composer self-update
+
+install:
+  - composer install
+  - npm ci
+  - ./bin/phpunit install
+  - ./bin/console doctrine:database:create
+  - ./bin/console doctrine:migrations:migrate -n
+  - ./bin/console app:install
+  - ./bin/console doctrine:fixtures:load --append
+  - npm run-script build
+
+script:
+  - ./bin/phpunit
+  - ./bin/console lint:yaml config
+  - ./bin/console lint:twig templates
+  - ./bin/console lint:xliff translations
+  - ./bin/console security:check
+  - ./bin/console doctrine:schema:validate --skip-sync -vvv --no-interaction

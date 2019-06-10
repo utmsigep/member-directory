@@ -19,22 +19,30 @@ final class Version20190508024110 extends AbstractMigration
 
     public function up(Schema $schema) : void
     {
-        // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+        $tagTable = $schema->createTable('tag');
+        $tagTable->addColumn('id', 'integer', ['autoincrement' => true, 'notnull' => true, 'default' => null]);
+        $tagTable->addColumn('tag_name', 'string', ['length' => 255, 'notnull' => true, 'default' => null]);
+        $tagTable->addColumn('created_at', 'datetime', ['notnull' => true, 'default' => null]);
+        $tagTable->addColumn('updated_at', 'datetime', ['notnull' => true, 'default' => null]);
+        $tagTable->setPrimaryKey(['id']);
 
-        $this->addSql('CREATE TABLE tag (id INT AUTO_INCREMENT NOT NULL, tag_name VARCHAR(255) NOT NULL, created_at DATETIME NOT NULL, updated_at DATETIME NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE tag_member (tag_id INT NOT NULL, member_id INT NOT NULL, INDEX IDX_99A5B354BAD26311 (tag_id), INDEX IDX_99A5B3547597D3FE (member_id), PRIMARY KEY(tag_id, member_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
-        $this->addSql('ALTER TABLE tag_member ADD CONSTRAINT FK_99A5B354BAD26311 FOREIGN KEY (tag_id) REFERENCES tag (id) ON DELETE CASCADE');
-        $this->addSql('ALTER TABLE tag_member ADD CONSTRAINT FK_99A5B3547597D3FE FOREIGN KEY (member_id) REFERENCES member (id) ON DELETE CASCADE');
+        $tagMemberTable = $schema->createTable('tag_member');
+        $tagMemberTable->addColumn('tag_id', 'integer');
+        $tagMemberTable->addColumn('member_id', 'integer');
+        $tagMemberTable->addIndex(['tag_id'], 'IDX_99A5B354BAD26311');
+        $tagMemberTable->addIndex(['member_id'], 'IDX_99A5B3547597D3FE');
+        $tagMemberTable->setPrimaryKey(['tag_id', 'member_id']);
+
+        $memberTable = $schema->getTable('member');
+
+        $tagMemberTable->addForeignKeyConstraint($tagTable, ['tag_id'], ['id'], ['onDelete' => 'CASCADE'], 'FK_99A5B354BAD26311');
+        $tagMemberTable->addForeignKeyConstraint($memberTable, ['member_id'], ['id'], ['onDelete' => 'CASCADE'], 'FK_99A5B3547597D3FE');
     }
 
     public function down(Schema $schema) : void
     {
-        // this down() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
-        $this->addSql('ALTER TABLE tag_member DROP FOREIGN KEY FK_99A5B354BAD26311');
-        $this->addSql('DROP TABLE tag');
-        $this->addSql('DROP TABLE tag_member');
+        $schema->getTable('tag_member')->removeForeignKey('FK_99A5B354BAD26311');
+        $schema->dropTable('tag');
+        $schema->dropTable('tag_member');
     }
 }

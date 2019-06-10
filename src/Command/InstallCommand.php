@@ -41,10 +41,10 @@ class InstallCommand extends Command
             return false;
         }
 
-        $memberStatus = new MemberStatus();
-        $memberStatus->setCode('UNDERGRADUATE');
-        $memberStatus->setLabel('Undergraduate');
-        $this->entityManager->persist($memberStatus);
+        $memberStatusUndergraduate = new MemberStatus();
+        $memberStatusUndergraduate->setCode('UNDERGRADUATE');
+        $memberStatusUndergraduate->setLabel('Undergraduate');
+        $this->entityManager->persist($memberStatusUndergraduate);
 
         $memberStatus = new MemberStatus();
         $memberStatus->setCode('ALUMNUS');
