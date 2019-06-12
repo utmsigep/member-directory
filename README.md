@@ -10,3 +10,33 @@ Member Directory is a [Symfony](https://symfony.com/) 4 project to manage the me
 * **Data exports** through an administrative tool
 
 ## [Developer Quick Start](https://github.com/stephenyeargin/member-directory/wiki/Developer-Quick-Start)
+
+## Feature Screenshots
+
+### Login Access
+
+![01-login](assets/screenshots/01-login.png)
+
+### Member Directory
+
+![02-alumni](assets/screenshots/02-alumni.png)
+
+### Interactive Map
+
+![03-map](assets/screenshots/03-map.png)
+
+### Detailed Change History
+
+![04-change-log](assets/screenshots/04-change-log.png)
+
+### Record Tagging
+
+![05-tags](assets/screenshots/05-tags.png)
+
+### Admin Role for Updates
+
+![06-member-admin](assets/screenshots/06-member-admin.png)
+
+### Self-Service Update via Unique Link
+
+![07-self-service-updates](assets/screenshots/07-self-service-updates.png)
