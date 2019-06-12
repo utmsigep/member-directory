@@ -19,25 +19,84 @@ final class Version20190429003353 extends AbstractMigration
 
     public function up(Schema $schema) : void
     {
-        // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+        $userTable = $schema->createTable('user');
+        $userTable->addColumn('id', 'integer', ['autoincrement' => true, 'notnull' => true]);
+        $userTable->addColumn('email', 'string', ['length' => 180, 'notnull' => true]);
+        $userTable->addColumn('roles', 'text', ['notnull' => true, 'comment' => '(DC2Type:json)']);
+        $userTable->addColumn('password', 'string', ['length' => 255, 'notnull' => true]);
+        $userTable->addColumn('created_at', 'datetime', ['notnull' => true]);
+        $userTable->addColumn('updated_at', 'datetime', ['notnull' => true]);
+        $userTable->addUniqueIndex(['email'], 'UNIQ_8D93D649E7927C74');
+        $userTable->setPrimaryKey(['id']);
 
-        $this->addSql('CREATE TABLE user (id INT AUTO_INCREMENT NOT NULL, email VARCHAR(180) NOT NULL, roles LONGTEXT NOT NULL COMMENT \'(DC2Type:json)\', password VARCHAR(255) NOT NULL, created_at DATETIME NOT NULL, updated_at DATETIME NOT NULL, UNIQUE INDEX UNIQ_8D93D649E7927C74 (email), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE member (id INT AUTO_INCREMENT NOT NULL, status_id INT DEFAULT NULL, local_identifier VARCHAR(255) DEFAULT NULL, external_identifier VARCHAR(255) DEFAULT NULL, first_name VARCHAR(255) DEFAULT NULL, preferred_name VARCHAR(255) DEFAULT NULL, middle_name VARCHAR(255) DEFAULT NULL, last_name VARCHAR(255) DEFAULT NULL, join_date DATE DEFAULT NULL, class_year INT DEFAULT NULL, is_deceased TINYINT(1) DEFAULT NULL, primary_email VARCHAR(255) DEFAULT NULL, primary_telephone_number VARCHAR(255) DEFAULT NULL, mailing_address_line1 VARCHAR(255) DEFAULT NULL, mailing_address_line2 VARCHAR(255) DEFAULT NULL, mailing_city VARCHAR(255) DEFAULT NULL, mailing_state VARCHAR(255) DEFAULT NULL, mailing_postal_code VARCHAR(255) DEFAULT NULL, mailing_country VARCHAR(255) DEFAULT NULL, mailing_latitude NUMERIC(10, 8) DEFAULT NULL, mailing_longitude NUMERIC(11, 8) DEFAULT NULL, employer VARCHAR(255) DEFAULT NULL, job_title VARCHAR(255) DEFAULT NULL, occupation VARCHAR(255) DEFAULT NULL, facebook_identifier BIGINT DEFAULT NULL, is_lost TINYINT(1) DEFAULT NULL, is_local_do_not_contact TINYINT(1) DEFAULT NULL, is_external_do_not_contact TINYINT(1) DEFAULT NULL, directory_notes LONGTEXT DEFAULT NULL, created_at DATETIME NOT NULL, updated_at DATETIME NOT NULL, INDEX IDX_70E4FA786BF700BD (status_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE member_status (id INT AUTO_INCREMENT NOT NULL, code VARCHAR(255) NOT NULL, `label` VARCHAR(255) NOT NULL, created_at DATETIME NOT NULL, updated_at DATETIME NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE ext_log_entries (id INT AUTO_INCREMENT NOT NULL, action VARCHAR(8) NOT NULL, logged_at DATETIME NOT NULL, object_id VARCHAR(64) DEFAULT NULL, object_class VARCHAR(255) NOT NULL, version INT NOT NULL, data LONGTEXT DEFAULT NULL COMMENT \'(DC2Type:array)\', username VARCHAR(255) DEFAULT NULL, INDEX log_class_lookup_idx (object_class), INDEX log_date_lookup_idx (logged_at), INDEX log_user_lookup_idx (username), INDEX log_version_lookup_idx (object_id, object_class, version), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB ROW_FORMAT = DYNAMIC');
-        $this->addSql('ALTER TABLE member ADD CONSTRAINT FK_70E4FA786BF700BD FOREIGN KEY (status_id) REFERENCES member_status (id)');
+        $memberTable = $schema->createTable('member');
+        $memberTable->addColumn('id', 'integer', ['autoincrement' => true, 'notnull' => true]);
+        $memberTable->addColumn('status_id', 'integer', ['notnull' => false]);
+        $memberTable->addColumn('local_identifier', 'string', ['length' => 255, 'notnull' => false]);
+        $memberTable->addColumn('external_identifier', 'string', ['length' => 255, 'notnull' => false]);
+        $memberTable->addColumn('first_name', 'string', ['length' => 255, 'notnull' => false]);
+        $memberTable->addColumn('preferred_name', 'string', ['length' => 255, 'notnull' => false]);
+        $memberTable->addColumn('middle_name', 'string', ['length' => 255, 'notnull' => false]);
+        $memberTable->addColumn('last_name', 'string', ['length' => 255, 'notnull' => false]);
+        $memberTable->addColumn('join_date', 'date', ['notnull' => false]);
+        $memberTable->addColumn('class_year', 'integer', ['notnull' => false]);
+        $memberTable->addColumn('is_deceased', 'boolean', ['notnull' => false]);
+        $memberTable->addColumn('primary_email', 'string', ['length' => 255, 'notnull' => false]);
+        $memberTable->addColumn('primary_telephone_number', 'string', ['length' => 255, 'notnull' => false]);
+        $memberTable->addColumn('mailing_address_line1', 'string', ['length' => 255, 'notnull' => false]);
+        $memberTable->addColumn('mailing_address_line2', 'string', ['length' => 255, 'notnull' => false]);
+        $memberTable->addColumn('mailing_city', 'string', ['length' => 255, 'notnull' => false]);
+        $memberTable->addColumn('mailing_state', 'string', ['length' => 255, 'notnull' => false]);
+        $memberTable->addColumn('mailing_postal_code', 'string', ['length' => 255, 'notnull' => false]);
+        $memberTable->addColumn('mailing_country', 'string', ['length' => 255, 'notnull' => false]);
+        $memberTable->addColumn('mailing_latitude', 'decimal', ['precision' => 10, 'scale' => 8, 'notnull' => false]);
+        $memberTable->addColumn('mailing_longitude', 'decimal', ['precision' => 11, 'scale' => 8, 'notnull' => false]);
+        $memberTable->addColumn('employer', 'string', ['length' => 255, 'notnull' => false]);
+        $memberTable->addColumn('job_title', 'string', ['length' => 255, 'notnull' => false]);
+        $memberTable->addColumn('occupation', 'string', ['length' => 255, 'notnull' => false]);
+        $memberTable->addColumn('facebook_identifier', 'bigint', ['notnull' => false]);
+        $memberTable->addColumn('is_lost', 'boolean', ['notnull' => false]);
+        $memberTable->addColumn('is_local_do_not_contact', 'boolean', ['notnull' => false]);
+        $memberTable->addColumn('is_external_do_not_contact', 'boolean', ['notnull' => false]);
+        $memberTable->addColumn('directory_notes', 'text', ['notnull' => false]);
+        $memberTable->addColumn('created_at', 'datetime');
+        $memberTable->addColumn('updated_at', 'datetime');
+        $memberTable->addIndex(['status_id'], 'IDX_70E4FA786BF700BD');
+        $memberTable->setPrimaryKey(['id']);
+
+        $memberStatusTable = $schema->createTable('member_status');
+        $memberStatusTable->addColumn('id', 'integer', ['autoincrement' => true, 'notnull' => true]);
+        $memberStatusTable->addColumn('code', 'string', ['length' => 255]);
+        $memberStatusTable->addColumn('label', 'string', ['length' => 255]);
+        $memberStatusTable->addColumn('created_at', 'datetime');
+        $memberStatusTable->addColumn('updated_at', 'datetime');
+        $memberStatusTable->setPrimaryKey(['id']);
+
+        $extLogEntriesTable = $schema->createTable('ext_log_entries');
+        $extLogEntriesTable->addColumn('id', 'integer', ['autoincrement' => true, 'notnull' => true]);
+        $extLogEntriesTable->addColumn('action', 'string', ['length' => 8]);
+        $extLogEntriesTable->addColumn('logged_at', 'datetime');
+        $extLogEntriesTable->addColumn('object_id', 'string', ['length' => 64, 'notnull' => false]);
+        $extLogEntriesTable->addColumn('object_class', 'string', ['length' => 255]);
+        $extLogEntriesTable->addColumn('version', 'integer');
+        $extLogEntriesTable->addColumn('data', 'text', ['notnull' => false, 'comment' => '(DC2Type:array)']);
+        $extLogEntriesTable->addColumn('username', 'string', ['length' => 255, 'notnull' => false]);
+        $extLogEntriesTable->addIndex(['object_class'], 'log_class_lookup_idx');
+        $extLogEntriesTable->addIndex(['logged_at'], 'log_date_lookup_idx');
+        $extLogEntriesTable->addIndex(['username'], 'log_user_lookup_idx');
+        $extLogEntriesTable->addIndex(['object_id', 'object_class', 'version'], 'log_version_lookup_idx');
+        $extLogEntriesTable->setPrimaryKey(['id']);
+
+        $memberTable->addForeignKeyConstraint($memberStatusTable, ['status_id'], ['id'], [], 'FK_70E4FA786BF700BD');
     }
 
     public function down(Schema $schema) : void
     {
-        // this down() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+        $schema->getTable('member')->removeForeignKey('FK_70E4FA786BF700BD');
 
-        $this->addSql('ALTER TABLE member DROP FOREIGN KEY FK_70E4FA786BF700BD');
-        $this->addSql('DROP TABLE user');
-        $this->addSql('DROP TABLE member');
-        $this->addSql('DROP TABLE member_status');
-        $this->addSql('DROP TABLE ext_log_entries');
+        $schema->dropTable('user');
+        $schema->dropTable('member');
+        $schema->dropTable('member_status');
+        $schema->dropTable('ext_log_entries');
     }
 }

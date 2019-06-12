@@ -1,0 +1,23 @@
+<?php
+
+namespace App\DataFixtures;
+
+use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\Persistence\ObjectManager;
+
+use App\Entity\Tag;
+
+class TagFixtures extends Fixture
+{
+    public const TAG_1901_CLUB = '1901 Club';
+
+    public function load(ObjectManager $manager)
+    {
+        $tag = new Tag();
+        $tag->setTagName('1901 Club');
+        $manager->persist($tag);
+        $manager->flush();
+
+        $this->addReference(self::TAG_1901_CLUB, $tag);
+    }
+}
