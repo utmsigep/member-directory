@@ -29,20 +29,46 @@ class GeocoderService
             'benchmark' => self::BENCHMARK,
             'format' => self::RETURN_FORMAT
         ];
-        $response = $this->httpClient->request('GET', self::BASE_URL, [
-            'query' => $parameters,
-            'headers' => [
-                'Accept' => 'application/json',
-            ]
-        ]);
-        $jsonObject = json_decode($response->getBody());
+
+        $jsonObject = $this->makeRequest($parameters);
+
+        // Geocoded address on first try
         if (property_exists($jsonObject, 'result')) {
             $result = $jsonObject->result;
             if ($result->addressMatches && count($result->addressMatches) > 0) {
                 $member->setMailingLatitude($result->addressMatches[0]->coordinates->y);
                 $member->setMailingLongitude($result->addressMatches[0]->coordinates->x);
+                return $member;
             }
         }
+
+        // Retry with '100 Main St' address and no zip code
+        $parameters['street'] = '100 Main St';
+        $parameters['zip'] = null;
+        $jsonObject = $this->makeRequest($parameters);
+        if (property_exists($jsonObject, 'result')) {
+            $result = $jsonObject->result;
+            if ($result->addressMatches && count($result->addressMatches) > 0) {
+                $member->setMailingLatitude($result->addressMatches[0]->coordinates->y);
+                $member->setMailingLongitude($result->addressMatches[0]->coordinates->x);
+                return $member;
+            }
+        }
+
+        // Retry with '100 2nd Ave' address and no zip code
+        $parameters['street'] = '100 2nd Ave';
+        $parameters['zip'] = null;
+        $jsonObject = $this->makeRequest($parameters);
+        if (property_exists($jsonObject, 'result')) {
+            $result = $jsonObject->result;
+            if ($result->addressMatches && count($result->addressMatches) > 0) {
+                $member->setMailingLatitude($result->addressMatches[0]->coordinates->y);
+                $member->setMailingLongitude($result->addressMatches[0]->coordinates->x);
+                return $member;
+            }
+        }
+
+        // If request failed entirely
         if (property_exists($jsonObject, 'errors')) {
             $errors = $jsonObject->errors;
             if ($errors && count($errors) > 0) {
@@ -50,5 +76,16 @@ class GeocoderService
             }
         }
         return $member;
+    }
+
+    private function makeRequest($parameters = []): object
+    {
+        $response = $this->httpClient->request('GET', self::BASE_URL, [
+            'query' => $parameters,
+            'headers' => [
+                'Accept' => 'application/json',
+            ]
+        ]);
+        return json_decode($response->getBody());
     }
 }
