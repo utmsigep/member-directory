@@ -105,12 +105,14 @@
       </div>
       <div class="text-center">
         {% if record.facebookIdentifier %}
-        <a href="https://facebook.com/{{ record.facebookIdentifier }}"><i class="fab fa-facebook fa-2x"></i></a>
+        <p><a href="https://facebook.com/{{ record.facebookIdentifier }}"><i class="fab fa-facebook fa-2x"></i></a></p>
         {% endif %}
+        <p class="text-muted"><small title="{{ record.updatedAt|date('c') }}"><i class="fas fa-clock"></i> Updated: {{ record.updatedAt|date('l, F j, Y') }}</small></p>
       </div>
     </div>
   </div>
 <div>
+
 {% if is_granted('ROLE_ADMIN') %}
 {% include 'directory/partials/modal_self_edit.html.twig' %}
 {% endif %}

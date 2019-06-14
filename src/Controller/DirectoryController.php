@@ -52,6 +52,7 @@ class DirectoryController extends AbstractController
 
     /**
      * @Route("/member/{localIdentifier}/change-log", name="member_change_log")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function changeLog($localIdentifier): Response
     {

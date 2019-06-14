@@ -1,6 +1,8 @@
 <ul class="nav nav-tabs mb-2">
   <li class="nav-item"><a class="nav-link {{ app.request.get('_route') == 'member' ? 'active' }}" href="{{ path('member', {localIdentifier: record.localIdentifier}) }}">Member Profile</a></li>
+  {% if is_granted('ROLE_ADMIN') %}
   <li class="nav-item"><a class="nav-link {{ app.request.get('_route') == 'member_change_log' ? 'active' }}" href="{{ path('member_change_log', {localIdentifier: record.localIdentifier}) }}">Change Log</a></li>
+  {% endif %}
   {% if is_postal_validator_service_configured() %}
   <li class="nav-item"><a class="nav-link {{ app.request.get('_route') == 'member_verify_address' ? 'active' }}" href="{{ path('member_verify_address', {localIdentifier: record.localIdentifier}) }}">Verify Address</a></li>
   {% endif %}
