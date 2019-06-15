@@ -95,6 +95,7 @@ class MemberRepository extends ServiceEntityRepository
                 ) AS distance
                 FROM App\Entity\Member m JOIN m.status ms
                 WHERE ms.code IN (:statusCodes)
+                    AND m.isDeceased = 0
                 HAVING distance < :radius
                 ORDER BY distance
             ')
