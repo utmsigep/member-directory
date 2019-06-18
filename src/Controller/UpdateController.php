@@ -14,23 +14,36 @@ use App\Entity\Member;
 class UpdateController extends AbstractController
 {
     /**
-     * @Route("/update-my-info", name="self_service_update")
+     * Redirect query string links
+     *
+     * @Route("/update-my-info")
+     */
+    public function updateFromQueryString(Request $request)
+    {
+        if ($request->get('externalIdentifier') && $request->get('updateToken')) {
+            return $this->redirectToRoute('self_service_update', [
+                'externalIdentifier' => $request->get('externalIdentifier'),
+                'updateToken' => $request->get('updateToken')
+            ]);
+        } else {
+            throw $this->createNotFoundException('Member not found.');
+        }
+    }
+
+
+    /**
+     * @Route("/update-my-info/{externalIdentifier}/{updateToken}", name="self_service_update")
      */
     public function update(Request $request, MailerInterface $mailer)
     {
-        // Load data if identifier present, and token matches
-        if ($request->get('externalIdentifier') && $request->get('updateToken')) {
-            $member = $this->getDoctrine()->getRepository(Member::class)->findOneBy([
-                'externalIdentifier' => $request->get('externalIdentifier')
-            ]);
-            // If mismatch of updated token, deceased, or in banned statuses, ignore
-            if ($request->get('updateToken') != $member->getUpdateToken()
-                || $member->getIsDeceased()
-                || in_array($member->getStatus()->getCode(), ['RESIGNED', 'EXPELLED'])
-            ) {
-                $member = new Member();
-            }
-        } else {
+        $member = $this->getDoctrine()->getRepository(Member::class)->findOneBy([
+            'externalIdentifier' => $request->get('externalIdentifier')
+        ]);
+        // If mismatch of updated token, deceased, or in banned statuses, ignore
+        if (!$member || $request->get('updateToken') != $member->getUpdateToken()
+            || $member->getIsDeceased()
+            || in_array($member->getStatus()->getCode(), ['RESIGNED', 'EXPELLED'])
+        ) {
             $member = new Member();
         }
 
