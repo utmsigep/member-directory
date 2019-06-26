@@ -7,7 +7,7 @@
     "content-hash": "966b2b87d9403cee7c3c52e0b645cb86",
     "packages": [
         {
-            "name": "beberlei/DoctrineExtensions",
+            "name": "beberlei/doctrineextensions",
             "version": "v1.2.1",
             "source": {
                 "type": "git",
@@ -5994,16 +5994,16 @@
         },
         {
             "name": "symfony/serializer",
-            "version": "v4.3.0",
+            "version": "v4.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/serializer.git",
-                "reference": "4bb37f32833c7fc72a6b2dc2abf545918c77fb6e"
+                "reference": "bbf3b52653dae353259c1761cbb6f8f056dff03e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/serializer/zipball/4bb37f32833c7fc72a6b2dc2abf545918c77fb6e",
-                "reference": "4bb37f32833c7fc72a6b2dc2abf545918c77fb6e",
+                "url": "https://api.github.com/repos/symfony/serializer/zipball/bbf3b52653dae353259c1761cbb6f8f056dff03e",
+                "reference": "bbf3b52653dae353259c1761cbb6f8f056dff03e",
                 "shasum": ""
             },
             "require": {
@@ -6035,7 +6035,7 @@
                 "doctrine/cache": "For using the default cached annotation reader and metadata cache.",
                 "psr/cache-implementation": "For using the metadata cache.",
                 "symfony/config": "For using the XML mapping loader.",
-                "symfony/http-foundation": "To use the DataUriNormalizer.",
+                "symfony/http-foundation": "For using a MIME type guesser within the DataUriNormalizer.",
                 "symfony/property-access": "For using the ObjectNormalizer.",
                 "symfony/property-info": "To deserialize relations.",
                 "symfony/yaml": "For using the default YAML mapping loader."
@@ -6070,7 +6070,7 @@
             ],
             "description": "Symfony Serializer Component",
             "homepage": "https://symfony.com",
-            "time": "2019-05-20T16:16:12+00:00"
+            "time": "2019-06-17T17:37:00+00:00"
         },
         {
             "name": "symfony/service-contracts",
