@@ -6706,16 +6706,16 @@
         },
         {
             "name": "symfony/webpack-encore-bundle",
-            "version": "v1.6.0",
+            "version": "v1.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/webpack-encore-bundle.git",
-                "reference": "f1ec2fea7fb6a7c7a444ac17e711fab3bbf5e015"
+                "reference": "dcec167d30eb7a59eb60d3d17b22d6fd59cd75a6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/webpack-encore-bundle/zipball/f1ec2fea7fb6a7c7a444ac17e711fab3bbf5e015",
-                "reference": "f1ec2fea7fb6a7c7a444ac17e711fab3bbf5e015",
+                "url": "https://api.github.com/repos/symfony/webpack-encore-bundle/zipball/dcec167d30eb7a59eb60d3d17b22d6fd59cd75a6",
+                "reference": "dcec167d30eb7a59eb60d3d17b22d6fd59cd75a6",
                 "shasum": ""
             },
             "require": {
@@ -6758,7 +6758,7 @@
                 }
             ],
             "description": "Integration with your Symfony app & Webpack Encore!",
-            "time": "2019-05-26T18:09:46+00:00"
+            "time": "2019-07-01T15:47:39+00:00"
         },
         {
             "name": "symfony/yaml",
