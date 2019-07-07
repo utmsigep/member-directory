@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Member;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\Expr\Join;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -125,5 +126,27 @@ class MemberRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult()
         ;
+    }
+
+    public function findWithExportFilters($filters)
+    {
+        $qb = $this->createQueryBuilder('m')
+            ->join('m.status', 's')
+            ->orderBy('m.localIdentifier', 'ASC');
+        // Status Filter
+        if (isset($filters['statuses']) && $filters['statuses']->count()) {
+            $qb->andWhere('m.status IN (:statuses)');
+            $qb->setParameter('statuses', $filters['statuses']);
+        }
+        // Tag Filter
+        if (isset($filters['tags']) && $filters['tags']->count()) {
+            foreach ($filters['tags'] as $i => $tag) {
+                $qb->innerJoin('m.tags', 't' . $i, Join::WITH, 't' . $i . '.tagName = :tag' . $i);
+                $qb->setParameter('tag' . $i, $tag->getTagName());
+            }
+        }
+
+        return $qb->getQuery()
+            ->getResult();
     }
 }
