@@ -13,15 +13,15 @@ class MemberToCsvService
     {
         $csvWriter = Writer::createFromString();
         $csvWriter->insertOne([
+            'externalIdentifier',
+            'localIdentifier',
+            'localIdentifierShort',
             'status',
             'firstName',
             'preferredName',
             'middleName',
             'lastName',
             'classYear',
-            'localIdentifier',
-            'localIdentifierShort',
-            'externalIdentifier',
             'primaryTelephoneNumber',
             'mailingAddressLine1',
             'mailingAddressLine2',
@@ -47,15 +47,15 @@ class MemberToCsvService
     private function memberToArray(Member $member)
     {
         return [
+            $member->getExternalIdentifier(),
+            $member->getLocalIdentifier(),
+            $member->getLocalIdentifierShort(),
             $member->getStatus()->getLabel(),
             $member->getFirstName(),
             $member->getPreferredName(),
             $member->getMiddleName(),
             $member->getLastName(),
             $member->getClassYear(),
-            $member->getLocalIdentifier(),
-            $member->getLocalIdentifierShort(),
-            $member->getExternalIdentifier(),
             $member->getPrimaryTelephoneNumber(),
             $member->getMailingAddressLine1(),
             $member->getMailingAddressLine2(),
