@@ -106,16 +106,16 @@
         },
         {
             "name": "campaignmonitor/createsend-php",
-            "version": "v6.0.0",
+            "version": "v6.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/campaignmonitor/createsend-php.git",
-                "reference": "e343054ee25e4862cd408878c9e555b0a1e047e7"
+                "reference": "30029037fada2eec06a705e6baf434e47b1d1314"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/campaignmonitor/createsend-php/zipball/e343054ee25e4862cd408878c9e555b0a1e047e7",
-                "reference": "e343054ee25e4862cd408878c9e555b0a1e047e7",
+                "url": "https://api.github.com/repos/campaignmonitor/createsend-php/zipball/30029037fada2eec06a705e6baf434e47b1d1314",
+                "reference": "30029037fada2eec06a705e6baf434e47b1d1314",
                 "shasum": ""
             },
             "require": {
@@ -149,8 +149,8 @@
             "authors": [
                 {
                     "name": "Toby Brain",
-                    "email": "tobio85@gmail.com",
-                    "role": "Developer"
+                    "role": "Developer",
+                    "email": "tobio85@gmail.com"
                 }
             ],
             "description": "A php library which implements the complete functionality of the Campaign Monitor API.",
@@ -160,7 +160,7 @@
                 "campaign",
                 "monitor"
             ],
-            "time": "2018-05-25T05:04:01+00:00"
+            "time": "2019-07-24T12:59:47+00:00"
         },
         {
             "name": "cocur/slugify",
