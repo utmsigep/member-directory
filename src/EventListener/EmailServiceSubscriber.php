@@ -47,6 +47,8 @@ class EmailServiceSubscriber
                 $eventArgs->getOldValue('primaryEmail'),
                 $member
             );
+            // Re-subscribe user if old address was on supression list
+            $this->emailService->subscribeMember($member, true);
             return;
         }
         // If email was removed from record, delete previous record in ESP
