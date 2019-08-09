@@ -22,7 +22,7 @@
         "leaflet": "^1.5.1",
         "leaflet-defaulticon-compatibility": "^0.1.1",
         "popper.js": "^1.15.0",
-        "sass-loader": "^7.1.0",
+        "sass-loader": "^7.2.0",
         "underscore": "^1.9.1"
     }
 }
