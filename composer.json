@@ -38,6 +38,9 @@
         "vinceg/usps-php-api": "^1.0"
     },
     "config": {
+        "platform": {
+          "php": "7.2.19"
+        },
         "preferred-install": {
             "*": "dist"
         },
