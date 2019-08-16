@@ -1900,9 +1900,9 @@
             "authors": [
                 {
                     "name": "Jeroen Desloovere",
+                    "role": "Developer",
                     "email": "info@jeroendesloovere.be",
-                    "homepage": "http://jeroendesloovere.be",
-                    "role": "Developer"
+                    "homepage": "http://jeroendesloovere.be"
                 }
             ],
             "description": "This VCard PHP class can generate a vCard with some data. When using an iOS device it will export as a .ics file because iOS devices don't support the default .vcf files.",
@@ -2774,16 +2774,16 @@
         },
         {
             "name": "sonata-project/block-bundle",
-            "version": "3.16.1",
+            "version": "3.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sonata-project/SonataBlockBundle.git",
-                "reference": "4606e3c7e156c3ede16abed8a893ce3116e44103"
+                "reference": "38619fa25eda56d32361b6a50e2c5eb6b27b1891"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sonata-project/SonataBlockBundle/zipball/4606e3c7e156c3ede16abed8a893ce3116e44103",
-                "reference": "4606e3c7e156c3ede16abed8a893ce3116e44103",
+                "url": "https://api.github.com/repos/sonata-project/SonataBlockBundle/zipball/38619fa25eda56d32361b6a50e2c5eb6b27b1891",
+                "reference": "38619fa25eda56d32361b6a50e2c5eb6b27b1891",
                 "shasum": ""
             },
             "require": {
@@ -2857,7 +2857,7 @@
                 "block",
                 "sonata"
             ],
-            "time": "2019-08-05T06:06:34+00:00"
+            "time": "2019-08-16T11:17:01+00:00"
         },
         {
             "name": "sonata-project/cache",
@@ -6862,19 +6862,19 @@
             "authors": [
                 {
                     "name": "Fabien Potencier",
+                    "role": "Lead Developer",
                     "email": "fabien@symfony.com",
-                    "homepage": "http://fabien.potencier.org",
-                    "role": "Lead Developer"
+                    "homepage": "http://fabien.potencier.org"
                 },
                 {
                     "name": "Armin Ronacher",
-                    "email": "armin.ronacher@active-4.com",
-                    "role": "Project Founder"
+                    "role": "Project Founder",
+                    "email": "armin.ronacher@active-4.com"
                 },
                 {
                     "name": "Twig Team",
-                    "homepage": "https://twig.symfony.com/contributors",
-                    "role": "Contributors"
+                    "role": "Contributors",
+                    "homepage": "https://twig.symfony.com/contributors"
                 }
             ],
             "description": "Twig, the flexible, fast, and secure template language for PHP",
@@ -6915,8 +6915,8 @@
             "authors": [
                 {
                     "name": "Vincent Gabriel",
-                    "homepage": "http://vadimg.com",
-                    "role": "Developer"
+                    "role": "Developer",
+                    "homepage": "http://vadimg.com"
                 },
                 {
                     "name": "Alexander Reiff",
