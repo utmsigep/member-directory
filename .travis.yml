@@ -30,7 +30,7 @@ install:
   - ./bin/console doctrine:database:create
   - ./bin/console doctrine:migrations:migrate -n
   - ./bin/console app:install
-  - ./bin/console doctrine:fixtures:load -n
+  - ./bin/console doctrine:fixtures:load -n --append
   - npm run-script build
 
 script:
