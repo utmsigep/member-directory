@@ -13,6 +13,7 @@
         "league/csv": "^9.2",
         "picoss/sonata-extra-admin-bundle": "^4.0",
         "sensio/framework-extra-bundle": "^5.3",
+        "sensiolabs/security-checker": "^6.0",
         "sonata-project/admin-bundle": "^3.48",
         "sonata-project/block-bundle": "^3.15",
         "sonata-project/doctrine-orm-admin-bundle": "^3.9",
@@ -67,7 +68,8 @@
     "scripts": {
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
-            "assets:install %PUBLIC_DIR%": "symfony-cmd"
+            "assets:install %PUBLIC_DIR%": "symfony-cmd",
+            "security-checker security:check": "script"
         },
         "post-install-cmd": [
             "@auto-scripts"
