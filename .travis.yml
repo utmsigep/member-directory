@@ -29,6 +29,7 @@ install:
   - ./bin/phpunit install
   - ./bin/console doctrine:database:create
   - ./bin/console doctrine:migrations:migrate -n
+  - ./bin/console app:install
   - ./bin/console doctrine:fixtures:load -n
   - npm run-script build
 
