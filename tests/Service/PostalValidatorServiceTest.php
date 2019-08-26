@@ -21,6 +21,11 @@ class PostalValidatorServiceTest extends KernelTestCase
         $container = self::$container;
 
         $this->postalValidatorService = $container->get(PostalValidatorService::class);
+
+        // Skip this suite if not configured correctly
+        if (!$this->postalValidatorService->isConfigured()) {
+            return $this->markTestSkipped('PostalValidatorService not configured.');
+        }
     }
 
     public function testConfigured()
