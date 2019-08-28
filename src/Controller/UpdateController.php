@@ -97,7 +97,7 @@ class UpdateController extends AbstractController
             // If form is submitted, member is no longer "lost"
             $member->setIsLost(false);
             // Set headers for grouping in transactional email reporting
-            $headers = new Header();
+            $headers = new Headers();
             $headers->addTextHeader('X-Cmail-GroupName', 'Member Record Update');
             $headers->addTextHeader('X-MC-Tags', 'Member Record Update');
             $message = new TemplatedEmail($headers);
