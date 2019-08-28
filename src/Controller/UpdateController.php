@@ -3,10 +3,11 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Mime\Header\Headers;
 use Symfony\Component\Mailer\MailerInterface;
 
 use App\Entity\Member;
@@ -95,7 +96,11 @@ class UpdateController extends AbstractController
             $member = $form->getData();
             // If form is submitted, member is no longer "lost"
             $member->setIsLost(false);
-            $message = new TemplatedEmail();
+            // Set headers for grouping in transactional email reporting
+            $headers = new Header();
+            $headers->addTextHeader('X-Cmail-GroupName', 'Member Record Update');
+            $headers->addTextHeader('X-MC-Tags', 'Member Record Update');
+            $message = new TemplatedEmail($headers);
             $message
                 ->to($this->getParameter('app.email.to'))
                 ->from($this->getParameter('app.email.from'))
