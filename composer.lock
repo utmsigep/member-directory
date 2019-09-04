@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "aebeb0ce29ed3f6959fc2d4b68de9b76",
+    "content-hash": "070e6e22b0bed5fd2cefc8273803cf5d",
     "packages": [
         {
             "name": "beberlei/doctrineextensions",
@@ -149,8 +149,8 @@
             "authors": [
                 {
                     "name": "Toby Brain",
-                    "role": "Developer",
-                    "email": "tobio85@gmail.com"
+                    "email": "tobio85@gmail.com",
+                    "role": "Developer"
                 }
             ],
             "description": "A php library which implements the complete functionality of the Campaign Monitor API.",
@@ -1917,16 +1917,16 @@
         },
         {
             "name": "knplabs/knp-menu",
-            "version": "2.4.1",
+            "version": "2.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/KnpLabs/KnpMenu.git",
-                "reference": "1c6e0a5e37fb82227ee9a5e458ddc554731a7bf7"
+                "reference": "f22db6a9232f5118f4ae378bf5e6cfea32e9c5f5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/KnpLabs/KnpMenu/zipball/1c6e0a5e37fb82227ee9a5e458ddc554731a7bf7",
-                "reference": "1c6e0a5e37fb82227ee9a5e458ddc554731a7bf7",
+                "url": "https://api.github.com/repos/KnpLabs/KnpMenu/zipball/f22db6a9232f5118f4ae378bf5e6cfea32e9c5f5",
+                "reference": "f22db6a9232f5118f4ae378bf5e6cfea32e9c5f5",
                 "shasum": ""
             },
             "require": {
@@ -1948,7 +1948,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.4-dev"
+                    "dev-master": "3.0-dev"
                 }
             },
             "autoload": {
@@ -1980,7 +1980,7 @@
                 "menu",
                 "tree"
             ],
-            "time": "2019-08-16T11:08:29+00:00"
+            "time": "2019-08-23T08:46:21+00:00"
         },
         {
             "name": "knplabs/knp-menu-bundle",
@@ -2093,9 +2093,9 @@
             "authors": [
                 {
                     "name": "Ignace Nyamagana Butera",
-                    "role": "Developer",
                     "email": "nyamsprod@gmail.com",
-                    "homepage": "https://github.com/nyamsprod/"
+                    "homepage": "https://github.com/nyamsprod/",
+                    "role": "Developer"
                 }
             ],
             "description": "Csv data manipulation made easy in PHP",
@@ -2716,16 +2716,16 @@
         },
         {
             "name": "sonata-project/admin-bundle",
-            "version": "3.52.0",
+            "version": "3.53.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sonata-project/SonataAdminBundle.git",
-                "reference": "f0c22710bed3a5926bab5a65b4c1b73f2e1da671"
+                "reference": "5772753f64c1c4d32791e00f6c33f5445e127a6e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sonata-project/SonataAdminBundle/zipball/f0c22710bed3a5926bab5a65b4c1b73f2e1da671",
-                "reference": "f0c22710bed3a5926bab5a65b4c1b73f2e1da671",
+                "url": "https://api.github.com/repos/sonata-project/SonataAdminBundle/zipball/5772753f64c1c4d32791e00f6c33f5445e127a6e",
+                "reference": "5772753f64c1c4d32791e00f6c33f5445e127a6e",
                 "shasum": ""
             },
             "require": {
@@ -2733,7 +2733,7 @@
                 "doctrine/inflector": "^1.1",
                 "knplabs/knp-menu-bundle": "^2.2",
                 "php": "^7.1",
-                "sonata-project/block-bundle": "^3.11",
+                "sonata-project/block-bundle": "^3.17",
                 "sonata-project/core-bundle": "^3.15.0",
                 "sonata-project/exporter": "^1.11.0 || ^2.0",
                 "symfony/asset": "^2.8 || ^3.2 || ^4.0",
@@ -2818,7 +2818,7 @@
                 "bootstrap",
                 "sonata"
             ],
-            "time": "2019-08-16T11:06:16+00:00"
+            "time": "2019-09-03T19:23:34+00:00"
         },
         {
             "name": "sonata-project/block-bundle",
@@ -3796,22 +3796,22 @@
         },
         {
             "name": "symfony/dependency-injection",
-            "version": "v4.3.3",
+            "version": "v4.3.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dependency-injection.git",
-                "reference": "9ad1b83d474ae17156f6914cb81ffe77aeac3a9b"
+                "reference": "d3ad14b66ac773ba6123622eb9b5b010165fe3d9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/9ad1b83d474ae17156f6914cb81ffe77aeac3a9b",
-                "reference": "9ad1b83d474ae17156f6914cb81ffe77aeac3a9b",
+                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/d3ad14b66ac773ba6123622eb9b5b010165fe3d9",
+                "reference": "d3ad14b66ac773ba6123622eb9b5b010165fe3d9",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.1.3",
                 "psr/container": "^1.0",
-                "symfony/service-contracts": "^1.1.2"
+                "symfony/service-contracts": "^1.1.6"
             },
             "conflict": {
                 "symfony/config": "<4.3",
@@ -3865,7 +3865,7 @@
             ],
             "description": "Symfony DependencyInjection Component",
             "homepage": "https://symfony.com",
-            "time": "2019-07-26T07:03:43+00:00"
+            "time": "2019-08-26T16:27:33+00:00"
         },
         {
             "name": "symfony/doctrine-bridge",
@@ -6191,16 +6191,16 @@
         },
         {
             "name": "symfony/service-contracts",
-            "version": "v1.1.5",
+            "version": "v1.1.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/service-contracts.git",
-                "reference": "f391a00de78ec7ec8cf5cdcdae59ec7b883edb8d"
+                "reference": "ea7263d6b6d5f798b56a45a5b8d686725f2719a3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/service-contracts/zipball/f391a00de78ec7ec8cf5cdcdae59ec7b883edb8d",
-                "reference": "f391a00de78ec7ec8cf5cdcdae59ec7b883edb8d",
+                "url": "https://api.github.com/repos/symfony/service-contracts/zipball/ea7263d6b6d5f798b56a45a5b8d686725f2719a3",
+                "reference": "ea7263d6b6d5f798b56a45a5b8d686725f2719a3",
                 "shasum": ""
             },
             "require": {
@@ -6245,7 +6245,7 @@
                 "interoperability",
                 "standards"
             ],
-            "time": "2019-06-13T11:15:36+00:00"
+            "time": "2019-08-20T14:44:19+00:00"
         },
         {
             "name": "symfony/stopwatch",
