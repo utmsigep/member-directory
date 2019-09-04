@@ -106,16 +106,16 @@
         },
         {
             "name": "campaignmonitor/createsend-php",
-            "version": "v6.0.1",
+            "version": "v6.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/campaignmonitor/createsend-php.git",
-                "reference": "30029037fada2eec06a705e6baf434e47b1d1314"
+                "reference": "46d85e4615fdf92b5773092f97222f8d61185255"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/campaignmonitor/createsend-php/zipball/30029037fada2eec06a705e6baf434e47b1d1314",
-                "reference": "30029037fada2eec06a705e6baf434e47b1d1314",
+                "url": "https://api.github.com/repos/campaignmonitor/createsend-php/zipball/46d85e4615fdf92b5773092f97222f8d61185255",
+                "reference": "46d85e4615fdf92b5773092f97222f8d61185255",
                 "shasum": ""
             },
             "require": {
@@ -139,7 +139,9 @@
                     "csrest_templates.php",
                     "csrest_transactional_classicemail.php",
                     "csrest_transactional_smartemail.php",
-                    "csrest_transactional_timeline.php"
+                    "csrest_transactional_timeline.php",
+                    "csrest_journeys.php",
+                    "csrest_journey_emails.php"
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -160,7 +162,7 @@
                 "campaign",
                 "monitor"
             ],
-            "time": "2019-07-24T12:59:47+00:00"
+            "time": "2019-09-04T01:05:43+00:00"
         },
         {
             "name": "cocur/slugify",
