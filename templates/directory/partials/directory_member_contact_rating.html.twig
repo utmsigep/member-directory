@@ -1,0 +1,13 @@
+{% if record.contactRating == false %}
+<span class="badge badge-secondary">Unknown</span>
+{% elseif record.contactRating > 0.9 %}
+<span class="badge badge-success">Excellent: {{ (record.contactRating*100)|round }}</span>
+{% elseif record.contactRating > 0.8 %}
+<span class="badge badge-success">Good: {{ (record.contactRating*100)|round }}</span>
+{% elseif record.contactRating > 0.6 %}
+<span class="badge badge-warning">Fair: {{ (record.contactRating*100)|round }}</span>
+{% elseif record.contactRating > 0.4 %}
+<span class="badge badge-danger">Poor: {{ (record.contactRating*100)|round }}</span>
+{% elseif record.contactRating < 0.4 %}
+<span class="badge badge-danger">Very Poor: {{ (record.contactRating*100)|round }}</span>
+{% endif %}

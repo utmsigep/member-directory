@@ -210,6 +210,11 @@ class Member
      */
     private $tags;
 
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $contactRating;
+
     public function __construct()
     {
         $this->tags = new ArrayCollection();
@@ -684,6 +689,18 @@ class Member
     private function formatEmail(?string $email): string
     {
         return trim(mb_strtolower($email));
+    }
+
+    public function getContactRating(): ?float
+    {
+        return $this->contactRating;
+    }
+
+    public function setContactRating(?float $contactRating): self
+    {
+        $this->contactRating = $contactRating;
+
+        return $this;
     }
 
 }

@@ -14,7 +14,7 @@ final class Version20190508024110 extends AbstractMigration
 {
     public function getDescription() : string
     {
-        return 'Adds member tagging.';
+        return 'Adds Member tagging.';
     }
 
     public function up(Schema $schema) : void

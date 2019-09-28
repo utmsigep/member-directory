@@ -107,6 +107,9 @@
         {% if record.facebookIdentifier %}
         <p><a href="https://facebook.com/{{ record.facebookIdentifier }}"><i class="fab fa-facebook fa-2x"></i></a></p>
         {% endif %}
+        <p>
+          <strong>Contact Rating Score</strong>: {% include 'directory/partials/directory_member_contact_rating.html.twig' %}
+        </p>
         <p class="text-muted"><small title="{{ record.updatedAt|date('c') }}"><i class="fas fa-clock"></i> Updated: {{ record.updatedAt|date('l, F j, Y') }}</small></p>
       </div>
     </div>

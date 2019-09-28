@@ -65,7 +65,7 @@ class MemberImportCSVCommand extends Command
         'Transferred' => 'TRANSFERRED'
     ];
 
-    protected static $defaultName = 'app:member:importcsv';
+    protected static $defaultName = 'app:member:import-csv';
 
     protected $entityManager;
 
