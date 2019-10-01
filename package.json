@@ -17,7 +17,7 @@
     "dependencies": {
         "bootstrap": "^4.3.1",
         "datatables.net": "^1.10.19",
-        "datatables.net-bs4": "^1.10.19",
+        "datatables.net-bs4": "^1.10.20",
         "jquery": "^3.4.1",
         "leaflet": "^1.5.1",
         "leaflet-defaulticon-compatibility": "^0.1.1",
