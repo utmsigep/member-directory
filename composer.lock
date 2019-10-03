@@ -2047,16 +2047,16 @@
         },
         {
             "name": "league/csv",
-            "version": "9.3.0",
+            "version": "9.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/csv.git",
-                "reference": "d16f85d1f958a765844db4bc7174017edf2dd637"
+                "reference": "e7225b6cc853942caef1c9c4d8889b716c34bc04"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/csv/zipball/d16f85d1f958a765844db4bc7174017edf2dd637",
-                "reference": "d16f85d1f958a765844db4bc7174017edf2dd637",
+                "url": "https://api.github.com/repos/thephpleague/csv/zipball/e7225b6cc853942caef1c9c4d8889b716c34bc04",
+                "reference": "e7225b6cc853942caef1c9c4d8889b716c34bc04",
                 "shasum": ""
             },
             "require": {
@@ -2112,7 +2112,7 @@
                 "read",
                 "write"
             ],
-            "time": "2019-07-30T14:39:11+00:00"
+            "time": "2019-10-02T18:32:54+00:00"
         },
         {
             "name": "monolog/monolog",
