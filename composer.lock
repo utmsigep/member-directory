@@ -4880,16 +4880,16 @@
         },
         {
             "name": "symfony/intl",
-            "version": "v4.3.4",
+            "version": "v4.3.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/intl.git",
-                "reference": "8db5505703c5bdb23d524fd994dad2f781966538"
+                "reference": "818771ff6acef04cdce05023ddfc39b7078014bf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/intl/zipball/8db5505703c5bdb23d524fd994dad2f781966538",
-                "reference": "8db5505703c5bdb23d524fd994dad2f781966538",
+                "url": "https://api.github.com/repos/symfony/intl/zipball/818771ff6acef04cdce05023ddfc39b7078014bf",
+                "reference": "818771ff6acef04cdce05023ddfc39b7078014bf",
                 "shasum": ""
             },
             "require": {
@@ -4951,7 +4951,7 @@
                 "l10n",
                 "localization"
             ],
-            "time": "2019-08-26T08:26:39+00:00"
+            "time": "2019-10-04T21:18:34+00:00"
         },
         {
             "name": "symfony/mailer",
