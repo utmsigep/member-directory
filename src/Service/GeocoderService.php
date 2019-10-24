@@ -2,8 +2,8 @@
 
 namespace App\Service;
 
-use GuzzleHttp\Client as HttpClient;
-use GuzzleHttp\Exception\RequestException;
+use Symfony\Component\HttpClient\HttpClient;
+
 use App\Entity\Member;
 
 class GeocoderService
@@ -12,7 +12,7 @@ class GeocoderService
 
     public function __construct()
     {
-        $this->httpClient = new HttpClient();
+        $this->httpClient = HttpClient::create();
     }
 
     const BASE_URL = 'https://geocoding.geo.census.gov/geocoder/locations/address';
@@ -86,6 +86,6 @@ class GeocoderService
                 'Accept' => 'application/json',
             ]
         ]);
-        return json_decode($response->getBody());
+        return json_decode($response->getContent());
     }
 }
