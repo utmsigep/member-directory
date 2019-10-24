@@ -86,6 +86,6 @@ class GeocoderService
                 'Accept' => 'application/json',
             ]
         ]);
-        return json_decode($response->getBody());
+        return json_decode($response->getContent());
     }
 }
