@@ -27,7 +27,7 @@
     {% if record.mailingAddressLine1 %}
     {{ record.mailingAddressLine1 }}<br />
     {% if record.mailingAddressLine2 %}{{ record.mailingAddressLine2 }}<br />{% endif %}
-    {{ record.mailingCity }} {{ record.mailingState }}, {{ record.mailingPostalCode }}<br />
+    {{ record.mailingCity }}, {{ record.mailingState }} {{ record.mailingPostalCode }}<br />
     {%- if record.mailingCountry != 'United States' and record.mailingCountry != 'US' %}
     {{ record.mailingCountry }}
     {% endif %}

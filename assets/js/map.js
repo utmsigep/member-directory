@@ -72,7 +72,7 @@ var formatMemberPopup = function (data) {
   data.link = Routing.generate('member', {localIdentifier: data.localIdentifier})
   data.tags = formatTags(data)
   return L.Util.template(
-    '<strong><a href="{link}">{preferredName} {lastName}</a></strong>{tags}<br />{localIdentifierShort} / {statusLabel}<hr />{mailingAddressLine1} {mailingAddressLine2}<br />{mailingCity} {mailingState}, {mailingPostalCode}',
+    '<strong><a href="{link}">{preferredName} {lastName}</a></strong>{tags}<br />{localIdentifierShort} / {statusLabel}<hr />{mailingAddressLine1} {mailingAddressLine2}<br />{mailingCity}, {mailingState} {mailingPostalCode}',
     data
   )
 }
