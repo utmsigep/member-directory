@@ -11,8 +11,17 @@ import Routing from '../../vendor/friendsofsymfony/jsrouting-bundle/Resources/pu
 Routing.setRoutingData(routes);
 
 var defaultIcon = L.icon({
-    iconUrl:       require('../images/marker-icon.png'),
-    iconRetinaUrl: require('../images/marker-icon-2x.png'),
+    iconUrl:       require('../images/marker-icon.svg'),
+    shadowUrl:     require('../images/marker-shadow.png'),
+    iconSize:    [12, 20],
+    iconAnchor:  [6, 20],
+    popupAnchor: [1, -16],
+    tooltipAnchor: [8, -24],
+    shadowSize:  [20, 20]
+});
+
+var undergraduateIcon = L.icon({
+    iconUrl:       require('../images/marker-icon-undergraduate.svg'),
     shadowUrl:     require('../images/marker-shadow.png'),
     iconSize:    [12, 20],
     iconAnchor:  [6, 20],
@@ -54,13 +63,14 @@ var drawMap = function () {
                 fullName: row[0].preferredName + ' ' + row[0].lastName,
                 localIdentifierShort: row[0].localIdentifierShort,
                 distance: row.distance,
+                classYear: row[0].classYear,
                 status: row[0].status.label,
                 link: Routing.generate('member', {localIdentifier: row[0].localIdentifier}),
                 photoUrl: row[0].photoUrl,
                 tags: formatTags(row[0])
               }
               searchResultsContainer.append(L.Util.template(
-                '<div class="card mb-1"><div class="card-body"><div class="float-left w-25 mr-2"><img src="{photoUrl}" class="img-fluid" /></div><strong><a href="{link}">{fullName}</a></strong>{tags}<br />{localIdentifierShort} / {status}</div></div>', result
+                '<div class="card mb-1"><div class="card-body"><div class="float-left w-25 mr-2"><img src="{photoUrl}" class="img-fluid" /></div><strong><a href="{link}">{fullName}</a> ({classYear})</strong>{tags}<br />{localIdentifierShort} / {status}</div></div>', result
               ))
             })
             searchResultsContainer.append($('<p class="text-center"><strong>Records:</strong> ' + data.length + '</p>'))
@@ -72,7 +82,11 @@ var drawMap = function () {
   $.getJSON(Routing.generate('map_data'), {}, function(data) {
     $(data).each(function (i, row) {
       var marker = L.marker(L.latLng(row.mailingLatitude, row.mailingLongitude))
-      marker.setIcon(defaultIcon)
+      if (row.status.label == 'Undergraduate') {
+        marker.setIcon(undergraduateIcon)
+      } else {
+        marker.setIcon(defaultIcon)
+      }
       marker.bindTooltip(formatMemberTooltip(row)).bindPopup(formatMemberPopup(row)).addTo(mymap)
     })
   })
@@ -84,7 +98,7 @@ var formatMemberPopup = function (data) {
   data.link = Routing.generate('member', {localIdentifier: data.localIdentifier})
   data.tags = formatTags(data)
   return L.Util.template(
-    '<strong><a href="{link}">{preferredName} {lastName}</a></strong>{tags}<br />{localIdentifierShort} / {statusLabel}<hr />{mailingAddressLine1} {mailingAddressLine2}<br />{mailingCity}, {mailingState} {mailingPostalCode}',
+    '<strong><a href="{link}">{preferredName} {lastName}</a> ({classYear})</strong>{tags}<br />{localIdentifierShort} / {statusLabel}<hr />{mailingAddressLine1} {mailingAddressLine2}<br />{mailingCity}, {mailingState} {mailingPostalCode}',
     data
   )
 }
@@ -93,7 +107,7 @@ var formatMemberTooltip = function (data) {
   data.statusLabel = data.status.label
   data.tags = formatTags(data)
   return L.Util.template(
-    '<strong>{preferredName} {lastName}</strong>{tags}<br />{localIdentifierShort} / {statusLabel}',
+    '<strong>{preferredName} {lastName} ({classYear})</strong>{tags}<br />{localIdentifierShort} / {statusLabel}',
     data
   )
 }
@@ -117,6 +131,15 @@ var formatTags = function (data) {
   }
   return tags
 }
+
+// Prevent enter press from submitting form
+$('#search-radius-form').on('keyup keypress', function(e) {
+  var keyCode = e.keyCode || e.which;
+  if (keyCode === 13) { 
+    e.preventDefault();
+    return false;
+  }
+});
 
 $(document).ready( function () {
   drawMap()
