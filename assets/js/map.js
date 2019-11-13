@@ -10,6 +10,17 @@ const routes = require('../../public/js/fos_js_routes.json');
 import Routing from '../../vendor/friendsofsymfony/jsrouting-bundle/Resources/public/js/router.min.js';
 Routing.setRoutingData(routes);
 
+var defaultIcon = L.icon({
+    iconUrl:       require('../images/marker-icon.png'),
+    iconRetinaUrl: require('../images/marker-icon-2x.png'),
+    shadowUrl:     require('../images/marker-shadow.png'),
+    iconSize:    [12, 20],
+    iconAnchor:  [6, 20],
+    popupAnchor: [1, -16],
+    tooltipAnchor: [8, -24],
+    shadowSize:  [20, 20]
+});
+
 var drawMap = function () {
   var mymap = L.map('mapContainer').setView([39.828175, -98.5795], 4);
   L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}{r}.png', {
@@ -60,8 +71,9 @@ var drawMap = function () {
   // Make initial data call
   $.getJSON(Routing.generate('map_data'), {}, function(data) {
     $(data).each(function (i, row) {
-      row.statusLabel = row.status.label
-      L.marker(L.latLng(row.mailingLatitude, row.mailingLongitude)).bindTooltip(formatMemberTooltip(row)).bindPopup(formatMemberPopup(row)).addTo(mymap)
+      var marker = L.marker(L.latLng(row.mailingLatitude, row.mailingLongitude))
+      marker.setIcon(defaultIcon)
+      marker.bindTooltip(formatMemberTooltip(row)).bindPopup(formatMemberPopup(row)).addTo(mymap)
     })
   })
 }
