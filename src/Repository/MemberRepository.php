@@ -86,6 +86,7 @@ class MemberRepository extends ServiceEntityRepository
             ->andWhere('m.mailingLatitude != 0')
             ->andWhere('m.mailingLongitude IS NOT NULL')
             ->andWhere('m.mailingLongitude != 0')
+            ->andWhere('m.isDeceased = 0')
             ->andWhere('s.code IN (:statusCodes)')
             ->setParameter('statusCodes', $statusCodes)
             ->getQuery()
