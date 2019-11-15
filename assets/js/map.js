@@ -10,7 +10,8 @@ const routes = require('../../public/js/fos_js_routes.json');
 import Routing from '../../vendor/friendsofsymfony/jsrouting-bundle/Resources/public/js/router.min.js';
 Routing.setRoutingData(routes);
 
-var defaultIcon = L.icon({
+var markerIcon = L.Icon.extend({
+  options: {
     iconUrl:       require('../images/marker-icon.svg'),
     shadowUrl:     require('../images/marker-shadow.png'),
     iconSize:    [12, 20],
@@ -18,17 +19,11 @@ var defaultIcon = L.icon({
     popupAnchor: [1, -16],
     tooltipAnchor: [8, -24],
     shadowSize:  [20, 20]
+  }
 });
 
-var undergraduateIcon = L.icon({
-    iconUrl:       require('../images/marker-icon-undergraduate.svg'),
-    shadowUrl:     require('../images/marker-shadow.png'),
-    iconSize:    [12, 20],
-    iconAnchor:  [6, 20],
-    popupAnchor: [1, -16],
-    tooltipAnchor: [8, -24],
-    shadowSize:  [20, 20]
-});
+var defaultIcon = new markerIcon();
+var undergraduateIcon = new markerIcon({ iconUrl: require('../images/marker-icon-undergraduate.svg'), });
 
 var drawMap = function () {
   var mymap = L.map('mapContainer').setView([39.828175, -98.5795], 4);
