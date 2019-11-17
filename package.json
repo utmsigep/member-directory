@@ -1,9 +1,9 @@
 {
     "devDependencies": {
         "@symfony/webpack-encore": "^0.28.0",
-        "core-js": "^3.2.1",
-        "node-sass": "^4.12.0",
-        "webpack-dev-server": "^3.8.1",
+        "core-js": "^3.4.1",
+        "node-sass": "^4.13.0",
+        "webpack-dev-server": "^3.9.0",
         "webpack-notifier": "^1.8.0"
     },
     "license": "UNLICENSED",
@@ -16,12 +16,12 @@
     },
     "dependencies": {
         "bootstrap": "^4.3.1",
-        "datatables.net": "^1.10.19",
-        "datatables.net-bs4": "^1.10.19",
+        "datatables.net": "^1.10.20",
+        "datatables.net-bs4": "^1.10.20",
         "jquery": "^3.4.1",
         "leaflet": "^1.5.1",
         "leaflet-defaulticon-compatibility": "^0.1.1",
-        "popper.js": "^1.15.0",
+        "popper.js": "^1.16.0",
         "sass-loader": "^7.3.1",
         "underscore": "^1.9.1"
     }

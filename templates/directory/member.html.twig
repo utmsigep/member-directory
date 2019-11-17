@@ -72,7 +72,7 @@
               {% if record.mailingAddressLine1 %}
               {{ record.mailingAddressLine1 }}<br />
               {% if record.mailingAddressLine2 %}{{ record.mailingAddressLine2 }}<br />{% endif %}
-              {{ record.mailingCity }} {{ record.mailingState }}, {{ record.mailingPostalCode }}<br />
+              {{ record.mailingCity }}, {{ record.mailingState }} {{ record.mailingPostalCode }}<br />
               {{ record.mailingCountry }}
               {% endif %}
             </td>

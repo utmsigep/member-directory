@@ -22,5 +22,19 @@ $(document).ready(function() {
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright" target="blank">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions" target="blank">CartoDB</a>'
   }).addTo(mymap)
 
-  L.marker(L.latLng(mailingLatitude, mailingLongitude)).addTo(mymap)
+  var markerIcon = L.Icon.extend({
+    options: {
+      iconUrl:       require('../images/marker-icon.svg'),
+      shadowUrl:     require('../images/marker-shadow.png'),
+      iconSize:    [24, 40],
+      iconAnchor:  [12, 40],
+      shadowSize:  [40, 40]
+    }
+  });
+
+  var defaultIcon = new markerIcon();
+
+  var marker = L.marker(L.latLng(mailingLatitude, mailingLongitude))
+  marker.setIcon(defaultIcon)
+  marker.addTo(mymap)
 });

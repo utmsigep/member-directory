@@ -51,6 +51,7 @@ class MemberImportCSVCommand extends Command
 
     const STATUS_MAP = [
         'Brother' => 'UNDERGRADUATE',
+        'Undergraduate' => 'UNDERGRADUATE',
         'Alumnus' => 'ALUMNUS',
         'Honorary (Renaissance)' => 'RENAISSANCE',
         'Resigned' => 'RESIGNED',
@@ -253,7 +254,10 @@ class MemberImportCSVCommand extends Command
                     $member->setStatus($memberStatus);
                 }
             }
-
+            // If elements empty, populate
+            if (!$member->getPreferredName()) {
+                $member->setPreferredName($member->getFirstName());
+            }
             $progressBar->advance();
 
             // Validate records

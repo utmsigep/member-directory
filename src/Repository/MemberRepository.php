@@ -23,7 +23,10 @@ class MemberRepository extends ServiceEntityRepository
     public function findByStatusCodes($statusCodes = [])
     {
         return $this->createQueryBuilder('m')
+            ->addSelect('t')
+            ->addSelect('s')
             ->join('m.status', 's')
+            ->leftJoin('m.tags', 't')
             ->andWhere('s.code IN (:statusCodes)')
             ->setParameter('statusCodes', $statusCodes)
             ->orderBy('m.lastName', 'ASC')
@@ -36,7 +39,10 @@ class MemberRepository extends ServiceEntityRepository
     public function findLostByStatusCodes($statusCodes = [])
     {
         return $this->createQueryBuilder('m')
+            ->addSelect('t')
+            ->addSelect('s')
             ->join('m.status', 's')
+            ->leftJoin('m.tags', 't')
             ->andWhere('s.code IN (:statusCodes)')
             ->andWhere('m.isLost = 1')
             ->setParameter('statusCodes', $statusCodes)
@@ -50,7 +56,10 @@ class MemberRepository extends ServiceEntityRepository
     public function findByStatusCodesGroupByClassYear($statusCodes = [])
     {
         $results = $this->createQueryBuilder('m')
+            ->addSelect('t')
+            ->addSelect('s')
             ->join('m.status', 's')
+            ->leftJoin('m.tags', 't')
             ->andWhere('s.code IN (:statusCodes)')
             ->setParameter('statusCodes', $statusCodes)
             ->orderBy('m.classYear', 'ASC')
@@ -69,11 +78,15 @@ class MemberRepository extends ServiceEntityRepository
     public function findGeocodedAddresses($statusCodes = [])
     {
         return $this->createQueryBuilder('m')
+            ->addSelect('t')
+            ->addSelect('s')
             ->join('m.status', 's')
+            ->leftJoin('m.tags', 't')
             ->where('m.mailingLatitude IS NOT NULL')
             ->andWhere('m.mailingLatitude != 0')
             ->andWhere('m.mailingLongitude IS NOT NULL')
             ->andWhere('m.mailingLongitude != 0')
+            ->andWhere('m.isDeceased = 0')
             ->andWhere('s.code IN (:statusCodes)')
             ->setParameter('statusCodes', $statusCodes)
             ->getQuery()
@@ -85,7 +98,7 @@ class MemberRepository extends ServiceEntityRepository
     {
         $entityManager = $this->getEntityManager();
         return $entityManager->createQuery('SELECT
-                    m, (
+                    m, s, t, (
                       3959 * acos (
                       cos ( radians(:latitude) )
                       * cos( radians( m.mailingLatitude ) )
@@ -94,8 +107,8 @@ class MemberRepository extends ServiceEntityRepository
                       * sin( radians( m.mailingLatitude ) )
                     )
                 ) AS distance
-                FROM App\Entity\Member m JOIN m.status ms
-                WHERE ms.code IN (:statusCodes)
+                FROM App\Entity\Member m JOIN m.status s LEFT JOIN m.tags t
+                WHERE s.code IN (:statusCodes)
                     AND m.isDeceased = 0
                 HAVING distance < :radius
                 ORDER BY distance
@@ -117,7 +130,10 @@ class MemberRepository extends ServiceEntityRepository
         }
 
         return $this->createQueryBuilder('m')
+            ->addSelect('t')
+            ->addSelect('s')
             ->join('m.status', 's')
+            ->leftJoin('m.tags', 't')
             ->where('m.updatedAt > :since')
             ->andWhere('s.code IN (:statuses)')
             ->setParameter('since', $criteria['since'])
@@ -131,6 +147,7 @@ class MemberRepository extends ServiceEntityRepository
     public function findWithExportFilters($filters)
     {
         $qb = $this->createQueryBuilder('m')
+            ->addSelect('s')
             ->join('m.status', 's')
             ->orderBy('m.localIdentifier', 'ASC');
         // Status Filter
