@@ -211,13 +211,15 @@ class Member
     private $tags;
 
     /**
-     * @ORM\Column(type="float", nullable=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\MemberContactRating", mappedBy="member", orphanRemoval=true)
+     * @ORM\OrderBy({"createdAt": "DESC"})
      */
-    private $contactRating;
+    private $memberContactRatings;
 
     public function __construct()
     {
         $this->tags = new ArrayCollection();
+        $this->memberContactRatings = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -592,12 +594,49 @@ class Member
     }
 
     /**
+     * @return Collection|MemberContactRating[]
+     */
+    public function getMemberContactRatings(): Collection
+    {
+        return $this->memberContactRatings;
+    }
+
+    public function addMemberContactRating(MemberContactRating $memberContactRating): self
+    {
+        if (!$this->memberContactRatings->contains($memberContactRating)) {
+            $this->memberContactRatings[] = $memberContactRating;
+            $memberContactRating->setMember($this);
+        }
+        return $this;
+    }
+
+    public function removeMemberContactRating(MemberContactRating $memberContactRating): self
+    {
+        if ($this->memberContactRatings->contains($memberContactRating)) {
+            $this->memberContactRatings->removeElement($memberContactRating);
+            // set the owning side to null (unless already changed)
+            if ($memberContactRating->getMember() === $this) {
+                $memberContactRating->setMember(null);
+            }
+        }
+        return $this;
+    }
+
+    /**
      * Model Methods
      */
 
     public function __toString(): string
     {
         return sprintf('%s, %s (%s)', $this->lastName, $this->firstName, $this->localIdentifier);
+    }
+
+    public function getContactRating() : ?float
+    {
+        if ($this->getMemberContactRatings()->isEmpty()) {
+            return null;
+        }
+        return $this->getMemberContactRatings()->first()->getContactRating();
     }
 
     public function getLocalIdentifierShort(): string
@@ -690,17 +729,4 @@ class Member
     {
         return trim(mb_strtolower($email));
     }
-
-    public function getContactRating(): ?float
-    {
-        return $this->contactRating;
-    }
-
-    public function setContactRating(?float $contactRating): self
-    {
-        $this->contactRating = $contactRating;
-
-        return $this;
-    }
-
 }

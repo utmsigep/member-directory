@@ -6,6 +6,7 @@ use Psr\Log\LoggerInterface;
 
 use App\Service\EmailService;
 use App\Entity\Member;
+use App\Entity\MemberContactRating;
 
 class ContactRatingService
 {
@@ -20,7 +21,7 @@ class ContactRatingService
         $this->logger = $logger;
     }
 
-    public function scoreMember(Member $member): Member
+    public function scoreMember(Member $member): MemberContactRating
     {
         // General scoring
         $score = 0;
@@ -99,7 +100,10 @@ class ContactRatingService
             'possible' => $possibleScore
         ]);
 
-        $member->setContactRating($score/$possibleScore);
-        return $member;
+        $memberContactRating = new MemberContactRating();
+        $memberContactRating->setMember($member);
+        $memberContactRating->setContactRating($score/$possibleScore);
+
+        return $memberContactRating;
     }
 }

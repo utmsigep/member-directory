@@ -39,7 +39,7 @@ $(document).ready(function() {
           } else if (score > .4) {
             scoreLabel = 'Poor';
             scoreClass = 'danger';
-          } else if (score < .4) {
+          } else {
             scoreLabel = 'Very Poor';
             scoreClass = 'danger';
           }

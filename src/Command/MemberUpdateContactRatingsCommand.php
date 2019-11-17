@@ -62,15 +62,15 @@ class MemberUpdateContactRatingsCommand extends Command
         foreach ($members as $member) {
             try {
                 $io->title($member->getDisplayName());
-                $member = $this->contactRatingService->scoreMember($member);
-                $io->writeln('<options=bold>Contact Rating:</>  ' . $member->getContactRating());
+                $memberContactRating = $this->contactRatingService->scoreMember($member);
+                $io->writeln('<options=bold>Contact Rating:</>  ' . $memberContactRating->getContactRating());
             } catch (\Exception $e) {
                 $io->error($e->getMessage());
                 return 1;
             }
 
             if ($input->getOption('save')) {
-                $this->entityManager->persist($member);
+                $this->entityManager->persist($memberContactRating);
                 $this->entityManager->flush();
             }
         }
