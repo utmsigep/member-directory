@@ -4628,16 +4628,16 @@
         },
         {
             "name": "symfony/intl",
-            "version": "v4.3.8",
+            "version": "v4.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/intl.git",
-                "reference": "818771ff6acef04cdce05023ddfc39b7078014bf"
+                "reference": "299cbfd6be791438e8d93ffb25765b5b93021bf9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/intl/zipball/818771ff6acef04cdce05023ddfc39b7078014bf",
-                "reference": "818771ff6acef04cdce05023ddfc39b7078014bf",
+                "url": "https://api.github.com/repos/symfony/intl/zipball/299cbfd6be791438e8d93ffb25765b5b93021bf9",
+                "reference": "299cbfd6be791438e8d93ffb25765b5b93021bf9",
                 "shasum": ""
             },
             "require": {
@@ -4645,7 +4645,7 @@
                 "symfony/polyfill-intl-icu": "~1.0"
             },
             "require-dev": {
-                "symfony/filesystem": "~3.4|~4.0"
+                "symfony/filesystem": "^3.4|^4.0|^5.0"
             },
             "suggest": {
                 "ext-intl": "to use the component with locales other than \"en\""
@@ -4653,7 +4653,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.3-dev"
+                    "dev-master": "4.4-dev"
                 }
             },
             "autoload": {
@@ -4699,7 +4699,7 @@
                 "l10n",
                 "localization"
             ],
-            "time": "2019-10-04T21:18:34+00:00"
+            "time": "2019-10-12T00:35:04+00:00"
         },
         {
             "name": "symfony/mailer",
