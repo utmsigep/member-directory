@@ -95,7 +95,6 @@
         "symfony/phpunit-bridge": "^4.0",
         "symfony/profiler-pack": "^1.0",
         "symfony/test-pack": "^1.0",
-        "symfony/var-dumper": "^4.0",
-        "symfony/web-server-bundle": "^4.0"
+        "symfony/var-dumper": "^4.0"
     }
 }
