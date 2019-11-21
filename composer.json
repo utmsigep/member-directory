@@ -20,7 +20,7 @@
         "symfony/asset": "^4.0",
         "symfony/cache": "^4.0",
         "symfony/console": "^4.0",
-        "symfony/dotenv": "^4.0",
+        "symfony/dotenv": "^5.0",
         "symfony/flex": "^1.1",
         "symfony/framework-bundle": "^4.0",
         "symfony/http-client": "^4.0",
