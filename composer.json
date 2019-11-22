@@ -23,7 +23,7 @@
         "symfony/dotenv": "^4.0",
         "symfony/flex": "^1.1",
         "symfony/framework-bundle": "^4.0",
-        "symfony/http-client": "^4.0",
+        "symfony/http-client": "^5.0",
         "symfony/intl": "^4.0",
         "symfony/mailer": "^4.0",
         "symfony/monolog-bundle": "^3.3",
