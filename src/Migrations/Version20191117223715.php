@@ -19,18 +19,22 @@ final class Version20191117223715 extends AbstractMigration
 
     public function up(Schema $schema) : void
     {
-        // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+        $memberContactRatingTable = $schema->createTable('member_contact_rating');
+        $memberContactRatingTable->addColumn('id', 'integer', ['autoincrement' => true, 'notnull' => true, 'default' => null]);
+        $memberContactRatingTable->addColumn('member_id', 'integer');
+        $memberContactRatingTable->addColumn('contact_rating', 'float', ['notnull' => true]);
+        $memberContactRatingTable->addColumn('created_at', 'datetime', ['notnull' => true, 'default' => null]);
+        $memberContactRatingTable->addColumn('updated_at', 'datetime', ['notnull' => true, 'default' => null]);
+        $memberContactRatingTable->addIndex(['member_id'], 'IDX_ACF6C8107597D3FE');
+        $memberContactRatingTable->setPrimaryKey(['id']);
 
-        $this->addSql('CREATE TABLE member_contact_rating (id INT AUTO_INCREMENT NOT NULL, member_id INT NOT NULL, contact_rating DOUBLE PRECISION NOT NULL, created_at DATETIME NOT NULL, updated_at DATETIME NOT NULL, INDEX IDX_ACF6C8107597D3FE (member_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('ALTER TABLE member_contact_rating ADD CONSTRAINT FK_ACF6C8107597D3FE FOREIGN KEY (member_id) REFERENCES member (id)');
+        $memberTable = $schema->getTable('member');
+        $memberContactRatingTable->addForeignKeyConstraint($memberTable, ['member_id'], ['id'], [], 'FK_ACF6C8107597D3FE');
     }
 
     public function down(Schema $schema) : void
     {
-        // this down() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-
-        $this->addSql('DROP TABLE member_contact_rating');
+        $schema->getTable('member_contact_rating')->removeForeignKey('FK_ACF6C8107597D3FE');
+        $schema->dropTable('member_contact_rating');
     }
 }
