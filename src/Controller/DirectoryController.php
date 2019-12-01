@@ -408,10 +408,11 @@ class DirectoryController extends AbstractController
         if (is_null($tag)) {
             throw $this->createNotFoundException('Tag not found.');
         }
+        $members = $entityManager->getRepository(Member::class)->findByTags($tag);
         return $this->render('directory/directory.html.twig', [
             'view_name' => $tag->getTagName(),
             'show_status' => true,
-            'records' => $tag->getMembers(),
+            'records' => $members
         ]);
     }
 

@@ -144,6 +144,22 @@ class MemberRepository extends ServiceEntityRepository
         ;
     }
 
+    public function findByTags($tags = [])
+    {
+        return $this->createQueryBuilder('m')
+            ->addSelect('t')
+            ->addSelect('s')
+            ->join('m.status', 's')
+            ->leftJoin('m.tags', 't')
+            ->andWhere('t.id IN (:tags)')
+            ->setParameter('tags', $tags)
+            ->orderBy('m.lastName', 'ASC')
+            ->addOrderBy('m.firstName', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     public function findWithExportFilters($filters)
     {
         $qb = $this->createQueryBuilder('m')
