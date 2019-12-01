@@ -52,7 +52,9 @@ var drawMap = function () {
       }).addTo(mymap);
       $.getJSON(Routing.generate('map_search', {latitude: ev.latlng.lat, longitude: ev.latlng.lng, radius: radius}), {}, function(data) {
           searchResultsContainer.empty()
+          $('#searchResultCount').html(0)
           if (data.length > 0) {
+            $('#searchResultCount').html(data.length)
             $(data).each(function (i, row) {
               var result = {
                 fullName: row[0].preferredName + ' ' + row[0].lastName,
@@ -68,7 +70,6 @@ var drawMap = function () {
                 '<div class="card mb-1"><div class="card-body"><div class="float-left w-25 mr-2"><img src="{photoUrl}" class="img-fluid" /></div><strong><a href="{link}">{fullName}</a> ({classYear})</strong>{tags}<br />{localIdentifierShort} / {status}</div></div>', result
               ))
             })
-            searchResultsContainer.append($('<p class="text-center"><strong>Records:</strong> ' + data.length + '</p>'))
           }
       })
   })
