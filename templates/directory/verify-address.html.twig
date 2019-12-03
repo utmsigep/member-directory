@@ -45,6 +45,11 @@
             {{ verify.City }}, {{ verify.State }} {{ verify.Zip5 }}-{{ verify.Zip4 }}
           {% endif %}
         </div>
+        {% if verify.Error is not defined %}
+        <div class="card-footer">
+          <form method="post"><button name="update_address" value="1" class="btn btn-primary">Update Address</button></form>
+        </div>
+        {% endif %}
       </div>
     </div>
   </div>

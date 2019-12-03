@@ -74,7 +74,7 @@ class DirectoryController extends AbstractController
     /**
      * @Route("/member/{localIdentifier}/verify-address", name="member_verify_address")
      */
-    public function validateMemberAddress($localIdentifier, PostalValidatorService $postalValidatorService): Response
+    public function validateMemberAddress($localIdentifier, Request $request, PostalValidatorService $postalValidatorService): Response
     {
         if (!$postalValidatorService->isConfigured()) {
             $this->addFlash('danger', 'Mailing validation service not configured.');
@@ -88,15 +88,31 @@ class DirectoryController extends AbstractController
         $cache = new FilesystemAdapter();
         $cacheKey = 'directory.address_verify_' . md5(json_encode([$record->getId(), $record->getUpdatedAt()]));
         $response = $cache->getItem($cacheKey);
-
         if (!$response->isHit()) {
             $response->set($postalValidatorService->validate($record));
             $cache->save($response);
         }
 
+        $verifiedData = $response->get()['AddressValidateResponse']['Address'];
+
+        if ($request->request->get('update_address')) {
+            if (isset($verifiedData['Address1']) && isset($verifiedData['Address2'])) {
+                $record->setMailingAddressLine1($verifiedData['Address1']);
+                $record->setMailingAddressLine2($verifiedData['Address2']);
+            } elseif (isset($verifiedData['Address2']) && $verifiedData['Address2']) {
+                $record->setMailingAddressLine1($verifiedData['Address2']);
+                $record->setMailingAddressLine2('');
+            }
+            $record->setMailingCity($verifiedData['City']);
+            $record->setMailingState($verifiedData['State']);
+            $record->setMailingPostalCode(sprintf('%s-%s', $verifiedData['Zip5'], $verifiedData['Zip4']));
+            $entityManager->persist($record);
+            $entityManager->flush();
+        }
+
         return $this->render('directory/verify-address.html.twig', [
             'record' => $record,
-            'verify' => $response->get()['AddressValidateResponse']['Address']
+            'verify' => $verifiedData
         ]);
     }
 
