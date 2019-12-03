@@ -159,6 +159,9 @@
     "ocramius/proxy-manager": {
         "version": "2.1.1"
     },
+    "php": {
+        "version": "7.2.19"
+    },
     "picoss/sonata-extra-admin-bundle": {
         "version": "4.0"
     },

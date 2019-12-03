@@ -166,6 +166,20 @@ class MemberRepository extends ServiceEntityRepository
             ->addSelect('s')
             ->join('m.status', 's')
             ->orderBy('m.localIdentifier', 'ASC');
+        // Default Filters
+        if (isset($filters['default_filters']) && $filters['default_filters']) {
+            $qb->andWhere('m.isDeceased = 0');
+            $qb->andWhere('m.isLost = 0');
+            $qb->andWhere('m.isLocalDoNotContact = 0');
+        }
+        // Return only mailable records
+        if (isset($filters['mailable']) && $filters['mailable']) {
+            $qb->andWhere('m.mailingAddressLine1 != \'\'');
+        }
+        // Return only e-mailable records
+        if (isset($filters['emailable']) && $filters['emailable']) {
+            $qb->andWhere('m.primaryEmail != \'\'');
+        }
         // Status Filter
         if (isset($filters['statuses']) && $filters['statuses']->count()) {
             $qb->andWhere('m.status IN (:statuses)');
