@@ -3,7 +3,7 @@
 <sup class="badge badge-dark" title="Deceased">Deceased</sup>
 {% endif %}
 {% if record.isLost %}
-<sup class="badge badge-warning" title="Lost">Lost</sup>
+<a href="{{ path('lost') }}"><sup class="badge badge-warning" title="Lost">Lost</sup></a>
 {% endif %}
 {% if record.status.code == 'RENAISSANCE' %}
 <sup class="badge badge-secondary" title="Renaissance">Renaissance</sup>
@@ -15,6 +15,6 @@
 <sup class="badge badge-danger" title="Local Do Not Contact">Do Not Contact (Local)</sup>
 {% endif %}
 {% for tag in record.tags %}
-<a href="{{ path('tag', {tagId: tag.id})}}"><sup class="badge badge-secondary" title="{{ tag.tagName }}">{{ tag.tagName }}</sup></a>
+<a href="{{ path('tag', {tagId: tag.id}) }}"><sup class="badge badge-secondary" title="{{ tag.tagName }}">{{ tag.tagName }}</sup></a>
 {% endfor %}
 </div>
