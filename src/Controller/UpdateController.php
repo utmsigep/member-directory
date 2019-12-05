@@ -108,10 +108,10 @@ class UpdateController extends AbstractController
                 ->htmlTemplate('update/email-update.html.twig')
                 ->context(['member' => $member])
                 ;
-            $mailer->send($message);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($member);
             $entityManager->flush();
+            $mailer->send($message);
             return $this->render('update/confirmation.html.twig');
         }
 

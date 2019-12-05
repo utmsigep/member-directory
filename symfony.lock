@@ -159,6 +159,9 @@
     "ocramius/proxy-manager": {
         "version": "2.1.1"
     },
+    "php": {
+        "version": "7.2.19"
+    },
     "picoss/sonata-extra-admin-bundle": {
         "version": "4.0"
     },
@@ -302,6 +305,9 @@
     },
     "symfony/dotenv": {
         "version": "v4.2.7"
+    },
+    "symfony/error-handler": {
+        "version": "v4.4.0"
     },
     "symfony/event-dispatcher": {
         "version": "v4.2.7"
@@ -448,9 +454,6 @@
     "symfony/polyfill-php73": {
         "version": "v1.11.0"
     },
-    "symfony/process": {
-        "version": "v4.2.7"
-    },
     "symfony/profiler-pack": {
         "version": "v1.0.4"
     },
@@ -579,15 +582,6 @@
             "config/packages/test/web_profiler.yaml",
             "config/routes/dev/web_profiler.yaml"
         ]
-    },
-    "symfony/web-server-bundle": {
-        "version": "3.3",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "3.3",
-            "ref": "dae9b39fd6717970be7601101ce5aa960bf53d9a"
-        }
     },
     "symfony/webpack-encore-bundle": {
         "version": "1.0",

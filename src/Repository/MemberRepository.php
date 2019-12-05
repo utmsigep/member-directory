@@ -144,12 +144,42 @@ class MemberRepository extends ServiceEntityRepository
         ;
     }
 
+    public function findByTags($tags = [])
+    {
+        return $this->createQueryBuilder('m')
+            ->addSelect('t')
+            ->addSelect('s')
+            ->join('m.status', 's')
+            ->leftJoin('m.tags', 't')
+            ->andWhere('t.id IN (:tags)')
+            ->setParameter('tags', $tags)
+            ->orderBy('m.lastName', 'ASC')
+            ->addOrderBy('m.firstName', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     public function findWithExportFilters($filters)
     {
         $qb = $this->createQueryBuilder('m')
             ->addSelect('s')
             ->join('m.status', 's')
             ->orderBy('m.localIdentifier', 'ASC');
+        // Default Filters
+        if (isset($filters['default_filters']) && $filters['default_filters']) {
+            $qb->andWhere('m.isDeceased = 0');
+            $qb->andWhere('m.isLost = 0');
+            $qb->andWhere('m.isLocalDoNotContact = 0');
+        }
+        // Return only mailable records
+        if (isset($filters['mailable']) && $filters['mailable']) {
+            $qb->andWhere('m.mailingAddressLine1 != \'\'');
+        }
+        // Return only e-mailable records
+        if (isset($filters['emailable']) && $filters['emailable']) {
+            $qb->andWhere('m.primaryEmail != \'\'');
+        }
         // Status Filter
         if (isset($filters['statuses']) && $filters['statuses']->count()) {
             $qb->andWhere('m.status IN (:statuses)');

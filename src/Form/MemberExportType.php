@@ -18,6 +18,22 @@ class MemberExportType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('default_filters', CheckboxType::class, [
+                'label' => 'Apply default filters',
+                'required' => false,
+                'data' => true,
+                'help' => 'Excludes: Do Not Contact (Local), Lost, Deceased'
+            ])
+            ->add('mailable', CheckboxType::class, [
+                'label' => 'Mailable',
+                'required' => false,
+                'help' => 'Excludes: Blank Address Line 1'
+            ])
+            ->add('emailable', CheckboxType::class, [
+                'label' => 'E-mailable',
+                'required' => false,
+                'help' => 'Excludes: Empty E-mail Address'
+            ])
             ->add('statuses', EntityType::class, [
                 'class' => MemberStatus::class,
                 'expanded' => true,
@@ -31,7 +47,7 @@ class MemberExportType extends AbstractType
                 'required' => false
             ])
             ->add('submit', SubmitType::class, [
-                'label' => 'Create Export'
+                'label' => 'Create CSV Export'
             ])
         ;
     }
