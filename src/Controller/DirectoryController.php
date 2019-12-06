@@ -309,6 +309,23 @@ class DirectoryController extends AbstractController
     }
 
     /**
+     * @Route("/do-not-contact", name="do_not_contact")
+     */
+    public function do_not_contact(Request $request)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $records = $entityManager->getRepository(Member::class)->findDoNotContactByStatusCodes([
+            'ALUMNUS',
+            'RENAISSANCE'
+        ], $request->query->get('type'));
+        return $this->render('directory/directory.html.twig', [
+            'view_name' => 'Do Not Contact',
+            'show_status' => false,
+            'records' => $records
+        ]);
+    }
+
+    /**
      * @Route("/year", name="year")
      */
     public function year()
