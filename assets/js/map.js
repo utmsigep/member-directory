@@ -39,6 +39,8 @@ var drawMap = function () {
   // Search Radius Controls
   var circle = {}
   var searchResultsContainer = $('#searchResults')
+  var searchNoResultsFoundContainer = $('#searchNoResultsFound')
+  var searchResultCountContainer = $('#searchResultCount')
   mymap.on('click', function(ev) {
       // Remove last circle drawn
       mymap.removeLayer(circle)
@@ -52,9 +54,11 @@ var drawMap = function () {
       }).addTo(mymap);
       $.getJSON(Routing.generate('map_search', {latitude: ev.latlng.lat, longitude: ev.latlng.lng, radius: radius}), {}, function(data) {
           searchResultsContainer.empty()
-          $('#searchResultCount').html(0)
+          searchNoResultsFoundContainer.show()
+          searchResultCountContainer.html(0)
           if (data.length > 0) {
-            $('#searchResultCount').html(data.length)
+            searchResultCountContainer.html(data.length)
+            searchNoResultsFoundContainer.hide()
             $(data).each(function (i, row) {
               var result = {
                 fullName: row[0].preferredName + ' ' + row[0].lastName,
@@ -67,7 +71,7 @@ var drawMap = function () {
                 tags: formatTags(row[0])
               }
               searchResultsContainer.append(L.Util.template(
-                '<div class="card mb-1"><div class="card-body"><div class="float-left w-25 mr-2"><img src="{photoUrl}" class="img-fluid" /></div><strong><a href="{link}">{fullName}</a> ({classYear})</strong>{tags}<br />{localIdentifierShort} / {status}</div></div>', result
+                '<div><strong><a href="{link}" target="_blank">{fullName}</a> ({classYear})</strong>{tags}<br />{localIdentifierShort} / {status}</div><hr />', result
               ))
             })
           }
