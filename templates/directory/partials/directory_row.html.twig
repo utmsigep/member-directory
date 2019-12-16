@@ -7,7 +7,7 @@
     <a href="{{ path('member', {localIdentifier: record.localIdentifier}) }}">{{ record.displayName }} </a>
     {% include 'directory/partials/directory_member_badges.html.twig' %}
   </td>
-  {% if show_status %}
+  {% if show_status is defined and show_status %}
   <td>
     {{ record.status.label }}
   </td>

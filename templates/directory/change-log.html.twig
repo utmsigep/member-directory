@@ -29,7 +29,7 @@
             <tbody>
               {% for field, value in logEntry.data %}
               <tr>
-                <td class="w-25">{{ field }}</td>
+                <td class="w-25"><code>{{ field }}</code></td>
                 {% if value.timestamp is defined %}
                 <td><tt>{{ value|date('c') }}</tt></td>
                 {% elseif value is iterable %}

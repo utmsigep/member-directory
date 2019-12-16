@@ -20,6 +20,14 @@ require('../css/app.scss')
 // Tooltips
 $('[data-toggle="tooltip"]').tooltip();
 
+// File uploads
+$('.custom-file-input').on('change', function(event) {
+    var inputFile = event.currentTarget;
+    $(inputFile).parent()
+      .find('.custom-file-label')
+      .html(inputFile.files[0].name);
+});
+
 // Show privacy warning once per day
 if (typeof localStorage != undefined) {
   var privacyWarning = localStorage.getItem('privacyWarning') || 0;
