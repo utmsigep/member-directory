@@ -17,7 +17,6 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Validator\Constraints\Date;
 
-// use App\Form\MemberExportType;
 use App\Service\PostalValidatorService;
 use App\Service\EmailService;
 use App\Service\MemberToCsvService;
