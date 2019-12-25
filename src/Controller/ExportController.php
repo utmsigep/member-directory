@@ -16,7 +16,7 @@ use App\Service\MemberToCsvService;
 use App\Entity\Member;
 
 /**
- * @IsGranted("ROLE_ADMIN")
+ * @IsGranted("ROLE_USER")
  * @Route("/directory/export")
  */
 class ExportController extends AbstractController

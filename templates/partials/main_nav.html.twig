@@ -9,8 +9,8 @@
   <span class="divider"><hr /></span>
   <a class="nav-link {{ app.request.get('_route') == 'map' ? 'active' }}" href="{{ path('map')}}"><i class="fas fa-map fa-fw text-muted"></i> Member Map</a>
   <a class="nav-link {{ app.request.get('_route') == 'member_changes' ? 'active' }}" href="{{ path('member_changes')}}"><i class="fas fa-satellite-dish fa-fw text-muted"></i> Recent Changes</a>
-  {% if is_granted('ROLE_ADMIN') %}
   <a class="nav-link {{ app.request.get('_route') == 'export' ? 'active' }}" href="{{ path('export')}}"><i class="fas fa-download fa-fw text-muted"></i> Export</a>
+  {% if is_granted('ROLE_ADMIN') %}
   <a class="nav-link {{ app.request.get('_route') == 'import' ? 'active' }}" href="{{ path('import')}}"><i class="fas fa-upload fa-fw text-muted"></i> Import</a>
   {% endif %}
   <span class="divider"><hr /></span>
