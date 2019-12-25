@@ -17,7 +17,6 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Validator\Constraints\Date;
 
-use App\Form\MemberExportType;
 use App\Service\PostalValidatorService;
 use App\Service\EmailService;
 use App\Service\MemberToCsvService;
@@ -504,32 +503,5 @@ class DirectoryController extends AbstractController
         ]);
 
         return new Response($jsonObject, 200, ['Content-Type' => 'application/json']);
-    }
-
-    /**
-     * @Route("/export", name="export")
-     */
-    public function export(Request $request, MemberToCsvService $memberToCsvService)
-    {
-        $form = $this->createForm(MemberExportType::class, null);
-        $form->handleRequest($request);
-        if ($form->isSubmitted()) {
-            $filters = $form->getData();
-            $members = $this->getDoctrine()->getRepository(Member::class)->findWithExportFilters($filters);
-
-            $filename = 'member-export-' . date('Y-m-d') . '.csv';
-            $response = new Response($memberToCsvService->arrayToCsvString($members));
-            $response->headers->set('Content-type', 'text/csv');
-            $disposition = $response->headers->makeDisposition(
-                ResponseHeaderBag::DISPOSITION_ATTACHMENT,
-                $filename
-            );
-            $response->headers->set('Content-disposition', $disposition);
-            return $response;
-        }
-
-        return $this->render('directory/export.html.twig', [
-            'form' => $form->createView()
-        ]);
     }
 }
