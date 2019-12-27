@@ -1,13 +1,13 @@
 <ul class="nav nav-tabs mb-2">
-  <li class="nav-item"><a class="nav-link {{ app.request.get('_route') == 'member' ? 'active' }}" href="{{ path('member', {localIdentifier: record.localIdentifier}) }}">Member Profile</a></li>
+  <li class="nav-item"><a class="nav-link {{ app.request.get('_route') == 'member' ? 'active' }}" href="{{ path('member', {localIdentifier: record.localIdentifier}) }}"><i class="fas fa-id-badge"></i> Member Profile</a></li>
   {% if is_granted('ROLE_ADMIN') %}
-  <li class="nav-item"><a class="nav-link {{ app.request.get('_route') == 'member_change_log' ? 'active' }}" href="{{ path('member_change_log', {localIdentifier: record.localIdentifier}) }}">Change Log</a></li>
+  <li class="nav-item"><a class="nav-link {{ app.request.get('_route') == 'member_change_log' ? 'active' }}" href="{{ path('member_change_log', {localIdentifier: record.localIdentifier}) }}"><i class="fas fa-history"></i> Change Log</a></li>
   {% endif %}
   {% if is_postal_validator_service_configured() %}
-  <li class="nav-item"><a class="nav-link {{ app.request.get('_route') == 'member_verify_address' ? 'active' }}" href="{{ path('member_verify_address', {localIdentifier: record.localIdentifier}) }}">Verify Address</a></li>
+  <li class="nav-item"><a class="nav-link {{ app.request.get('_route') == 'member_verify_address' ? 'active' }}" href="{{ path('member_verify_address', {localIdentifier: record.localIdentifier}) }}"><i class="fas fa-mail-bulk"></i> Verify Address</a></li>
   {% endif %}
   {% if is_email_service_configured() %}
-  <li class="nav-item"><a class="nav-link {{ app.request.get('_route') == 'member_email_subscription' ? 'active' }}" href="{{ path('member_email_subscription', {localIdentifier: record.localIdentifier}) }}">Email Subscriptions</a></li>
+  <li class="nav-item"><a class="nav-link {{ app.request.get('_route') == 'member_email_subscription' ? 'active' }}" href="{{ path('member_email_subscription', {localIdentifier: record.localIdentifier}) }}"><i class="fas fa-envelope"></i> Email Subscriptions</a></li>
   {% endif %}
-  <li class="nav-item"><a class="nav-link {{ app.request.get('_route') == 'member_vcard' ? 'active' }}" href="{{ path('member_vcard', {localIdentifier: record.localIdentifier}) }}">Download vCard</a></li>
+  <li class="nav-item"><a class="nav-link {{ app.request.get('_route') == 'member_vcard' ? 'active' }}" href="{{ path('member_vcard', {localIdentifier: record.localIdentifier}) }}"><i class="fas fa-address-card"></i> Download vCard</a></li>
 </ul>

@@ -36,3 +36,10 @@ services:
         tags:
             - { name: sonata.admin, manager_type: orm, group: Directory, label: 'Tags' }
         public: true
+
+    app.admin.user:
+        class: App\Admin\UserAdmin
+        arguments: [~, App\Entity\User, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Admin, label: User }
+        public: true

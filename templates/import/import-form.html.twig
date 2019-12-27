@@ -1,0 +1,119 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ config.app_name }} - Import{% endblock %}
+
+{% block body %}
+
+{% if errors is not empty %}
+{% for error in errors %}
+<p class="alert alert-warning">{{ error }}</p>
+{% endfor %}
+{% endif %}
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="h4">Import <sup><span class="badge badge-secondary">Beta</span></sup></div>
+    {{ form(importForm) }}
+  </div>
+</div>
+
+{% if members is not empty %}
+{% for member in members %}
+<h4><a href="{{ path('member', {localIdentifier: member.localIdentifier}) }}">{{ member.displayName }}</a></h4>
+{% if memberChangeSets[member.id] is not empty %}
+<table class="table" style="max-width:600px">
+  <tbody>
+    {% for field,change in memberChangeSets[member.id] %}
+    <tr>
+      <th colspan="2" class="text-light bg-dark">{{ field }}</code></th>
+    </tr>
+    <tr>
+    <tr>
+      <th>Old Value</th>
+      <td><code>{{ dump(change[0]) }}</code></td>
+    </tr>
+    <tr>
+      <th>New Value</th>
+      <td><code>{{ dump(change[1]) }}</code></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p><em>No changes.</em></p>
+{% endif %}
+<hr />
+{% endfor %}
+{% endif %}
+
+{% if newMembers is not empty %}
+{% for member in newMembers %}
+<h4>{{ member.displayName }} <small><sup class="badge badge-primary">New</sup></small></h4>
+<div class="row">
+  <div class="col-md-3">
+    <dl>
+      <dt>External Identifier</dt>
+      <dd>{{ member.externalIdentifier}}</dd>
+      <dt>Local Identifier</dt>
+      <dd>{{ member.localIdentifier }}</dd>
+      <dt>First Name</dt>
+      <dd>{{ member.firstName }}</dd>
+      <dt>Preferred Name</dt>
+      <dd>{{ member.preferredName }}</dd>
+      <dt>Middle Name</dt>
+      <dd>{{ member.middleName }}</dd>
+      <dt>Last Name</dt>
+      <dd>{{ member.lastName }}</dd>
+    </dl>
+  </div>
+  <div class="col-md-3">
+    <dl>
+      <dt>Mailing Address 1</dt>
+      <dd>{{ member.mailingAddressLine1 }}</dd>
+      <dt>Mailing Address 2</dt>
+      <dd>{{ member.mailingAddressLine2 }}</dd>
+      <dt>Mailing City</dt>
+      <dd>{{ member.mailingCity }}</dd>
+      <dt>Mailing State</dt>
+      <dd>{{ member.mailingState }}</dd>
+      <dt>Mailing Postal Code</dt>
+      <dd>{{ member.mailingPostalCode }}</dd>
+      <dt>Mailing Country</dt>
+      <dd>{{ member.mailingCountry }}</dd>
+    </dl>
+  </div>
+  <div class="col-md-3">
+    <dl>
+      <dt>Employer</dt>
+      <dd>{{ member.employer }}</dd>
+      <dt>Job Title</dt>
+      <dd>{{ member.jobTitle }}</dd>
+      <dt>Occupation/Industry</dt>
+      <dd>{{ member.occupation }}</dd>
+      <dt>Primary Email</dt>
+      <dd>{{ member.primaryEmail }}</dd>
+      <dt>Primary Telephone</dt>
+      <dd>{{ member.primaryTelephoneNumber }}</dd>
+    </dl>
+  </div>
+  <div class="col-md-3">
+    <dl>
+      <dt>Class Year</dt>
+      <dd>{{ member.classYear }}</dd>
+      <dt>Join Date</dt>
+      <dd>{{ member.joinDate|date('Y-m-d') }}</dd>
+      <dt>Status</dt>
+      <dd>Undergraduate</dd>
+    </dl>
+  </div>
+</div>
+<hr />
+{% endfor %}
+{% endif %}
+
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+{{ encore_entry_script_tags('import') }}
+{% endblock %}

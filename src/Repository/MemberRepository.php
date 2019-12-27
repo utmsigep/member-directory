@@ -5,7 +5,7 @@ namespace App\Repository;
 use App\Entity\Member;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query\Expr\Join;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
  * @method Member|null find($id, $lockMode = null, $lockVersion = null)
@@ -15,7 +15,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class MemberRepository extends ServiceEntityRepository
 {
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Member::class);
     }
@@ -49,6 +49,31 @@ class MemberRepository extends ServiceEntityRepository
             ->orderBy('m.lastName', 'ASC')
             ->addOrderBy('m.firstName', 'ASC')
             ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findDoNotContactByStatusCodes($statusCodes = [], $type = null)
+    {
+        $qb = $this->createQueryBuilder('m')
+            ->addSelect('t')
+            ->addSelect('s')
+            ->join('m.status', 's')
+            ->leftJoin('m.tags', 't')
+            ->andWhere('s.code IN (:statusCodes)')
+            ->setParameter('statusCodes', $statusCodes)
+            ->orderBy('m.lastName', 'ASC')
+            ->addOrderBy('m.firstName', 'ASC');
+        // Filter based on type of DNC
+        if ($type == 'local') {
+            $qb->andWhere('m.isLocalDoNotContact = 1');
+        } elseif ($type == 'external') {
+            $qb->andWhere('m.isExternalDoNotContact = 1');
+        } else {
+            $qb->andWhere('m.isLocalDoNotContact = 1')
+                ->orWhere('m.isExternalDoNotContact = 1');
+        }
+        return $qb->getQuery()
             ->getResult()
         ;
     }

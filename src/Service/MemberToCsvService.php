@@ -9,7 +9,7 @@ use App\Entity\Member;
 
 class MemberToCsvService
 {
-    public function arrayToCsvString(array $members): string
+    public function arrayToCsvString(ArrayCollection $members): string
     {
         $csvWriter = Writer::createFromString();
         $csvWriter->insertOne([
@@ -22,7 +22,7 @@ class MemberToCsvService
             'middleName',
             'lastName',
             'classYear',
-            'primaryEmaill',
+            'primaryEmail',
             'primaryTelephoneNumber',
             'mailingAddressLine1',
             'mailingAddressLine2',
