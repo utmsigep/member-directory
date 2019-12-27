@@ -110,13 +110,15 @@ class CsvToMemberService
 
         // Main import loop
         foreach ($csvRecords as $i => $csvRecord) {
+            $externalIdentifier = (isset($csvRecord[self::EXTERNAL_IDENTIFIER_HEADER])) ? $csvRecord[self::EXTERNAL_IDENTIFIER_HEADER] : null;
+            $localIdentifier = (isset($csvRecord[self::LOCAL_IDENTIFIER_HEADER])) ? $csvRecord[self::LOCAL_IDENTIFIER_HEADER] : null;
             // Find a match record in the database, if exists, by either internal or external identifier
             $member = $this->entityManager->getRepository(Member::class)->findOneBy([
-                'externalIdentifier' => $csvRecord[self::EXTERNAL_IDENTIFIER_HEADER]
+                'externalIdentifier' => $externalIdentifier
             ]);
             if ($member === null) {
                 $member = $this->entityManager->getRepository(Member::class)->findOneBy([
-                    'localIdentifier' => $csvRecord[self::LOCAL_IDENTIFIER_HEADER]
+                    'localIdentifier' => $localIdentifier
                 ]);
                 if ($member === null) {
                     $member = new Member();

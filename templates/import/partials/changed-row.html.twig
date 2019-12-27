@@ -1,0 +1,11 @@
+{% if change and field == 'joinDate' %}
+<code>{{ change|date('Y-m-d') }}</code>
+{% elseif change is not iterable %}
+<code>{{ change }}</code></td>
+{% else %}
+<ul>
+  {% for key,value in change %}
+  <li><code>{{ key }}: {{ value }}</code></li>
+  {% endfor %}
+</ul>
+{% endif %}

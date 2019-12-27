@@ -30,11 +30,15 @@
     <tr>
     <tr>
       <th>Old Value</th>
-      <td><code>{{ dump(change[0]) }}</code></td>
+      <td>
+        {% include 'import/partials/changed-row.html.twig' with { change: change[0] } %}
+      </td>
     </tr>
     <tr>
       <th>New Value</th>
-      <td><code>{{ dump(change[1]) }}</code></td>
+      <td>
+        {% include 'import/partials/changed-row.html.twig' with { change: change[1] } %}
+      </td>
     </tr>
     {% endfor %}
   </tbody>
