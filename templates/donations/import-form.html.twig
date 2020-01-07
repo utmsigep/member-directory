@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ config.app_name }} - Import{% endblock %}
+
+{% block body %}
+
+{% if errors is not empty %}
+{% for error in errors %}
+<p class="alert alert-warning">{{ error }}</p>
+{% endfor %}
+{% endif %}
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="h4">Donations Import <sup><span class="badge badge-secondary">Beta</span></sup></div>
+    {{ form(importForm) }}
+  </div>
+</div>
+
+{% if donations %}
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Donor</th>
+      <th>Campaign</th>
+      <th>Description</th>
+      <th>Amount</th>
+      <th>Fees</th>
+      <th>Net Amount</th>
+      <th>Recurring?</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for donation in donations %}
+    {% include 'donations/partials/donation_row.html.twig' %}
+    {% endfor %}
+  </tbody>
+</table>
+{% endif %}
+
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+{{ encore_entry_script_tags('donations') }}
+{% endblock %}

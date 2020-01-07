@@ -1,0 +1,12 @@
+<tr>
+  <td data-order="{{ donation.receivedAt|date('Y-m-d') }}">{{ donation.receivedAt|date('n/j/Y') }}</td>
+  {% if hideDonor is not defined or hideDonor == false %}
+  <td data-order="{{ donation.member.lastName }}, {{ donation.member.preferredName }}"><a href="{{ path('member_donations', {localIdentifier: donation.member.localIdentifier}) }}">{{ donation.member.displayName }}</a></td>
+  {% endif %}
+  <td>{{ donation.campaign }}</td>
+  <td>{{ donation.description }}</td>
+  <td class="text-right" data-order="{{ donation.amount }}">{{ donation.amount }} {{ donation.currency}}</td>
+  <td class="text-right" data-order="{{ donation.processingFees }}">{{ donation.processingFees }} {{ donation.currency}}</td>
+  <td class="text-right" data-order="{{ donation.netAmount }}">{{ donation.netAmount }} {{ donation.currency}}</td>
+  <td class="text-center" data-order="{{ donation.isRecurring }}">{{ donation.isRecurring ? '<i class="fas fa-redo"></i>' : '' }}</td>
+</tr>

@@ -22,6 +22,7 @@ use App\Service\EmailService;
 use App\Service\MemberToCsvService;
 use App\Entity\Member;
 use App\Entity\Tag;
+use App\Entity\Donation;
 
 /**
  * @IsGranted("ROLE_USER")
@@ -67,6 +68,24 @@ class DirectoryController extends AbstractController
         return $this->render('directory/change-log.html.twig', [
             'record' => $record,
             'logEntries' => $logEntries
+        ]);
+    }
+
+    /**
+     * @Route("/member/{localIdentifier}/donations", name="member_donations")
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function donations($localIdentifier): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $record = $entityManager->getRepository(Member::class)->findOneBy(['localIdentifier' => $localIdentifier]);
+        if (is_null($record)) {
+            throw $this->createNotFoundException('Member not found.');
+        }
+        $donations = $entityManager->getRepository(Donation::class)->findByMember($record);
+        return $this->render('directory/donations.html.twig', [
+            'record' => $record,
+            'donations' => $donations
         ]);
     }
 

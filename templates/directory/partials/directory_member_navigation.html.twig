@@ -9,5 +9,8 @@
   {% if is_email_service_configured() %}
   <li class="nav-item"><a class="nav-link {{ app.request.get('_route') == 'member_email_subscription' ? 'active' }}" href="{{ path('member_email_subscription', {localIdentifier: record.localIdentifier}) }}"><i class="fas fa-envelope"></i> Email Subscriptions</a></li>
   {% endif %}
+  {% if is_granted('ROLE_ADMIN') %}
+  <li class="nav-item"><a class="nav-link {{ app.request.get('_route') == 'member_donations' ? 'active' }}" href="{{ path('member_donations', {localIdentifier: record.localIdentifier}) }}"><i class="fas fa-hand-holding-usd"></i> Donations</a></li>
+  {% endif %}
   <li class="nav-item"><a class="nav-link {{ app.request.get('_route') == 'member_vcard' ? 'active' }}" href="{{ path('member_vcard', {localIdentifier: record.localIdentifier}) }}"><i class="fas fa-address-card"></i> Download vCard</a></li>
 </ul>
