@@ -256,8 +256,8 @@ final class MemberAdmin extends AbstractAdmin
             ])
             ->add('_action', null, [
                 'actions' => [
+                    'show' => [],
                     'edit' => [],
-                    'show' => []
                 ]
             ])
         ;

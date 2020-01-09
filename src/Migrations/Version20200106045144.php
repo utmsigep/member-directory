@@ -28,7 +28,7 @@ final class Version20200106045144 extends AbstractMigration
         $donationTable->addColumn('description', 'string', ['length' => 255, 'notnull' => true]);
         $donationTable->addColumn('amount', 'decimal', ['precision' => 10, 'scale' => 2, 'notnull' => true, 'default' => null]);
         $donationTable->addColumn('currency', 'string', ['length' => 255, 'notnull' => true]);
-        $donationTable->addColumn('processing_fees', 'decimal', ['precision' => 10, 'scale' => 2, 'notnull' => true, 'default' => null]);
+        $donationTable->addColumn('processing_fee', 'decimal', ['precision' => 10, 'scale' => 2, 'notnull' => true, 'default' => null]);
         $donationTable->addColumn('net_amount', 'decimal', ['precision' => 10, 'scale' => 2, 'notnull' => true, 'default' => null]);
         $donationTable->addColumn('donor_comment', 'string', ['length' => 255, 'notnull' => true]);
         $donationTable->addColumn('internal_notes', 'text', ['notnull' => true]);

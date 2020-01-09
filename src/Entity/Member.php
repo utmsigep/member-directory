@@ -212,6 +212,7 @@ class Member
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Donation", mappedBy="member")
+     * @ORM\OrderBy({"receivedAt": "DESC"})
      */
     private $donations;
 

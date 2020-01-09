@@ -5,8 +5,8 @@
   {% endif %}
   <td>{{ donation.campaign }}</td>
   <td>{{ donation.description }}</td>
-  <td class="text-right" data-order="{{ donation.amount }}">{{ donation.amount }} {{ donation.currency}}</td>
-  <td class="text-right" data-order="{{ donation.processingFees }}">{{ donation.processingFees }} {{ donation.currency}}</td>
-  <td class="text-right" data-order="{{ donation.netAmount }}">{{ donation.netAmount }} {{ donation.currency}}</td>
+  <td class="text-right" data-order="{{ donation.amount }}">{{ donation.amount|format_currency(donation.currency) }}</td>
+  <td class="text-right" data-order="{{ donation.processingFee }}">{{ donation.processingFee|format_currency(donation.currency) }}</td>
+  <td class="text-right" data-order="{{ donation.netAmount }}">{{ donation.netAmount|format_currency(donation.currency) }}</td>
   <td class="text-center" data-order="{{ donation.isRecurring }}">{{ donation.isRecurring ? '<i class="fas fa-redo"></i>' : '' }}</td>
 </tr>

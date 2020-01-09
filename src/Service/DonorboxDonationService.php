@@ -148,7 +148,7 @@ class DonorboxDonationService
                 $donation->setCurrency($csvRecord[self::CURRENCY_HEADER]);
             }
             if (isset($csvRecord[self::PROCESSING_FEE_HEADER])) {
-                $donation->setProcessingFees((float) $csvRecord[self::PROCESSING_FEE_HEADER]);
+                $donation->setProcessingFee((float) $csvRecord[self::PROCESSING_FEE_HEADER]);
             }
             if (isset($csvRecord[self::NET_AMOUNT_HEADER])) {
                 $donation->setNetAmount((float) $csvRecord[self::NET_AMOUNT_HEADER]);

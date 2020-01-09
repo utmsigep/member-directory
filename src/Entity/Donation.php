@@ -71,7 +71,7 @@ class Donation
      * @ORM\Column(type="decimal", precision=10, scale=2)
      * @Gedmo\Versioned
      */
-    private $processingFees;
+    private $processingFee;
 
     /**
      * @ORM\Column(type="decimal", precision=10, scale=2)
@@ -126,6 +126,12 @@ class Donation
      * @Gedmo\Versioned
      */
     private $transactionPayload = [];
+
+    public function __construct()
+    {
+        $this->receivedAt = new \DateTime();
+        $this->currency = 'USD';
+    }
 
     public function getId(): ?int
     {
@@ -216,14 +222,14 @@ class Donation
         return $this;
     }
 
-    public function getProcessingFees(): ?string
+    public function getProcessingFee(): ?string
     {
-        return $this->processingFees;
+        return $this->processingFee;
     }
 
-    public function setProcessingFees(string $processingFees): self
+    public function setProcessingFee(string $processingFee): self
     {
-        $this->processingFees = $processingFees;
+        $this->processingFee = $processingFee;
 
         return $this;
     }
@@ -334,5 +340,14 @@ class Donation
         $this->transactionPayload = $transactionPayload;
 
         return $this;
+    }
+
+    /**
+     * Model Methods
+     */
+
+    public function __toString(): string
+    {
+        return sprintf('#%s - %s @ %s (%s %s)', $this->receiptIdentifier, $this->member, $this->receivedAt->format('Y-m-d'), $this->amount, $this->currency);
     }
 }
