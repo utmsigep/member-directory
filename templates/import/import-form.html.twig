@@ -19,7 +19,7 @@
 
 {% if members is not empty %}
 {% for member in members %}
-<h4><a href="{{ path('member', {localIdentifier: member.localIdentifier}) }}">{{ member.displayName }}</a></h4>
+<h4><a href="{{ path('member', {localIdentifier: member.localIdentifier}) }}">{{ member.displayName }}</a> ({{member.status.label}})</h4>
 {% if memberChangeSets[member.id] is not empty %}
 <table class="table" style="max-width:600px">
   <tbody>
