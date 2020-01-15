@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
@@ -27,6 +28,7 @@ class Donation
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Member", inversedBy="donations")
+     * @Assert\NotBlank
      * @Gedmo\Versioned
      */
     private $member;

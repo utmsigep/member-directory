@@ -15,7 +15,7 @@ class DonorboxDonationService
     const NAME_HEADER = 'Name';
     const FIRST_NAME_HEADER = 'First Name';
     const LAST_NAME_HEADER = 'Last Name';
-    const EMAIL_HEADER = 'Email';
+    const EMAIL_HEADER = 'Donor Email';
     const MAKE_DONATION_ANONYMOUS_HEADER = 'Make Donation Anonymous';
     const CAMPAIGN_HEADER = 'Campaign';
     const AMOUNT_DESCRIPTION_HEADER = 'Amount Description';
@@ -84,8 +84,8 @@ class DonorboxDonationService
         $csvRecords = $csv->getRecords(); //returns all the CSV records as an Iterator object
 
         // Inspect headers for required fields
-        if (!in_array(self::EMAIL_HEADER, $header) &&
-            !in_array(self::AMOUNT_HEADER, $header) &&
+        if (!in_array(self::EMAIL_HEADER, $header) ||
+            !in_array(self::AMOUNT_HEADER, $header) ||
             !in_array(self::RECEIPT_ID_HEADER, $header)
         ) {
             throw new \Exception('File must have a `Email`, `Amount` and `Receipt Id` set.');
