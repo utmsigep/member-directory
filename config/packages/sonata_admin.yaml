@@ -43,3 +43,10 @@ services:
         tags:
             - { name: sonata.admin, manager_type: orm, group: Admin, label: User }
         public: true
+
+    app.admin.donation:
+        class: App\Admin\DonationAdmin
+        arguments: [~, App\Entity\Donation, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Donations, label: Donation }
+        public: true

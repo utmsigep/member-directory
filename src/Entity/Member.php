@@ -210,9 +210,16 @@ class Member
      */
     private $tags;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Donation", mappedBy="member")
+     * @ORM\OrderBy({"receivedAt": "DESC"})
+     */
+    private $donations;
+
     public function __construct()
     {
         $this->tags = new ArrayCollection();
+        $this->donations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -684,6 +691,37 @@ class Member
     private function formatEmail(?string $email): string
     {
         return trim(mb_strtolower($email));
+    }
+
+    /**
+     * @return Collection|Donation[]
+     */
+    public function getDonations(): Collection
+    {
+        return $this->donations;
+    }
+
+    public function addDonation(Donation $donation): self
+    {
+        if (!$this->donations->contains($donation)) {
+            $this->donations[] = $donation;
+            $donation->setMember($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDonation(Donation $donation): self
+    {
+        if ($this->donations->contains($donation)) {
+            $this->donations->removeElement($donation);
+            // set the owning side to null (unless already changed)
+            if ($donation->getMember() === $this) {
+                $donation->setMember(null);
+            }
+        }
+
+        return $this;
     }
 
 }

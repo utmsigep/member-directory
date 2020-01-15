@@ -598,6 +598,12 @@
             "config/packages/twig_extensions.yaml"
         ]
     },
+    "twig/extra-bundle": {
+        "version": "v3.0.1"
+    },
+    "twig/intl-extra": {
+        "version": "v3.0.1"
+    },
     "twig/twig": {
         "version": "v2.8.1"
     },
