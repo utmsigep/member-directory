@@ -69,19 +69,13 @@
           {% for item in subscriberHistory %}
           <table class="table mb-2">
             <tbody>
-              <tr>
-                <th class="w-25">Type</th>
-                <td>{{ item.Type }}</td>
+              <tr data-target="#campaign-actions-{{ item.ID }}" data-toggle="collapse" style="cursor:pointer;">
+                <td class="w-25">{{ item.Type }}</td>
+                <td class="w-75">{{ item.Name }}</td>
+                <td class="text-right {% if item.Actions|length > 0 %}font-weight-bold{% endif %}">{{ item.Actions|length }}</td>
               </tr>
-              <tr>
-                <th>Name</th>
-                <td>{{ item.Name }}</td>
-              </tr>
-              <tr>
-                <th>Actions</th>
-                <td>
-                  <a href="#campaign-actions-{{ item.ID }}" data-toggle="collapse">{{ item.Actions|length }}</a>
-                  <div class="collapse" id="campaign-actions-{{ item.ID }}">
+              <tr class="collapse" id="campaign-actions-{{ item.ID }}">
+                <td colspan="3">
                   {% for itemAction in item.Actions %}
                     <table class="table table-sm table-borderless table-striped">
                       <tbody>
