@@ -45,4 +45,14 @@ class DonationRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function getTotalDonationsForMember(Member $member)
+    {
+        return $this->createQueryBuilder('d')
+            ->select('sum(d.amount) AS totalAmount, sum(d.processingFee) AS totalProcessingFee, sum(d.netAmount) AS totalNetAmount')
+            ->join('d.member', 'm')
+            ->where('d.member = :member')
+            ->setParameter('member', $member)
+            ->getQuery()
+            ->getScalarResult();
+    }
 }

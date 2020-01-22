@@ -83,9 +83,11 @@ class DirectoryController extends AbstractController
             throw $this->createNotFoundException('Member not found.');
         }
         $donations = $entityManager->getRepository(Donation::class)->findByMember($record);
+        $totals = $entityManager->getRepository(Donation::class)->getTotalDonationsForMember($record);
         return $this->render('directory/donations.html.twig', [
             'record' => $record,
-            'donations' => $donations
+            'donations' => $donations,
+            'totals' => $totals
         ]);
     }
 
