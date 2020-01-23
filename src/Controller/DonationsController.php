@@ -29,8 +29,10 @@ class DonationsController extends AbstractController
     {
         $entityManager = $this->getDoctrine()->getManager();
         $donations = $entityManager->getRepository(Donation::class)->findAll();
+        $totals = $entityManager->getRepository(Donation::class)->getTotalDonations();
         return $this->render('donations/donations.html.twig', [
             'donations' => $donations,
+            'totals' => $totals
         ]);
     }
 

@@ -12,20 +12,7 @@
   {% include 'directory/partials/directory_member_navigation.html.twig' %}
 
   {% if donations %}
-  <table class="table table-borderless">
-    <tr>
-      <th class="w-25">Amount</th>
-      <th class="w-25">Processing Fees</th>
-      <th class="w-25">Net Amount</th>
-      <th class="w-25"></th>
-    </tr>
-    <tr>
-      <td class="h4">{{ totals[0].totalAmount|format_currency('USD') }}</td>
-      <td class="h4">{{ totals[0].totalProcessingFee|format_currency('USD') }}</td>
-      <td class="h4">{{ totals[0].totalNetAmount|format_currency('USD') }}</td>
-      <td class="h4"></td>
-    </tr>
-  </table>
+  {% include 'donations/partials/donation_totals.html.twig' %} 
 
   <table class="table table-striped" id="donationsTable">
     <thead>

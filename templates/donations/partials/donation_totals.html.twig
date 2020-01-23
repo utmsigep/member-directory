@@ -1,0 +1,20 @@
+<div class="row mb-4 mt-2 text-center">
+  <div class="col-lg-3">
+    <div>Total Amount</div>
+    {% for total in totals %}
+    <div class="h4">{{ total.totalAmount|format_currency(total.currency) }}</div>
+    {% endfor %}
+  </div>
+  <div class="col-lg-2">
+    <div>Total Processing Fees</div>
+    {% for total in totals %}
+    <div class="h4">{{ total.totalProcessingFee|format_currency(total.currency) }}</div>
+    {% endfor %}
+  </div>
+  <div class="col-lg-3">
+    <div>Total Net Amount</div>
+    {% for total in totals %}
+    <div class="h4">{{ total.totalNetAmount|format_currency(total.currency) }}</div>
+    {% endfor %}
+  </div>
+</div>
