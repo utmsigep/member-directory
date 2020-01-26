@@ -193,7 +193,7 @@ class Donation
         return $this->description;
     }
 
-    public function setDescription(string $description): self
+    public function setDescription(?string $description): self
     {
         $this->description = $description;
 
@@ -253,7 +253,7 @@ class Donation
         return $this->donorComment;
     }
 
-    public function setDonorComment(string $donorComment): self
+    public function setDonorComment(?string $donorComment): self
     {
         $this->donorComment = $donorComment;
 
@@ -265,7 +265,7 @@ class Donation
         return $this->internalNotes;
     }
 
-    public function setInternalNotes(string $internalNotes): self
+    public function setInternalNotes(?string $internalNotes): self
     {
         $this->internalNotes = $internalNotes;
 
@@ -289,7 +289,7 @@ class Donation
         return $this->cardType;
     }
 
-    public function setCardType(string $cardType): self
+    public function setCardType(?string $cardType): self
     {
         $this->cardType = $cardType;
 
@@ -301,7 +301,7 @@ class Donation
         return $this->lastFour;
     }
 
-    public function setLastFour(string $lastFour): self
+    public function setLastFour(?string $lastFour): self
     {
         $this->lastFour = $lastFour;
 

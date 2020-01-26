@@ -15,6 +15,11 @@ use Symfony\Component\Form\Extension\Core\Type\CurrencyType;
 
 final class DonationAdmin extends AbstractAdmin
 {
+    protected $datagridValues = [
+        '_page' => 1,
+        '_sort_order' => 'DESC',
+        '_sort_by' => 'receivedAt',
+    ];
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
@@ -74,8 +79,8 @@ final class DonationAdmin extends AbstractAdmin
                 ->with('Basics', ['class' => 'col-md-4'])
                     ->add('receiptIdentifier')
                     ->add('member')
-                    ->add('campaign', null, ['required' => false])
-                    ->add('description', null, ['required' => false])
+                    ->add('campaign', null, ['required' => false, 'empty_data' => ''])
+                    ->add('description', null, ['required' => false, 'empty_data' => ''])
                     ->end()
                 ->with('Amount', ['class' => 'col-md-4'])
                     ->add('currency', CurrencyType::class)
@@ -84,11 +89,11 @@ final class DonationAdmin extends AbstractAdmin
                     ->add('netAmount')
                     ->end()
                 ->with('Additional Details', ['class' => 'col-md-4'])
-                    ->add('donorComment', null, ['required' => false])
-                    ->add('internalNotes', null, ['required' => false])
+                    ->add('donorComment', null, ['required' => false, 'empty_data' => ''])
+                    ->add('internalNotes', null, ['required' => false, 'empty_data' => ''])
                     ->add('donationType')
-                    ->add('cardType', null, ['required' => false])
-                    ->add('lastFour', null, ['required' => false])
+                    ->add('cardType', null, ['required' => false, 'empty_data' => ''])
+                    ->add('lastFour', null, ['required' => false, 'empty_data' => ''])
                     ->add('isAnonymous')
                     ->add('isRecurring')
                     ->end()
