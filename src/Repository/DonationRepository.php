@@ -25,7 +25,7 @@ class DonationRepository extends ServiceEntityRepository
             ->addSelect('m')
             ->addSelect('t')
             ->join('d.member', 'm')
-            ->join('m.tags', 't')
+            ->leftJoin('m.tags', 't')
             ->orderBy('d.receivedAt', 'DESC')
             ->getQuery()
             ->getResult();
@@ -37,7 +37,7 @@ class DonationRepository extends ServiceEntityRepository
             ->addSelect('m')
             ->addSelect('t')
             ->join('d.member', 'm')
-            ->join('m.tags', 't')
+            ->leftJoin('m.tags', 't')
             ->where('d.member = :member')
             ->setParameter('member', $member)
             ->orderBy('d.receivedAt', 'DESC')
