@@ -490,7 +490,8 @@ class DirectoryController extends AbstractController
             [
                 'UNDERGRADUATE',
                 'ALUMNUS',
-                'RENAISSANCE'
+                'RENAISSANCE',
+                'TRANSFERRED'
             ]
         );
 
@@ -513,7 +514,8 @@ class DirectoryController extends AbstractController
         $records = $entityManager->getRepository(Member::class)->findGeocodedAddresses([
             'UNDERGRADUATE',
             'ALUMNUS',
-            'RENAISSANCE'
+            'RENAISSANCE',
+            'TRANSFERRED'
         ]);
 
         $jsonObject = $serializer->serialize($records, 'json', [
