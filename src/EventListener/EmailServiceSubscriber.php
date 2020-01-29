@@ -32,10 +32,14 @@ class EmailServiceSubscriber
         // If status moved to Resigned/Expelled, delete the user user's subscription
         if ($eventArgs->hasChangedField('status') && in_array($member->getStatus()->getCode(), [
             'RESIGNED',
-            'EXPELLED',
-            'TRANSFERRED'
+            'EXPELLED'
         ])) {
             $this->emailService->deleteMember($member);
+            return;
+        }
+        // If member is now deceased, unsubscribe
+        if ($eventArgs->hasChangedField('isDeceased') && $member->isDeceased()) {
+            $this->emailService->unsubscribeMember($member);
             return;
         }
         // If email was previously set and has been changed, update email address in ESP
@@ -80,8 +84,7 @@ class EmailServiceSubscriber
         if (!$this->emailService->isConfigured()
             || in_array($member->getStatus()->getCode(), [
                 'RESIGNED',
-                'EXPELLED',
-                'TRANSFERRED'
+                'EXPELLED'
             ])
         ) {
             return;
