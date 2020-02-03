@@ -121,9 +121,9 @@ class DonorboxDonationService
                 }
                 if ($member === null) {
                     $this->errors[] = sprintf(
-                        'Unable to locate member record using: %s or %s',
-                        self::EMAIL_HEADER,
-                        self::NAME_HEADER
+                        'Unable to locate member record using: "%s" or "%s"; Skipped.',
+                        $csvRecord[self::EMAIL_HEADER],
+                        $csvRecord[self::NAME_HEADER]
                     );
                     continue;
                 }
