@@ -15,22 +15,21 @@ class GeocoderService
         $this->httpClient = HttpClient::create();
     }
 
-    const BASE_URL = 'https://geocoding.geo.census.gov/geocoder/locations/address';
+    const CENSUS_BASE_URL = 'https://geocoding.geo.census.gov/geocoder/locations/address';
+    const ARCGIS_BASE_URL = 'https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/find/';
     const BENCHMARK = 'Public_AR_Current';
     const RETURN_FORMAT = 'json';
 
     public function geocodeMemberMailingAddress(Member $member): Member
     {
-        $parameters = [
+        $jsonObject = $this->makeCensusRequest([
             'street' => join(' ', [$member->getMailingAddressLine1(), $member->getMailingAddressLine2()]),
             'city' => $member->getMailingCity(),
             'state' => $member->getMailingState(),
             'zip' => $member->getMailingPostalCode(),
             'benchmark' => self::BENCHMARK,
             'format' => self::RETURN_FORMAT
-        ];
-
-        $jsonObject = $this->makeRequest($parameters);
+        ]);
 
         // Geocoded address on first try
         if (property_exists($jsonObject, 'result')) {
@@ -42,28 +41,19 @@ class GeocoderService
             }
         }
 
-        // Retry with '100 Main St' address and no zip code
-        $parameters['street'] = '100 Main St';
-        $parameters['zip'] = null;
-        $jsonObject = $this->makeRequest($parameters);
-        if (property_exists($jsonObject, 'result')) {
-            $result = $jsonObject->result;
-            if ($result->addressMatches && count($result->addressMatches) > 0) {
-                $member->setMailingLatitude($result->addressMatches[0]->coordinates->y);
-                $member->setMailingLongitude($result->addressMatches[0]->coordinates->x);
-                return $member;
-            }
-        }
-
-        // Retry with '100 2nd Ave' address and no zip code
-        $parameters['street'] = '100 2nd Ave';
-        $parameters['zip'] = null;
-        $jsonObject = $this->makeRequest($parameters);
-        if (property_exists($jsonObject, 'result')) {
-            $result = $jsonObject->result;
-            if ($result->addressMatches && count($result->addressMatches) > 0) {
-                $member->setMailingLatitude($result->addressMatches[0]->coordinates->y);
-                $member->setMailingLongitude($result->addressMatches[0]->coordinates->x);
+        // Retry with ARCGIS Zip Code lookup as a fallback
+        $jsonObject = $this->makeArcGisRequest([
+            'sourceCountry' => $member->getMailingCountry(),
+            'text' => $member->getMailingPostalCode(),
+            'maxLocations' => 1,
+            'f' => 'json',
+            'returnGeometry' => 'true'
+        ]);
+        if (property_exists($jsonObject, 'locations')) {
+            $locations = $jsonObject->locations;
+            if ($locations[0] && $locations[0]->feature->geometry) {
+                $member->setMailingLatitude($locations[0]->feature->geometry->y);
+                $member->setMailingLongitude($locations[0]->feature->geometry->x);
                 return $member;
             }
         }
@@ -78,9 +68,9 @@ class GeocoderService
         return $member;
     }
 
-    private function makeRequest($parameters = []): object
+    private function makeCensusRequest($parameters = []): object
     {
-        $response = $this->httpClient->request('GET', self::BASE_URL, [
+        $response = $this->httpClient->request('GET', self::CENSUS_BASE_URL, [
             'query' => $parameters,
             'headers' => [
                 'Accept' => 'application/json',
@@ -88,4 +78,16 @@ class GeocoderService
         ]);
         return json_decode($response->getContent());
     }
+
+    private function makeArcGisRequest($parameters = []): object
+    {
+        $response = $this->httpClient->request('GET', self::ARCGIS_BASE_URL, [
+            'query' => $parameters,
+            'headers' => [
+                'Accept' => 'application/json',
+            ]
+        ]);
+        return json_decode($response->getContent());
+    }
+
 }
