@@ -96,6 +96,17 @@
             <th>Occupation</th>
             <td>{{ record.occupation }}</td>
           </tr>
+          {% if is_granted('ROLE_ADMIN') and record.directoryNotes %}
+          <tr>
+            <td colspan="2"><hr /></td>
+          </tr>
+          <tr>
+            <th>Directory Notes</th>
+            <td>
+              {{ record.directoryNotes|markdown_to_html }}
+            </td>
+          </tr>
+          {% endif %}
         </tbody>
       </table>
     </div>

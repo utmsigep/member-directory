@@ -105,6 +105,9 @@
     "egulias/email-validator": {
         "version": "2.1.8"
     },
+    "erusev/parsedown": {
+        "version": "1.7.4"
+    },
     "friendsofsymfony/jsrouting-bundle": {
         "version": "2.3",
         "recipe": {
@@ -602,6 +605,9 @@
         "version": "v3.0.1"
     },
     "twig/intl-extra": {
+        "version": "v3.0.1"
+    },
+    "twig/markdown-extra": {
         "version": "v3.0.1"
     },
     "twig/twig": {

@@ -3,7 +3,7 @@
   {% if is_granted('ROLE_ADMIN') %}
   <li class="nav-item"><a class="nav-link {{ app.request.get('_route') == 'member_change_log' ? 'active' }}" href="{{ path('member_change_log', {localIdentifier: record.localIdentifier}) }}"><i class="fas fa-history"></i> Change Log</a></li>
   {% endif %}
-  {% if is_postal_validator_service_configured() %}
+  {% if is_postal_validator_service_configured() and is_granted('ROLE_ADMIN') %}
   <li class="nav-item"><a class="nav-link {{ app.request.get('_route') == 'member_verify_address' ? 'active' }}" href="{{ path('member_verify_address', {localIdentifier: record.localIdentifier}) }}"><i class="fas fa-mail-bulk"></i> Verify Address</a></li>
   {% endif %}
   {% if is_email_service_configured() %}

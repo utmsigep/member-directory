@@ -93,6 +93,7 @@ class DirectoryController extends AbstractController
 
     /**
      * @Route("/member/{localIdentifier}/verify-address", name="member_verify_address")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function validateMemberAddress($localIdentifier, Request $request, PostalValidatorService $postalValidatorService): Response
     {

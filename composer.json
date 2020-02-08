@@ -7,6 +7,7 @@
         "ext-iconv": "*",
         "beberlei/doctrineextensions": "^1.2",
         "campaignmonitor/createsend-php": "^6.0",
+        "erusev/parsedown": "^1.7",
         "friendsofsymfony/jsrouting-bundle": "^2.3",
         "jeroendesloovere/vcard": "^1.7",
         "league/csv": "^9.2",
@@ -38,6 +39,7 @@
         "twig/extensions": "^1.5",
         "twig/extra-bundle": "^3.0",
         "twig/intl-extra": "^3.0",
+        "twig/markdown-extra": "^3.0",
         "vinceg/usps-php-api": "^1.0"
     },
     "config": {
