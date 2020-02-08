@@ -105,6 +105,11 @@ class DirectoryController extends AbstractController
         if (is_null($record)) {
             throw $this->createNotFoundException('Member not found.');
         }
+        if (!$record->getMailingAddressLine1() && !$record->getMailingAddressLine2()) {
+            $this->addFlash('danger', 'No mailing address set.');
+            return $this->redirectToRoute('member', ['localIdentifier' => $localIdentifier]);
+        }
+
         $cache = new FilesystemAdapter();
         $cacheKey = 'directory.address_verify_' . md5(json_encode([$record->getId(), $record->getUpdatedAt()]));
         $response = $cache->getItem($cacheKey);
