@@ -197,6 +197,8 @@ class MemberRepository extends ServiceEntityRepository
             $qb->andWhere('m.isDeceased = 0');
             $qb->andWhere('m.isLost = 0');
             $qb->andWhere('m.isLocalDoNotContact = 0');
+            $qb->andWhere('s.code NOT IN (:resignedExpelled)');
+            $qb->setParameter('resignedExpelled', ['RESIGNED', 'EXPELLED']);
         }
         // Return only mailable records
         if (isset($filters['mailable']) && $filters['mailable']) {
