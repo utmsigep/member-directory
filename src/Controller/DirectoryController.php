@@ -167,6 +167,19 @@ class DirectoryController extends AbstractController
     }
 
     /**
+     * @Route("/email-campaign/{campaignId}", name="email_campaign_view")
+     */
+    public function viewCampaign($campaignId, EmailService $emailService): Response
+    {
+        if (!$emailService->isConfigured()) {
+            $this->addFlash('danger', 'Email service not configured.');
+            return $this->redirectToRoute('member', ['localIdentifier' => $localIdentifier]);
+        }
+        $campaign = $emailService->getCampaignById($campaignId);
+        return $this->redirect($campaign->WebVersionURL);
+    }
+
+    /**
      * @Route("/member/{localIdentifier}/add-subscriber", name="member_email_subscribe")
      * @IsGranted("ROLE_ADMIN")
      */

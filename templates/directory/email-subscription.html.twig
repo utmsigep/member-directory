@@ -71,7 +71,7 @@
             <tbody>
               <tr data-target="#campaign-actions-{{ item.ID }}" data-toggle="collapse" style="cursor:pointer;">
                 <td class="w-25">{{ item.Type }}</td>
-                <td class="w-75">{{ item.Name }}</td>
+                <td class="w-75"><a href="{{ path('email_campaign_view', {campaignId: item.ID }) }}">{{ item.Name }}</a></td>
                 <td class="text-right {% if item.Actions|length > 0 %}font-weight-bold{% endif %}">{{ item.Actions|length }}</td>
               </tr>
               <tr class="collapse" id="campaign-actions-{{ item.ID }}">

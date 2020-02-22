@@ -4,6 +4,7 @@ namespace App\Service;
 
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use CS_REST_Subscribers;
+use CS_REST_Campaigns;
 
 use App\Entity\Member;
 
@@ -23,6 +24,12 @@ class EmailService
         $this->apiKey = $params->get('campaign_monitor.api_key');
         $this->defaultListId = $params->get('campaign_monitor.default_list_id');
         $this->client = new CS_REST_Subscribers(
+            $this->defaultListId,
+            [
+                'api_key' => $this->apiKey
+            ]
+        );
+        $this->campaignsClient = new CS_REST_Campaigns(
             $this->defaultListId,
             [
                 'api_key' => $this->apiKey
@@ -123,6 +130,13 @@ class EmailService
         }
         error_log(json_encode($result->response));
         return false;
+    }
+
+    public function getCampaignById($campaignId): object
+    {
+        $this->campaignsClient->set_campaign_id($campaignId);
+        $result = $this->campaignsClient->get_summary();
+        return $result->response;
     }
 
     /* Private Methods */
