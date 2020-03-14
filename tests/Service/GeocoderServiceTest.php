@@ -45,8 +45,8 @@ class GeocoderServiceTest extends KernelTestCase
         $output = $this->geocoderService->geocodeMemberMailingAddress($member);
 
         // Reverts to 100 Main St
-        $this->assertEquals(36.169613, $output->getMailingLatitude());
-        $this->assertEquals(-86.77407, $output->getMailingLongitude());
+        $this->assertEquals(36.182265, $output->getMailingLatitude());
+        $this->assertEquals(-86.731055, $output->getMailingLongitude());
     }
 
     public function testBadAddress()
@@ -59,8 +59,8 @@ class GeocoderServiceTest extends KernelTestCase
         $output = $this->geocoderService->geocodeMemberMailingAddress($member);
 
         // Reverts to 100 Main St
-        $this->assertEquals(36.169613, $output->getMailingLatitude());
-        $this->assertEquals(-86.77407, $output->getMailingLongitude());
+        $this->assertEquals(36.182265, $output->getMailingLatitude());
+        $this->assertEquals(-86.731055, $output->getMailingLongitude());
     }
 
 }
