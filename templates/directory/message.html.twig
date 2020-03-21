@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ config.app_name }} - {{ record.displayName }} - Message{% endblock %}
+
+{% block body %}
+
+<div>
+  <div class="h4">{{ record.displayName }}</div>
+
+  {% include 'directory/partials/directory_member_badges.html.twig' %}
+
+  {% include 'directory/partials/directory_member_navigation.html.twig' %}
+
+  <div class="row">
+    <div class="col-md-8">
+      {{ form(form) }}
+    </div>
+    <div class="col-md-4">
+      <h5>Personalization Tags</h5>
+      <table class="table table-sm">
+        <tr>
+          <th><code>[FirstName]</code></th>
+          <td>{{ record.firstName }}</td>
+        </tr>
+        <tr>
+          <th><code>[PreferredName]</code></th>
+          <td>{{ record.preferredName }}</td>
+        </tr>
+        <tr>
+          <th><code>[LastName]</code></th>
+          <td>{{ record.lastName }}</td>
+        </tr>
+        <tr>
+          <th><code>[MailingAddressLine1]</code></th>
+          <td>{{ record.mailingAddressLine1 }}</td>
+        </tr>
+        <tr>
+          <th><code>[MailingAddressLine2]</code></th>
+          <td>{{ record.mailingAddressLine2 }}</td>
+        </tr>
+        <tr>
+          <th><code>[MailingAddressLine2]</code></th>
+          <td>{{ record.mailingAddressLine2 }}</td>
+        </tr>
+        <tr>
+          <th><code>[MailingCity]</code></th>
+          <td>{{ record.mailingCity }}</td>
+        </tr>
+        <tr>
+          <th><code>[MailingState]</code></th>
+          <td>{{ record.mailingState }}</td>
+        </tr>
+        <tr>
+          <th><code>[MailingPostalCode]</code></th>
+          <td>{{ record.mailingPostalCode }}</td>
+        </tr>
+        <tr>
+          <th><code>[PrimaryEmail]</code></th>
+          <td>{{ record.primaryEmail }}</td>
+        </tr>
+        <tr>
+          <th><code>[PrimaryTelephoneNumber]</code></th>
+          <td>{{ record.primaryTelephoneNumber }}</td>
+        </tr>
+      </table>  
+    </div>
+  </div>
+<div>
+{% endblock %}
