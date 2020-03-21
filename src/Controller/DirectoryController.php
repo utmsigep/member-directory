@@ -16,6 +16,9 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Validator\Constraints\Date;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Mime\Header\Headers;
+use Symfony\Component\Mailer\MailerInterface;
 
 use App\Service\PostalValidatorService;
 use App\Service\EmailService;
@@ -23,6 +26,7 @@ use App\Service\MemberToCsvService;
 use App\Entity\Member;
 use App\Entity\Tag;
 use App\Entity\Donation;
+use App\Form\MemberMessageType;
 
 /**
  * @IsGranted("ROLE_USER")
@@ -278,6 +282,53 @@ class DirectoryController extends AbstractController
         );
 
         return new Response($vcard->getOutput(), 200, $vcard->getHeaders(true));
+    }
+
+    /**
+     * @Route("/member/{localIdentifier}/message", name="member_message")
+     */
+    public function message($localIdentifier, Request $request, MailerInterface $mailer): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $record = $entityManager->getRepository(Member::class)->findOneBy(['localIdentifier' => $localIdentifier]);
+        if (is_null($record)) {
+            throw $this->createNotFoundException('Member not found.');
+        }
+        if (!$record->getPrimaryEmail()) {
+            $this->addFlash('danger', 'No email set for member.');
+            return $this->redirectToRoute('member', ['localIdentifier' => $localIdentifier]);
+        }
+
+        $form = $this->createForm(MemberMessageType::class, null, ['acting_user' => $this->getUser()]);
+        $form->handleRequest($request);
+        if ($form->isSubmitted()) {
+            $formData = $form->getData();
+            $headers = new Headers();
+            $headers->addTextHeader('X-Cmail-GroupName', 'Member Message');
+            $headers->addTextHeader('X-MC-Tags', 'Member Message');
+            $message = new TemplatedEmail($headers);
+            $message
+                ->to($record->getPrimaryEmail())
+                ->from($this->getParameter('app.email.from'))
+                ->replyTo($formData['reply_to'] ? $formData['reply_to'] : $this->getParameter('app.email.to'))
+                ->subject($formData['subject'])
+                ->htmlTemplate('directory/message-email.html.twig')
+                ->context([
+                    'subject' => $this->formatMessage($formData['subject'], $record),
+                    'body' => $this->formatMessage($formData['message_body'], $record)
+                ])
+                ;
+            if ($formData['send_copy']) {
+                $message->bcc($this->getUser()->getEmail());
+            }
+            $mailer->send($message);
+            $this->addFlash('success', 'Message sent!');
+        }
+
+        return $this->render('directory/message.html.twig', [
+            'record' => $record,
+            'form' => $form->createView()
+        ]);
     }
 
     /**
@@ -545,5 +596,23 @@ class DirectoryController extends AbstractController
         ]);
 
         return new Response($jsonObject, 200, ['Content-Type' => 'application/json']);
+    }
+
+    private function formatMessage($content, Member $record): string
+    {
+        $content = preg_replace('/\[FirstName\]/i', $record->getFirstName(), $content);
+        $content = preg_replace('/\[MiddleName\]/i', $record->getMiddleName(), $content);
+        $content = preg_replace('/\[PreferredName\]/i', $record->getPreferredName(), $content);
+        $content = preg_replace('/\[LastName\]/i', $record->getLastName(), $content);
+        $content = preg_replace('/\[MailingAddressLine1\]/i', $record->getMailingAddressLine1(), $content);
+        $content = preg_replace('/\[MailingAddressLine2\]/i', $record->getMailingAddressLine2(), $content);
+        $content = preg_replace('/\[MailingCity\]/i', $record->getMailingCity(), $content);
+        $content = preg_replace('/\[MailingState\]/i', $record->getMailingState(), $content);
+        $content = preg_replace('/\[MailingPostalCode\]/i', $record->getMailingPostalCode(), $content);
+        $content = preg_replace('/\[MailingCountry\]/', $record->getMailingCountry(), $content);
+        $content = preg_replace('/\[PrimaryEmail\]/i', $record->getPrimaryEmail(), $content);
+        $content = preg_replace('/\[PrimaryTelephoneNumber\]/', $record->getPrimaryTelephoneNumber(), $content);
+
+        return $content;
     }
 }

@@ -3,11 +3,12 @@
   {% if is_granted('ROLE_ADMIN') %}
   <li class="nav-item"><a class="nav-link {{ app.request.get('_route') == 'member_change_log' ? 'active' }}" href="{{ path('member_change_log', {localIdentifier: record.localIdentifier}) }}"><i class="fas fa-history"></i> Change Log</a></li>
   {% endif %}
-  {% if is_postal_validator_service_configured() and is_granted('ROLE_ADMIN') %}
+  {% if is_postal_validator_service_configured() and is_granted('ROLE_ADMIN') and (record.mailingAddressLine1 or record.mailingAddressLine2) %}
   <li class="nav-item"><a class="nav-link {{ app.request.get('_route') == 'member_verify_address' ? 'active' }}" href="{{ path('member_verify_address', {localIdentifier: record.localIdentifier}) }}"><i class="fas fa-mail-bulk"></i> Verify Address</a></li>
   {% endif %}
-  {% if is_email_service_configured() %}
+  {% if is_email_service_configured() and record.primaryEmail %}
   <li class="nav-item"><a class="nav-link {{ app.request.get('_route') == 'member_email_subscription' ? 'active' }}" href="{{ path('member_email_subscription', {localIdentifier: record.localIdentifier}) }}"><i class="fas fa-envelope"></i> Email Subscriptions</a></li>
+  <li class="nav-item"><a class="nav-link {{ app.request.get('_route') == 'member_message' ? 'active' }}" href="{{ path('member_message', {localIdentifier: record.localIdentifier}) }}"><i class="fas fa-envelope-open-text"></i> Send Message</a></li>
   {% endif %}
   {% if is_granted('ROLE_ADMIN') %}
   <li class="nav-item"><a class="nav-link {{ app.request.get('_route') == 'member_donations' ? 'active' }}" href="{{ path('member_donations', {localIdentifier: record.localIdentifier}) }}"><i class="fas fa-hand-holding-usd"></i> Donations</a></li>
