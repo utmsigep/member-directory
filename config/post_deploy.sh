@@ -6,6 +6,6 @@ npm ci
 
 npm run-script build
 
-php bin/console doctrine:migrations:migrate
+php bin/console doctrine:migrations:migrate --no-interaction
 
 php bin/console cache:warmup
