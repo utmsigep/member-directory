@@ -108,6 +108,9 @@ class UpdateController extends AbstractController
                 ->htmlTemplate('update/email-update.html.twig')
                 ->context(['member' => $member])
                 ;
+            if ($member->getPrimaryEmail()) {
+                $message->replyTo($member->getPrimaryEmail());
+            }
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($member);
             $entityManager->flush();
