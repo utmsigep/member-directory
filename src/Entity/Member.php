@@ -181,6 +181,13 @@ class Member
     private $facebookIdentifier;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Gedmo\Versioned
+     * @Assert\Regex("/^https?\:\/\/(www\.)?linkedin.com\/(.*)/", message="Please provide a LinkedIn URL")
+     */
+    private $linkedinUrl;
+
+    /**
      * @ORM\Column(type="boolean", nullable=true)
      * @Gedmo\Versioned
      */
@@ -517,6 +524,18 @@ class Member
         return $this;
     }
 
+    public function getLinkedinUrl(): ?string
+    {
+        return $this->linkedinUrl;
+    }
+
+    public function setLinkedinUrl(?string $linkedinUrl): self
+    {
+        $this->linkedinUrl = $linkedinUrl;
+
+        return $this;
+    }
+
     public function getDirectoryNotes(): ?string
     {
         return $this->directoryNotes;
@@ -723,5 +742,4 @@ class Member
 
         return $this;
     }
-
 }

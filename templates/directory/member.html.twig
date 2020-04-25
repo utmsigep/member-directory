@@ -115,9 +115,14 @@
         <img src="{{ record.photoUrl }}" class="img-fluid img-thumbnail" />
       </div>
       <div class="text-center">
-        {% if record.facebookIdentifier %}
-        <p><a href="https://facebook.com/{{ record.facebookIdentifier }}"><i class="fab fa-facebook fa-2x"></i></a></p>
-        {% endif %}
+        <ul class="list-inline">
+          {% if record.facebookIdentifier %}
+          <li class="list-inline-item"><a href="https://facebook.com/{{ record.facebookIdentifier }}" target="_blank"><i class="fab fa-facebook fa-2x"></i></a></li>
+          {% endif %}
+          {% if record.linkedinUrl %}
+          <li class="list-inline-item"><a href="{{ record.linkedinUrl }}" target="_blank"><i class="fab fa-linkedin fa-2x"></i></a></li>
+          {% endif %}
+        </ul>
         <p class="text-muted"><small title="{{ record.updatedAt|date('c') }}"><i class="fas fa-clock"></i> Updated: {{ record.updatedAt|date('l, F j, Y') }}</small></p>
       </div>
     </div>
