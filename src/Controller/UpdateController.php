@@ -6,11 +6,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Mime\Header\Headers;
 use Symfony\Component\Mailer\MailerInterface;
 
 use App\Entity\Member;
+use App\Form\MemberUpdateType;
 
 class UpdateController extends AbstractController
 {
@@ -48,48 +48,7 @@ class UpdateController extends AbstractController
             $member = new Member();
         }
 
-        $form = $this->createFormBuilder($member)
-            ->add('classYear', null, [
-                'label' => 'Class Year'
-            ])
-            ->add('mailingAddressLine1', null, [
-                'label' => 'Mailing Address'
-            ])
-            ->add('mailingAddressLine2', null, [
-                'label' => false
-            ])
-            ->add('mailingCity', null, [
-                'label' => 'City'
-            ])
-            ->add('mailingState', null, [
-                'label' => 'State'
-            ])
-            ->add('mailingPostalCode', null, [
-                'label' => 'Postal Code'
-            ])
-            ->add('primaryEmail', null, [
-                'label' => 'Primary Email Address',
-                'attr' => [
-                    'placeholder' => 'user@example.com'
-                ]
-            ])
-            ->add('primaryTelephoneNumber', null, [
-                'label' => 'Primary Telephone Number',
-                'attr' => [
-                    'placeholder' => '(xxx) xxx-xxxx'
-                ]
-            ])
-            ->add('employer')
-            ->add('jobTitle', null, [
-                'label' => 'Job Title'
-            ])
-            ->add('occupation', null, [
-                'label' => 'Occupation/Industry'
-            ])
-            ->add('Submit', SubmitType::class)
-            ->getForm()
-        ;
-
+        $form = $form = $this->createForm(MemberUpdateType::class, $member);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

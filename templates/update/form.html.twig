@@ -12,7 +12,49 @@
   <div class="h4">Update My Member Record</div>
   {% if member.id %}
   <div class="alert alert-info">Hello <strong>{{ member.displayName }}</strong>! We have pre-loaded your information for you. This link will expire once the update is processed.</div>
-  {{ form(form) }}
+  {{ form_start(form) }}
+  {% if form.vars.valid == false %}
+  <div class="alert alert-danger">Please correct the errors below.</div>
+  {% endif %}
+  <div class="card card-default mb-3">
+    <div class="card-body">
+    {{ form_row(form.classYear) }}
+    </div>
+  </div>
+  <div class="card card-default mb-3">
+    <div class="card-body">
+      {{ form_row(form.mailingAddressLine1) }}
+      {{ form_row(form.mailingAddressLine2) }}
+      <div class="row">
+        <div class="col-md-6">
+          {{ form_row(form.mailingCity) }}
+        </div>
+        <div class="col-md-2">
+          {{ form_row(form.mailingState) }}
+        </div>
+        <div class="col-md-4">
+          {{ form_row(form.mailingPostalCode) }}
+        </div>
+      </div>
+      <hr />
+      {{ form_row(form.primaryEmail) }}
+      {{ form_row(form.primaryTelephoneNumber) }}
+    </div>
+  </div>
+  <div class="card card-default mb-3">
+    <div class="card-body">
+      {{ form_row(form.employer) }}
+      {{ form_row(form.jobTitle) }}
+      {{ form_row(form.occupation) }}
+      <hr />
+      {{ form_row(form.linkedinUrl) }}
+    </div>
+  </div>
+  <div class="text-right">
+    {{ form_widget(form.submit) }}
+  </div>
+  {{ form_rest(form) }}
+  {{ form_end(form)}}
   {% else %}
   <p>Sorry, the link you were given has expired for privacy reasons. Please reply to the original message that brought you here to update your Member Record.</p>
   {% endif %}
