@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Sonata\AdminBundle\Form\Type\ModelType;
 use Sonata\AdminBundle\Form\Type\ModelListType;
@@ -44,6 +45,10 @@ final class MemberAdmin extends AbstractAdmin
                     ->add('primaryEmail')
                     ->add('primaryTelephoneNumber')
                     ->add('facebookIdentifier')
+                    ->add('linkedinUrl', UrlType::class, [
+                        'label' => 'LinkedIn URL',
+                        'required' => false
+                    ])
                     ->end()
                 ->with('Mailing Address', ['class' => 'col-md-4'])
                     ->add('mailingAddressLine1')
