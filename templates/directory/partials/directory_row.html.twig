@@ -21,6 +21,20 @@
     {% endif %}
   </td>
   <td>
+    <ul class="list-inline">
+      {% if record.linkedinUrl %}
+      <li class="list-inline-item m-0"><a href="{{ record.linkedinUrl }}" target="_blank"><i class="fab fa-linkedin fa-lg"></i></a></li>
+      {% else %}
+      <li class="list-inline-item m-0"><i class="fab fa-linkedin fa-lg" style="opacity:0.2"></i></li>
+      {% endif %}
+      {% if record.facebookIdentifier %}
+      <li class="list-inline-item m-0"><a href="https://facebook.com/{{ record.facebookIdentifier }}" target="_blank"><i class="fab fa-facebook fa-lg"></i></a></li>
+      {% else %}
+      <li class="list-inline-item m-0"><i class="fab fa-facebook fa-lg" style="opacity:0.2"></i></li>
+      {% endif %}
+    </ul>
+  </td>
+  <td>
     {{ record.primaryTelephoneNumber }}
   </td>
   <td>
