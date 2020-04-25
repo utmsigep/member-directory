@@ -31,8 +31,8 @@ class GeocoderServiceTest extends KernelTestCase
         $member->setMailingState('TN');
         $output = $this->geocoderService->geocodeMemberMailingAddress($member);
 
-        $this->assertEquals('36.15711', $output->getMailingLatitude());
-        $this->assertEquals('-86.78627', $output->getMailingLongitude());
+        $this->assertGreaterThan(36.1, $output->getMailingLatitude());
+        $this->assertLessThan(-86.7, $output->getMailingLongitude());
     }
 
     public function testPOBox()
@@ -44,9 +44,9 @@ class GeocoderServiceTest extends KernelTestCase
         $member->setMailingPostalCode('37206');
         $output = $this->geocoderService->geocodeMemberMailingAddress($member);
 
-        // Reverts to 100 Main St
-        $this->assertEquals(36.182265, $output->getMailingLatitude());
-        $this->assertEquals(-86.731055, $output->getMailingLongitude());
+        // Falls back to Zip Code location
+        $this->assertGreaterThan(36.1, $output->getMailingLatitude());
+        $this->assertLessThan(-86.7, $output->getMailingLongitude());
     }
 
     public function testBadAddress()
@@ -58,9 +58,9 @@ class GeocoderServiceTest extends KernelTestCase
         $member->setMailingPostalCode('37206');
         $output = $this->geocoderService->geocodeMemberMailingAddress($member);
 
-        // Reverts to 100 Main St
-        $this->assertEquals(36.182265, $output->getMailingLatitude());
-        $this->assertEquals(-86.731055, $output->getMailingLongitude());
+        // Falls back to Zip Code location
+        $this->assertGreaterThan(36.1, $output->getMailingLatitude());
+        $this->assertLessThan(-86.7, $output->getMailingLongitude());
     }
 
 }
