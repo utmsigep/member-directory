@@ -618,7 +618,7 @@ class Member
 
     public function __toString(): string
     {
-        return sprintf('%s, %s (%s)', $this->lastName, $this->firstName, $this->localIdentifier);
+        return sprintf('%s, %s (%s)', $this->lastName, $this->preferredName, $this->localIdentifier);
     }
 
     public function getLocalIdentifierShort(): string
