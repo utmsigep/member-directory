@@ -6,7 +6,7 @@ import * as L from 'leaflet';
 import 'leaflet-defaulticon-compatibility';
 
 // Routing
-const routes = require('../../public/js/fos_js_routes.json');
+const routes = require('../js/fos_js_routes.json');
 import Routing from '../../vendor/friendsofsymfony/jsrouting-bundle/Resources/public/js/router.min.js';
 Routing.setRoutingData(routes);
 
@@ -41,6 +41,8 @@ var drawMap = function () {
   var searchResultsContainer = $('#searchResults')
   var searchNoResultsFoundContainer = $('#searchNoResultsFound')
   var searchResultCountContainer = $('#searchResultCount')
+  var searchResultsExport = $('#searchResultsExport')
+  var mapExportButton = $('#mapExportButton')
   mymap.on('click', function(ev) {
       // Remove last circle drawn
       mymap.removeLayer(circle)
@@ -52,13 +54,16 @@ var drawMap = function () {
           fillOpacity: 0.1,
           radius: (radius * 1609.344)
       }).addTo(mymap);
+      mapExportButton.attr('href', Routing.generate('export_by_location', {latitude: ev.latlng.lat, longitude: ev.latlng.lng, radius: radius}))
       $.getJSON(Routing.generate('map_search', {latitude: ev.latlng.lat, longitude: ev.latlng.lng, radius: radius}), {}, function(data) {
           searchResultsContainer.empty()
           searchNoResultsFoundContainer.show()
+          searchResultsExport.hide()
           searchResultCountContainer.html(0)
           if (data.length > 0) {
             searchResultCountContainer.html(data.length)
             searchNoResultsFoundContainer.hide()
+            searchResultsExport.show()
             $(data).each(function (i, row) {
               var result = {
                 fullName: row[0].preferredName + ' ' + row[0].lastName,
