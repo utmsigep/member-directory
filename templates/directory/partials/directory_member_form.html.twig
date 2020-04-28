@@ -1,0 +1,92 @@
+
+  <div class="row">
+    <div class="col-lg-4">
+
+      <div class="card card-default mb-3">
+        <h5 class="card-header">Identifiers</h5>
+        <div class="card-body">
+          {{ form_row(form.localIdentifier, {label: 'Local Identifier'}) }}
+          {{ form_row(form.externalIdentifier, {label: 'External Identifier'}) }}
+          {{ form_row(form.facebookIdentifier, {label: 'Facebook Identifier'}) }}
+        </div>
+      </div>
+
+      <div class="card card-default mb-3">
+        <h5 class="card-header">Basics</h5>
+        <div class="card-body">
+          {{ form_row(form.firstName, {label: 'First Name'}) }}
+          {{ form_row(form.preferredName, {label: 'Preferred Name'}) }}
+          {{ form_row(form.middleName, {label: 'Middle Name'}) }}
+          {{ form_row(form.lastName, {label: 'Last Name'}) }}
+          <hr />
+          {{ form_row(form.primaryEmail, {label: 'Primary Email'}) }}
+          {{ form_row(form.primaryTelephoneNumber, {label: 'Primary Telephone Number'}) }}
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <div class="card card-default mb-3">
+        <h5 class="card-header">Mailing Address</h5>
+        <div class="card-body">
+          {{ form_row(form.mailingAddressLine1, {label: 'Mailing Address'}) }}
+          {{ form_row(form.mailingAddressLine2, {label: false}) }}
+          {{ form_row(form.mailingCity, {label: 'City'}) }}
+          {{ form_row(form.mailingState, {label: 'State/Province'}) }}
+          {{ form_row(form.mailingPostalCode, {label: 'Postal Code'}) }}
+          {{ form_row(form.mailingCountry, {label: 'Country'}) }}
+        </div>
+      </div>
+
+      <div class="card card-default mb-3">
+        <h5 class="card-header">Contact Flags</h5>
+        <div class="card-body">
+          {{ form_row(form.isLost, {label: 'Lost' }) }}
+          {{ form_row(form.isDeceased, {label: 'Deceased'}) }}
+          {{ form_row(form.isLocalDoNotContact, {label: 'Do Not Contact (Local)'}) }}
+          {{ form_row(form.isExternalDoNotContact, {label: 'Do Not Contact (External)'}) }}
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <div class="card card-default mb-3">
+        <h5 class="card-header">GPS Coordinates</h5>
+        <div class="card-body">
+          {{ form_row(form.mailingLatitude, {label: 'Latitude'}) }}
+          {{ form_row(form.mailingLongitude, {label: 'Longitude'}) }}
+        </div>
+      </div>
+
+      <div class="card card-default mb-3">
+        <h5 class="card-header">Details</h5>
+        <div class="card-body">
+          {{ form_row(form.joinDate, {label: 'Join Date'}) }}
+          {{ form_row(form.classYear, {label: 'Class Year'}) }}
+          {{ form_row(form.status, {label: 'Status'}) }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="card card-default mb-3">
+        <h5 class="card-header">Employment</h5>
+        <div class="card-body">
+          {{ form_row(form.employer, {label: 'Employer'}) }}
+          {{ form_row(form.jobTitle, {label: 'Job Title'}) }}
+          {{ form_row(form.occupation, {label: 'Occupation'}) }}
+          <hr />
+          {{ form_row(form.linkedinUrl, {label: 'LinkedIn URL', attr: {placeholder: 'e.g. https://www.linkedin.com/in/williamhgates/'}}) }}
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="card card-default mb-3">
+        <h5 class="card-header">Notes</h5>
+        <div class="card-body">
+          {{ form_row(form.directoryNotes, {label: 'Directory Notes'}) }}
+          {{ form_row(form.tags, {label: 'Tags', attr: { class: 'selectpicker'}}) }}
+        </div>
+      </div>
+    </div>
+  </div>

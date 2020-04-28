@@ -45,7 +45,7 @@ class DonationsController extends AbstractController
         $form = $this->createForm(DonationImportType::class, null);
         $form->handleRequest($request);
         $donations = [];
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $donorboxDonationService->run($form['csv_file']->getData());
             } catch (\Exception $e) {

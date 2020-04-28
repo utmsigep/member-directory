@@ -67,8 +67,11 @@
           <div class="py-2">
               {% for message in messages %}
                   {%if type == 'error'%} {% set type = 'danger' %} {%endif%}
-                  <div class="alert alert-{{ type }}">
+                  <div class="alert alert-{{ type }} alert-dismissible fade show" role="alert">
                       {{ message|raw }}
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
                   </div>
               {% endfor %}
           </div>

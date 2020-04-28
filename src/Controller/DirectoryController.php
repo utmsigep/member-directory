@@ -27,6 +27,7 @@ use App\Entity\Member;
 use App\Entity\Tag;
 use App\Entity\Donation;
 use App\Form\MemberMessageType;
+use App\Form\MemberType;
 
 /**
  * @IsGranted("ROLE_USER")
@@ -43,7 +44,7 @@ class DirectoryController extends AbstractController
     }
 
     /**
-     * @Route("/member/{localIdentifier}", name="member", options={"expose" = true})
+     * @Route("/member/{localIdentifier}", name="member", options={"expose" = true}))
      */
     public function member($localIdentifier): Response
     {
@@ -54,6 +55,60 @@ class DirectoryController extends AbstractController
         }
         return $this->render('directory/member.html.twig', [
             'record' => $record
+        ]);
+    }
+
+    /**
+     * @Route("/member/new", name="member_new", options={"expose" = true})
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function memberNew(Request $request): Response
+    {
+        $record = new Member();
+        $form = $this->createForm(MemberType::class, $record);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $record = $form->getData();
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($record);
+            $entityManager->flush();
+            $this->addFlash('success', sprintf('%s created!', $record));
+            return $this->redirect($this->generateUrl('member', [
+                'localIdentifier' => $record->getLocalIdentifier()
+            ]));
+        }
+        return $this->render('directory/member-new.html.twig', [
+            'record' => $record,
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/member/{localIdentifier}/edit", name="member_edit", options={"expose" = true})
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function memberEdit($localIdentifier, Request $request): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $record = $entityManager->getRepository(Member::class)->findOneBy(['localIdentifier' => $localIdentifier]);
+        if (is_null($record)) {
+            throw $this->createNotFoundException('Member not found.');
+        }
+        $form = $this->createForm(MemberType::class, $record);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $record = $form->getData();
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($record);
+            $entityManager->flush();
+            $this->addFlash('success', sprintf('%s updated!', $record));
+            return $this->redirect($this->generateUrl('member', [
+                'localIdentifier' => $record->getLocalIdentifier()
+            ]));
+        }
+        return $this->render('directory/member-edit.html.twig', [
+            'record' => $record,
+            'form' => $form->createView()
         ]);
     }
 
@@ -138,6 +193,7 @@ class DirectoryController extends AbstractController
             $record->setMailingPostalCode(sprintf('%s-%s', $verifiedData['Zip5'], $verifiedData['Zip4']));
             $entityManager->persist($record);
             $entityManager->flush();
+            $this->addFlash('success', 'Mailing address updated!');
         }
 
         return $this->render('directory/verify-address.html.twig', [

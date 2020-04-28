@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ config.app_name }} - {{ record.displayName }} {% endblock %}
+
+{% block stylesheets -%}
+{{ parent() }}
+{{ encore_entry_link_tags('member') }}
+{% endblock %}
+
+{% block body %}
+<div>
+  <div class="h4">{{ record.displayName }}</div>
+
+  {% include 'directory/partials/directory_member_badges.html.twig' %}
+
+  {{ form_start(form) }}
+  {% include 'directory/partials/directory_member_form.html.twig' %}
+  <div class="text-right">
+    {{ form_row(form.submit, {label: 'Update Member'}) }}
+  </div>
+  {{ form_rest(form) }}
+  {{ form_end(form) }}
+</div>
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+{{ encore_entry_script_tags('member') }}
+{% endblock %}
