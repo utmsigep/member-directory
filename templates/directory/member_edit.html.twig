@@ -15,8 +15,13 @@
 
   {{ form_start(form) }}
   {% include 'directory/partials/directory_member_form.html.twig' %}
-  <div class="text-right">
-    {{ form_row(form.submit, {label: 'Update Member'}) }}
+  <div class="row">
+    <div class="col">
+      <a href="{{ path('member_delete', {localIdentifier: record.localIdentifier}) }}" class="btn btn-link text-danger">Delete Member</a>
+    </div>
+    <div class="col text-right">
+      {{ form_widget(form.submit, {label: 'Update Member'}) }}
+    </div>
   </div>
   {{ form_rest(form) }}
   {{ form_end(form) }}

@@ -44,21 +44,6 @@ class DirectoryController extends AbstractController
     }
 
     /**
-     * @Route("/member/{localIdentifier}", name="member", options={"expose" = true}))
-     */
-    public function member($localIdentifier): Response
-    {
-        $entityManager = $this->getDoctrine()->getManager();
-        $record = $entityManager->getRepository(Member::class)->findOneBy(['localIdentifier' => $localIdentifier]);
-        if (is_null($record)) {
-            throw $this->createNotFoundException('Member not found.');
-        }
-        return $this->render('directory/member.html.twig', [
-            'record' => $record
-        ]);
-    }
-
-    /**
      * @Route("/member/new", name="member_new", options={"expose" = true})
      * @IsGranted("ROLE_ADMIN")
      */
@@ -77,9 +62,24 @@ class DirectoryController extends AbstractController
                 'localIdentifier' => $record->getLocalIdentifier()
             ]));
         }
-        return $this->render('directory/member-new.html.twig', [
+        return $this->render('directory/member_new.html.twig', [
             'record' => $record,
             'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/member/{localIdentifier}", name="member", options={"expose" = true}))
+     */
+    public function member($localIdentifier): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $record = $entityManager->getRepository(Member::class)->findOneBy(['localIdentifier' => $localIdentifier]);
+        if (is_null($record)) {
+            throw $this->createNotFoundException('Member not found.');
+        }
+        return $this->render('directory/member.html.twig', [
+            'record' => $record
         ]);
     }
 
@@ -106,7 +106,37 @@ class DirectoryController extends AbstractController
                 'localIdentifier' => $record->getLocalIdentifier()
             ]));
         }
-        return $this->render('directory/member-edit.html.twig', [
+        return $this->render('directory/member_edit.html.twig', [
+            'record' => $record,
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/member/{localIdentifier}/delete", name="member_delete", options={"expose" = true})
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function memberDelete($localIdentifier, Request $request): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $record = $entityManager->getRepository(Member::class)->findOneBy(['localIdentifier' => $localIdentifier]);
+        if (is_null($record)) {
+            throw $this->createNotFoundException('Member not found.');
+        }
+        $form = $this->createFormBuilder($record)
+            ->add('submit', SubmitType::class)
+            ->getForm()
+            ;
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $record = $form->getData();
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($record);
+            $entityManager->flush();
+            $this->addFlash('success', sprintf('%s deleted!', $record));
+            return $this->redirect($this->generateUrl('home'));
+        }
+        return $this->render('directory/member_delete.html.twig', [
             'record' => $record,
             'form' => $form->createView()
         ]);
