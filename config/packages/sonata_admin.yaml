@@ -18,12 +18,6 @@ sonata_block:
             contexts: [admin]
 
 services:
-    app.admin.member:
-        class: App\Admin\MemberAdmin
-        arguments: [~, App\Entity\Member, ~]
-        tags:
-            - { name: sonata.admin, manager_type: orm, group: Directory, label: 'Members' }
-
     app.admin.member_status:
         class: App\Admin\MemberStatusAdmin
         arguments: [~, App\Entity\MemberStatus, ~]

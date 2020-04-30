@@ -1,3 +1,4 @@
+<div style="">
   <a class="nav-link {{ app.request.get('_route') == 'alumni' ? 'active' }}" href="{{ path('alumni') }}"><i class="fas fa-user-graduate fa-fw text-muted"></i> Alumni</a>
   <a class="ml-3 nav-link {{ app.request.get('_route') == 'lost' ? 'active' }}" href="{{ path('lost')}}"><i class="fas fa-frown fa-fw text-muted"></i> Lost Alumni</a>
   <a class="ml-3 nav-link {{ app.request.get('_route') == 'year' ? 'active' }}" href="{{ path('year')}}"><i class="fas fa-calendar fa-fw text-muted"></i> Class Year</a>
@@ -22,3 +23,7 @@
   {% for _tag in get_tags() %}
   <a class="nav-link {{ app.request.get('_route') == 'tag' and tag is defined and tag.id == _tag.id ? 'active' }}" href="{{ path('tag', {tagId: _tag.id})}}"><i class="fas fa-tag fa-fw text-muted"></i> {{ _tag.tagName }}</a>
   {% endfor %}
+  {% if is_granted('ROLE_ADMIN') %}
+  <hr />
+  <a class="nav-link" href="{{ path('sonata_admin_redirect') }}"><i class="fas fa-cog"></i> Directory Admin</a>
+  {% endif %}

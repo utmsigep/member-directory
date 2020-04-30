@@ -63,7 +63,7 @@ class ImportController extends AbstractController
                 throw new \Exception($e->getMessage(), 500);
             }
             $formData = $form->getData();
-            $dryRun = (bool) $formData['dryRun'];
+            $dryRun = (bool) $formData['dry_run'];
             foreach ($csvToMemberService->getMembers() as $member) {
                 if ($member->getId() > 0) {
                     $members[] = $member;
@@ -84,6 +84,9 @@ class ImportController extends AbstractController
             }
             if (!$dryRun) {
                 $entityManager->flush();
+                $this->addFlash('success', 'Import complete!');
+            } else {
+                $this->addFlash('info', 'Import dry-run complete!');
             }
         }
 
