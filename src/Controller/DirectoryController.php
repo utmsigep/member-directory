@@ -181,54 +181,45 @@ class DirectoryController extends AbstractController
     }
 
     /**
-     * @Route("/member/{localIdentifier}/verify-address", name="member_verify_address")
+     * @Route("/verify-address-data", name="verify_address_data", options={"expose" = true})
      * @IsGranted("ROLE_ADMIN")
      */
-    public function validateMemberAddress($localIdentifier, Request $request, PostalValidatorService $postalValidatorService): Response
+    public function validateMemberAddress(Request $request, PostalValidatorService $postalValidatorService): Response
     {
         if (!$postalValidatorService->isConfigured()) {
-            $this->addFlash('danger', 'Mailing validation service not configured.');
-            return $this->redirectToRoute('member', ['localIdentifier' => $localIdentifier]);
-        }
-        $entityManager = $this->getDoctrine()->getManager();
-        $record = $entityManager->getRepository(Member::class)->findOneBy(['localIdentifier' => $localIdentifier]);
-        if (is_null($record)) {
-            throw $this->createNotFoundException('Member not found.');
-        }
-        if (!$record->getMailingAddressLine1() && !$record->getMailingAddressLine2()) {
-            $this->addFlash('danger', 'No mailing address set.');
-            return $this->redirectToRoute('member', ['localIdentifier' => $localIdentifier]);
+            return $this->json([
+                'status' => 'error',
+                'message' => 'Postal validation service not configured'
+            ], 500);
         }
 
+        $record = new Member();
+        $record->setMailingAddressLine1($request->query->get('mailingAddressLine1'));
+        $record->setMailingAddressLine2($request->query->get('mailingAddressLine2'));
+        $record->setMailingCity($request->query->get('mailingCity'));
+        $record->setMailingState($request->query->get('mailingState'));
+        $record->setMailingPostalCode($request->query->get('mailingPostalCode'));
+
         $cache = new FilesystemAdapter();
-        $cacheKey = 'directory.address_verify_' . md5(json_encode([$record->getId(), $record->getUpdatedAt()]));
+        $cacheKey = 'directory.address_verify_' . md5(json_encode($request->query->all()));
         $response = $cache->getItem($cacheKey);
         if (!$response->isHit()) {
             $response->set($postalValidatorService->validate($record));
             $cache->save($response);
         }
 
-        $verifiedData = $response->get()['AddressValidateResponse']['Address'];
+        $jsonResponse = $response->get();
 
-        if ($request->request->get('update_address')) {
-            if (isset($verifiedData['Address1']) && isset($verifiedData['Address2'])) {
-                $record->setMailingAddressLine1($verifiedData['Address1']);
-                $record->setMailingAddressLine2($verifiedData['Address2']);
-            } elseif (isset($verifiedData['Address2']) && $verifiedData['Address2']) {
-                $record->setMailingAddressLine1($verifiedData['Address2']);
-                $record->setMailingAddressLine2('');
-            }
-            $record->setMailingCity($verifiedData['City']);
-            $record->setMailingState($verifiedData['State']);
-            $record->setMailingPostalCode(sprintf('%s-%s', $verifiedData['Zip5'], $verifiedData['Zip4']));
-            $entityManager->persist($record);
-            $entityManager->flush();
-            $this->addFlash('success', 'Mailing address updated!');
+        if (isset($jsonResponse['AddressValidateResponse']['Address']['Error'])) {
+            return $this->json([
+                'status' => 'error',
+                'message' => $jsonResponse['AddressValidateResponse']['Address']['Error']['Description']
+            ], 500);
         }
 
-        return $this->render('directory/verify-address.html.twig', [
-            'record' => $record,
-            'verify' => $verifiedData
+        return $this->json([
+            'status' => 'success',
+            'verify' => $jsonResponse['AddressValidateResponse']['Address']
         ]);
     }
 

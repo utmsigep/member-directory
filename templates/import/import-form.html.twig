@@ -10,12 +10,23 @@
 {% endfor %}
 {% endif %}
 
-<div class="row">
-  <div class="col-lg-12">
-    <div class="h4">Import</div>
-    {{ form(importForm) }}
+<div class="h4">Import</div>
+
+<p class="lead">You can create a single <a href="{{ path('member_new') }}">new Member</a> or use the form below to import them in bulk.</p>
+
+{{ form_start(importForm) }}
+<div class="card mb-3">
+  <div class="card-header">Import Members</div>
+  <div class="card-body">
+    {{ form_row(importForm.csv_file) }}
+    {{ form_row(importForm.dry_run) }}
+  </div>
+  <div class="card-footer text-right">
+    {{ form_widget(importForm.submit) }}
   </div>
 </div>
+{{ form_rest(importForm) }}
+{{ form_end(importForm) }}
 
 {% if members is not empty %}
 {% for member in members %}

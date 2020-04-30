@@ -11,15 +11,17 @@
 <div>
   <div class="h4">{{ record.displayName }}</div>
 
+  {% include 'directory/partials/directory_member_navigation.html.twig' %}
+
   {% include 'directory/partials/member_summary.html.twig' %}
 
   {{ form_start(form) }}
   <div class="row justify-content-md-center mt-3">
     <div class="col col-lg-8">
       <div class="card">
-        <h5 class="card-header text-white bg-danger">Are you sure you want to delete this Member?</h5>
+        <div class="card-header text-white bg-danger">Are you sure you want to delete this Member?</div>
         <div class="card-body">
-          <div class="lead">
+          <div>
             <p>In most cases, you would rather update the <strong>Status</strong> instead of deleting the Member record. Associated records will also be deleted and cannot be recovered.</p>
             <p><strong>You should only delete a Member if he/she was created in error.</strong></p>
           </div>

@@ -33,7 +33,7 @@ class MemberImportType extends AbstractType
                     ])
                 ],
             ])
-            ->add('dryRun', CheckboxType::class, [
+            ->add('dry_run', CheckboxType::class, [
                 'label' => 'Dry-run',
                 'help' => 'Does not save or create records when checked.',
                 'data' => true,
