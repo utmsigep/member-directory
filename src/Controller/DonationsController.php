@@ -52,7 +52,7 @@ class DonationsController extends AbstractController
                 throw new \Exception($e->getMessage(), 500);
             }
             $formData = $form->getData();
-            $dryRun = (bool) $formData['dryRun'];
+            $dryRun = (bool) $formData['dry_run'];
             foreach ($donorboxDonationService->getDonations() as $donation) {
                 $entityManager->persist($donation);
             }

@@ -10,12 +10,21 @@
 {% endfor %}
 {% endif %}
 
-<div class="row">
-  <div class="col-lg-12">
-    <div class="h4">Donations Import <sup><span class="badge badge-secondary">Beta</span></sup></div>
-    {{ form(importForm) }}
+<div class="h4">Donations Import <sup><span class="badge badge-secondary">Beta</span></sup></div>
+
+{{ form_start(importForm) }}
+<div class="card mb-3">
+  <div class="card-header">Import Donations</div>
+  <div class="card-body">
+    {{ form_row(importForm.csv_file) }}
+    {{ form_row(importForm.dry_run) }}
+  </div>
+  <div class="card-footer text-right">
+    {{ form_widget(importForm.submit) }}
   </div>
 </div>
+{{ form_rest(importForm) }}
+
 
 {% if donations %}
 <table class="table table-striped">
