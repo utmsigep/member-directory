@@ -26,7 +26,15 @@
     </div>
     <div class="col-lg-4">
       <div class="card card-default mb-3">
-        <div class="card-header">Mailing Address</div>
+        <div class="card-header">
+          {% if is_postal_validator_service_configured() %}
+          <div class="float-right">
+            <a href="javascript:void(0)" class="btn btn-secondary btn-sm py-0" id="verifyAddressButton"><i class="fas fa-mail-bulk"></i> Verify Address</a>
+            <i class="fas fa-spinner fa-spin fa-lg ml-1" id="verifyAddressStatusIndicator"></i>
+          </div>
+          {% endif %}
+          Mailing Address
+        </div>
         <div class="card-body">
           {{ form_row(form.mailingAddressLine1, {label: 'Address'}) }}
           {{ form_row(form.mailingAddressLine2, {label: false}) }}
@@ -34,10 +42,6 @@
           {{ form_row(form.mailingState, {label: 'State/Province'}) }}
           {{ form_row(form.mailingPostalCode, {label: 'Postal Code'}) }}
           {{ form_row(form.mailingCountry, {label: 'Country'}) }}
-          {% if is_postal_validator_service_configured() %}
-          <a href="javascript:void(0)" class="btn btn-secondary btn-sm" id="verifyAddressButton"><i class="fas fa-mail-bulk"></i> Verify Address</a>
-          <i class="fas fa-spinner fa-spin fa-lg ml-1" id="verifyAddressStatusIndicator"></i>
-          {% endif %}
         </div>
       </div>
 
