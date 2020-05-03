@@ -26,7 +26,7 @@
     {{ form_row(form.tags) }}
   </div>
   <div class="card-footer text-right">
-    {{ form_widget(form.submit) }}
+    <button class="btn btn-primary">{{ button_label|default('Export') }}</button>
   </div>
 </div>
 {{ form_rest(form) }}

@@ -3,9 +3,8 @@
 {% block title %}{{ parent() }} - New Donation{% endblock %}
 
 {% block body %}
-    <h1>Create new Donation</h1>
+<div class="h4">New Donation</div>
 
-    {{ include('donation/_form.html.twig') }}
+{{ include('donation/_form.html.twig') }}
 
-    <a href="{{ path('donation_index') }}">back to list</a>
 {% endblock %}

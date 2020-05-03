@@ -12,8 +12,6 @@
 
 <div class="h4">Import</div>
 
-<p class="lead">You can create a single <a href="{{ path('member_new') }}">new Member</a> or use the form below to import them in bulk.</p>
-
 {{ form_start(importForm) }}
 <div class="card mb-3">
   <div class="card-header">Import Members</div>
@@ -22,7 +20,7 @@
     {{ form_row(importForm.dry_run) }}
   </div>
   <div class="card-footer text-right">
-    {{ form_widget(importForm.submit) }}
+    <button class="btn btn-primary">{{ button_label|default('Import') }}</button>
   </div>
 </div>
 {{ form_rest(importForm) }}

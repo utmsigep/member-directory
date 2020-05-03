@@ -22,7 +22,7 @@
       <a href="{{ path('member_delete', {localIdentifier: record.localIdentifier}) }}" class="btn btn-link text-danger"><i class="fas fa-trash fa-fw"></i>Delete</a>
     </div>
     <div class="col text-right">
-      {{ form_widget(form.submit, {label: 'Update Member'}) }}
+      <button class="btn btn-primary">{{ button_label|default('Update') }}</button>
     </div>
   </div>
   {{ form_rest(form) }}

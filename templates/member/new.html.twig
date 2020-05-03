@@ -2,23 +2,22 @@
 
 {% block title %}{{ parent() }} - New Member {% endblock %}
 
+{% block body %}
+<div class="h4">New Member</div>
+
+{{ form_start(form) }}
+{% include 'member/_form.html.twig' %}
+<div class="text-right">
+  <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+</div>
+{{ form_rest(form) }}
+{{ form_end(form) }}
+
+{% endblock %}
+
 {% block stylesheets -%}
 {{ parent() }}
 {{ encore_entry_link_tags('member') }}
-{% endblock %}
-
-{% block body %}
-<div>
-  <div class="h4">New Member</div>
-
-  {{ form_start(form) }}
-  {% include 'member/_form.html.twig' %}
-  <div class="text-right">
-    {{ form_row(form.submit, {label: 'Create Member'}) }}
-  </div>
-  {{ form_rest(form) }}
-  {{ form_end(form) }}
-</div>
 {% endblock %}
 
 {% block javascripts %}

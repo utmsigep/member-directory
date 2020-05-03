@@ -20,7 +20,7 @@
     {{ form_row(importForm.dry_run) }}
   </div>
   <div class="card-footer text-right">
-    {{ form_widget(importForm.submit) }}
+    <button class="btn btn-primary">{{ button_label|default('Import') }}</button>
   </div>
 </div>
 {{ form_rest(importForm) }}

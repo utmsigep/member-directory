@@ -18,8 +18,8 @@
       <div class="card-body">
         {{ form_row(form.amount) }}
         {{ form_row(form.currency) }}
-        {{ form_row(form.processingFee) }}
-        {{ form_row(form.netAmount) }}
+        {{ form_row(form.processingFee, {label: 'Processing Fee'}) }}
+        {{ form_row(form.netAmount, {label: 'Net Amount'}) }}
       </div>
     </div>
   </div>
@@ -27,13 +27,13 @@
     <div class="card mb-3">
       <div class="card-header">Additional Details</div>
       <div class="card-body">
-        {{ form_row(form.donorComment) }}
-        {{ form_row(form.internalNotes) }}
-        {{ form_row(form.donationType) }}
-        {{ form_row(form.cardType) }}
-        {{ form_row(form.lastFour) }}
-        {{ form_row(form.isAnonymous) }}
-        {{ form_row(form.isRecurring) }}
+        {{ form_row(form.donorComment, {label: 'Donor Comment'}) }}
+        {{ form_row(form.internalNotes, {label: 'Internal Notes'}) }}
+        {{ form_row(form.donationType, {label: 'Donation Type'}) }}
+        {{ form_row(form.cardType, {label: 'Card Type'}) }}
+        {{ form_row(form.lastFour, {label: 'Last Four'}) }}
+        {{ form_row(form.isAnonymous, {label: 'Anonymous?'}) }}
+        {{ form_row(form.isRecurring, {label: 'Recurring?'}) }}
       </div>
     </div>
   </div>

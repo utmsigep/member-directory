@@ -5,6 +5,11 @@
 {% block body %}
 
 <div>
+  {% if is_granted('ROLE_ADMIN') %}
+  <div class="float-right text-right">
+    <a href="{{ path('member_new') }}" class="btn btn-sm btn-primary"><i class="fas fa-plus fa-fw"></i> New Member</a>
+  </div>
+  {% endif %}
   <div class="h4">{{ view_name }}</div>
   <div class="table-responsive">
     <table class="table table-sm" id="memberTable">
