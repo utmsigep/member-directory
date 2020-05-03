@@ -244,6 +244,9 @@
     "symfony/event-dispatcher-contracts": {
         "version": "v1.1.1"
     },
+    "symfony/expression-language": {
+        "version": "v4.4.8"
+    },
     "symfony/filesystem": {
         "version": "v4.2.7"
     },
@@ -433,6 +436,9 @@
     },
     "symfony/stopwatch": {
         "version": "v4.2.7"
+    },
+    "symfony/templating": {
+        "version": "v4.4.8"
     },
     "symfony/test-pack": {
         "version": "v1.0.5"
