@@ -48,21 +48,21 @@ class DirectoryController extends AbstractController
      */
     public function memberNew(Request $request): Response
     {
-        $record = new Member();
-        $form = $this->createForm(MemberType::class, $record);
+        $member = new Member();
+        $form = $this->createForm(MemberType::class, $member);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $record = $form->getData();
+            $member = $form->getData();
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($record);
+            $entityManager->persist($member);
             $entityManager->flush();
-            $this->addFlash('success', sprintf('%s created!', $record));
+            $this->addFlash('success', sprintf('%s created!', $member));
             return $this->redirect($this->generateUrl('member', [
-                'localIdentifier' => $record->getLocalIdentifier()
+                'localIdentifier' => $member->getLocalIdentifier()
             ]));
         }
         return $this->render('member/new.html.twig', [
-            'record' => $record,
+            'record' => $member,
             'form' => $form->createView()
         ]);
     }
@@ -70,15 +70,10 @@ class DirectoryController extends AbstractController
     /**
      * @Route("/member/{localIdentifier}", name="member", options={"expose" = true}))
      */
-    public function member($localIdentifier): Response
+    public function show(Member $member): Response
     {
-        $entityManager = $this->getDoctrine()->getManager();
-        $record = $entityManager->getRepository(Member::class)->findOneBy(['localIdentifier' => $localIdentifier]);
-        if (is_null($record)) {
-            throw $this->createNotFoundException('Member not found.');
-        }
         return $this->render('member/show.html.twig', [
-            'record' => $record
+            'record' => $member
         ]);
     }
 
@@ -86,27 +81,22 @@ class DirectoryController extends AbstractController
      * @Route("/member/{localIdentifier}/edit", name="member_edit", options={"expose" = true})
      * @IsGranted("ROLE_ADMIN")
      */
-    public function memberEdit($localIdentifier, Request $request): Response
+    public function memberEdit(Member $member, Request $request): Response
     {
-        $entityManager = $this->getDoctrine()->getManager();
-        $record = $entityManager->getRepository(Member::class)->findOneBy(['localIdentifier' => $localIdentifier]);
-        if (is_null($record)) {
-            throw $this->createNotFoundException('Member not found.');
-        }
-        $form = $this->createForm(MemberType::class, $record);
+        $form = $this->createForm(MemberType::class, $member);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $record = $form->getData();
+            $member = $form->getData();
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($record);
+            $entityManager->persist($member);
             $entityManager->flush();
-            $this->addFlash('success', sprintf('%s updated!', $record));
+            $this->addFlash('success', sprintf('%s updated!', $member));
             return $this->redirect($this->generateUrl('member', [
-                'localIdentifier' => $record->getLocalIdentifier()
+                'localIdentifier' => $member->getLocalIdentifier()
             ]));
         }
         return $this->render('member/edit.html.twig', [
-            'record' => $record,
+            'record' => $member,
             'form' => $form->createView()
         ]);
     }
@@ -115,27 +105,22 @@ class DirectoryController extends AbstractController
      * @Route("/member/{localIdentifier}/delete", name="member_delete", options={"expose" = true})
      * @IsGranted("ROLE_ADMIN")
      */
-    public function memberDelete($localIdentifier, Request $request): Response
+    public function memberDelete(Member $member, Request $request): Response
     {
-        $entityManager = $this->getDoctrine()->getManager();
-        $record = $entityManager->getRepository(Member::class)->findOneBy(['localIdentifier' => $localIdentifier]);
-        if (is_null($record)) {
-            throw $this->createNotFoundException('Member not found.');
-        }
-        $form = $this->createFormBuilder($record)
+        $form = $this->createFormBuilder($member)
             ->getForm()
             ;
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $record = $form->getData();
+            $member = $form->getData();
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($record);
+            $entityManager->remove($member);
             $entityManager->flush();
-            $this->addFlash('success', sprintf('%s deleted!', $record));
+            $this->addFlash('success', sprintf('%s deleted!', $member));
             return $this->redirect($this->generateUrl('home'));
         }
         return $this->render('member/delete.html.twig', [
-            'record' => $record,
+            'record' => $member,
             'form' => $form->createView()
         ]);
     }
@@ -144,16 +129,12 @@ class DirectoryController extends AbstractController
      * @Route("/member/{localIdentifier}/change-log", name="member_change_log")
      * @IsGranted("ROLE_ADMIN")
      */
-    public function changeLog($localIdentifier): Response
+    public function changeLog(Member $member): Response
     {
         $entityManager = $this->getDoctrine()->getManager();
-        $record = $entityManager->getRepository(Member::class)->findOneBy(['localIdentifier' => $localIdentifier]);
-        if (is_null($record)) {
-            throw $this->createNotFoundException('Member not found.');
-        }
-        $logEntries = $entityManager->getRepository(LogEntry::class)->getLogEntries($record);
+        $logEntries = $entityManager->getRepository(LogEntry::class)->getLogEntries($member);
         return $this->render('directory/change_log.html.twig', [
-            'record' => $record,
+            'record' => $member,
             'logEntries' => $logEntries
         ]);
     }
@@ -162,17 +143,13 @@ class DirectoryController extends AbstractController
      * @Route("/member/{localIdentifier}/donations", name="member_donations")
      * @IsGranted("ROLE_ADMIN")
      */
-    public function donations($localIdentifier): Response
+    public function donations(Member $member): Response
     {
         $entityManager = $this->getDoctrine()->getManager();
-        $record = $entityManager->getRepository(Member::class)->findOneBy(['localIdentifier' => $localIdentifier]);
-        if (is_null($record)) {
-            throw $this->createNotFoundException('Member not found.');
-        }
-        $donations = $entityManager->getRepository(Donation::class)->findByMember($record);
-        $totals = $entityManager->getRepository(Donation::class)->getTotalDonationsForMember($record);
+        $donations = $entityManager->getRepository(Donation::class)->findByMember($member);
+        $totals = $entityManager->getRepository(Donation::class)->getTotalDonationsForMember($member);
         return $this->render('member/donations.html.twig', [
-            'record' => $record,
+            'record' => $member,
             'donations' => $donations,
             'totals' => $totals
         ]);
@@ -191,18 +168,18 @@ class DirectoryController extends AbstractController
             ], 500);
         }
 
-        $record = new Member();
-        $record->setMailingAddressLine1($request->query->get('mailingAddressLine1'));
-        $record->setMailingAddressLine2($request->query->get('mailingAddressLine2'));
-        $record->setMailingCity($request->query->get('mailingCity'));
-        $record->setMailingState($request->query->get('mailingState'));
-        $record->setMailingPostalCode($request->query->get('mailingPostalCode'));
+        $member = new Member();
+        $member->setMailingAddressLine1($request->query->get('mailingAddressLine1'));
+        $member->setMailingAddressLine2($request->query->get('mailingAddressLine2'));
+        $member->setMailingCity($request->query->get('mailingCity'));
+        $member->setMailingState($request->query->get('mailingState'));
+        $member->setMailingPostalCode($request->query->get('mailingPostalCode'));
 
         $cache = new FilesystemAdapter();
         $cacheKey = 'directory.address_verify_' . md5(json_encode($request->query->all()));
         $response = $cache->getItem($cacheKey);
         if (!$response->isHit()) {
-            $response->set($postalValidatorService->validate($record));
+            $response->set($postalValidatorService->validate($member));
             $cache->save($response);
         }
 
@@ -224,22 +201,18 @@ class DirectoryController extends AbstractController
     /**
      * @Route("/member/{localIdentifier}/email-subscription", name="member_email_subscription")
      */
-    public function emailSubscription($localIdentifier, EmailService $emailService): Response
+    public function emailSubscription(Member $member, EmailService $emailService): Response
     {
         if (!$emailService->isConfigured()) {
             $this->addFlash('danger', 'Email service not configured.');
-            return $this->redirectToRoute('member', ['localIdentifier' => $localIdentifier]);
+            return $this->redirectToRoute('member', ['localIdentifier' => $member->getLocalIdentifier()]);
         }
         $entityManager = $this->getDoctrine()->getManager();
-        $record = $entityManager->getRepository(Member::class)->findOneBy(['localIdentifier' => $localIdentifier]);
-        if (is_null($record)) {
-            throw $this->createNotFoundException('Member not found.');
-        }
-        $subscriber = $emailService->getMemberSubscription($record);
-        $subscriberHistory = $emailService->getMemberSubscriptionHistory($record);
+        $subscriber = $emailService->getMemberSubscription($member);
+        $subscriberHistory = $emailService->getMemberSubscriptionHistory($member);
 
         return $this->render('directory/email_subscription.html.twig', [
-            'record' => $record,
+            'record' => $member,
             'subscriber' => $subscriber,
             'subscriberHistory' => $subscriberHistory
         ]);
@@ -262,97 +235,91 @@ class DirectoryController extends AbstractController
      * @Route("/member/{localIdentifier}/add-subscriber", name="member_email_subscribe")
      * @IsGranted("ROLE_ADMIN")
      */
-    public function addSubscriber($localIdentifier, EmailService $emailService): Response
+    public function addSubscriber(Member $member, EmailService $emailService): Response
     {
         if (!$emailService->isConfigured()) {
             $this->addFlash('danger', 'Email service not configured.');
-            return $this->redirectToRoute('member', ['localIdentifier' => $localIdentifier]);
+            return $this->redirectToRoute('member', ['localIdentifier' => $member->getLocalIdentifier()]);
         }
-        $entityManager = $this->getDoctrine()->getManager();
-        $record = $entityManager->getRepository(Member::class)->findOneBy(['localIdentifier' => $localIdentifier]);
-        if (is_null($record)) {
-            throw $this->createNotFoundException('Member not found.');
-        }
-        if ($emailService->subscribeMember($record, true)) {
+        if ($emailService->subscribeMember($member, true)) {
             $this->addFlash('success', 'Subscriber record created!');
         } else {
             $this->addFlash('danger', 'Unable to subscribe user. Is the email address valid?');
         }
-        return $this->redirectToRoute('member_email_subscription', ['localIdentifier' => $localIdentifier]);
+        return $this->redirectToRoute(
+            'member_email_subscription',
+            [
+                'localIdentifier' => $member->getLocalIdentifier()
+            ]
+        );
     }
 
     /**
      * @Route("/member/{localIdentifier}/update-subscriber", name="member_email_update")
      * @IsGranted("ROLE_ADMIN")
      */
-    public function updateSubscriber($localIdentifier, EmailService $emailService): Response
+    public function updateSubscriber(Member $member, EmailService $emailService): Response
     {
         if (!$emailService->isConfigured()) {
             $this->addFlash('danger', 'Email service not configured.');
-            return $this->redirectToRoute('member', ['localIdentifier' => $localIdentifier]);
+            return $this->redirectToRoute('member', ['localIdentifier' => $member->getLocalIdentifier()]);
         }
-        $entityManager = $this->getDoctrine()->getManager();
-        $record = $entityManager->getRepository(Member::class)->findOneBy(['localIdentifier' => $localIdentifier]);
-        if (is_null($record)) {
-            throw $this->createNotFoundException('Member not found.');
-        }
-        if ($record->getPrimaryEmail() && $emailService->updateMember($record->getPrimaryEmail(), $record)) {
+        if ($member->getPrimaryEmail() && $emailService->updateMember($member->getPrimaryEmail(), $member)) {
             $this->addFlash('success', 'Subscriber record updated!');
         } else {
             $this->addFlash('danger', 'Unable to update user.');
         }
-        return $this->redirectToRoute('member_email_subscription', ['localIdentifier' => $localIdentifier]);
+        return $this->redirectToRoute(
+            'member_email_subscription',
+            [
+                'localIdentifier' => $member->getLocalIdentifier()
+            ]
+        );
     }
 
     /**
      * @Route("/member/{localIdentifier}/remove-subscriber", name="member_email_remove")
      * @IsGranted("ROLE_ADMIN")
      */
-    public function removeSubscriber($localIdentifier, EmailService $emailService): Response
+    public function removeSubscriber(Member $member, EmailService $emailService): Response
     {
         if (!$emailService->isConfigured()) {
             $this->addFlash('danger', 'Email service not configured.');
-            return $this->redirectToRoute('member', ['localIdentifier' => $localIdentifier]);
+            return $this->redirectToRoute('member', ['localIdentifier' => $member->getLocalIdentifier()]);
         }
-        $entityManager = $this->getDoctrine()->getManager();
-        $record = $entityManager->getRepository(Member::class)->findOneBy(['localIdentifier' => $localIdentifier]);
-        if (is_null($record)) {
-            throw $this->createNotFoundException('Member not found.');
-        }
-        if ($emailService->unsubscribeMember($record)) {
+        if ($emailService->unsubscribeMember($member)) {
             $this->addFlash('success', 'Subscriber record removed!');
         } else {
             $this->addFlash('danger', 'Unable to unsubscribe user.');
         }
-        return $this->redirectToRoute('member_email_subscription', ['localIdentifier' => $localIdentifier]);
+        return $this->redirectToRoute(
+            'member_email_subscription',
+            [
+                'localIdentifier' => $member->getLocalIdentifier()
+            ]
+        );
     }
 
     /**
      * @Route("/member/{localIdentifier}/vcard", name="member_vcard")
      */
-    public function generateVCard($localIdentifier): Response
+    public function generateVCard(Member $member): Response
     {
-        $entityManager = $this->getDoctrine()->getManager();
-        $record = $entityManager->getRepository(Member::class)->findOneBy(['localIdentifier' => $localIdentifier]);
-        if (is_null($record)) {
-            throw $this->createNotFoundException('Member not found.');
-        }
-
         // Create the VCard
         $vcard = new VCard();
-        $vcard->addName($record->getLastName(), $record->getPreferredName());
-        $vcard->addJobtitle($record->getJobTitle());
-        $vcard->addCompany($record->getEmployer());
-        $vcard->addEmail($record->getPrimaryEmail(), 'PREF;HOME');
-        $vcard->addPhoneNumber($record->getPrimaryTelephoneNumber(), 'PREF;HOME;VOICE');
+        $vcard->addName($member->getLastName(), $member->getPreferredName());
+        $vcard->addJobtitle($member->getJobTitle());
+        $vcard->addCompany($member->getEmployer());
+        $vcard->addEmail($member->getPrimaryEmail(), 'PREF;HOME');
+        $vcard->addPhoneNumber($member->getPrimaryTelephoneNumber(), 'PREF;HOME;VOICE');
         $vcard->addAddress(
             '',
-            $record->getMailingAddressLine2(),
-            $record->getMailingAddressLine1(),
-            $record->getMailingCity(),
-            $record->getMailingState(),
-            $record->getMailingPostalCode(),
-            $record->getMailingCountry(),
+            $member->getMailingAddressLine2(),
+            $member->getMailingAddressLine1(),
+            $member->getMailingCity(),
+            $member->getMailingState(),
+            $member->getMailingPostalCode(),
+            $member->getMailingCountry(),
             'HOME;POSTAL'
         );
 
@@ -362,16 +329,11 @@ class DirectoryController extends AbstractController
     /**
      * @Route("/member/{localIdentifier}/message", name="member_message")
      */
-    public function message($localIdentifier, Request $request, MailerInterface $mailer): Response
+    public function message(Member $member, Request $request, MailerInterface $mailer): Response
     {
-        $entityManager = $this->getDoctrine()->getManager();
-        $record = $entityManager->getRepository(Member::class)->findOneBy(['localIdentifier' => $localIdentifier]);
-        if (is_null($record)) {
-            throw $this->createNotFoundException('Member not found.');
-        }
-        if (!$record->getPrimaryEmail()) {
+        if (!$member->getPrimaryEmail()) {
             $this->addFlash('danger', 'No email set for member.');
-            return $this->redirectToRoute('member', ['localIdentifier' => $localIdentifier]);
+            return $this->redirectToRoute('member', ['localIdentifier' => $member->getLocalIdentifier()]);
         }
 
         $form = $this->createForm(MemberMessageType::class, null, ['acting_user' => $this->getUser()]);
@@ -383,14 +345,14 @@ class DirectoryController extends AbstractController
             $headers->addTextHeader('X-MC-Tags', 'Member Message');
             $message = new TemplatedEmail($headers);
             $message
-                ->to($record->getPrimaryEmail())
+                ->to($member->getPrimaryEmail())
                 ->from($this->getParameter('app.email.from'))
                 ->replyTo($formData['reply_to'] ? $formData['reply_to'] : $this->getParameter('app.email.to'))
                 ->subject($formData['subject'])
                 ->htmlTemplate('directory/message_email.html.twig')
                 ->context([
-                    'subject' => $this->formatMessage($formData['subject'], $record),
-                    'body' => $this->formatMessage($formData['message_body'], $record)
+                    'subject' => $this->formatMessage($formData['subject'], $member),
+                    'body' => $this->formatMessage($formData['message_body'], $member)
                 ])
                 ;
             if ($formData['send_copy']) {
@@ -401,7 +363,7 @@ class DirectoryController extends AbstractController
         }
 
         return $this->render('directory/message.html.twig', [
-            'record' => $record,
+            'record' => $member,
             'form' => $form->createView()
         ]);
     }
@@ -476,13 +438,16 @@ class DirectoryController extends AbstractController
     /**
      * @Route("/do-not-contact", name="do_not_contact")
      */
-    public function do_not_contact(Request $request)
+    public function doNotContact(Request $request)
     {
         $entityManager = $this->getDoctrine()->getManager();
-        $records = $entityManager->getRepository(Member::class)->findDoNotContactByStatusCodes([
-            'ALUMNUS',
-            'RENAISSANCE'
-        ], $request->query->get('type'));
+        $records = $entityManager->getRepository(Member::class)->findDoNotContactByStatusCodes(
+            [
+                'ALUMNUS',
+                'RENAISSANCE'
+            ],
+            $request->query->get('type')
+        );
         return $this->render('directory/directory.html.twig', [
             'view_name' => 'Do Not Contact',
             'show_status' => false,
@@ -673,20 +638,20 @@ class DirectoryController extends AbstractController
         return new Response($jsonObject, 200, ['Content-Type' => 'application/json']);
     }
 
-    private function formatMessage($content, Member $record): string
+    private function formatMessage($content, Member $member): string
     {
-        $content = preg_replace('/\[FirstName\]/i', $record->getFirstName(), $content);
-        $content = preg_replace('/\[MiddleName\]/i', $record->getMiddleName(), $content);
-        $content = preg_replace('/\[PreferredName\]/i', $record->getPreferredName(), $content);
-        $content = preg_replace('/\[LastName\]/i', $record->getLastName(), $content);
-        $content = preg_replace('/\[MailingAddressLine1\]/i', $record->getMailingAddressLine1(), $content);
-        $content = preg_replace('/\[MailingAddressLine2\]/i', $record->getMailingAddressLine2(), $content);
-        $content = preg_replace('/\[MailingCity\]/i', $record->getMailingCity(), $content);
-        $content = preg_replace('/\[MailingState\]/i', $record->getMailingState(), $content);
-        $content = preg_replace('/\[MailingPostalCode\]/i', $record->getMailingPostalCode(), $content);
-        $content = preg_replace('/\[MailingCountry\]/', $record->getMailingCountry(), $content);
-        $content = preg_replace('/\[PrimaryEmail\]/i', $record->getPrimaryEmail(), $content);
-        $content = preg_replace('/\[PrimaryTelephoneNumber\]/', $record->getPrimaryTelephoneNumber(), $content);
+        $content = preg_replace('/\[FirstName\]/i', $member->getFirstName(), $content);
+        $content = preg_replace('/\[MiddleName\]/i', $member->getMiddleName(), $content);
+        $content = preg_replace('/\[PreferredName\]/i', $member->getPreferredName(), $content);
+        $content = preg_replace('/\[LastName\]/i', $member->getLastName(), $content);
+        $content = preg_replace('/\[MailingAddressLine1\]/i', $member->getMailingAddressLine1(), $content);
+        $content = preg_replace('/\[MailingAddressLine2\]/i', $member->getMailingAddressLine2(), $content);
+        $content = preg_replace('/\[MailingCity\]/i', $member->getMailingCity(), $content);
+        $content = preg_replace('/\[MailingState\]/i', $member->getMailingState(), $content);
+        $content = preg_replace('/\[MailingPostalCode\]/i', $member->getMailingPostalCode(), $content);
+        $content = preg_replace('/\[MailingCountry\]/', $member->getMailingCountry(), $content);
+        $content = preg_replace('/\[PrimaryEmail\]/i', $member->getPrimaryEmail(), $content);
+        $content = preg_replace('/\[PrimaryTelephoneNumber\]/', $member->getPrimaryTelephoneNumber(), $content);
 
         return $content;
     }
