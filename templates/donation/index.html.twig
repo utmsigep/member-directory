@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} - Donations{% endblock %}
+
+{% block body %}
+
+<div class="row mb-3">
+  <div class="col-lg-6">
+    <div class="h4">Donations <sup><span class="badge badge-secondary">Beta</span></sup></div>
+  </div>
+  <div class="col-lg-6 text-right">
+    <a href="{{ path('donorbox_import') }}" class="btn btn-primary">Import from Donorbox</a>
+  </div>
+</div>
+
+{% if donations %}
+{% include 'donation/_donation_totals.html.twig' %} 
+
+<table class="table table-striped" id="donationsTable">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Donor</th>
+      <th>Campaign</th>
+      <th>Description</th>
+      <th>Amount</th>
+      <th>Fees</th>
+      <th>Net Amount</th>
+      <th>Recurring?</th>
+      <th class="col-edit" data-orderable="false"></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for donation in donations %}
+    {% include 'donation/_donation_row.html.twig' %}
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p class="alert alert-info">No donations matched your criteria.</p>
+{% endif %}
+
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+{{ encore_entry_script_tags('donations') }}
+{% endblock %}

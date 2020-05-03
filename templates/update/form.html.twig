@@ -1,4 +1,4 @@
-{% extends 'base-public.html.twig' %}
+{% extends 'base_public.html.twig' %}
 
 {% block title %}Update My Member Record{% endblock %}
 
@@ -26,13 +26,13 @@
       {{ form_row(form.mailingAddressLine1) }}
       {{ form_row(form.mailingAddressLine2) }}
       <div class="row">
-        <div class="col-md-6">
+        <div class="col-lg-6">
           {{ form_row(form.mailingCity) }}
         </div>
-        <div class="col-md-2">
+        <div class="col-lg-2">
           {{ form_row(form.mailingState) }}
         </div>
-        <div class="col-md-4">
+        <div class="col-lg-4">
           {{ form_row(form.mailingPostalCode) }}
         </div>
       </div>

@@ -48,6 +48,7 @@ class EspAuditCommand extends Command
             'ALUMNUS',
             'RENAISSANCE',
             'UNDERGRADUATE',
+            'TRANSFERRED',
             'OTHER'
         ]);
 

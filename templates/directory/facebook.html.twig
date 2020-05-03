@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ config.app_name }} - Facebook{% endblock %}
+{% block title %}{{ parent() }} - Facebook{% endblock %}
 
 {% block stylesheets -%}
 {{ parent() }}

@@ -1,0 +1,46 @@
+{{ form_start(form) }}
+<div class="row">
+  <div class="col-lg-4">
+    <div class="card mb-3">
+      <div class="card-header">Basics</div>
+      <div class="card-body">
+        {{ form_row(form.receivedAt) }}
+        {{ form_row(form.receiptIdentifier) }}
+        {{ form_row(form.member) }}
+        {{ form_row(form.campaign) }}
+        {{ form_row(form.description) }}
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4">
+    <div class="card mb-3">
+      <div class="card-header">Amount</div>
+      <div class="card-body">
+        {{ form_row(form.amount) }}
+        {{ form_row(form.currency) }}
+        {{ form_row(form.processingFee) }}
+        {{ form_row(form.netAmount) }}
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4">
+    <div class="card mb-3">
+      <div class="card-header">Additional Details</div>
+      <div class="card-body">
+        {{ form_row(form.donorComment) }}
+        {{ form_row(form.internalNotes) }}
+        {{ form_row(form.donationType) }}
+        {{ form_row(form.cardType) }}
+        {{ form_row(form.lastFour) }}
+        {{ form_row(form.isAnonymous) }}
+        {{ form_row(form.isRecurring) }}
+      </div>
+    </div>
+  </div>
+</div>
+
+{{ form_rest(form) }}
+<div class="text-right">
+  <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+</div>
+{{ form_end(form) }}

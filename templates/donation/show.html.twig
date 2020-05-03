@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} - {{donation}}{% endblock %}
+
+{% block body %}
+
+<div class="float-right">
+  <a href="{{ path('donation_edit', {id: donation.id}) }}" class="btn btn-primary btn-sm"><i class="fas fa-edit fa-fw"></i> Edit</a>
+</div>
+<div class="h4">{{ donation }}</div>
+
+<div class="row">
+  <div class="col-lg-4">
+    <div class="card mb-3">
+      <div class="card-header">Basics</div>
+      <div class="card-body">
+        <dl>
+          <dt>Received At</dt>
+          <dd>{{ donation.receivedAt ? donation.receivedAt|date('Y-m-d H:i:s') : '' }}</dd>
+          <dt>Receipt Identifier</dt>
+          <dd>{{ donation.receiptIdentifier }}</dd>
+          <dt>Member</dt>
+          <dd><a href="{{ path('member', {localIdentifier: donation.member.localIdentifier}) }}">{{ donation.member }}</a></dd>
+          <dt>Campaign</dt>
+          <dd>{{ donation.campaign }}</dd>
+          <dt>Description</dt>
+          <dd>{{ donation.description }}</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4">
+    <div class="card">
+      <div class="card-header">Amount</div>
+      <div class="card-body">
+        <dl>
+          <dt>Amount</dt>
+          <dd>{{ donation.amount }}</dd>
+          <dt>Currency</dt>
+          <dd>{{ donation.currency }}</dd>
+          <dt>Processing Fee</dt>
+          <dd>{{ donation.processingFee }}</dd>
+          <dt>Net Amount</dt>
+          <dd>{{ donation.netAmount }}</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4">
+    <div class="card">
+      <div class="card-header">Additional Details</div>
+      <div class="card-body">
+        <dl>
+          <dt>Donor Comment</dt>
+          <dd>{{ donation.donorComment|default('Not set.') }}</dd>
+          <dt>Internal Notes</dt>
+          <dd>{{ donation.internalNotes|default('Not set.') }}</dd>
+          <dt>Donation Type</dt>
+          <dd>{{ donation.donationType }}</dd>
+          <dt>Card Type</dt>
+          <dd>{{ donation.cardType }}</dd>
+          <dt>Last Four</dt>
+          <dd>{{ donation.lastFour }}</dd>
+          <dt>Is Anonymous</dt>
+          <dd>{{ donation.isAnonymous ? 'Yes' : 'No' }}</dd>
+          <dt>Is Recurring</dt>
+          <dd>{{ donation.isRecurring ? 'Yes' : 'No' }}</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% if donation.transactionPayload %}
+<details>
+  <summary>Transaction Payload</summary>
+  <code>{{ donation.transactionPayload ? donation.transactionPayload|json_encode : '' }}</code>
+</details>
+{% endif %}
+
+
+{% endblock %}

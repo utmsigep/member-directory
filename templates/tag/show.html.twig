@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent()}} - {{ tag }}{% endblock %}
+
+{% block body %}
+
+<div class="float-right">
+  <a href="{{ path('tag_edit', {'id': tag.id}) }}" class="btn btn-sm btn-primary"><i class="fas fa-edit fa-fw"></i> Edit</a>
+</div>
+<div class="h4">{{ tag.tagName }}</div>
+
+{% include 'admin/_admin_nav.html.twig' %}
+
+{% if tag.members|length > 0 %}
+<div class="card mb-3">
+  <div class="card-header">Members</div>
+  <div class="card-body">
+    <ul>
+      {% for member in tag.members %}
+      <li><a href="{{ path('member', {localIdentifier: member.localIdentifier}) }}">{{ member }}</a></li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+{% else %}
+<div class="alert alert-info">No records matched your criteria.</div>
+{% endif %}
+
+{% endblock %}

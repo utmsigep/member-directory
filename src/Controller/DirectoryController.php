@@ -62,7 +62,7 @@ class DirectoryController extends AbstractController
                 'localIdentifier' => $record->getLocalIdentifier()
             ]));
         }
-        return $this->render('directory/member_new.html.twig', [
+        return $this->render('member/new.html.twig', [
             'record' => $record,
             'form' => $form->createView()
         ]);
@@ -78,7 +78,7 @@ class DirectoryController extends AbstractController
         if (is_null($record)) {
             throw $this->createNotFoundException('Member not found.');
         }
-        return $this->render('directory/member.html.twig', [
+        return $this->render('member/show.html.twig', [
             'record' => $record
         ]);
     }
@@ -106,7 +106,7 @@ class DirectoryController extends AbstractController
                 'localIdentifier' => $record->getLocalIdentifier()
             ]));
         }
-        return $this->render('directory/member_edit.html.twig', [
+        return $this->render('member/edit.html.twig', [
             'record' => $record,
             'form' => $form->createView()
         ]);
@@ -136,7 +136,7 @@ class DirectoryController extends AbstractController
             $this->addFlash('success', sprintf('%s deleted!', $record));
             return $this->redirect($this->generateUrl('home'));
         }
-        return $this->render('directory/member_delete.html.twig', [
+        return $this->render('member/delete.html.twig', [
             'record' => $record,
             'form' => $form->createView()
         ]);
@@ -154,7 +154,7 @@ class DirectoryController extends AbstractController
             throw $this->createNotFoundException('Member not found.');
         }
         $logEntries = $entityManager->getRepository(LogEntry::class)->getLogEntries($record);
-        return $this->render('directory/change-log.html.twig', [
+        return $this->render('directory/change_log.html.twig', [
             'record' => $record,
             'logEntries' => $logEntries
         ]);
@@ -173,7 +173,7 @@ class DirectoryController extends AbstractController
         }
         $donations = $entityManager->getRepository(Donation::class)->findByMember($record);
         $totals = $entityManager->getRepository(Donation::class)->getTotalDonationsForMember($record);
-        return $this->render('directory/donations.html.twig', [
+        return $this->render('member/donations.html.twig', [
             'record' => $record,
             'donations' => $donations,
             'totals' => $totals
@@ -240,7 +240,7 @@ class DirectoryController extends AbstractController
         $subscriber = $emailService->getMemberSubscription($record);
         $subscriberHistory = $emailService->getMemberSubscriptionHistory($record);
 
-        return $this->render('directory/email-subscription.html.twig', [
+        return $this->render('directory/email_subscription.html.twig', [
             'record' => $record,
             'subscriber' => $subscriber,
             'subscriberHistory' => $subscriberHistory
@@ -389,7 +389,7 @@ class DirectoryController extends AbstractController
                 ->from($this->getParameter('app.email.from'))
                 ->replyTo($formData['reply_to'] ? $formData['reply_to'] : $this->getParameter('app.email.to'))
                 ->subject($formData['subject'])
-                ->htmlTemplate('directory/message-email.html.twig')
+                ->htmlTemplate('directory/message_email.html.twig')
                 ->context([
                     'subject' => $this->formatMessage($formData['subject'], $record),
                     'body' => $this->formatMessage($formData['message_body'], $record)
@@ -504,7 +504,7 @@ class DirectoryController extends AbstractController
                 'RENAISSANCE'
             ]
         );
-        return $this->render('directory/directory-group.html.twig', [
+        return $this->render('directory/directory_group.html.twig', [
             'view_name' => 'Class Year',
             'show_status' => false,
             'group' => $group
@@ -592,7 +592,7 @@ class DirectoryController extends AbstractController
         $data = $form->getData();
         $records = $entityManager->getRepository(Member::class)->findRecentUpdates($data);
 
-        return $this->render('directory/recent-changes.html.twig', [
+        return $this->render('directory/recent_changes.html.twig', [
             'records' => $records,
             'form' => $form->createView()
         ]);

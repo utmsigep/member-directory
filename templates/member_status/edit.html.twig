@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent()}} - {{ member_status }}{% endblock %}
+
+{% block body %}
+<div class="h4">{{ member_status }}</div>
+
+{% include 'admin/_admin_nav.html.twig' %}
+
+{{ include('member_status/_form.html.twig', {'button_label': 'Update'}) }}
+
+{% if member_status.members|length == 0 %}
+{{ include('member_status/_delete_form.html.twig') }}
+{% endif %}
+{% endblock %}

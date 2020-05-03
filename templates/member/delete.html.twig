@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} - {{ record.displayName }} {% endblock %}
+
+{% block stylesheets -%}
+{{ parent() }}
+{{ encore_entry_link_tags('member') }}
+{% endblock %}
+
+{% block body %}
+<div>
+  <div class="h4">{{ record.displayName }}</div>
+
+  {% include 'directory/_directory_member_navigation.html.twig' %}
+
+  {% include 'member/_summary.html.twig' %}
+
+  {{ form_start(form) }}
+  <div class="row justify-content-lg-center mt-3">
+    <div class="col col-lg-8">
+      <div class="card">
+        <div class="card-header text-white bg-danger">Are you sure you want to delete this Member?</div>
+        <div class="card-body">
+          <div>
+            <p>In most cases, you would rather update the <strong>Member Status</strong> instead of deleting the Member record. Associated records will also be deleted and cannot be recovered.</p>
+            <p><strong>You should only delete a Member if he/she was created in error.</strong></p>
+          </div>
+        </div>
+        <div class="card-footer text-right">
+          {{ form_widget(form.submit, {label: 'Delete Member', attr: {class: 'btn-danger'}}) }}
+        </div>
+      </div>
+    </div>
+  </div>
+  {{ form_rest(form) }}
+  {{ form_end(form) }}
+</div>
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+{{ encore_entry_script_tags('member') }}
+{% endblock %}

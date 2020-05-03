@@ -33,7 +33,7 @@ class MemberUpdateType extends AbstractType
                 'label' => 'Postal Code'
             ])
             ->add('primaryEmail', null, [
-                'label' => 'Primary Email Address',
+                'label' => 'Primary E-mail Address',
                 'attr' => [
                     'placeholder' => 'user@example.com'
                 ]

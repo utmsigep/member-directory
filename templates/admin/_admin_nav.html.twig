@@ -1,0 +1,6 @@
+{% set current_controller = app.request.get('_controller') %}
+<ul class="nav nav-tabs mb-2">
+  <li class="nav-item"><a class="nav-link {{ (current_controller matches '/TagController/') ? 'active' }}" href="{{ path('tag_index') }}" class="h4"><i class="fas fa-tags fa-fw"></i> Manage Tags</a></li>
+  <li class="nav-item"><a class="nav-link {{ (current_controller matches '/MemberStatusController/') ? 'active' }}" href="{{ path('member_status_index') }}" class="h4"><i class="fas fa-flag fa-fw"></i> Manage Member Statuses</a></li>
+  <li class="nav-item"><a class="nav-link {{ (current_controller matches '/UserController/') ? 'active' }}" href="{{ path('user_index') }}" class="h4"><i class="fas fa-users fa-fw"></i> Manage Users</a></li>
+</ul>

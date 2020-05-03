@@ -64,7 +64,7 @@ class UpdateController extends AbstractController
                 ->to($this->getParameter('app.email.to'))
                 ->from($this->getParameter('app.email.from'))
                 ->subject(sprintf('Member Record Update: %s', $member->getDisplayName()))
-                ->htmlTemplate('update/email-update.html.twig')
+                ->htmlTemplate('update/email_update.html.twig')
                 ->context(['member' => $member])
                 ;
             if ($member->getPrimaryEmail()) {

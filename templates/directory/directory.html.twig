@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ config.app_name }} - {{ view_name }}{% endblock %}
+{% block title %}{{ parent() }} - {{ view_name }}{% endblock %}
 
 {% block body %}
 
@@ -17,7 +17,7 @@
           <th>Status</th>
           {% endif %}
           <th>Class</th>
-          <th>Email</th>
+          <th>E-mail</th>
           <th data-sortable="false" data-searchable="false">Social</th>
           <th>Phone Number</th>
           <th>Mailing Address</th>
@@ -25,7 +25,7 @@
       </thead>
       <tbody>
         {% for record in records %}
-        {% include 'directory/partials/directory_row.html.twig' %}
+        {% include 'directory/_directory_row.html.twig' %}
         {% endfor %}
       </tbody>
     </table>

@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} - Tags{% endblock %}
+
+{% block body %}
+<div class="float-right">
+  <a href="{{ path('tag_new') }}" class="btn btn-primary"><i class="fas fa-plus"></i> New Tag</a>
+</div>
+<div class="h4">Tags</div>
+
+{% include 'admin/_admin_nav.html.twig' %}
+
+<table class="table w-auto">
+    <thead>
+        <tr>
+            <th>Tag</th>
+            <th><i class="fas fa-users fa-fw"></i></th>
+            <th class="col-edit">&nbsp;</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for tag in tags %}
+        <tr>
+            <td><a href="{{ path('tag_show', {'id': tag.id}) }}">{{ tag.tagName }}</a></td>
+            <td><a href="{{ path('tag', {tagId: tag.id}) }}">{{ tag.members|length|default('0') }}</a</td>
+            <td>
+                <a href="{{ path('tag_edit', {'id': tag.id}) }}"><i class="fas fa-edit fa-fw"></i></a>
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="99"><div class="alert alert-info">No records matched your criteria.</div></td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

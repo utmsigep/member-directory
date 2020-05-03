@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} - {{ record.displayName }} - Donations{% endblock %}
+
+{% block body %}
+
+<div>
+  <div class="h4">{{ record.displayName }} </div>
+
+  {% include 'directory/_directory_member_badges.html.twig' %}
+
+  {% include 'directory/_directory_member_navigation.html.twig' %}
+
+  {% if donations %}
+  {% include 'donation/_donation_totals.html.twig' %} 
+
+  <table class="table table-striped" id="donationsTable">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Donor</th>
+        <th>Campaign</th>
+        <th>Description</th>
+        <th>Amount</th>
+        <th>Fees</th>
+        <th>Net Amount</th>
+        <th>Recurring?</th>
+        <th class="col-edit" data-orderable="false"></td>
+      </tr>
+    </thead>
+    <tbody>
+      {% for donation in donations %}
+      {% include 'donation/_donation_row.html.twig' %}
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p class="alert alert-info">No donations matched your criteria.</p>
+  {% endif %}
+
+<div>
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+{{ encore_entry_script_tags('donations') }}
+{% endblock %}

@@ -50,7 +50,7 @@ class SecurityController extends AbstractController
                     ])
                 ]
             ])
-            ->add('save', SubmitType::class, ['label' => 'Update Profile'])
+            ->add('submit', SubmitType::class)
             ->getForm()
             ;
 
@@ -99,7 +99,7 @@ class SecurityController extends AbstractController
                 'first_options'  => ['label' => 'Password'],
                 'second_options' => ['label' => 'Repeat Password'],
             ])
-            ->add('save', SubmitType::class, ['label' => 'Change Password'])
+            ->add('submit', SubmitType::class)
             ->getForm()
             ;
 
@@ -119,7 +119,7 @@ class SecurityController extends AbstractController
             return $this->redirectToRoute('app_profile');
         }
 
-        return $this->render('security/change-password.html.twig', [
+        return $this->render('security/change_password.html.twig', [
             'form' => $form->createView()
         ]);
     }

@@ -41,10 +41,10 @@
           </ul>
         </div>
         {% endif %}
-        <div class="d-md-none bg-light">
+        <div class="d-lg-none bg-light">
           <ul class="nav flex-column">
             {% if is_granted('ROLE_USER') %}
-            {% include 'partials/main_nav.html.twig' %}
+            {% include '_main_nav.html.twig' %}
             {% endif%}
           </ul>
         </div>
@@ -53,16 +53,16 @@
 
     <div class="container-fluid">
       <div class="row">
-        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+        <nav class="col-lg-2 d-none d-lg-block bg-light sidebar">
           <div class="sidebar-sticky">
             <ul class="nav flex-column">
               {% if is_granted('ROLE_USER') %}
-              {% include 'partials/main_nav.html.twig' %}
+              {% include '_main_nav.html.twig' %}
               {% endif %}
             </ul>
           </div>
         </nav>
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+        <main role="main" class="col-lg-9 ml-sm-auto col-lg-10 pt-3 px-4">
           {% for type, messages in app.session.flashBag.all %}
           <div class="py-2">
               {% for message in messages %}
@@ -83,8 +83,8 @@
         </main>
       </div>
     </div>
-    {% include 'partials/modal_confidential.html.twig' %}
-    {% include 'partials/toast_template.html.twig' %}
+    {% include '_modal_confidential.html.twig' %}
+    {% include '_toast_template.html.twig' %}
     {% block javascripts %}
     <script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
     <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>

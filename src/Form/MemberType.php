@@ -50,7 +50,9 @@ class MemberType extends AbstractType
             ->add('isExternalDoNotContact')
             ->add('directoryNotes')
             ->add('status')
-            ->add('tags')
+            ->add('tags', null, [
+                'by_reference' => false
+            ])
             ->add('submit', SubmitType::class)
         ;
     }
