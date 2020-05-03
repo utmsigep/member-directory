@@ -43,7 +43,7 @@ class DirectoryController extends AbstractController
     }
 
     /**
-     * @Route("/member/new", name="member_new", options={"expose" = true})
+     * @Route("/member/new", name="member_new")
      * @IsGranted("ROLE_ADMIN")
      */
     public function memberNew(Request $request): Response
@@ -78,7 +78,7 @@ class DirectoryController extends AbstractController
     }
 
     /**
-     * @Route("/member/{localIdentifier}/edit", name="member_edit", options={"expose" = true})
+     * @Route("/member/{localIdentifier}/edit", name="member_edit")
      * @IsGranted("ROLE_ADMIN")
      */
     public function memberEdit(Member $member, Request $request): Response
@@ -102,7 +102,7 @@ class DirectoryController extends AbstractController
     }
 
     /**
-     * @Route("/member/{localIdentifier}/delete", name="member_delete", options={"expose" = true})
+     * @Route("/member/{localIdentifier}/delete", name="member_delete")
      * @IsGranted("ROLE_ADMIN")
      */
     public function memberDelete(Member $member, Request $request): Response
