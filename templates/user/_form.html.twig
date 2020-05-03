@@ -1,0 +1,11 @@
+{{ form_start(form) }}
+<div class="card mb-3">
+  <div class="card-header">Edit User</div>
+  <div class="card-body">
+    {{ form_widget(form) }}
+  </div>
+  <div class="card-footer text-right">
+    <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+  </div>
+</div>
+{{ form_end(form) }}

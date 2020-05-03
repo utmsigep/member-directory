@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Tag{% endblock %}
+
+{% block body %}
+<div class="h4">New Tag</div>
+
+{% include 'admin/_admin_nav.html.twig' %}
+
+{{ include('tag/_form.html.twig') }}
+
+{% endblock %}

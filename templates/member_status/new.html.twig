@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New MemberStatus{% endblock %}
+
+{% block body %}
+<div class="h4">New Member Status</div>
+
+{% include 'admin/_admin_nav.html.twig' %}
+
+    {{ include('member_status/_form.html.twig') }}
+
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} - New Donation{% endblock %}
+
+{% block body %}
+<div class="h4">New Donation</div>
+
+{{ include('donation/_form.html.twig') }}
+
+{% endblock %}

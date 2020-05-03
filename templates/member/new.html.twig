@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} - New Member {% endblock %}
+
+{% block body %}
+<div class="h4">New Member</div>
+
+{{ form_start(form) }}
+{% include 'member/_form.html.twig' %}
+<div class="text-right">
+  <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+</div>
+{{ form_rest(form) }}
+{{ form_end(form) }}
+
+{% endblock %}
+
+{% block stylesheets -%}
+{{ parent() }}
+{{ encore_entry_link_tags('member') }}
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+{{ encore_entry_script_tags('member') }}
+{% endblock %}

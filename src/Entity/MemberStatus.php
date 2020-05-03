@@ -62,8 +62,11 @@ class MemberStatus
 
     public function setCode(string $code): self
     {
+        $code = trim($code);
+        $code = str_replace(' ', '_', $code);
+        $code = preg_replace("/[^A-Za-z0-9_]/", '', $code);
+        $code = mb_strtoupper($code);
         $this->code = $code;
-
         return $this;
     }
 

@@ -44,7 +44,7 @@ class ExportController extends AbstractController
             return $response;
         }
 
-        return $this->render('directory/export.html.twig', [
+        return $this->render('member/export.html.twig', [
             'form' => $form->createView()
         ]);
     }

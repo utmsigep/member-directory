@@ -1,21 +1,21 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ config.app_name }} - {{ record.displayName }} - Message{% endblock %}
+{% block title %}{{ parent() }} - {{ record.displayName }} - Message{% endblock %}
 
 {% block body %}
 
 <div>
   <div class="h4">{{ record.displayName }}</div>
 
-  {% include 'directory/partials/directory_member_badges.html.twig' %}
+  {% include 'directory/_member_badges.html.twig' %}
 
-  {% include 'directory/partials/directory_member_navigation.html.twig' %}
+  {% include 'directory/_member_navigation.html.twig' %}
 
   <div class="row">
-    <div class="col-md-8">
+    <div class="col-lg-8">
       {{ form(form) }}
     </div>
-    <div class="col-md-4">
+    <div class="col-lg-4">
       <h5>Personalization Tags</h5>
       <table class="table table-sm">
         <tr>

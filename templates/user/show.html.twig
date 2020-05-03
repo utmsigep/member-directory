@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+{% import 'user/_macros.html.twig' as macros %}
+
+{% block title %}{{ parent()}} - {{ user }}{% endblock %}
+
+{% block body %}
+<div class="float-right">
+  <a href="{{ path('user_edit', {'id': user.id}) }}" class="btn btn-sm btn-primary"><i class="fas fa-edit fa-fw"></i> Edit</a>
+</div>
+<div class="h4">{{ user.email }}</div>
+
+{% include 'admin/_admin_nav.html.twig' %}
+
+<dl>
+    <dt>Roles</dt>
+    <dd>{{ macros.user_roles(user.roles) }}</dd>
+</dl>
+
+{% endblock %}

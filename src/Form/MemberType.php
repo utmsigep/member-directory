@@ -5,7 +5,6 @@ namespace App\Form;
 use App\Entity\Member;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -50,8 +49,9 @@ class MemberType extends AbstractType
             ->add('isExternalDoNotContact')
             ->add('directoryNotes')
             ->add('status')
-            ->add('tags')
-            ->add('submit', SubmitType::class)
+            ->add('tags', null, [
+                'by_reference' => false
+            ])
         ;
     }
 

@@ -1,6 +1,6 @@
 language: generic
 dist: xenial
-sudo: false
+os: linux
 
 notifications:
   email: false
@@ -16,7 +16,7 @@ env:
     - SYMFONY_PHPUNIT_DIR=./bin/.phpunit
     - SYMFONY_DEPRECATIONS_HELPER=disabled
 
-matrix:
+jobs:
   fast_finish: true
   include:
     - php: 7.1

@@ -1,0 +1,50 @@
+<tr>
+  <td class="text-center" data-order="{{ record.localIdentifier }}">{{ record.localIdentifierShort }}</td>
+  <td width="32">
+    <a href="{{ path('member', {localIdentifier: record.localIdentifier}) }}"><img src="{{ record.photoUrl }}" class="img-fluid" style="max-width:32px;" /></a>
+  </td>
+  <td data-order="{{ record.lastName }} {{ record.firstName }}">
+    <a href="{{ path('member', {localIdentifier: record.localIdentifier}) }}">{{ record.displayName }} </a>
+    {% include 'directory/_member_badges.html.twig' %}
+  </td>
+  {% if show_status is defined and show_status %}
+  <td>
+    {{ record.status.label }}
+  </td>
+  {% endif %}
+  <td>
+    {{ record.classYear|default('-') }}
+  </td>
+  <td>
+    {% if record.primaryEmail %}
+    <a href="mailto:{{ record.primaryEmail }}">{{ record.primaryEmail }}</a>
+    {% endif %}
+  </td>
+  <td>
+    <ul class="list-inline">
+      {% if record.linkedinUrl %}
+      <li class="list-inline-item m-0"><a href="{{ record.linkedinUrl }}" target="_blank"><i class="fab fa-linkedin fa-lg"></i></a></li>
+      {% else %}
+      <li class="list-inline-item m-0"><i class="fab fa-linkedin fa-lg" style="opacity:0.2"></i></li>
+      {% endif %}
+      {% if record.facebookIdentifier %}
+      <li class="list-inline-item m-0"><a href="https://facebook.com/{{ record.facebookIdentifier }}" target="_blank"><i class="fab fa-facebook fa-lg"></i></a></li>
+      {% else %}
+      <li class="list-inline-item m-0"><i class="fab fa-facebook fa-lg" style="opacity:0.2"></i></li>
+      {% endif %}
+    </ul>
+  </td>
+  <td>
+    {{ record.primaryTelephoneNumber }}
+  </td>
+  <td>
+    {% if record.mailingAddressLine1 %}
+    {{ record.mailingAddressLine1 }}<br />
+    {% if record.mailingAddressLine2 %}{{ record.mailingAddressLine2 }}<br />{% endif %}
+    {{ record.mailingCity }}, {{ record.mailingState }} {{ record.mailingPostalCode }}<br />
+    {%- if record.mailingCountry != 'United States' and record.mailingCountry != 'US' %}
+    {{ record.mailingCountry }}
+    {% endif %}
+    {% endif %}
+  </td>
+</tr>

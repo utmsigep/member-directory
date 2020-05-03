@@ -5,7 +5,6 @@ namespace App\Form;
 use App\Entity\Member;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -33,7 +32,7 @@ class MemberUpdateType extends AbstractType
                 'label' => 'Postal Code'
             ])
             ->add('primaryEmail', null, [
-                'label' => 'Primary Email Address',
+                'label' => 'Primary E-mail Address',
                 'attr' => [
                     'placeholder' => 'user@example.com'
                 ]
@@ -57,9 +56,6 @@ class MemberUpdateType extends AbstractType
                     'placeholder' => 'e.g. https://www.linkedin.com/in/williamhgates/'
                 ],
                 'required' => false
-            ])
-            ->add('submit', SubmitType::class, [
-                'label' => 'Submit Update'
             ])
         ;
     }

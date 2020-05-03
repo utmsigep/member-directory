@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} - Member Statuses{% endblock %}
+
+{% block body %}
+<div class="float-right">
+  <a href="{{ path('member_status_new') }}" class="btn btn-sm btn-primary"><i class="fas fa-plus"></i> New Member Status</a>
+</div>
+<div class="h4">Member Statuses</div>
+
+{% include 'admin/_admin_nav.html.twig' %}
+
+    <table class="table w-auto">
+        <thead>
+            <tr>
+                <th>Code</th>
+                <th>Label</th>
+                <th><i class="fas fa-users fa-fw"></i></th>
+                <th class="col-edit">&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for member_status in member_statuses %}
+            <tr>
+                <td><a href="{{ path('member_status_show', {'id': member_status.id}) }}">{{ member_status.code }}</a></td>
+                <td>{{ member_status.label }}</td>
+                <td>{{ member_status.members|length|default('0') }}</td>
+                <td>
+                    <a href="{{ path('member_status_edit', {'id': member_status.id}) }}"><i class="fas fa-edit fa-fw"></i></a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="99"><div class="alert alert-info">No records matched your criteria.</div></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

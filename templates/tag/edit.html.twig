@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent()}} - {{ tag }}{% endblock %}
+
+{% block body %}
+<div class="h4">{{ tag }}</div>
+
+{% include 'admin/_admin_nav.html.twig' %}
+
+    {{ include('tag/_form.html.twig', {'button_label': 'Update'}) }}
+
+    {{ include('tag/_delete_form.html.twig') }}
+{% endblock %}

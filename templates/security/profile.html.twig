@@ -1,13 +1,22 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ config.app_name }} - Profile{% endblock %}
+{% block title %}{{ parent() }} - Profile{% endblock %}
 
 {% block body %}
+<div class="h4">Profile</div>
 
-<div>
-  <div class="h4">Update Profile</div>
-  {{ form(form) }}
+{{ form_start(form) }}
+<div class="card mb-3" style="max-width:25rem">
+  <div class="card-header">Update Profile</div>
+  <div class="card-body">
+    {{ form_row(form.email) }}
+  </div>
+  <div class="card-footer text-right">
+    <button class="btn btn-primary">{{ button_label|default('Update') }}</button>
+  </div>
 </div>
+{{ form_rest(form) }}
+{{ form_end(form) }}
 {% endblock %}
 
 {% block javascripts %}

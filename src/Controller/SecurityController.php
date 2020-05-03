@@ -7,7 +7,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -50,7 +49,6 @@ class SecurityController extends AbstractController
                     ])
                 ]
             ])
-            ->add('save', SubmitType::class, ['label' => 'Update Profile'])
             ->getForm()
             ;
 
@@ -99,7 +97,6 @@ class SecurityController extends AbstractController
                 'first_options'  => ['label' => 'Password'],
                 'second_options' => ['label' => 'Repeat Password'],
             ])
-            ->add('save', SubmitType::class, ['label' => 'Change Password'])
             ->getForm()
             ;
 
@@ -119,7 +116,7 @@ class SecurityController extends AbstractController
             return $this->redirectToRoute('app_profile');
         }
 
-        return $this->render('security/change-password.html.twig', [
+        return $this->render('security/change_password.html.twig', [
             'form' => $form->createView()
         ]);
     }
