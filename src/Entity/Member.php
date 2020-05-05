@@ -78,7 +78,7 @@ class Member
 
     /**
      * @ORM\Column(type="date", nullable=true)
-     * @Assert\Date
+     * @Assert\Type("\DateTimeInterface")
      * @Gedmo\Versioned
      */
     private $joinDate;
@@ -146,12 +146,14 @@ class Member
 
     /**
      * @ORM\Column(type="decimal", precision=10, scale=8, nullable=true)
+     * @Assert\Type("numeric")
      * @Gedmo\Versioned
      */
     protected $mailingLatitude;
 
     /**
      * @ORM\Column(type="decimal", precision=11, scale=8, nullable=true)
+     * @Assert\Type("numeric")
      * @Gedmo\Versioned
      */
     protected $mailingLongitude;
@@ -183,7 +185,11 @@ class Member
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Gedmo\Versioned
-     * @Assert\Regex("/^https?\:\/\/(www\.)?linkedin.com\/(.*)/", message="Please provide a LinkedIn URL")
+     * @Assert\Regex(
+     *   pattern     = "/^https?\:\/\/(www\.)?linkedin.com\/(.*)$/i",
+     *   htmlPattern = "https?://(www.)?linkedin.com/.+",
+     *   message     = "Please provide a LinkedIn URL"
+     * )
      */
     private $linkedinUrl;
 

@@ -37,7 +37,7 @@ class UserAddCommand extends Command
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
         $email = $input->getArgument('email');
@@ -80,5 +80,6 @@ class UserAddCommand extends Command
         $this->entityManager->flush();
 
         $io->success(sprintf('You have added %s to the system as ID %d.', $user->getEmail(), $user->getId()));
+        return 0;
     }
 }

@@ -41,7 +41,7 @@ class MemberStatusController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($memberStatus);
             $entityManager->flush();
-
+            $this->addFlash('success', sprintf('%s created!', $memberStatus));
             return $this->redirectToRoute('member_status_index');
         }
 
@@ -71,7 +71,7 @@ class MemberStatusController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-
+            $this->addFlash('success', sprintf('%s updated!', $memberStatus));
             return $this->redirectToRoute('member_status_index');
         }
 
@@ -91,8 +91,9 @@ class MemberStatusController extends AbstractController
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->remove($memberStatus);
                 $entityManager->flush();
+                $this->addFlash('success', sprintf('%s deleted!', $memberStatus));
             } catch (ForeignKeyConstraintViolationException $e) {
-                $this->addFlash('error', 'You are not allowed to delete a Member Status assigned to Members.');
+                $this->addFlash('error', sprintf('Cannot delete %s because it is used by Members.', $memberStatus));
             }
         }
 

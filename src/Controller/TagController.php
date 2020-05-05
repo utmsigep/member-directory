@@ -40,7 +40,7 @@ class TagController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($tag);
             $entityManager->flush();
-            $this->addFlash('success', sprintf('Tag "%s" created!', $tag));
+            $this->addFlash('success', sprintf('%s created!', $tag));
             return $this->redirectToRoute('tag_index');
         }
 
@@ -70,7 +70,7 @@ class TagController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-            $this->addFlash('success', sprintf('Tag "%s" updated!', $tag));
+            $this->addFlash('success', sprintf('%s updated!', $tag));
             return $this->redirectToRoute('tag_index');
         }
 
@@ -89,7 +89,7 @@ class TagController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($tag);
             $entityManager->flush();
-            $this->addFlash('success', sprintf('Tag "%s" deleted!', $tag));
+            $this->addFlash('success', sprintf('%s deleted!', $tag));
         }
 
         return $this->redirectToRoute('tag_index');

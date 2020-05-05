@@ -10,7 +10,7 @@ class GeocoderServiceTest extends KernelTestCase
 {
     protected $geocoderService;
 
-    public function setUp()
+    public function setUp(): void
     {
         self::bootKernel();
 

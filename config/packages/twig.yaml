@@ -3,6 +3,7 @@ twig:
     default_path: '%kernel.project_dir%/templates'
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
+    exception_controller: ~
 
     globals:
         config: '@App\Service\AppConfigService'

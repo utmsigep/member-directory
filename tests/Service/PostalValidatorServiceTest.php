@@ -10,7 +10,7 @@ class PostalValidatorServiceTest extends KernelTestCase
 {
     protected $postalValidatorService;
 
-    public function setUp()
+    public function setUp(): void
     {
         self::bootKernel();
 
@@ -24,7 +24,7 @@ class PostalValidatorServiceTest extends KernelTestCase
 
         // Skip this suite if not configured correctly
         if (!$this->postalValidatorService->isConfigured()) {
-            return $this->markTestSkipped('PostalValidatorService not configured.');
+            $this->markTestSkipped('PostalValidatorService not configured.');
         }
     }
 

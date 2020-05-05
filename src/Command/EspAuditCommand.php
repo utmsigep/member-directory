@@ -54,8 +54,7 @@ class EspAuditCommand extends Command
 
         foreach ($members as $member) {
             // Exlcude a few cases from report
-            if (
-                $member->getIsDeceased()
+            if ($member->getIsDeceased()
                 || $member->getIsLocalDoNotContact()
                 || $member->getIsLost()
             ) {
@@ -94,7 +93,6 @@ class EspAuditCommand extends Command
                 $member->getDisplayName(),
                 $member->getPrimaryEmail()
             ));
-
         }
 
         $io->success('Done!');

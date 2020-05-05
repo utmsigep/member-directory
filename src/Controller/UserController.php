@@ -47,7 +47,7 @@ class UserController extends AbstractController
             }
             $entityManager->persist($user);
             $entityManager->flush();
-            $this->addFlash('success', sprintf('User "%s" created!', $user));
+            $this->addFlash('success', sprintf('%s created!', $user));
             return $this->redirectToRoute('user_index');
         }
 
@@ -87,7 +87,7 @@ class UserController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            $this->addFlash('success', sprintf('User "%s" updated!', $user));
+            $this->addFlash('success', sprintf('%s updated!', $user));
             return $this->redirectToRoute('user_index');
         }
 
@@ -106,7 +106,7 @@ class UserController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($user);
             $entityManager->flush();
-            $this->addFlash('success', sprintf('User "%s" deleted!', $user));
+            $this->addFlash('success', sprintf('%s deleted!', $user));
         }
 
         return $this->redirectToRoute('user_index');
