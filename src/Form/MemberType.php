@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Member;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -21,7 +22,7 @@ class MemberType extends AbstractType
             ->add('lastName')
             ->add('joinDate', DateType::class, [
                 'required' => false,
-                'widget' => 'single_text',
+                'widget' => 'single_text'
             ])
             ->add('classYear')
             ->add('isDeceased')
@@ -33,11 +34,19 @@ class MemberType extends AbstractType
             ->add('mailingState')
             ->add('mailingPostalCode')
             ->add('mailingCountry')
-            ->add('mailingLatitude', null, [
-                'scale' => 8
+            ->add('mailingLatitude', NumberType::class, [
+                'scale' => 8,
+                'attr' => [
+                    'step' => '0.0000001'
+                ],
+                'html5' => true
             ])
-            ->add('mailingLongitude', null, [
-                'scale' => 8
+            ->add('mailingLongitude', NumberType::class, [
+                'scale' => 8,
+                'attr' => [
+                    'step' => '0.0000001'
+                ],
+                'html5' => true
             ])
             ->add('employer')
             ->add('jobTitle')

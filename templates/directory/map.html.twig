@@ -12,8 +12,8 @@
   <div class="col-lg-12">
     <div class="float-right">
       <ul class="list-inline">
-        <li class="list-inline-item"><button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#searchResultsModal">Search Results <span class="badge badge-light" id="searchResultCount">0</span></button></li>
         <li class="list-inline-item"><button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#searchFormModal"><i class="fas fa-cog"></i></button></li>
+        <li class="list-inline-item"><button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#searchResultsModal">Search Results <span class="badge badge-light" id="searchResultCount">0</span></button></li>
       </ul>
     </div>
     <div class="h4">Member Map</div>
@@ -63,7 +63,7 @@
         <div id="searchResults"></div>
       </div>
       <div id="searchResultsExport" class="modal-footer">
-        <a id="mapExportButton" href="{{ path('export_by_location') }}" class="btn btn-primary">Export List</a>
+        <a id="mapExportButton" href="{{ path('export_by_location') }}" class="btn btn-sm btn-primary"><i class="fas fa-download fa-fw"></i> Export List</a>
       </div>
     </div>
   </div>

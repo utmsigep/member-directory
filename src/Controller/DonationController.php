@@ -46,7 +46,7 @@ class DonationController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($donation);
             $entityManager->flush();
-
+            $this->addFlash('success', sprintf('%s created!', $donation));
             return $this->redirectToRoute('donation_index');
         }
 
@@ -108,7 +108,7 @@ class DonationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-
+            $this->addFlash('success', sprintf('%s updated!', $donation));
             return $this->redirectToRoute('donation_index');
         }
 
@@ -127,6 +127,7 @@ class DonationController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($donation);
             $entityManager->flush();
+            $this->addFlash('success', sprintf('%s deleted!', $donation));
         }
 
         return $this->redirectToRoute('donation_index');
