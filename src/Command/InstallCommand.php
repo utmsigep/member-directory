@@ -31,7 +31,7 @@ class InstallCommand extends Command
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
 
@@ -79,5 +79,6 @@ class InstallCommand extends Command
         $this->entityManager->flush();
 
         $io->success('Necessary records installed! Run `app:user:add` to add your first user.');
+        return 0;
     }
 }

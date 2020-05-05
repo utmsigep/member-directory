@@ -32,7 +32,7 @@ class EspSyncCommand extends Command
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
 
@@ -98,5 +98,6 @@ class EspSyncCommand extends Command
         $io->writeln(implode(PHP_EOL, $output['ignored']));
 
         $io->success('Done!');
+        return 0;
     }
 }
