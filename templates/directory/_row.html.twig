@@ -5,7 +5,7 @@
   </td>
   <td data-order="{{ record.lastName }} {{ record.firstName }}">
     <a href="{{ path('member', {localIdentifier: record.localIdentifier}) }}">{{ record.displayName }} </a>
-    {% include 'directory/_member_badges.html.twig' %}
+    {% include 'member/_badges.html.twig' %}
   </td>
   {% if show_status is defined and show_status %}
   <td>
@@ -34,7 +34,7 @@
       {% endif %}
     </ul>
   </td>
-  <td>
+  <td class="text-nowrap">
     {{ record.primaryTelephoneNumber }}
   </td>
   <td>
