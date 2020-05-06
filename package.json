@@ -1,6 +1,6 @@
 {
     "devDependencies": {
-        "@symfony/webpack-encore": "^0.28.3",
+        "@symfony/webpack-encore": "^0.29.1",
         "core-js": "^3.6.5",
         "node-sass": "^4.14.1",
         "webpack-dev-server": "^3.10.3",
@@ -23,7 +23,7 @@
         "leaflet": "^1.6.0",
         "leaflet-defaulticon-compatibility": "^0.1.1",
         "popper.js": "^1.16.1",
-        "sass-loader": "^7.3.1",
+        "sass-loader": "^8.0.2",
         "underscore": "^1.10.2"
     }
 }
