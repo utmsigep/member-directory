@@ -12,8 +12,8 @@ Routing.setRoutingData(routes);
 
 var markerIcon = L.Icon.extend({
   options: {
-    iconUrl:       require('../images/marker-icon.svg'),
-    shadowUrl:     require('../images/marker-shadow.png'),
+    iconUrl:       require('../images/marker-icon.svg').default,
+    shadowUrl:     require('../images/marker-shadow.png').default,
     iconSize:    [12, 20],
     iconAnchor:  [6, 20],
     popupAnchor: [1, -16],
@@ -23,7 +23,7 @@ var markerIcon = L.Icon.extend({
 });
 
 var defaultIcon = new markerIcon();
-var undergraduateIcon = new markerIcon({ iconUrl: require('../images/marker-icon-undergraduate.svg'), });
+var undergraduateIcon = new markerIcon({ iconUrl: require('../images/marker-icon-undergraduate.svg').default });
 
 var drawMap = function () {
   var mymap = L.map('mapContainer').setView([39.828175, -98.5795], 4);

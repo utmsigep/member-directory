@@ -25,8 +25,8 @@ $(document).ready(function() {
 
   var markerIcon = L.Icon.extend({
     options: {
-      iconUrl:       require('../images/marker-icon.svg'),
-      shadowUrl:     require('../images/marker-shadow.png'),
+      iconUrl:       require('../images/marker-icon.svg').default,
+      shadowUrl:     require('../images/marker-shadow.png').default,
       iconSize:    [24, 40],
       iconAnchor:  [12, 40],
       shadowSize:  [40, 40]
