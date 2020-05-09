@@ -81,10 +81,9 @@
           <!-- End of Topbar -->
 
           <!-- Begin Page Content -->
-
           <div class="container-fluid">
-            {% block body %}
-            {% endblock %}
+            {% include '_alerts.html.twig' %}
+            {% block body %}{% endblock %}
           </div>
           <!-- /.container-fluid -->
 

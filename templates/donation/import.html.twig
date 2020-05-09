@@ -12,18 +12,18 @@
 
 <div class="h4">Donations Import <sup><span class="badge badge-secondary">Beta</span></sup></div>
 
-{{ form_start(importForm) }}
+{{ form_start(form) }}
 <div class="card mb-3 shadow">
   <div class="card-header">Import Donations</div>
   <div class="card-body">
-    {{ form_row(importForm.csv_file) }}
-    {{ form_row(importForm.dry_run) }}
+    {{ form_row(form.csv_file) }}
+    {{ form_row(form.dry_run) }}
   </div>
   <div class="card-footer text-right">
     <button class="btn btn-primary">{{ button_label|default('Import') }}</button>
   </div>
 </div>
-{{ form_rest(importForm) }}
+{{ form_rest(form) }}
 
 
 {% if donations %}
