@@ -4,12 +4,12 @@
 
 {% block body %}
 <div class="float-right">
-  <a href="{{ path('tag_new') }}" class="btn btn-sm btn-primary"><i class="fas fa-plus"></i> New Tag</a>
+  <a href="{{ path('tag_new') }}" class="btn btn-sm btn-primary"><i class="fas fa-plus fa-fw"></i> New Tag</a>
 </div>
 <div class="h4">Tags</div>
 
 {% include 'admin/_nav.html.twig' %}
-<div class="card shadow">
+<div class="card mb-3 shadow">
   <div class="card-body">
     <div class="table-responsive">
       <table class="table">

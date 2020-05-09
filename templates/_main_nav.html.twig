@@ -25,7 +25,7 @@
   <div id="collapseTags" class="collapse" aria-labelledby="headingTags" data-parent="#accordionSidebar">
     <div class="bg-white py-2 collapse-inner rounded">
       {% for _tag in get_tags() %}
-      <a class="collapse-item" href="{{ path('tag', {tagId: _tag.id})}}"><i class="fas fa-tag fa-fw"></i> <span>{{ _tag.tagName }}</span></a>
+      <a class="collapse-item text-truncate" href="{{ path('tag', {tagId: _tag.id})}}"><i class="fas fa-tag fa-fw"></i> <span title="{{ _tag.tagName|escape('html_attr') }}">{{ _tag.tagName }}</span></a>
       {% endfor %}
     </div>
   </div>

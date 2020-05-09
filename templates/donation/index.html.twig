@@ -9,15 +9,15 @@
     <div class="h4">Donations <sup><span class="badge badge-secondary">Beta</span></sup></div>
   </div>
   <div class="col-lg-6 text-right">
-    <a href="{{ path('donorbox_import') }}" class="btn btn-sm btn-primary">Import from Donorbox</a>
-    <a href="{{ path('donation_new') }}" class="btn btn-sm btn-primary"><i class="fas fa-plus"></i> New Donation</a>
+    <a href="{{ path('donorbox_import') }}" class="btn btn-sm btn-primary"><i class="fas fa-upload fa-fw"></i> Import from Donorbox</a>
+    <a href="{{ path('donation_new') }}" class="btn btn-sm btn-primary"><i class="fas fa-plus fa-fw"></i> New Donation</a>
   </div>
 </div>
 
 {% if donations %}
 {% include 'donation/_donation_totals.html.twig' %} 
 
-<div class="card shadow">
+<div class="card mb-3 shadow">
   <div class="card-body">
     <div class="table-responsive">
       <table class="table table-striped" id="donationsTable">

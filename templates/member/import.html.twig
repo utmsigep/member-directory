@@ -13,7 +13,7 @@
 <div class="h4">Import</div>
 
 {{ form_start(importForm) }}
-<div class="card mb-3">
+<div class="card mb-3 shadow">
   <div class="card-header">Import Members</div>
   <div class="card-body">
     {{ form_row(importForm.csv_file) }}
@@ -30,28 +30,32 @@
 {% for member in members %}
 <h4><a href="{{ path('member', {localIdentifier: member.localIdentifier}) }}">{{ member.displayName }}</a> ({{member.status.label}})</h4>
 {% if memberChangeSets[member.id] is not empty %}
-<table class="table" style="max-width:600px">
-  <tbody>
-    {% for field,change in memberChangeSets[member.id] %}
-    <tr>
-      <th colspan="2" class="text-light bg-dark">{{ field }}</code></th>
-    </tr>
-    <tr>
-    <tr>
-      <th>Old Value</th>
-      <td>
-        {% include 'import/_changed_row.html.twig' with { change: change[0] } %}
-      </td>
-    </tr>
-    <tr>
-      <th>New Value</th>
-      <td>
-        {% include 'import/_changed_row.html.twig' with { change: change[1] } %}
-      </td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
+<div class="card mb-3 shadow" style="max-width:40rem">
+  <div class="card-body">
+    <table class="table">
+      <tbody>
+        {% for field,change in memberChangeSets[member.id] %}
+        <tr>
+          <th colspan="2" class="text-light bg-dark">{{ field }}</code></th>
+        </tr>
+        <tr>
+        <tr>
+          <th>Old Value</th>
+          <td>
+            {% include 'member/_changed_row.html.twig' with { change: change[0] } %}
+          </td>
+        </tr>
+        <tr>
+          <th>New Value</th>
+          <td>
+            {% include 'member/_changed_row.html.twig' with { change: change[1] } %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
 {% else %}
 <p><em>No changes.</em></p>
 {% endif %}

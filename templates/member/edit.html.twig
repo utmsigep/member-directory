@@ -17,7 +17,7 @@
 
   {{ form_start(form) }}
   {% include 'member/_form.html.twig' %}
-  <div class="row">
+  <div class="row mb-3">
     <div class="col">
       <a href="{{ path('member_delete', {localIdentifier: record.localIdentifier}) }}" class="btn btn-link text-danger"><i class="fas fa-trash fa-fw"></i>Delete</a>
     </div>
