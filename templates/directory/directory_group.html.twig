@@ -11,32 +11,36 @@
   </div>
   {% endif %}
   <div class="h4">{{ view_name }}</div>
-  <div class="table-responsive">
-    <table class="table table-sm" id="memberTable">
-    {% for group, records in group %}
-      <thead>
-        <tr><th class="h5" colspan="99">{{ group|default('Not Set') }}</th></tr>
-        <tr>
-          <th class="text-center">Roll #</th>
-          <th data-sortable="false" data-searchable="false"></th>
-          <th>Name</th>
-          {% if show_status %}
-          <th>Status</th>
-          {% endif %}
-          <th>Class</th>
-          <th>E-mail</th>
-          <th data-sortable="false" data-searchable="false">Social</th>
-          <th>Phone Number</th>
-          <th>Mailing Address</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for record in records %}
-        {% include 'directory/_row.html.twig' %}
+  <div class="card shadow">
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-sm" id="memberTable">
+        {% for group, records in group %}
+          <thead>
+            <tr><th class="h5" colspan="99">{{ group|default('Not Set') }}</th></tr>
+            <tr>
+              <th class="text-center">Roll #</th>
+              <th data-sortable="false" data-searchable="false"></th>
+              <th>Name</th>
+              {% if show_status %}
+              <th>Status</th>
+              {% endif %}
+              <th>Class</th>
+              <th>E-mail</th>
+              <th data-sortable="false" data-searchable="false">Social</th>
+              <th>Phone Number</th>
+              <th>Mailing Address</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for record in records %}
+            {% include 'directory/_row.html.twig' %}
+            {% endfor %}
+          </tbody>
         {% endfor %}
-      </tbody>
-    {% endfor %}
-    </table>
+        </table>
+      </div>
+    </div>
   </div>
 </div>
 {% endblock %}

@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Donation;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CurrencyType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -37,7 +38,21 @@ class DonationType extends AbstractType
             ->add('lastFour')
             ->add('isAnonymous')
             ->add('isRecurring')
-            ->add('member')
+            ->add('member', null, [
+                'placeholder' => '',
+                'query_builder' => function(EntityRepository $er) {
+                    return $er->createQueryBuilder('m')
+                        ->join('m.status', 's')
+                        ->addOrderBy('s.label', 'ASC')
+                        ->addOrderBy('m.lastName', 'ASC')
+                        ->addOrderBy('m.preferredName', 'ASC')
+
+                        ;
+                },
+                'group_by' => function($choice, $key, $value) {
+                    return $choice->getStatus()->getLabel();
+                }
+            ])
         ;
     }
 

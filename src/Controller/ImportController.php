@@ -91,7 +91,7 @@ class ImportController extends AbstractController
         }
 
         return $this->render('member/import.html.twig', [
-            'importForm' => $form->createView(),
+            'form' => $form->createView(),
             'members' => $members,
             'newMembers' => $newMembers,
             'memberChangeSets' => $memberChangeSets,

@@ -82,7 +82,7 @@ class DonationController extends AbstractController
         }
 
         return $this->render('donation/import.html.twig', [
-            'importForm' => $form->createView(),
+            'form' => $form->createView(),
             'donations' => $donorboxDonationService->getDonations(),
             'errors' => $donorboxDonationService->getErrors()
         ]);

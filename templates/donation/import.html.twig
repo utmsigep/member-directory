@@ -12,40 +12,46 @@
 
 <div class="h4">Donations Import <sup><span class="badge badge-secondary">Beta</span></sup></div>
 
-{{ form_start(importForm) }}
-<div class="card mb-3">
+{{ form_start(form) }}
+<div class="card mb-3 shadow">
   <div class="card-header">Import Donations</div>
   <div class="card-body">
-    {{ form_row(importForm.csv_file) }}
-    {{ form_row(importForm.dry_run) }}
+    {{ form_row(form.csv_file) }}
+    {{ form_row(form.dry_run) }}
   </div>
   <div class="card-footer text-right">
     <button class="btn btn-primary">{{ button_label|default('Import') }}</button>
   </div>
 </div>
-{{ form_rest(importForm) }}
+{{ form_rest(form) }}
 
 
 {% if donations %}
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>Date</th>
-      <th>Donor</th>
-      <th>Campaign</th>
-      <th>Description</th>
-      <th>Amount</th>
-      <th>Fees</th>
-      <th>Net Amount</th>
-      <th>Recurring?</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for donation in donations %}
-    {% include 'donation/_donation_row.html.twig' %}
-    {% endfor %}
-  </tbody>
-</table>
+<div class="card mb-3 shadow">
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Donor</th>
+            <th>Campaign</th>
+            <th>Description</th>
+            <th>Amount</th>
+            <th>Fees</th>
+            <th>Net Amount</th>
+            <th>Recurring?</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for donation in donations %}
+          {% include 'donation/_donation_row.html.twig' %}
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
 {% endif %}
 
 {% endblock %}

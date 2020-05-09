@@ -3,63 +3,73 @@
 {% block title %}{{ parent() }} - {{ record.displayName }} - Message{% endblock %}
 
 {% block body %}
+<div class="h4">{{ record.displayName }}</div>
 
-<div>
-  <div class="h4">{{ record.displayName }}</div>
+{% include 'member/_badges.html.twig' %}
 
-  {% include 'member/_badges.html.twig' %}
+{% include 'member/_nav.html.twig' %}
 
-  {% include 'member/_nav.html.twig' %}
-
-  <div class="row">
-    <div class="col-lg-8">
-      {{ form(form) }}
-    </div>
-    <div class="col-lg-4">
-      <h5>Personalization Tags</h5>
-      <table class="table table-sm">
-        <tr>
-          <th><code>[FirstName]</code></th>
-          <td>{{ record.firstName }}</td>
-        </tr>
-        <tr>
-          <th><code>[PreferredName]</code></th>
-          <td>{{ record.preferredName }}</td>
-        </tr>
-        <tr>
-          <th><code>[LastName]</code></th>
-          <td>{{ record.lastName }}</td>
-        </tr>
-        <tr>
-          <th><code>[MailingAddressLine1]</code></th>
-          <td>{{ record.mailingAddressLine1 }}</td>
-        </tr>
-        <tr>
-          <th><code>[MailingAddressLine2]</code></th>
-          <td>{{ record.mailingAddressLine2 }}</td>
-        </tr>
-        <tr>
-          <th><code>[MailingCity]</code></th>
-          <td>{{ record.mailingCity }}</td>
-        </tr>
-        <tr>
-          <th><code>[MailingState]</code></th>
-          <td>{{ record.mailingState }}</td>
-        </tr>
-        <tr>
-          <th><code>[MailingPostalCode]</code></th>
-          <td>{{ record.mailingPostalCode }}</td>
-        </tr>
-        <tr>
-          <th><code>[PrimaryEmail]</code></th>
-          <td>{{ record.primaryEmail }}</td>
-        </tr>
-        <tr>
-          <th><code>[PrimaryTelephoneNumber]</code></th>
-          <td>{{ record.primaryTelephoneNumber }}</td>
-        </tr>
-      </table>  
+{{ form_start(form) }}
+<div class="card mb-3 shadow">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-lg-8">
+        {{ form_row(form.subject) }}
+        {{ form_row(form.message_body) }}
+        {{ form_row(form.reply_to) }}
+        {{ form_row(form.send_copy) }}
+      </div>
+      <div class="col-lg-4">
+        <h5>Personalization Tags</h5>
+        <table class="table table-sm">
+          <tr>
+            <th><code>[FirstName]</code></th>
+            <td>{{ record.firstName }}</td>
+          </tr>
+          <tr>
+            <th><code>[PreferredName]</code></th>
+            <td>{{ record.preferredName }}</td>
+          </tr>
+          <tr>
+            <th><code>[LastName]</code></th>
+            <td>{{ record.lastName }}</td>
+          </tr>
+          <tr>
+            <th><code>[MailingAddressLine1]</code></th>
+            <td>{{ record.mailingAddressLine1 }}</td>
+          </tr>
+          <tr>
+            <th><code>[MailingAddressLine2]</code></th>
+            <td>{{ record.mailingAddressLine2 }}</td>
+          </tr>
+          <tr>
+            <th><code>[MailingCity]</code></th>
+            <td>{{ record.mailingCity }}</td>
+          </tr>
+          <tr>
+            <th><code>[MailingState]</code></th>
+            <td>{{ record.mailingState }}</td>
+          </tr>
+          <tr>
+            <th><code>[MailingPostalCode]</code></th>
+            <td>{{ record.mailingPostalCode }}</td>
+          </tr>
+          <tr>
+            <th><code>[PrimaryEmail]</code></th>
+            <td>{{ record.primaryEmail }}</td>
+          </tr>
+          <tr>
+            <th><code>[PrimaryTelephoneNumber]</code></th>
+            <td>{{ record.primaryTelephoneNumber }}</td>
+          </tr>
+        </table>  
+      </div>
     </div>
   </div>
-<div>
+</div>
+<div class="text-right mb-3">
+  {{ form_widget(form.submit) }}
+</div>
+{{ form_rest(form) }}
+{{ form_end(form) }}
 {% endblock %}
