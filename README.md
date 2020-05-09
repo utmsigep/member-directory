@@ -25,9 +25,9 @@ Member Directory is a [Symfony](https://symfony.com/) 4 project to manage the me
 
 ![03-map](assets/screenshots/03-map.png)
 
-### Detailed Change History
+### Member Profile
 
-![04-change-log](assets/screenshots/04-change-log.png)
+![04-change-log](assets/screenshots/04-profile.png)
 
 ### Record Tagging
 
