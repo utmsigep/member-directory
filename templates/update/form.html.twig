@@ -16,12 +16,12 @@
   {% if form.vars.valid == false %}
   <div class="alert alert-danger">Please correct the errors below.</div>
   {% endif %}
-  <div class="card card-default mb-3">
+  <div class="card mb-3 shadow">
     <div class="card-body">
     {{ form_row(form.classYear) }}
     </div>
   </div>
-  <div class="card card-default mb-3">
+  <div class="card mb-3 shadow">
     <div class="card-body">
       {{ form_row(form.mailingAddressLine1) }}
       {{ form_row(form.mailingAddressLine2) }}
@@ -41,7 +41,7 @@
       {{ form_row(form.primaryTelephoneNumber) }}
     </div>
   </div>
-  <div class="card card-default mb-3">
+  <div class="card mb-3 shadow">
     <div class="card-body">
       {{ form_row(form.employer) }}
       {{ form_row(form.jobTitle) }}

@@ -3,124 +3,123 @@
 {% block title %}{{ parent() }} - {{ record.displayName }}  - Email Subscription{% endblock %}
 
 {% block body %}
+<div class="h4">{{ record.displayName }} </div>
 
-<div>
-  <div class="h4">{{ record.displayName }} </div>
+{% include 'member/_badges.html.twig' %}
 
-  {% include 'member/_badges.html.twig' %}
+{% include 'member/_nav.html.twig' %}
 
-  {% include 'member/_nav.html.twig' %}
-
-  <div class="row">
-    <div class="col-lg-6">
-      <div class="card mb-2">
-        <div class="card-header">
-          Subscription
-        </div>
-        <div class="card-body">
-          {% if subscriber.Code is defined %}
-          <div class="alert alert-danger">{{ subscriber.Message }}</div>
-          {% elseif subscriber is empty %}
-          <div class="alert alert-danger">No data available.</div>
-          {% else %}
-          <table class="table">
-            <tbody>
-              <tr>
-                <th>Name</th>
-                <td>{{ subscriber.Name }}</td>
-              </tr>
-              <tr>
-                <th>E-mail</th>
-                <td>{{ subscriber.EmailAddress }}</td>
-              </tr>
-              <tr>
-                <th>Date</th>
-                <td>{{ subscriber.Date|date('c') }}</td>
-              </tr>
-              <tr>
-                <th>Status</th>
-                <td>{{ subscriber.State }}</td>
-              </tr>
-              {% if is_granted('ROLE_ADMIN') %}
-              {% for field in subscriber.CustomFields %}
-              <tr class="table-secondary">
-                <th>{{ field.Key }}</th>
-                <td>{{ field.Value }}</td>
-              </tr>
-              {% endfor %}
-              {% endif %}
-            </tbody>
-          </table>
-          {% endif %}
-        </div>
+<div class="row">
+  <div class="col-lg-6">
+    <div class="card shadow mb-2">
+      <div class="card-header">
+        Subscription
       </div>
-    </div>
-    <div class="col-lg-6">
-      <div class="card mb-2">
-        <div class="card-header">
-          Subscription History
-        </div>
-        <div class="card-body">
-          {% if subscriberHistory.Code is defined %}
-          <div class="alert alert-danger">{{ subscriberHistory.Message }}</div>
-          {% elseif subscriberHistory is empty %}
-          <div class="alert alert-danger">No activity for this subscriber.</div>
-          {% else %}
-          {% for item in subscriberHistory %}
-          <table class="table mb-2">
-            <tbody>
-              <tr data-target="#campaign-actions-{{ item.ID }}" data-toggle="collapse" style="cursor:pointer;">
-                <td class="w-25">{{ item.Type }}</td>
-                <td class="w-75"><a href="{{ path('email_campaign_view', {campaignId: item.ID }) }}" target="_blank">{{ item.Name }}</a></td>
-                <td class="text-right {% if item.Actions|length > 0 %}font-weight-bold{% endif %}">{{ item.Actions|length }}</td>
-              </tr>
-              <tr class="collapse" id="campaign-actions-{{ item.ID }}">
-                <td colspan="3">
-                  {% for itemAction in item.Actions %}
-                    <table class="table table-sm table-borderless table-striped">
-                      <tbody>
-                        <tr>
-                          <th class="w-25">Event</th>
-                          <td>{{ itemAction.Event }}</td>
-                        </tr>
-                        <tr>
-                          <th>Date</th>
-                          <td>{{ itemAction.Date|date('c') }}</td>
-                        </tr>
-                        <tr>
-                          <th>IP Address</th>
-                          <td>{{ itemAction.IPAddress }}</td>
-                        </tr>
-                        <tr>
-                          <th>Detail</th>
-                          <td>{{ itemAction.Detail }}</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  {% endfor %}
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          {% endfor %}
+      <div class="card-body">
+        {% if subscriber.Code is defined %}
+        <div class="alert alert-danger">{{ subscriber.Message }}</div>
+        {% elseif subscriber is empty %}
+        <div class="alert alert-danger">No data available.</div>
+        {% else %}
+        <table class="table">
+          <tbody>
+            <tr>
+              <th>Name</th>
+              <td>{{ subscriber.Name }}</td>
+            </tr>
+            <tr>
+              <th>E-mail</th>
+              <td>{{ subscriber.EmailAddress }}</td>
+            </tr>
+            <tr>
+              <th>Date</th>
+              <td>{{ subscriber.Date|date('c') }}</td>
+            </tr>
+            <tr>
+              <th>Status</th>
+              <td>{{ subscriber.State }}</td>
+            </tr>
+            {% if is_granted('ROLE_ADMIN') %}
+            {% for field in subscriber.CustomFields %}
+            <tr class="table-secondary">
+              <th>{{ field.Key }}</th>
+              <td>{{ field.Value }}</td>
+            </tr>
+            {% endfor %}
+            {% endif %}
+          </tbody>
+        </table>
+        {% endif %}
+
+        {% if is_granted('ROLE_ADMIN') %}
+        <div class="my-3 text-center">
+          {% if subscriber.State is not defined or subscriber.State != 'Active' %}
+          <a href="{{ path('member_email_subscribe', {localIdentifier: record.localIdentifier} ) }}" class="btn btn-primary">Add Member to List</a>
+          {% endif %}
+          {% if subscriber.State is defined %}
+          <a href="{{ path('member_email_update', {localIdentifier: record.localIdentifier} ) }}" class="btn btn-primary">Update Member Subscription Details</a>
+          {% if subscriber.State != 'Unsubscribed' %}
+          <a href="{{ path('member_email_remove', {localIdentifier: record.localIdentifier} ) }}" class="btn btn-danger">Unsubscribe Member</a>
+          {% endif %}
           {% endif %}
         </div>
+        {% endif %}
+
       </div>
     </div>
   </div>
-  {% if is_granted('ROLE_ADMIN') %}
-  <div class="my-3 text-center">
-    {% if subscriber.State is not defined or subscriber.State != 'Active' %}
-    <a href="{{ path('member_email_subscribe', {localIdentifier: record.localIdentifier} ) }}" class="btn btn-primary">Add Member to List</a>
-    {% endif %}
-    {% if subscriber.State is defined %}
-    <a href="{{ path('member_email_update', {localIdentifier: record.localIdentifier} ) }}" class="btn btn-primary">Update Member Subscription Details</a>
-    {% if subscriber.State != 'Unsubscribed' %}
-    <a href="{{ path('member_email_remove', {localIdentifier: record.localIdentifier} ) }}" class="btn btn-danger">Unsubscribe Member</a>
-    {% endif %}
-    {% endif %}
+  <div class="col-lg-6">
+    <div class="card shadow mb-2">
+      <div class="card-header">
+        Subscription History
+      </div>
+      <div class="card-body">
+        {% if subscriberHistory.Code is defined %}
+        <div class="alert alert-danger">{{ subscriberHistory.Message }}</div>
+        {% elseif subscriberHistory is empty %}
+        <div class="alert alert-danger">No activity for this subscriber.</div>
+        {% else %}
+        {% for item in subscriberHistory %}
+        <table class="table mb-2">
+          <tbody>
+            <tr data-target="#campaign-actions-{{ item.ID }}" data-toggle="collapse" style="cursor:pointer;">
+              <td class="w-25">{{ item.Type }}</td>
+              <td class="w-75"><a href="{{ path('email_campaign_view', {campaignId: item.ID }) }}" target="_blank">{{ item.Name }}</a></td>
+              <td class="text-right {% if item.Actions|length > 0 %}font-weight-bold{% endif %}">{{ item.Actions|length }}</td>
+            </tr>
+            <tr class="collapse" id="campaign-actions-{{ item.ID }}">
+              <td colspan="3">
+                {% for itemAction in item.Actions %}
+                  <table class="table table-sm table-borderless table-striped">
+                    <tbody>
+                      <tr>
+                        <th class="w-25">Event</th>
+                        <td>{{ itemAction.Event }}</td>
+                      </tr>
+                      <tr>
+                        <th>Date</th>
+                        <td>{{ itemAction.Date|date('c') }}</td>
+                      </tr>
+                      <tr>
+                        <th>IP Address</th>
+                        <td>{{ itemAction.IPAddress }}</td>
+                      </tr>
+                      <tr>
+                        <th>Detail</th>
+                        <td>{{ itemAction.Detail }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                {% endfor %}
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        {% endfor %}
+        {% endif %}
+      </div>
+    </div>
   </div>
-  {% endif %}
-<div>
+</div>
 {% endblock %}

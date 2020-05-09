@@ -8,122 +8,126 @@
 {% endblock %}
 
 {% block body %}
-<div>
-  <div class="float-right">
-    {% if is_granted('ROLE_ADMIN') %}
-    {% if record.status.code not in ['RESIGNED', 'EXPELLED'] and record.isDeceased == false %}
-    <a href="#modalEditLink" data-toggle="modal" class="btn btn-sm btn-secondary"><i class="fas fa-link"></i></a>
-    {% endif %}
-    <a href="{{ path('member_edit', {localIdentifier: record.localIdentifier}) }}" class="btn btn-sm btn-primary"><i class="fas fa-edit fa-fw"></i> Edit</a>
-    {% endif %}
-  </div>
+<div class="float-right">
+  {% if is_granted('ROLE_ADMIN') %}
+  {% if record.status.code not in ['RESIGNED', 'EXPELLED'] and record.isDeceased == false %}
+  <a href="#modalEditLink" data-toggle="modal" class="btn btn-sm btn-secondary"><i class="fas fa-link"></i></a>
+  {% endif %}
+  <a href="{{ path('member_edit', {localIdentifier: record.localIdentifier}) }}" class="btn btn-sm btn-primary"><i class="fas fa-edit fa-fw"></i> Edit</a>
+  {% endif %}
+</div>
 
-  <div class="h4">{{ record.displayName }}</div>
+<div class="h4">{{ record.displayName }}</div>
 
-  {% include 'member/_badges.html.twig' %}
+{% include 'member/_badges.html.twig' %}
 
-  {% include 'member/_nav.html.twig' %}
+{% include 'member/_nav.html.twig' %}
 
-  <div class="row">
-    <div class="col-lg-8">
-      <table class="table table-borderless">
-        <tbody>
-          <tr>
-            <th class="w-25">Status</th>
-            <td>{{ record.status.label }}</td>
-          </tr>
-          <tr>
-            <th>Full Name</th>
-            <td>
-              {{ record.firstName }} {{ record.middleName }} {{ record.lastName }}
-            </td>
-          </tr>
-          <tr>
-            <th>Roll #</th>
-            <td>{{ record.localIdentifierShort }}</td>
-          </tr>
-          <tr>
-            <th>Join Date</th>
-            <td>{{ record.joinDate ? record.joinDate|date('F j, Y') : '-' }}
-          </tr>
-          <tr>
-            <th>Class Year</th>
-            <td>{{ record.classYear|default('-') }}
-          </tr>
-          <tr>
-            <th>E-mail</th>
-            <td>
-              {% if record.primaryEmail %}
-              <a href="mailto:{{ record.primaryEmail }}">{{ record.primaryEmail }}</a>
+<div class="card shadow">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-lg-8">
+        <div class="table-responsive">
+          <table class="table table-borderless">
+            <tbody>
+              <tr>
+                <th class="w-25">Status</th>
+                <td>{{ record.status.label }}</td>
+              </tr>
+              <tr>
+                <th>Full Name</th>
+                <td>
+                  {{ record.firstName }} {{ record.middleName }} {{ record.lastName }}
+                </td>
+              </tr>
+              <tr>
+                <th>Roll #</th>
+                <td>{{ record.localIdentifierShort }}</td>
+              </tr>
+              <tr>
+                <th>Join Date</th>
+                <td>{{ record.joinDate ? record.joinDate|date('F j, Y') : '-' }}
+              </tr>
+              <tr>
+                <th>Class Year</th>
+                <td>{{ record.classYear|default('-') }}
+              </tr>
+              <tr>
+                <th>E-mail</th>
+                <td>
+                  {% if record.primaryEmail %}
+                  <a href="mailto:{{ record.primaryEmail }}">{{ record.primaryEmail }}</a>
+                  {% endif %}
+                </td>
+              </tr>
+              <tr>
+                <th>Phone Number</th>
+                <td>
+                  {% if record.primaryTelephoneNumber %}
+                  {{ record.primaryTelephoneNumber }}
+                  {% endif %}
+                </td>
+              </tr>
+              <tr>
+                <th>Mailing Address</th>
+                <td>
+                  {% if record.mailingAddressLine1 %}
+                  {{ record.mailingAddressLine1 }}<br />
+                  {% if record.mailingAddressLine2 %}{{ record.mailingAddressLine2 }}<br />{% endif %}
+                  {{ record.mailingCity }}, {{ record.mailingState }} {{ record.mailingPostalCode }}<br />
+                  {{ record.mailingCountry }}
+                  {% endif %}
+                </td>
+              </tr>
+              {% if record.mailingLatitude and record.mailingLongitude %}
+              <tr>
+                <td colspan="2">
+                  <div id="mapContainer" style="min-height:200px;" data-mailing_latitude="{{ record.mailingLatitude }}" data-mailing_longitude="{{ record.mailingLongitude }}" data-map_label="{{ record.displayName }} "></div>
+                </td>
+              </tr>
               {% endif %}
-            </td>
-          </tr>
-          <tr>
-            <th>Phone Number</th>
-            <td>
-              {% if record.primaryTelephoneNumber %}
-              {{ record.primaryTelephoneNumber }}
+              <tr>
+                <th>Employer</th>
+                <td>{{ record.employer }}</td>
+              </tr>
+              <tr>
+                <th>Job Title</th>
+                <td>{{ record.jobTitle }}</td>
+              </tr>
+              <tr>
+                <th>Occupation</th>
+                <td>{{ record.occupation }}</td>
+              </tr>
+              {% if is_granted('ROLE_ADMIN') and record.directoryNotes %}
+              <tr>
+                <td colspan="2"><hr /></td>
+              </tr>
+              <tr>
+                <th>Directory Notes</th>
+                <td>
+                  {{ record.directoryNotes|markdown_to_html }}
+                </td>
+              </tr>
               {% endif %}
-            </td>
-          </tr>
-          <tr>
-            <th>Mailing Address</th>
-            <td>
-              {% if record.mailingAddressLine1 %}
-              {{ record.mailingAddressLine1 }}<br />
-              {% if record.mailingAddressLine2 %}{{ record.mailingAddressLine2 }}<br />{% endif %}
-              {{ record.mailingCity }}, {{ record.mailingState }} {{ record.mailingPostalCode }}<br />
-              {{ record.mailingCountry }}
-              {% endif %}
-            </td>
-          </tr>
-          {% if record.mailingLatitude and record.mailingLongitude %}
-          <tr>
-            <td colspan="2">
-              <div id="mapContainer" style="min-height:200px;" data-mailing_latitude="{{ record.mailingLatitude }}" data-mailing_longitude="{{ record.mailingLongitude }}" data-map_label="{{ record.displayName }} "></div>
-            </td>
-          </tr>
-          {% endif %}
-          <tr>
-            <th>Employer</th>
-            <td>{{ record.employer }}</td>
-          </tr>
-          <tr>
-            <th>Job Title</th>
-            <td>{{ record.jobTitle }}</td>
-          </tr>
-          <tr>
-            <th>Occupation</th>
-            <td>{{ record.occupation }}</td>
-          </tr>
-          {% if is_granted('ROLE_ADMIN') and record.directoryNotes %}
-          <tr>
-            <td colspan="2"><hr /></td>
-          </tr>
-          <tr>
-            <th>Directory Notes</th>
-            <td>
-              {{ record.directoryNotes|markdown_to_html }}
-            </td>
-          </tr>
-          {% endif %}
-        </tbody>
-      </table>
-    </div>
-    <div class="col-lg-4">
-      <div class="text-center mb-5">
-        <img src="{{ record.photoUrl }}" class="img-fluid img-thumbnail" />
+            </tbody>
+          </table>
+        </div>
       </div>
-      <div class="text-center">
-        <ul class="list-inline">
-          {% if record.facebookIdentifier %}
-          <li class="list-inline-item"><a href="https://facebook.com/{{ record.facebookIdentifier }}" target="_blank"><i class="fab fa-facebook fa-2x"></i></a></li>
-          {% endif %}
-          {% if record.linkedinUrl %}
-          <li class="list-inline-item"><a href="{{ record.linkedinUrl }}" target="_blank"><i class="fab fa-linkedin fa-2x"></i></a></li>
-          {% endif %}
-        </ul>
-        <p class="text-muted"><small title="{{ record.updatedAt|date('c') }}"><i class="fas fa-clock"></i> Updated: {{ record.updatedAt|date('l, F j, Y') }}</small></p>
+      <div class="col-lg-4">
+        <div class="text-center mb-5">
+          <img src="{{ record.photoUrl }}" class="img-fluid img-thumbnail" />
+        </div>
+        <div class="text-center">
+          <ul class="list-inline">
+            {% if record.facebookIdentifier %}
+            <li class="list-inline-item"><a href="https://facebook.com/{{ record.facebookIdentifier }}" target="_blank"><i class="fab fa-facebook fa-2x"></i></a></li>
+            {% endif %}
+            {% if record.linkedinUrl %}
+            <li class="list-inline-item"><a href="{{ record.linkedinUrl }}" target="_blank"><i class="fab fa-linkedin fa-2x"></i></a></li>
+            {% endif %}
+          </ul>
+          <p class="text-muted"><small title="{{ record.updatedAt|date('c') }}"><i class="fas fa-clock"></i> Updated: {{ record.updatedAt|date('l, F j, Y') }}</small></p>
+        </div>
       </div>
     </div>
   </div>

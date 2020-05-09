@@ -24,6 +24,7 @@
         "leaflet-defaulticon-compatibility": "^0.1.1",
         "popper.js": "^1.16.1",
         "sass-loader": "^8.0.2",
+        "startbootstrap-sb-admin-2": "^4.0.7",
         "underscore": "^1.10.2"
     }
 }

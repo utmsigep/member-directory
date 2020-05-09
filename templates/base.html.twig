@@ -9,82 +9,112 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="manifest" href="/site.webmanifest">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     {% block stylesheets -%}
     {{ encore_entry_link_tags('app') }}
     {% endblock %}
   </head>
 
-  <body>
-    <nav class="navbar navbar-expand-lg navbar-dark sticky-top bg-dark p-0">
-      <a class="navbar-brand p-2" href="{{ path('home') }}"><i class="far fa-address-book mr-2"></i> {{ config.app_name }}</a>
-      <div class="d-inline d-sm d-lg-none">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#toggleNavbar" aria-controls="toggleNavbar" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-      </div>
-      <div class="collapse mr-auto navbar-collapse" id="toggleNavbar">
-        <div class="container"></div>
-        {% if is_granted('ROLE_USER') %}
-        <div>
-          <ul class="nav">
-            <li class="nav-item dropdown">
-              <a class="nav-link text-light dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-id-card"></i> {{ app.user.email }}
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="{{ path('app_profile') }}">Edit Profile</a>
-                <a class="dropdown-item" href="{{ path('app_change_password') }}">Change Password</a>
-                <a class="dropdown-item" href="{{ path('app_logout') }}">Log Out</a>
-              </div>
-            </li>
-          </ul>
-        </div>
-        {% endif %}
-        <div class="d-lg-none bg-light">
-          <ul class="nav flex-column">
-            {% if is_granted('ROLE_USER') %}
-            {% include '_main_nav.html.twig' %}
-            {% endif%}
-          </ul>
-        </div>
-      </div>
-    </nav>
+  <body id="page-top">
+    <!-- Page Wrapper -->
+    <div id="wrapper">
 
-    <div class="container-fluid">
-      <div class="row">
-        <nav class="col-lg-2 d-none d-lg-block bg-light sidebar">
-          <div class="sidebar-sticky">
-            <ul class="nav flex-column">
-              {% if is_granted('ROLE_USER') %}
-              {% include '_main_nav.html.twig' %}
-              {% endif %}
+      <!-- Sidebar -->
+      <ul class="navbar-nav bg-dark sidebar sidebar-dark accordion" id="accordionSidebar">
+
+        <!-- Sidebar - Brand -->
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ path('home') }}">
+          <div class="sidebar-brand-icon rotate-n-15">
+            <i class="far fa-address-book mr-2"></i>
+          </div>
+        </a>
+
+        {% include '_main_nav.html.twig' %}
+
+      </ul>
+      <!-- End of Sidebar -->
+
+      <!-- Content Wrapper -->
+      <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+          <!-- Topbar -->
+          <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+            <!-- Sidebar Toggle (Topbar) -->
+            <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+              <i class="fa fa-bars"></i>
+            </button>
+
+            <!-- Topbar Navbar -->
+            <ul class="navbar-nav ml-auto">
+
+              <!-- Nav Item - User Information -->
+              <li class="nav-item dropdown no-arrow">
+                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ app.user.email }}</span>
+                  <i class="fas fa-user fa-fw"></i>
+                </a>
+                <!-- Dropdown - User Information -->
+                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                  <a class="dropdown-item" href="{{ path('app_profile') }}">
+                    <i class="fas fa-id-card fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Edit Profile
+                  </a>
+                  <a class="dropdown-item" href="{{ path('app_change_password')}}">
+                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Change Password
+                  </a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="{{ path('app_logout') }}">
+                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Logout
+                  </a>
+                </div>
+              </li>
+
             </ul>
+
+          </nav>
+          <!-- End of Topbar -->
+
+          <!-- Begin Page Content -->
+
+          <div class="container-fluid">
+            {% block body %}
+            {% endblock %}
           </div>
-        </nav>
-        <main role="main" class="col-lg-9 ml-sm-auto col-lg-10 pt-3 px-4">
-          {% for type, messages in app.session.flashBag.all %}
-          <div class="py-2">
-              {% for message in messages %}
-                  {%if type == 'error'%} {% set type = 'danger' %} {%endif%}
-                  <div class="alert alert-{{ type }} alert-dismissible fade show" role="alert">
-                      {{ message|raw }}
-                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                  </div>
-              {% endfor %}
+          <!-- /.container-fluid -->
+
+        </div>
+        <!-- End of Main Content -->
+
+        <!-- Footer -->
+        <footer class="sticky-footer bg-white">
+          <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+              <span>Powered by <a href="https://github.com/utmsigep/member-directory" target="_blank">Member Directory</a></span>
+            </div>
           </div>
-          {% endfor %}
-          {% block body %}{% endblock %}
-          <div class="text-right my-3">
-            <p class="text-muted"><small><em>Powered by <a href="https://github.com/utmsigep/member-directory" target="_blank">Member Directory</a></small></em></p>
-          </div>
-        </main>
+        </footer>
+        <!-- End of Footer -->
+
       </div>
+      <!-- End of Content Wrapper -->
+
     </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fas fa-angle-up"></i>
+    </a>
+
     {% include '_modal_confidential.html.twig' %}
     {% include '_toast_template.html.twig' %}
+
     {% block javascripts %}
     <script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
     <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>

@@ -11,28 +11,34 @@
 
 {% include 'admin/_nav.html.twig' %}
 
-<table class="table w-auto">
-    <thead>
-        <tr>
-            <th>E-mail</th>
-            <th>Roles</th>
-            <th class="col-edit">&nbsp;</th>
-        </tr>
-    </thead>
-    <tbody>
-    {% for user in users %}
-        <tr>
-            <td><a href="{{ path('user_show', {'id': user.id}) }}">{{ user.email }}</a></td>
-            <td>{{ macros.user_roles(user.roles) }}</td>
-            <td>
-                <a href="{{ path('user_edit', {'id': user.id}) }}"><i class="fas fa-edit fa-fw"></i></a>
-            </td>
-        </tr>
-    {% else %}
-        <tr>
-            <td colspan="99"><div class="alert alert-info">No records matched your criteria.</div></td>
-        </tr>
-    {% endfor %}
-    </tbody>
-</table>
+<div class="card shadow">
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+            <tr>
+                <th>E-mail</th>
+                <th>Roles</th>
+                <th class="col-edit">&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td><a href="{{ path('user_show', {'id': user.id}) }}">{{ user.email }}</a></td>
+                <td>{{ macros.user_roles(user.roles) }}</td>
+                <td>
+                    <a href="{{ path('user_edit', {'id': user.id}) }}"><i class="fas fa-edit fa-fw"></i></a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="99"><div class="alert alert-info">No records matched your criteria.</div></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
 {% endblock %}

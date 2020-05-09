@@ -11,9 +11,12 @@
 
 {% include 'admin/_nav.html.twig' %}
 
-<dl>
-    <dt>Roles</dt>
-    <dd>{{ macros.user_roles(user.roles) }}</dd>
-</dl>
-
+<div class="card shadow">
+  <div class="card-body">
+    <dl>
+      <dt>Roles</dt>
+      <dd>{{ macros.user_roles(user.roles) }}</dd>
+    </dl>
+  </div>
+</div>
 {% endblock %}

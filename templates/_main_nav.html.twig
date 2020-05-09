@@ -1,29 +1,36 @@
-<div style="">
-  <a class="nav-link {{ app.request.get('_route') == 'alumni' ? 'active' }}" href="{{ path('alumni') }}"><i class="fas fa-user-graduate fa-fw text-muted"></i> Alumni</a>
-  <a class="ml-3 nav-link {{ app.request.get('_route') == 'lost' ? 'active' }}" href="{{ path('lost')}}"><i class="fas fa-frown fa-fw text-muted"></i> Lost Alumni</a>
-  <a class="ml-3 nav-link {{ app.request.get('_route') == 'year' ? 'active' }}" href="{{ path('year')}}"><i class="fas fa-calendar fa-fw text-muted"></i> Class Year</a>
-  <a class="ml-3 nav-link {{ app.request.get('_route') == 'do_not_contact' ? 'active' }}" href="{{ path('do_not_contact')}}"><i class="fas fa-ban fa-fw text-muted"></i> Do Not Contact</a>
-  <a class="nav-link {{ app.request.get('_route') == 'undergraduates' ? 'active' }}" href="{{ path('undergraduates')}}"><i class="fas fa-user fa-fw text-muted"></i> Undergraduates</a>
-  <a class="nav-link {{ app.request.get('_route') == 'resigned_expelled' ? 'active' }}" href="{{ path('resigned_expelled')}}"><i class="fas fa-thumbs-down fa-fw text-muted"></i> Resigned/Expelled</a>
-  <a class="nav-link {{ app.request.get('_route') == 'transferred' ? 'active' }}" href="{{ path('transferred')}}"><i class="fas fa-exchange-alt fa-fw text-muted"></i> Transferred</a>
-  <a class="nav-link {{ app.request.get('_route') == 'other' ? 'active' }}" href="{{ path('other')}}"><i class="fas fa-user-friends fa-fw text-muted"></i> Other</a>
-  {% if is_granted('ROLE_ADMIN') %}
-  <span class="divider"><hr /></span>
-  <a class="nav-link {{ app.request.get('_route') == 'donation_index' ? 'active' }}" href="{{ path('donation_index')}}"><i class="fas  fa-hand-holding-usd fa-fw text-muted"></i> Donations</a>
-  {% endif %}
-  <span class="divider"><hr /></span>
-  <a class="nav-link {{ app.request.get('_route') == 'map' ? 'active' }}" href="{{ path('map')}}"><i class="fas fa-map fa-fw text-muted"></i> Member Map</a>
-  <a class="nav-link {{ app.request.get('_route') == 'member_changes' ? 'active' }}" href="{{ path('member_changes')}}"><i class="fas fa-satellite-dish fa-fw text-muted"></i> Recent Changes</a>
-  <a class="nav-link {{ app.request.get('_route') == 'export' ? 'active' }}" href="{{ path('export')}}"><i class="fas fa-download fa-fw text-muted"></i> Export</a>
-  {% if is_granted('ROLE_ADMIN') %}
-  <a class="nav-link {{ app.request.get('_route') == 'import' ? 'active' }}" href="{{ path('import')}}"><i class="fas fa-upload fa-fw text-muted"></i> Import</a>
-  {% endif %}
-  <span class="divider"><hr /></span>
-  <a class="nav-link"><strong>Tags</strong></a>
-  {% for _tag in get_tags() %}
-  <a class="nav-link {{ app.request.get('_route') == 'tag' and tag is defined and tag.id == _tag.id ? 'active' }}" href="{{ path('tag', {tagId: _tag.id})}}"><i class="fas fa-tag fa-fw text-muted"></i> {{ _tag.tagName }}</a>
-  {% endfor %}
-  {% if is_granted('ROLE_ADMIN') %}
-  <hr />
-  <a class="nav-link" href="{{ path('admin') }}"><i class="fas fa-cog"></i> Directory Admin</a>
-  {% endif %}
+<li class="nav-item {{ app.request.get('_route') == 'alumni' ? 'active' }}"><a class="nav-link {{ app.request.get('_route') == 'alumni' ? 'active' }}" href="{{ path('alumni') }}"><i class="fas fa-user-graduate fa-fw"></i> <span>Alumni</span></a></li>
+<li class="nav-item {{ app.request.get('_route') == 'lost' ? 'active' }}"><a class="ml-sm-3 nav-link" href="{{ path('lost')}}"><i class="fas fa-frown fa-fw"></i> <span>Lost Alumni</span></a></li>
+<li class="nav-item {{ app.request.get('_route') == 'year' ? 'active' }}"><a class="ml-sm-3 nav-link" href="{{ path('year')}}"><i class="fas fa-calendar fa-fw"></i> <span>Class Year</span></a></li>
+<li class="nav-item {{ app.request.get('_route') == 'do_not_contact' ? 'active' }}"><a class="ml-sm-3 nav-link" href="{{ path('do_not_contact')}}"><i class="fas fa-ban fa-fw"></i> <span>Do Not Contact</span></a></li>
+<li class="nav-item"><a class="nav-link {{ app.request.get('_route') == 'undergraduates' ? 'active' }}" href="{{ path('undergraduates')}}"><i class="fas fa-user fa-fw"></i> <span>Undergraduates</span></a></li>
+<li class="nav-item"><a class="nav-link {{ app.request.get('_route') == 'resigned_expelled' ? 'active' }}" href="{{ path('resigned_expelled')}}"><i class="fas fa-thumbs-down fa-fw"></i> <span>Resigned/Expelled</span></a></li>
+<li class="nav-item"><a class="nav-link {{ app.request.get('_route') == 'transferred' ? 'active' }}" href="{{ path('transferred')}}"><i class="fas fa-exchange-alt fa-fw"></i> <span>Transferred</span></a></li>
+<li class="nav-item"><a class="nav-link {{ app.request.get('_route') == 'other' ? 'active' }}" href="{{ path('other')}}"><i class="fas fa-user-friends fa-fw"></i> <span>Other</span></a></li>
+<hr class="sidebar-divider my-1"/>
+{% if is_granted('ROLE_ADMIN') %}
+<li class="nav-item"><a class="nav-link {{ app.request.get('_route') == 'donation_index' ? 'active' }}" href="{{ path('donation_index')}}"><i class="fas  fa-hand-holding-usd fa-fw"></i> <span>Donations</span></a></li>
+{% endif %}
+<li class="nav-item"><a class="nav-link {{ app.request.get('_route') == 'map' ? 'active' }}" href="{{ path('map')}}"><i class="fas fa-map fa-fw"></i> <span>Member Map</span></a></li>
+<li class="nav-item"><a class="nav-link {{ app.request.get('_route') == 'member_changes' ? 'active' }}" href="{{ path('member_changes')}}"><i class="fas fa-satellite-dish fa-fw"></i> <span>Recent Changes</span></a></li>
+<li class="nav-item"><a class="nav-link {{ app.request.get('_route') == 'export' ? 'active' }}" href="{{ path('export')}}"><i class="fas fa-download fa-fw"></i> <span>Export</span></a></li>
+{% if is_granted('ROLE_ADMIN') %}
+<li class="nav-item"><a class="nav-link {{ app.request.get('_route') == 'import' ? 'active' }}" href="{{ path('import')}}"><i class="fas fa-upload fa-fw"></i> <span>Import</span></a></li>
+{% endif %}
+<hr class="sidebar-divider my-1"/>
+<li class="nav-item">
+  <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTags" aria-expanded="true" aria-controls="collapseTags">
+    <i class="fas fa-fw fa-tags"></i>
+    <span id="headingTags">Tags</span>
+  </a>
+  <div id="collapseTags" class="collapse" aria-labelledby="headingTags" data-parent="#accordionSidebar">
+    <div class="bg-white py-2 collapse-inner rounded">
+      {% for _tag in get_tags() %}
+      <a class="collapse-item" href="{{ path('tag', {tagId: _tag.id})}}"><i class="fas fa-tag fa-fw"></i> <span>{{ _tag.tagName }}</span></a>
+      {% endfor %}
+    </div>
+  </div>
+</li>
+{% if is_granted('ROLE_ADMIN') %}
+<hr class="sidebar-divider my-1"/>
+<li class="nav-item"><a class="nav-link" href="{{ path('admin') }}"><i class="fas fa-cog"></i> <span>Directory Admin</span></a></li>
+{% endif %}
