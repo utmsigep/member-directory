@@ -46,13 +46,13 @@ class Donation
     private $receivedAt;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @Gedmo\Versioned
      */
     private $campaign;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @Gedmo\Versioned
      */
     private $description;
@@ -94,19 +94,19 @@ class Donation
     private $internalNotes;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @Gedmo\Versioned
      */
     private $donationType;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @Gedmo\Versioned
      */
     private $cardType;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @Gedmo\Versioned
      */
     private $lastFour;
