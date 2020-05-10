@@ -1,0 +1,17 @@
+{% extends 'base_public.html.twig' %}
+
+{% block title %}{{ parent() }} - Access Denied!{% endblock %}
+
+{% block body %}
+{% if config.app_logo %}
+<div class="text-center p-5">
+  <img src="{{ config.app_logo }}" class="img-fluid" style="max-height:40vh" />
+</div>
+{% endif %}
+
+<div class="my-5 text-center">
+  <h1>Access Denied!</h1>
+  <p class="lead">You don't have permission to access that page.</p>
+  <p><a href="{{ path('home') }}" class="btn btn-link">Return to Home Page</a></p>
+</div>
+{% endblock %}
