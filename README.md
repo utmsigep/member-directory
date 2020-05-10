@@ -1,13 +1,17 @@
 # Member Directory
 
-Member Directory is a [Symfony](https://symfony.com/) 4 project to manage the membership records of a local chapter of a larger, national organization. It has a handful of useful features:
+Member Directory is a [Symfony](https://symfony.com/) 5 project to manage the membership records of a local chapter of a larger, national organization. It has a handful of useful features:
 
 * **CSV imports** that update records based on a common identifier
+* **CSV exports** for use in other systems or building call lists
 * **Email subscription management** through [Campaign Monitor](https://www.campaignmonitor.com/)
 * **Mailing address validation** through the USPS
 * **Geolocation and mapping** through Census data in the United States
+* **Record history** for tracking changes to member records
+* **Role-based access** for administrators to view directory or manage it
 * **Tagging** of membership records to indicate committees or extra data
-* **Data exports** through an administrative tool
+* **Donation tracking** via [Donorbox](https://donorbox.org) import or manual entry
+* **Self-service record updates** via unique, one-time use URLs
 
 ## [Developer Quick Start](https://github.com/stephenyeargin/member-directory/wiki/Developer-Quick-Start)
 
@@ -27,7 +31,7 @@ Member Directory is a [Symfony](https://symfony.com/) 4 project to manage the me
 
 ### Member Profile
 
-![04-change-log](assets/screenshots/04-profile.png)
+![04-profile](assets/screenshots/04-profile.png)
 
 ### Record Tagging
 
