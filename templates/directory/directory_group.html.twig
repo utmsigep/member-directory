@@ -15,7 +15,7 @@
     <div class="card-body">
       <div class="table-responsive">
         <table class="table table-sm" id="memberTable">
-        {% for group, records in group %}
+        {% for group, members in group %}
           <thead>
             <tr><th class="h5" colspan="99">{{ group|default('Not Set') }}</th></tr>
             <tr>
@@ -33,7 +33,7 @@
             </tr>
           </thead>
           <tbody>
-            {% for record in records %}
+            {% for member in members %}
             {% include 'directory/_row.html.twig' %}
             {% endfor %}
           </tbody>

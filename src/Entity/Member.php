@@ -21,7 +21,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\HasLifecycleCallbacks
  * @UniqueEntity("localIdentifier")
  * @UniqueEntity("externalIdentifier")
- * @UniqueEntity("primaryEmail")
  * @Gedmo\Loggable
  */
 class Member

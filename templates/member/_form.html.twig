@@ -30,7 +30,7 @@
           {% if is_postal_validator_service_configured() %}
           <div class="float-right">
             <a href="javascript:void(0)" class="btn btn-secondary btn-sm py-0" id="verifyAddressButton"><i class="fas fa-mail-bulk"></i> Verify Address</a>
-            <i class="fas fa-spinner fa-spin fa-lg ml-1" id="verifyAddressStatusIndicator"></i>
+            <span id="verifyAddressStatusIndicator" class="d-none"><i class="fas fa-spinner fa-spin fa-lg ml-1"></i></span>
           </div>
           {% endif %}
           Mailing Address

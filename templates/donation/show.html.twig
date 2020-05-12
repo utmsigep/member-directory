@@ -20,7 +20,7 @@
           <dt>Receipt Identifier</dt>
           <dd>{{ donation.receiptIdentifier }}</dd>
           <dt>Member</dt>
-          <dd><a href="{{ path('member', {localIdentifier: donation.member.localIdentifier}) }}">{{ donation.member }}</a></dd>
+          <dd><a href="{{ path('member_show', {localIdentifier: donation.member.localIdentifier}) }}">{{ donation.member }}</a></dd>
           <dt>Campaign</dt>
           <dd>{{ donation.campaign }}</dd>
           <dt>Description</dt>

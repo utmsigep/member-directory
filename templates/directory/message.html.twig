@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ parent() }} - {{ record.displayName }} - Message{% endblock %}
+{% block title %}{{ parent() }} - {{ member.displayName }} - Message{% endblock %}
 
 {% block body %}
-<div class="h4">{{ record.displayName }}</div>
+<div class="h4">{{ member.displayName }}</div>
 
 {% include 'member/_badges.html.twig' %}
 
@@ -24,43 +24,43 @@
         <table class="table table-sm">
           <tr>
             <th class="text-nowrap"><code>[FirstName]</code></th>
-            <td>{{ record.firstName }}</td>
+            <td>{{ member.firstName }}</td>
           </tr>
           <tr>
             <th class="text-nowrap"><code>[PreferredName]</code></th>
-            <td>{{ record.preferredName }}</td>
+            <td>{{ member.preferredName }}</td>
           </tr>
           <tr>
             <th class="text-nowrap"><code>[LastName]</code></th>
-            <td>{{ record.lastName }}</td>
+            <td>{{ member.lastName }}</td>
           </tr>
           <tr>
             <th class="text-nowrap"><code>[MailingAddressLine1]</code></th>
-            <td>{{ record.mailingAddressLine1 }}</td>
+            <td>{{ member.mailingAddressLine1 }}</td>
           </tr>
           <tr>
             <th class="text-nowrap"><code>[MailingAddressLine2]</code></th>
-            <td>{{ record.mailingAddressLine2 }}</td>
+            <td>{{ member.mailingAddressLine2 }}</td>
           </tr>
           <tr>
             <th class="text-nowrap"><code>[MailingCity]</code></th>
-            <td>{{ record.mailingCity }}</td>
+            <td>{{ member.mailingCity }}</td>
           </tr>
           <tr>
             <th class="text-nowrap"><code>[MailingState]</code></th>
-            <td>{{ record.mailingState }}</td>
+            <td>{{ member.mailingState }}</td>
           </tr>
           <tr>
             <th class="text-nowrap"><code>[MailingPostalCode]</code></th>
-            <td>{{ record.mailingPostalCode }}</td>
+            <td>{{ member.mailingPostalCode }}</td>
           </tr>
           <tr>
             <th class="text-nowrap"><code>[PrimaryEmail]</code></th>
-            <td>{{ record.primaryEmail }}</td>
+            <td>{{ member.primaryEmail }}</td>
           </tr>
           <tr>
             <th class="text-nowrap"><code>[PrimaryTelephoneNumber]</code></th>
-            <td>{{ record.primaryTelephoneNumber }}</td>
+            <td>{{ member.primaryTelephoneNumber }}</td>
           </tr>
         </table>  
       </div>

@@ -56,7 +56,7 @@ class ImportController extends AbstractController
         $memberChangeSets = [];
         $members = [];
         $newMembers = [];
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $csvToMemberService->run($form['csv_file']->getData());
             } catch (\Exception $e) {

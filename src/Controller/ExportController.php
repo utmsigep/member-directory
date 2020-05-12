@@ -29,7 +29,7 @@ class ExportController extends AbstractController
     {
         $form = $this->createForm(MemberExportType::class, null);
         $form->handleRequest($request);
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $filters = $form->getData();
             $members = $this->getDoctrine()->getRepository(Member::class)->findWithExportFilters($filters);
 

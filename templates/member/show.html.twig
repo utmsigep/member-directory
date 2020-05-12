@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ parent() }} - {{ record.displayName }} {% endblock %}
+{% block title %}{{ parent() }} - {{ member.displayName }} {% endblock %}
 
 {% block stylesheets -%}
 {{ parent() }}
@@ -10,14 +10,14 @@
 {% block body %}
 <div class="float-right">
   {% if is_granted('ROLE_ADMIN') %}
-  {% if record.status.code not in ['RESIGNED', 'EXPELLED'] and record.isDeceased == false %}
+  {% if member.status.code not in ['RESIGNED', 'EXPELLED'] and member.isDeceased == false %}
   <a href="#modalEditLink" data-toggle="modal" class="btn btn-sm btn-secondary"><i class="fas fa-link"></i></a>
   {% endif %}
-  <a href="{{ path('member_edit', {localIdentifier: record.localIdentifier}) }}" class="btn btn-sm btn-primary"><i class="fas fa-edit fa-fw"></i> Edit</a>
+  <a href="{{ path('member_edit', {localIdentifier: member.localIdentifier}) }}" class="btn btn-sm btn-primary"><i class="fas fa-edit fa-fw"></i> Edit</a>
   {% endif %}
 </div>
 
-<div class="h4">{{ record.displayName }}</div>
+<div class="h4">{{ member.displayName }}</div>
 
 {% include 'member/_badges.html.twig' %}
 
@@ -32,80 +32,80 @@
             <tbody>
               <tr>
                 <th class="w-25">Status</th>
-                <td>{{ record.status.label }}</td>
+                <td>{{ member.status.label }}</td>
               </tr>
               <tr>
                 <th>Full Name</th>
                 <td>
-                  {{ record.firstName }} {{ record.middleName }} {{ record.lastName }}
+                  {{ member.firstName }} {{ member.middleName }} {{ member.lastName }}
                 </td>
               </tr>
               <tr>
                 <th>Roll #</th>
-                <td>{{ record.localIdentifierShort }}</td>
+                <td>{{ member.localIdentifierShort }}</td>
               </tr>
               <tr>
                 <th>Join Date</th>
-                <td>{{ record.joinDate ? record.joinDate|date('F j, Y') : '-' }}
+                <td>{{ member.joinDate ? member.joinDate|date('F j, Y') : '-' }}
               </tr>
               <tr>
                 <th>Class Year</th>
-                <td>{{ record.classYear|default('-') }}
+                <td>{{ member.classYear|default('-') }}
               </tr>
               <tr>
                 <th>E-mail</th>
                 <td>
-                  {% if record.primaryEmail %}
-                  <a href="mailto:{{ record.primaryEmail }}">{{ record.primaryEmail }}</a>
+                  {% if member.primaryEmail %}
+                  <a href="mailto:{{ member.primaryEmail }}">{{ member.primaryEmail }}</a>
                   {% endif %}
                 </td>
               </tr>
               <tr>
                 <th>Phone Number</th>
                 <td>
-                  {% if record.primaryTelephoneNumber %}
-                  {{ record.primaryTelephoneNumber }}
+                  {% if member.primaryTelephoneNumber %}
+                  {{ member.primaryTelephoneNumber }}
                   {% endif %}
                 </td>
               </tr>
               <tr>
                 <th>Mailing Address</th>
                 <td>
-                  {% if record.mailingAddressLine1 %}
-                  {{ record.mailingAddressLine1 }}<br />
-                  {% if record.mailingAddressLine2 %}{{ record.mailingAddressLine2 }}<br />{% endif %}
-                  {{ record.mailingCity }}, {{ record.mailingState }} {{ record.mailingPostalCode }}<br />
-                  {{ record.mailingCountry }}
+                  {% if member.mailingAddressLine1 %}
+                  {{ member.mailingAddressLine1 }}<br />
+                  {% if member.mailingAddressLine2 %}{{ member.mailingAddressLine2 }}<br />{% endif %}
+                  {{ member.mailingCity }}, {{ member.mailingState }} {{ member.mailingPostalCode }}<br />
+                  {{ member.mailingCountry }}
                   {% endif %}
                 </td>
               </tr>
-              {% if record.mailingLatitude and record.mailingLongitude %}
+              {% if member.mailingLatitude and member.mailingLongitude %}
               <tr>
                 <td colspan="2">
-                  <div id="mapContainer" style="min-height:200px;" data-mailing_latitude="{{ record.mailingLatitude }}" data-mailing_longitude="{{ record.mailingLongitude }}" data-map_label="{{ record.displayName }} "></div>
+                  <div id="mapContainer" style="min-height:200px;" data-mailing_latitude="{{ member.mailingLatitude }}" data-mailing_longitude="{{ member.mailingLongitude }}" data-map_label="{{ member.displayName }} "></div>
                 </td>
               </tr>
               {% endif %}
               <tr>
                 <th>Employer</th>
-                <td>{{ record.employer }}</td>
+                <td>{{ member.employer }}</td>
               </tr>
               <tr>
                 <th>Job Title</th>
-                <td>{{ record.jobTitle }}</td>
+                <td>{{ member.jobTitle }}</td>
               </tr>
               <tr>
                 <th>Occupation</th>
-                <td>{{ record.occupation }}</td>
+                <td>{{ member.occupation }}</td>
               </tr>
-              {% if is_granted('ROLE_ADMIN') and record.directoryNotes %}
+              {% if is_granted('ROLE_ADMIN') and member.directoryNotes %}
               <tr>
                 <td colspan="2"><hr /></td>
               </tr>
               <tr>
                 <th>Directory Notes</th>
                 <td>
-                  {{ record.directoryNotes|markdown_to_html }}
+                  {{ member.directoryNotes|markdown_to_html }}
                 </td>
               </tr>
               {% endif %}
@@ -115,18 +115,18 @@
       </div>
       <div class="col-lg-4">
         <div class="text-center mb-5">
-          <img src="{{ record.photoUrl }}" class="img-fluid img-thumbnail" />
+          <img src="{{ member.photoUrl }}" class="img-fluid img-thumbnail" />
         </div>
         <div class="text-center">
           <ul class="list-inline">
-            {% if record.facebookIdentifier %}
-            <li class="list-inline-item"><a href="https://facebook.com/{{ record.facebookIdentifier }}" target="_blank"><i class="fab fa-facebook fa-2x"></i></a></li>
+            {% if member.facebookIdentifier %}
+            <li class="list-inline-item"><a href="https://facebook.com/{{ member.facebookIdentifier }}" target="_blank"><i class="fab fa-facebook fa-2x"></i></a></li>
             {% endif %}
-            {% if record.linkedinUrl %}
-            <li class="list-inline-item"><a href="{{ record.linkedinUrl }}" target="_blank"><i class="fab fa-linkedin fa-2x"></i></a></li>
+            {% if member.linkedinUrl %}
+            <li class="list-inline-item"><a href="{{ member.linkedinUrl }}" target="_blank"><i class="fab fa-linkedin fa-2x"></i></a></li>
             {% endif %}
           </ul>
-          <p class="text-muted"><small title="{{ record.updatedAt|date('c') }}"><i class="fas fa-clock"></i> Updated: {{ record.updatedAt|date('l, F j, Y') }}</small></p>
+          <p class="text-muted"><small title="{{ member.updatedAt|date('c') }}"><i class="fas fa-clock"></i> Updated: {{ member.updatedAt|date('l, F j, Y') }}</small></p>
         </div>
       </div>
     </div>

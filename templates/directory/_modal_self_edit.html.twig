@@ -9,7 +9,7 @@
       </div>
       <div class="modal-body">
         <p>Send the link below to a member in order for them to update their own Member Record. Note that it only works once, and will need to be regenerated after a record has been updated.</p>
-        <input type="text" class="form-control" value="{{ absolute_url(path('self_service_update', {externalIdentifier: record.externalIdentifier, updateToken: record.updateToken})) }}"  readonly />
+        <input type="text" class="form-control" value="{{ absolute_url(path('self_service_update', {externalIdentifier: member.externalIdentifier, updateToken: member.updateToken})) }}"  readonly />
       </div>
     </div>
   </div>

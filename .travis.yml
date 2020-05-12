@@ -46,4 +46,4 @@ script:
   - ./bin/console lint:twig templates
   - ./bin/console lint:xliff translations
   - ./bin/console security:check
-  - ./bin/console doctrine:schema:validate --skip-sync -vvv --no-interaction
+  - ./bin/console doctrine:schema:validate -vvv --no-interaction

@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ parent() }} - {{ record.displayName }} - Change Log{% endblock %}
+{% block title %}{{ parent() }} - {{ member.displayName }} - Change Log{% endblock %}
 
 {% block body %}
 
 <div>
-  <div class="h4">{{ record.displayName }} </div>
+  <div class="h4">{{ member.displayName }} </div>
 
   {% include 'member/_badges.html.twig' %}
 

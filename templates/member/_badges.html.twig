@@ -1,20 +1,20 @@
 <div>
-{% if record.isDeceased %}
+{% if member.isDeceased %}
 <sup class="badge badge-dark" title="Deceased">Deceased</sup>
 {% endif %}
-{% if record.isLost %}
+{% if member.isLost %}
 <a href="{{ path('lost') }}"><sup class="badge badge-warning" title="Lost">Lost</sup></a>
 {% endif %}
-{% if record.status.code == 'RENAISSANCE' %}
+{% if member.status.code == 'RENAISSANCE' %}
 <sup class="badge badge-secondary" title="Renaissance">Renaissance</sup>
 {% endif %}
-{% if record.isExternalDoNotContact %}
+{% if member.isExternalDoNotContact %}
 <a href="{{ path('do_not_contact', {type: 'external'}) }}"><sup class="badge badge-warning" title="External Do Not Contact">Do Not Contact (Nationals)</sup></a>
 {% endif %}
-{% if record.isLocalDoNotContact %}
+{% if member.isLocalDoNotContact %}
 <a href="{{ path('do_not_contact', {type: 'local'}) }}"><sup class="badge badge-danger" title="Local Do Not Contact">Do Not Contact (Local)</sup></a>
 {% endif %}
-{% for tag in record.tags %}
+{% for tag in member.tags %}
 <a href="{{ path('tag', {tagId: tag.id}) }}"><sup class="badge badge-secondary" title="{{ tag.tagName }}">{{ tag.tagName }}</sup></a>
 {% endfor %}
 </div>

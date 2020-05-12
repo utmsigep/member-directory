@@ -22,7 +22,7 @@
   <div class="card-body">
     <ul>
       {% for member in member_status.members %}
-      <li><a href="{{ path('member', {localIdentifier: member.localIdentifier}) }}">{{ member }}</a></li>
+      <li><a href="{{ path('member_show', {localIdentifier: member.localIdentifier}) }}">{{ member }}</a></li>
       {% endfor %}
     </ul>
   </div>

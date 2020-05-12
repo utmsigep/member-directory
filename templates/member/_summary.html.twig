@@ -2,38 +2,38 @@
   <div class="col-lg-3">
     <dl>
       <dt>External Identifier</dt>
-      <dd>{{ record.externalIdentifier}}</dd>
+      <dd>{{ member.externalIdentifier}}</dd>
       <dt>Local Identifier</dt>
-      <dd>{{ record.localIdentifier }}</dd>
+      <dd>{{ member.localIdentifier }}</dd>
       <dt>Full Name</dt>
-      <dd>{{ record.firstName }} {{ record.middleName }} {{ record.lastName }}</dd>
+      <dd>{{ member.firstName }} {{ member.middleName }} {{ member.lastName }}</dd>
     </dl>
   </div>
   <div class="col-lg-3">
     <dl>
       <dt>Mailing Address</dt>
       <dd>
-        {{ record.mailingAddressLine1 }}<br />
-        {% if record.mailingAddressLine2 %}{{ record.mailingAddressLine2 }}<br />{% endif %}
-        {{ record.mailingCity }}, {{ record.mailingState }} {{ record.mailingPostalCode }}<br />
-        {{ record.mailingCountry }}
+        {{ member.mailingAddressLine1 }}<br />
+        {% if member.mailingAddressLine2 %}{{ member.mailingAddressLine2 }}<br />{% endif %}
+        {{ member.mailingCity }}, {{ member.mailingState }} {{ member.mailingPostalCode }}<br />
+        {{ member.mailingCountry }}
       </dd>
     </dl>
   </div>
   <div class="col-lg-3">
     <dl>
       <dt>Primary E-mail</dt>
-      <dd>{{ record.primaryEmail }}</dd>
+      <dd>{{ member.primaryEmail }}</dd>
       <dt>Primary Telephone</dt>
-      <dd>{{ record.primaryTelephoneNumber }}</dd>
+      <dd>{{ member.primaryTelephoneNumber }}</dd>
     </dl>
   </div>
   <div class="col-lg-3">
     <dl>
       <dt>Class Year</dt>
-      <dd>{{ record.classYear }}</dd>
+      <dd>{{ member.classYear }}</dd>
       <dt>Join Date</dt>
-      <dd>{{ record.joinDate|date('Y-m-d') }}</dd>
+      <dd>{{ member.joinDate|date('Y-m-d') }}</dd>
       <dt>Status</dt>
       <dd>Undergraduate</dd>
     </dl>

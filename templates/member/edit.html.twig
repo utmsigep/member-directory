@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ parent() }} - {{ record.displayName }} {% endblock %}
+{% block title %}{{ parent() }} - {{ member.displayName }} {% endblock %}
 
 {% block stylesheets -%}
 {{ parent() }}
@@ -9,7 +9,7 @@
 
 {% block body %}
 <div>
-  <div class="h4">{{ record.displayName }}</div>
+  <div class="h4">{{ member.displayName }}</div>
 
   {% include 'member/_badges.html.twig' %}
 
@@ -19,7 +19,7 @@
   {% include 'member/_form.html.twig' %}
   <div class="row mb-3">
     <div class="col">
-      <a href="{{ path('member_delete', {localIdentifier: record.localIdentifier}) }}" class="btn btn-link text-danger"><i class="fas fa-trash fa-fw"></i>Delete</a>
+      <a href="{{ path('member_delete', {localIdentifier: member.localIdentifier}) }}" class="btn btn-link text-danger"><i class="fas fa-trash fa-fw"></i>Delete</a>
     </div>
     <div class="col text-right">
       <button class="btn btn-primary">{{ button_label|default('Update') }}</button>

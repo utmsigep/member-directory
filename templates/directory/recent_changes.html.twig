@@ -23,35 +23,35 @@
           </tr>
         </thead>
         <tbody>
-          {% for record in records %}
+          {% for member in members %}
           <tr>
             <td class="text-muted small" nowrap>
-              {{ record.updatedAt|date('n/j/Y h:i a') }}
+              {{ member.updatedAt|date('n/j/Y h:i a') }}
             </td>
-            <td class="text-center">{{ record.localIdentifierShort }}</td>
+            <td class="text-center">{{ member.localIdentifierShort }}</td>
             <td width="32">
-              <a href="{{ path('member', {localIdentifier: record.localIdentifier}) }}"><img src="{{ record.photoUrl }}" class="img-fluid" style="max-width:32px;" /></a>
+              <a href="{{ path('member_show', {localIdentifier: member.localIdentifier}) }}"><img src="{{ member.photoUrl }}" class="img-fluid" style="max-width:32px;" /></a>
             </td>
             <td>
-              <a href="{{ path('member', {localIdentifier: record.localIdentifier}) }}">{{ record.displayName }} </a>
+              <a href="{{ path('member_show', {localIdentifier: member.localIdentifier}) }}">{{ member.displayName }} </a>
               {% include 'member/_badges.html.twig' %}
             </td>
-            <td>{{ record.status.label }}</td>
+            <td>{{ member.status.label }}</td>
             <td>
               <ul class="list-inline">
                 <li>
-                  {% if record.primaryEmail %}
-                  <a href="mailto:{{ record.primaryEmail }}">{{ record.primaryEmail }}</a>
+                  {% if member.primaryEmail %}
+                  <a href="mailto:{{ member.primaryEmail }}">{{ member.primaryEmail }}</a>
                   {% endif %}
                 </li>
-                <li>{{ record.primaryTelephoneNumber }}</li>
+                <li>{{ member.primaryTelephoneNumber }}</li>
                 <li>
-                  {% if record.mailingAddressLine1 %}
-                  {{ record.mailingAddressLine1 }}<br />
-                  {% if record.mailingAddressLine2 %}{{ record.mailingAddressLine2 }}<br />{% endif %}
-                  {{ record.mailingCity }}, {{ record.mailingState }} {{ record.mailingPostalCode }}<br />
-                  {%- if record.mailingCountry != 'United States' and record.mailingCountry != 'US' %}
-                  {{ record.mailingCountry }}
+                  {% if member.mailingAddressLine1 %}
+                  {{ member.mailingAddressLine1 }}<br />
+                  {% if member.mailingAddressLine2 %}{{ member.mailingAddressLine2 }}<br />{% endif %}
+                  {{ member.mailingCity }}, {{ member.mailingState }} {{ member.mailingPostalCode }}<br />
+                  {%- if member.mailingCountry != 'United States' and member.mailingCountry != 'US' %}
+                  {{ member.mailingCountry }}
                   {% endif %}
                   {% endif %}
                 </li>

@@ -71,7 +71,7 @@ var drawMap = function () {
                 distance: row.distance,
                 classYear: row[0].classYear,
                 status: row[0].status.label,
-                link: Routing.generate('member', {localIdentifier: row[0].localIdentifier}),
+                link: Routing.generate('member_show', {localIdentifier: row[0].localIdentifier}),
                 photoUrl: row[0].photoUrl,
                 tags: formatTags(row[0])
               }
@@ -100,7 +100,7 @@ var drawMap = function () {
 var formatMemberPopup = function (data) {
   data.statusLabel = data.status.label
   data.mailingAddressLine2 = data.mailingAddressLine2 ? data.mailingAddressLine2 : ''
-  data.link = Routing.generate('member', {localIdentifier: data.localIdentifier})
+  data.link = Routing.generate('member_show', {localIdentifier: data.localIdentifier})
   data.tags = formatTags(data)
   return L.Util.template(
     '<strong><a href="{link}">{preferredName} {lastName}</a> ({classYear})</strong>{tags}<br />{localIdentifierShort} / {statusLabel}<hr />{mailingAddressLine1} {mailingAddressLine2}<br />{mailingCity}, {mailingState} {mailingPostalCode}',
