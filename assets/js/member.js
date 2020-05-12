@@ -52,10 +52,8 @@ $(document).ready(function () {
   var mailingState = $('#member_mailingState')
   var mailingPostalCode = $('#member_mailingPostalCode')
   
-  $(verifyAddressStatusIndicator).hide()
-  
   verifyAddressButton.on('click', function () {
-    $(verifyAddressStatusIndicator).show()
+    verifyAddressStatusIndicator.removeClass('d-none')
 
     $.getJSON(Routing.generate('verify_address_data'), {
       mailingAddressLine1: mailingAddressLine1.val(),
@@ -102,7 +100,7 @@ $(document).ready(function () {
         toast.toast('show')
       })
       .always(function () {
-        $(verifyAddressStatusIndicator).hide()
+        verifyAddressStatusIndicator.addClass('d-none')
       })
   })
 })

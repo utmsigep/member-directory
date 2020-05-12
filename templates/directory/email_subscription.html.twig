@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ parent() }} - {{ record.displayName }}  - Email Subscription{% endblock %}
+{% block title %}{{ parent() }} - {{ member.displayName }}  - Email Subscription{% endblock %}
 
 {% block body %}
-<div class="h4">{{ record.displayName }} </div>
+<div class="h4">{{ member.displayName }} </div>
 
 {% include 'member/_badges.html.twig' %}
 
@@ -53,12 +53,12 @@
         {% if is_granted('ROLE_ADMIN') %}
         <div class="mt-1 text-center">
           {% if subscriber.State is not defined or subscriber.State != 'Active' %}
-          <a href="{{ path('member_email_subscribe', {localIdentifier: record.localIdentifier} ) }}" class="btn btn-primary mb-1">Add Member to List</a>
+          <a href="{{ path('member_email_subscribe', {localIdentifier: member.localIdentifier} ) }}" class="btn btn-primary mb-1">Add Member to List</a>
           {% endif %}
           {% if subscriber.State is defined %}
-          <a href="{{ path('member_email_update', {localIdentifier: record.localIdentifier} ) }}" class="btn btn-primary mb-1">Update Member Details</a>
+          <a href="{{ path('member_email_update', {localIdentifier: member.localIdentifier} ) }}" class="btn btn-primary mb-1">Update Member Details</a>
           {% if subscriber.State != 'Unsubscribed' %}
-          <a href="{{ path('member_email_remove', {localIdentifier: record.localIdentifier} ) }}" class="btn btn-danger mb-1">Unsubscribe Member</a>
+          <a href="{{ path('member_email_remove', {localIdentifier: member.localIdentifier} ) }}" class="btn btn-danger mb-1">Unsubscribe Member</a>
           {% endif %}
           {% endif %}
         </div>

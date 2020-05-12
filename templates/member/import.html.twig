@@ -28,7 +28,7 @@
 
 {% if members is not empty %}
 {% for member in members %}
-<h4><a href="{{ path('member', {localIdentifier: member.localIdentifier}) }}">{{ member.displayName }}</a> ({{member.status.label}})</h4>
+<h4><a href="{{ path('member_show', {localIdentifier: member.localIdentifier}) }}">{{ member.displayName }}</a> ({{member.status.label}})</h4>
 {% if memberChangeSets[member.id] is not empty %}
 <div class="card mb-3 shadow" style="max-width:40rem">
   <div class="card-body">
