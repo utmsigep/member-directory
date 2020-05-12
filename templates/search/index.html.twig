@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} - {{ app.request.get('searchTerm')|escape }}{% endblock %}
+
+{% block body %}
+<div class="h4">Search Results</div>
+
+{% for row in results %}
+{% set member = row[0] %}
+<div class="card mb-3 shadow" style="max-width:40em;">
+  <div class="card-body">
+    <a href="{{ path('member', {localIdentifier: member.localIdentifier}) }}">{{ member }}</a> - {{ member.status.label }}
+    {% include 'member/_badges.html.twig' with {record: member} %}
+  </div>
+</div>
+{% else %}
+<div class="card mb-3 shadow">
+  <div class="card-body">
+    <p>No members matched your search criteria.</p>
+  </div>
+</div>
+{% endfor %}
+
+{% endblock %}

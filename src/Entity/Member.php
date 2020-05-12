@@ -12,6 +12,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\MemberRepository")
+ * @ORM\Table(indexes={
+ *   @ORM\Index(
+ *     columns={"first_name", "preferred_name", "middle_name", "last_name"},
+ *     flags={"fulltext"})
+ *   }
+ * )
  * @ORM\HasLifecycleCallbacks
  * @UniqueEntity("localIdentifier")
  * @UniqueEntity("externalIdentifier")

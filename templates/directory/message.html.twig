@@ -13,53 +13,53 @@
 <div class="card mb-3 shadow">
   <div class="card-body">
     <div class="row">
-      <div class="col-lg-8">
+      <div class="col-lg-7">
         {{ form_row(form.subject) }}
         {{ form_row(form.message_body) }}
         {{ form_row(form.reply_to) }}
         {{ form_row(form.send_copy) }}
       </div>
-      <div class="col-lg-4">
+      <div class="col-lg-5">
         <h5>Personalization Tags</h5>
         <table class="table table-sm">
           <tr>
-            <th><code>[FirstName]</code></th>
+            <th class="text-nowrap"><code>[FirstName]</code></th>
             <td>{{ record.firstName }}</td>
           </tr>
           <tr>
-            <th><code>[PreferredName]</code></th>
+            <th class="text-nowrap"><code>[PreferredName]</code></th>
             <td>{{ record.preferredName }}</td>
           </tr>
           <tr>
-            <th><code>[LastName]</code></th>
+            <th class="text-nowrap"><code>[LastName]</code></th>
             <td>{{ record.lastName }}</td>
           </tr>
           <tr>
-            <th><code>[MailingAddressLine1]</code></th>
+            <th class="text-nowrap"><code>[MailingAddressLine1]</code></th>
             <td>{{ record.mailingAddressLine1 }}</td>
           </tr>
           <tr>
-            <th><code>[MailingAddressLine2]</code></th>
+            <th class="text-nowrap"><code>[MailingAddressLine2]</code></th>
             <td>{{ record.mailingAddressLine2 }}</td>
           </tr>
           <tr>
-            <th><code>[MailingCity]</code></th>
+            <th class="text-nowrap"><code>[MailingCity]</code></th>
             <td>{{ record.mailingCity }}</td>
           </tr>
           <tr>
-            <th><code>[MailingState]</code></th>
+            <th class="text-nowrap"><code>[MailingState]</code></th>
             <td>{{ record.mailingState }}</td>
           </tr>
           <tr>
-            <th><code>[MailingPostalCode]</code></th>
+            <th class="text-nowrap"><code>[MailingPostalCode]</code></th>
             <td>{{ record.mailingPostalCode }}</td>
           </tr>
           <tr>
-            <th><code>[PrimaryEmail]</code></th>
+            <th class="text-nowrap"><code>[PrimaryEmail]</code></th>
             <td>{{ record.primaryEmail }}</td>
           </tr>
           <tr>
-            <th><code>[PrimaryTelephoneNumber]</code></th>
+            <th class="text-nowrap"><code>[PrimaryTelephoneNumber]</code></th>
             <td>{{ record.primaryTelephoneNumber }}</td>
           </tr>
         </table>  

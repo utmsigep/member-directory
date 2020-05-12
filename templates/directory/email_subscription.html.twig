@@ -50,21 +50,19 @@
           </tbody>
         </table>
         {% endif %}
-
         {% if is_granted('ROLE_ADMIN') %}
-        <div class="my-3 text-center">
+        <div class="mt-1 text-center">
           {% if subscriber.State is not defined or subscriber.State != 'Active' %}
-          <a href="{{ path('member_email_subscribe', {localIdentifier: record.localIdentifier} ) }}" class="btn btn-primary">Add Member to List</a>
+          <a href="{{ path('member_email_subscribe', {localIdentifier: record.localIdentifier} ) }}" class="btn btn-primary mb-1">Add Member to List</a>
           {% endif %}
           {% if subscriber.State is defined %}
-          <a href="{{ path('member_email_update', {localIdentifier: record.localIdentifier} ) }}" class="btn btn-primary">Update Member Subscription Details</a>
+          <a href="{{ path('member_email_update', {localIdentifier: record.localIdentifier} ) }}" class="btn btn-primary mb-1">Update Member Details</a>
           {% if subscriber.State != 'Unsubscribed' %}
-          <a href="{{ path('member_email_remove', {localIdentifier: record.localIdentifier} ) }}" class="btn btn-danger">Unsubscribe Member</a>
+          <a href="{{ path('member_email_remove', {localIdentifier: record.localIdentifier} ) }}" class="btn btn-danger mb-1">Unsubscribe Member</a>
           {% endif %}
           {% endif %}
         </div>
         {% endif %}
-
       </div>
     </div>
   </div>
@@ -82,7 +80,7 @@
         {% for item in subscriberHistory %}
         <table class="table mb-2">
           <tbody>
-            <tr data-target="#campaign-actions-{{ item.ID }}" data-toggle="collapse" style="cursor:pointer;">
+            <tr data-target="#campaign-actions-{{ item.ID }}" {% if (item.Actions|length) > 0 %}data-toggle="collapse"{% endif %} style="cursor:pointer;">
               <td class="w-25">{{ item.Type }}</td>
               <td class="w-75"><a href="{{ path('email_campaign_view', {campaignId: item.ID }) }}" target="_blank">{{ item.Name }}</a></td>
               <td class="text-right {% if item.Actions|length > 0 %}font-weight-bold{% endif %}">{{ item.Actions|length }}</td>
