@@ -224,4 +224,16 @@ class MemberRepository extends ServiceEntityRepository
         return $qb->getQuery()
             ->getResult();
     }
+
+    public function search(string $searchTerm)
+    {
+        return $this->createQueryBuilder('m')
+            ->addSelect('MATCH (m.firstName, m.preferredName, m.middleName, m.lastName) AGAINST (:searchTerm) AS score')
+            ->setParameter('searchTerm', $searchTerm)
+            ->having('score > 0')
+            ->orderBy('score', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

@@ -7,16 +7,6 @@
 <li class="nav-item"><a class="nav-link {{ app.request.get('_route') == 'transferred' ? 'active' }}" href="{{ path('transferred')}}"><i class="fas fa-exchange-alt fa-fw"></i> <span>Transferred</span></a></li>
 <li class="nav-item"><a class="nav-link {{ app.request.get('_route') == 'other' ? 'active' }}" href="{{ path('other')}}"><i class="fas fa-user-friends fa-fw"></i> <span>Other</span></a></li>
 <hr class="sidebar-divider my-1"/>
-{% if is_granted('ROLE_ADMIN') %}
-<li class="nav-item"><a class="nav-link {{ app.request.get('_route') == 'donation_index' ? 'active' }}" href="{{ path('donation_index')}}"><i class="fas  fa-hand-holding-usd fa-fw"></i> <span>Donations</span></a></li>
-{% endif %}
-<li class="nav-item"><a class="nav-link {{ app.request.get('_route') == 'map' ? 'active' }}" href="{{ path('map')}}"><i class="fas fa-map fa-fw"></i> <span>Member Map</span></a></li>
-<li class="nav-item"><a class="nav-link {{ app.request.get('_route') == 'member_changes' ? 'active' }}" href="{{ path('member_changes')}}"><i class="fas fa-satellite-dish fa-fw"></i> <span>Recent Changes</span></a></li>
-<li class="nav-item"><a class="nav-link {{ app.request.get('_route') == 'export' ? 'active' }}" href="{{ path('export')}}"><i class="fas fa-download fa-fw"></i> <span>Export</span></a></li>
-{% if is_granted('ROLE_ADMIN') %}
-<li class="nav-item"><a class="nav-link {{ app.request.get('_route') == 'import' ? 'active' }}" href="{{ path('import')}}"><i class="fas fa-upload fa-fw"></i> <span>Import</span></a></li>
-{% endif %}
-<hr class="sidebar-divider my-1"/>
 <li class="nav-item">
   <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTags" aria-expanded="true" aria-controls="collapseTags">
     <i class="fas fa-fw fa-tags"></i>
@@ -30,6 +20,16 @@
     </div>
   </div>
 </li>
+<hr class="sidebar-divider my-1"/>
+{% if is_granted('ROLE_ADMIN') %}
+<li class="nav-item"><a class="nav-link {{ app.request.get('_route') == 'donation_index' ? 'active' }}" href="{{ path('donation_index')}}"><i class="fas  fa-hand-holding-usd fa-fw"></i> <span>Donations</span></a></li>
+{% endif %}
+<li class="nav-item"><a class="nav-link {{ app.request.get('_route') == 'map' ? 'active' }}" href="{{ path('map')}}"><i class="fas fa-map fa-fw"></i> <span>Member Map</span></a></li>
+<li class="nav-item"><a class="nav-link {{ app.request.get('_route') == 'member_changes' ? 'active' }}" href="{{ path('member_changes')}}"><i class="fas fa-satellite-dish fa-fw"></i> <span>Recent Changes</span></a></li>
+<li class="nav-item"><a class="nav-link {{ app.request.get('_route') == 'export' ? 'active' }}" href="{{ path('export')}}"><i class="fas fa-download fa-fw"></i> <span>Export</span></a></li>
+{% if is_granted('ROLE_ADMIN') %}
+<li class="nav-item"><a class="nav-link {{ app.request.get('_route') == 'import' ? 'active' }}" href="{{ path('import')}}"><i class="fas fa-upload fa-fw"></i> <span>Import</span></a></li>
+{% endif %}
 {% if is_granted('ROLE_ADMIN') %}
 <hr class="sidebar-divider my-1"/>
 <li class="nav-item"><a class="nav-link" href="{{ path('admin') }}"><i class="fas fa-cog"></i> <span>Directory Admin</span></a></li>
