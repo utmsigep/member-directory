@@ -1,11 +1,13 @@
 {{ form_start(form) }}
 <div class="card mb-3 shadow" style="max-width:40rem">
-  <div class="card-header">Edit Tag</div>
+  <div class="card-header">Member Status</div>
   <div class="card-body">
-    {{ form_widget(form) }}
+    {% if form.code is defined %}{{ form_row(form.code) }}{% endif %}
+    {{ form_row(form.label) }}
   </div>
   <div class="card-footer text-right">
     <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
   </div>
 </div>
+{{ form_rest(form) }}
 {{ form_end(form) }}
