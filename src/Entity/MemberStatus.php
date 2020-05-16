@@ -113,6 +113,17 @@ class MemberStatus
         return $this;
     }
 
+    public function isInactive(): bool
+    {
+        if (in_array($this->code, [
+            'EXPELLED',
+            'RESIGNED'
+        ])) {
+            return true;
+        }
+        return false;
+    }
+
     public function __toString(): string
     {
          return $this->label;

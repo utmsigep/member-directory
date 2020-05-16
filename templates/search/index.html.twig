@@ -7,9 +7,9 @@
 
 {% for row in results %}
 {% set member = row[0] %}
-<div class="card mb-3 shadow" style="max-width:40em;">
+<div class="card mb-3 shadow {% if member.status.isInactive %}inactive{% endif %}" style="max-width:40em;">
   <div class="card-body">
-    <a href="{{ path('member_show', {localIdentifier: member.localIdentifier}) }}">{{ member }}</a> - {{ member.status.label }}
+    <a href="{{ path('member_show', {localIdentifier: member.localIdentifier}) }}">{{ member.preferredName }} {{ member.lastName }}</a> ({{ member.classYear}}) - {{ member.status.label }}
     {% include 'member/_badges.html.twig' %}
   </div>
 </div>

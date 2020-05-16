@@ -1,4 +1,4 @@
-<tr>
+<tr class="{% if member.status.isInactive %}inactive{% endif %}">
   <td class="text-center" data-order="{{ member.localIdentifier }}">{{ member.localIdentifierShort }}</td>
   <td width="32">
     <a href="{{ path('member_show', {localIdentifier: member.localIdentifier}) }}"><img src="{{ member.photoUrl }}" class="img-fluid" style="max-width:32px;" /></a>
