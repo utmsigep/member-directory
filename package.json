@@ -15,10 +15,10 @@
         "build": "encore production --progress"
     },
     "dependencies": {
-        "bootstrap": "^4.4.1",
+        "bootstrap": "^4.5.0",
         "bootstrap-select": "^1.13.17",
-        "datatables.net": "^1.10.20",
-        "datatables.net-bs4": "^1.10.20",
+        "datatables.net": "^1.10.21",
+        "datatables.net-bs4": "^1.10.21",
         "jquery": "^3.5.1",
         "leaflet": "^1.6.0",
         "leaflet-defaulticon-compatibility": "^0.1.1",
