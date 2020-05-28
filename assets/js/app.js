@@ -29,6 +29,11 @@ $('[data-toggle="tooltip"]').tooltip();
 // Bootstrap SelectPicker
 $('.selectpicker').selectpicker();
 
+// Hide sidebar on mobile
+if ($(window).width() < 768) {
+  $('#sidebarToggleTop').trigger('click')
+}
+
 // File uploads
 $('.custom-file-input').on('change', function(event) {
     var inputFile = event.currentTarget;
