@@ -6,6 +6,7 @@ use App\Entity\Donation;
 use App\Form\DonationType;
 use App\Form\DonationImportType;
 use App\Repository\DonationRepository;
+use App\Service\ChartService;
 use App\Service\DonorboxDonationService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,10 +27,13 @@ class DonationController extends AbstractController
     {
         $entityManager = $this->getDoctrine()->getManager();
         $donations = $entityManager->getRepository(Donation::class)->findAll();
+        $donationsByMonth = $entityManager->getRepository(Donation::class)->getTotalDonationsByMonth();
         $totals = $entityManager->getRepository(Donation::class)->getTotalDonations();
+
         return $this->render('donation/index.html.twig', [
             'donations' => $donations,
-            'totals' => $totals
+            'totals' => $totals,
+            'chart_data' => ChartService::buildDonationColumnChartData($donationsByMonth)
         ]);
     }
 

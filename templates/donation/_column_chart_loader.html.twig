@@ -1,0 +1,13 @@
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script>
+{{ gc_draw(chart_data, 'donationChart') }}
+$(window).resize(function() {
+    if(this.resizeTO) clearTimeout(this.resizeTO);
+    this.resizeTO = setTimeout(function() {
+        $(this).trigger('resizeEnd');
+    }, 500);
+});
+$(window).on('resizeEnd', function() {
+    {{ gc_draw(chart_data, 'donationChart') }}
+});
+</script>

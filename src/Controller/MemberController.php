@@ -6,6 +6,7 @@ use App\Entity\Donation;
 use App\Entity\Member;
 use App\Form\MemberMessageType;
 use App\Form\MemberType;
+use App\Service\ChartService;
 use App\Service\EmailService;
 use Gedmo\Loggable\Entity\LogEntry;
 use JeroenDesloovere\VCard\VCard;
@@ -130,11 +131,14 @@ class MemberController extends AbstractController
     {
         $entityManager = $this->getDoctrine()->getManager();
         $donations = $entityManager->getRepository(Donation::class)->findByMember($member);
+        $donationsByMonth = $entityManager->getRepository(Donation::class)->getTotalDonationsByMonthForMember($member);
         $totals = $entityManager->getRepository(Donation::class)->getTotalDonationsForMember($member);
+
         return $this->render('member/donations.html.twig', [
             'member' => $member,
             'donations' => $donations,
-            'totals' => $totals
+            'totals' => $totals,
+            'chart_data' => ChartService::buildDonationColumnChartData($donationsByMonth)
         ]);
     }
 
