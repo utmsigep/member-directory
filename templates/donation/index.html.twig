@@ -15,6 +15,12 @@
 </div>
 
 {% if donations %}
+<div class="card mb-3 shadow">
+  <div class="card-body">
+    <div id="donationChart"></div>
+  </div>
+</div>
+
 {% include 'donation/_donation_totals.html.twig' %} 
 
 <div class="card mb-3 shadow">
@@ -52,4 +58,5 @@
 {% block javascripts %}
 {{ parent() }}
 {{ encore_entry_script_tags('donations') }}
+{% include 'donation/_column_chart_loader.html.twig' %}
 {% endblock %}
