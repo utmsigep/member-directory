@@ -47,7 +47,7 @@
     </div>
   </div>
   {% else %}
-  <p class="alert alert-info">No donations matched your criteria.</p>
+  {% include '_no_records_card.html.twig' with {message: 'No donations matched your criteria.'} %}
   {% endif %}
 <div>
 {% endblock %}

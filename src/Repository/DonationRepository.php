@@ -48,7 +48,7 @@ class DonationRepository extends ServiceEntityRepository
     public function getTotalDonations()
     {
         return $this->createQueryBuilder('d')
-            ->select('COUNT(d) AS totalDonations, COUNT(DISTINCT d.member) AS totalDonors, SUM(d.amount) AS totalAmount, SUM(d.processingFee) AS totalProcessingFee, SUM(d.netAmount) AS totalNetAmount, d.currency')
+            ->select('COUNT(d) AS totalDonations, COUNT(DISTINCT d.member) AS totalDonors, SUM(d.amount) AS totalAmount, SUM(d.processingFee) AS totalProcessingFee, SUM(d.netAmount) AS totalNetAmount, MAX(d.receivedAt) AS latestDonation, d.currency')
             ->groupBy('d.currency')
             ->getQuery()
             ->getResult();
@@ -68,7 +68,7 @@ class DonationRepository extends ServiceEntityRepository
     public function getTotalDonationsForMember(Member $member)
     {
         return $this->createQueryBuilder('d')
-            ->select('COUNT(d) AS totalDonations, SUM(d.amount) AS totalAmount, SUM(d.processingFee) AS totalProcessingFee, SUM(d.netAmount) AS totalNetAmount, d.currency')
+            ->select('COUNT(d) AS totalDonations, SUM(d.amount) AS totalAmount, SUM(d.processingFee) AS totalProcessingFee, SUM(d.netAmount) AS totalNetAmount, MAX(d.receivedAt) AS latestDonation, d.currency')
             ->join('d.member', 'm')
             ->where('d.member = :member')
             ->setParameter('member', $member)

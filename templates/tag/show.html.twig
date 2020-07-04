@@ -23,7 +23,7 @@
   </div>
 </div>
 {% else %}
-<div class="alert alert-info">No records matched your criteria.</div>
+{% include '_no_records_card.html.twig' with {message: 'No members tagged with "' ~ tag.tagName ~ '".'} %}
 {% endif %}
 
 {% endblock %}

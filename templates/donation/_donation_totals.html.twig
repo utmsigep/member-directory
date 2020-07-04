@@ -1,6 +1,6 @@
 
 {% macro totalCell(data, title, icon = 'plus', color = 'primary', format = 'number_format', currency = 'USD') %}
-  <div class="col-sm-12 col-md-4 col-lg-3 col-xl-2 mb-4">
+  <div class="col-sm-12 col-md-4 col-lg-3 mb-4">
     <div class="card border-left-{{ color }} shadow h-100 py-2">
       <div class="card-body">
         <div class="row no-gutters align-items-center">
@@ -11,6 +11,8 @@
               {{ data|number_format }}
               {% elseif format == 'currency' %}
               {{ data|format_currency(currency) }}
+              {% elseif format == 'date' %}
+              {{ data|date('M j, Y') }}
               {% else %}
               {{ data|default('N/A') }}
               {% endif %}
@@ -28,6 +30,7 @@
 {% for total in totals %}
 {% if totals|length > 1 %}<small class="text-muted">Currency: {{ total.currency }}</small>{% endif %}
 <div class="row">
+  {{ _self.totalCell(total.latestDonation, 'Latest Donation', 'calendar', 'dark', 'date') }}
   {% if total.totalDonors is defined %}
   {{ _self.totalCell(total.totalDonors, 'Donors', 'users', 'primary', 'number_format') }}
   {% endif %}
