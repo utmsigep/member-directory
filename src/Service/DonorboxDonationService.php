@@ -22,6 +22,7 @@ class DonorboxDonationService
     const AMOUNT_HEADER = 'Amount';
     const CURRENCY_HEADER = 'Currency';
     const PROCESSING_FEE_HEADER = 'Processing Fee';
+    const PLATFORM_FEE_HEADER = 'Platform Fee';
     const NET_AMOUNT_HEADER = 'Net Amount';
     const FEE_COVERED_HEADER = 'Fee Covered';
     const DONOR_COMMENT_HEADER = 'Donor Comment';
@@ -147,7 +148,10 @@ class DonorboxDonationService
             if (isset($csvRecord[self::CURRENCY_HEADER])) {
                 $donation->setCurrency($csvRecord[self::CURRENCY_HEADER]);
             }
-            if (isset($csvRecord[self::PROCESSING_FEE_HEADER])) {
+            // Roll up the Donorbox platform fee into "Processing Fees" rather than tracking separately
+            if (isset($csvRecord[self::PROCESSING_FEE_HEADER]) && $csvRecord[self::PROCESSING_FEE_HEADER]) {
+                $donation->setProcessingFee((float) $csvRecord[self::PROCESSING_FEE_HEADER] + (float) $csvRecord[self::PLATFORM_FEE_HEADER]);
+            } elseif (isset($csvRecord[self::PROCESSING_FEE_HEADER])) {
                 $donation->setProcessingFee((float) $csvRecord[self::PROCESSING_FEE_HEADER]);
             }
             if (isset($csvRecord[self::NET_AMOUNT_HEADER])) {
