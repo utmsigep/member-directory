@@ -22,7 +22,9 @@ class UserType extends AbstractType
             ->add('roles', ChoiceType::class, [
                 'choices' => [
                     'Basic User' => 'ROLE_USER',
-                    'Administrator' => 'ROLE_ADMIN'
+                    'Donation Manager' => 'ROLE_DONATION_MANAGER',
+                    'Email Manager' => 'ROLE_EMAIL_MANAGER',
+                    'Site Administrator' => 'ROLE_ADMIN'
                 ],
                 'multiple' => true,
                 'expanded' => true

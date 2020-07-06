@@ -1,6 +1,10 @@
 {% macro user_roles(roles) %}
 <ul class="list-unstyled">
-  <li class="list-item"><i class="fas fa-{% if 'ROLE_USER' in roles %}check text-success{% else %}times text-danger{% endif %}"></i> Basic User</li>
-  <li class="list-item"><i class="fas fa-{% if 'ROLE_ADMIN' in roles %}check text-success{% else %}times text-danger{% endif %}"></i> Administrator</li>
+  {% if 'ROLE_ADMIN' in roles %}
+  <li class="list-item"><i class="fas fa-shield-alt text-success"></i> Site Administrator</li>
+  {% endif %}
+  <li class="list-item"><i class="fas fa-{% if 'ROLE_ADMIN' in roles or 'ROLE_USER' in roles %}check text-success{% else %}times text-danger{% endif %}"></i> Directory User</li>
+  <li class="list-item"><i class="fas fa-{% if 'ROLE_ADMIN' in roles or 'ROLE_DONATION_MANAGER' in roles %}check text-success{% else %}times text-danger{% endif %}"></i> Donations Manager</li>
+  <li class="list-item"><i class="fas fa-{% if 'ROLE_ADMIN' in roles or 'ROLE_EMAIL_MANAGER' in roles %}check text-success{% else %}times text-danger{% endif %}"></i> E-mail Manager</li>
 </ul>
 {% endmacro %}

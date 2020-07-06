@@ -15,8 +15,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @IsGranted("ROLE_ADMIN")
- * @Route("/admin/donations")
+ * @IsGranted("ROLE_DONATION_MANAGER")
+ * @Route("/donations")
  */
 class DonationController extends AbstractController
 {
