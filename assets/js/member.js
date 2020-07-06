@@ -14,14 +14,14 @@ $(document).ready(function() {
     return;
   }
   
-  var mymap = L.map('mapContainer').setView([mailingLatitude, mailingLongitude], 12);
+  var directoryMap = L.map('mapContainer').setView([mailingLatitude, mailingLongitude], 12);
 
   L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}{r}.png', {
     subdomains: 'abcd',
     maxZoom: 19,
     minZoom: 1,
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright" target="blank">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions" target="blank">CartoDB</a>'
-  }).addTo(mymap)
+  }).addTo(directoryMap)
 
   var markerIcon = L.Icon.extend({
     options: {
@@ -37,7 +37,7 @@ $(document).ready(function() {
 
   var marker = L.marker(L.latLng(mailingLatitude, mailingLongitude))
   marker.setIcon(defaultIcon)
-  marker.addTo(mymap)
+  marker.addTo(directoryMap)
 });
 
 // Inline address verification

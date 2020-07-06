@@ -22,19 +22,20 @@ var markerIcon = L.Icon.extend({
   }
 });
 
+var memberMarkers = [];
 var defaultIcon = new markerIcon();
 var undergraduateIcon = new markerIcon({ iconUrl: require('../images/marker-icon-undergraduate.svg').default });
 
 var drawMap = function () {
-  var mymap = L.map('mapContainer').setView([39.828175, -98.5795], 4);
+  var directoryMap = L.map('mapContainer').setView([39.828175, -98.5795], 4);
   L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}{r}.png', {
     subdomains: 'abcd',
     maxZoom: 19,
     minZoom: 1,
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright" target="blank">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions" target="blank">CartoDB</a>'
-  }).addTo(mymap)
+  }).addTo(directoryMap)
 
-  L.control.scale().addTo(mymap);
+  L.control.scale().addTo(directoryMap);
 
   // Search Radius Controls
   var circle = {}
@@ -43,9 +44,9 @@ var drawMap = function () {
   var searchResultCountContainer = $('#searchResultCount')
   var searchResultsExport = $('#searchResultsExport')
   var mapExportButton = $('#mapExportButton')
-  mymap.on('click', function(ev) {
+  directoryMap.on('click', function(ev) {
       // Remove last circle drawn
-      mymap.removeLayer(circle)
+      directoryMap.removeLayer(circle)
       // Draw circle and radius
       var radius = parseInt($('#search-radius').val(), 10)
       circle = L.circle(ev.latlng, {
@@ -53,7 +54,7 @@ var drawMap = function () {
           fillColor: '#000',
           fillOpacity: 0.1,
           radius: (radius * 1609.344)
-      }).addTo(mymap);
+      }).addTo(directoryMap);
       mapExportButton.attr('href', Routing.generate('export_by_location', {latitude: ev.latlng.lat, longitude: ev.latlng.lng, radius: radius}))
       $.getJSON(Routing.generate('map_search', {latitude: ev.latlng.lat, longitude: ev.latlng.lng, radius: radius}), {}, function(data) {
           searchResultsContainer.empty()
@@ -92,10 +93,16 @@ var drawMap = function () {
       } else {
         marker.setIcon(defaultIcon)
       }
-      marker.bindTooltip(formatMemberTooltip(row)).bindPopup(formatMemberPopup(row)).addTo(mymap)
+      marker.bindTooltip(formatMemberTooltip(row)).bindPopup(formatMemberPopup(row)).addTo(directoryMap)
+      memberMarkers.push(marker)
     })
   })
-}
+    // Fit map bounds based on markers on screen
+    .done(function () {
+      var group = new L.featureGroup(memberMarkers);
+      directoryMap.fitBounds(group.getBounds());
+    })
+  }
 
 var formatMemberPopup = function (data) {
   data.statusLabel = data.status.label
