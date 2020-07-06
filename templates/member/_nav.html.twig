@@ -5,13 +5,17 @@
   <li class="nav-item"><a class="nav-link {{ current_route == 'member_change_log' ? 'active' }}" href="{{ path('member_change_log', {localIdentifier: member.localIdentifier}) }}"><i class="fas fa-history"></i> Change Log</a></li>
   {% endif %}
   {% if is_email_service_configured() and member.primaryEmail %}
+  {% if is_granted('ROLE_EMAIL_MANAGER') %}
   <li class="nav-item"><a class="nav-link {{ current_route == 'member_email_subscription' ? 'active' }}" href="{{ path('member_email_subscription', {localIdentifier: member.localIdentifier}) }}"><i class="fas fa-envelope"></i> Email Subscriptions</a></li>
+  {% endif %}
   <li class="nav-item"><a class="nav-link {{ current_route == 'member_message' ? 'active' }}" href="{{ path('member_message', {localIdentifier: member.localIdentifier}) }}"><i class="fas fa-envelope-open-text"></i> Send Message</a></li>
   {% elseif is_email_service_configured() and not member.primaryEmail %}
+  {% if is_granted('ROLE_EMAIL_MANAGER') %}
   <li class="nav-item disabled"><a class="nav-link"><i class="fas fa-envelope"></i> Email Subscriptions</a></li>
+  {% endif %}
   <li class="nav-item disabled"><a class="nav-link"><i class="fas fa-envelope-open-text"></i> Send Message</a></li>
   {% endif %}
-  {% if is_granted('ROLE_ADMIN') %}
+  {% if is_granted('ROLE_DONATION_MANAGER') %}
   <li class="nav-item"><a class="nav-link {{ current_route == 'member_donations' ? 'active' }}" href="{{ path('member_donations', {localIdentifier: member.localIdentifier}) }}"><i class="fas fa-hand-holding-usd"></i> Donations</a></li>
   {% endif %}
   <li class="nav-item"><a class="nav-link {{ current_route == 'member_vcard' ? 'active' }}" href="{{ path('member_vcard', {localIdentifier: member.localIdentifier}) }}"><i class="fas fa-address-card"></i> Download vCard</a></li>

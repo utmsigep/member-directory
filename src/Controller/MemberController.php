@@ -125,7 +125,7 @@ class MemberController extends AbstractController
 
     /**
      * @Route("/{localIdentifier}/donations", name="member_donations")
-     * @IsGranted("ROLE_ADMIN")
+     * @IsGranted("ROLE_DONATION_MANAGER")
      */
     public function donations(Member $member): Response
     {
@@ -144,6 +144,7 @@ class MemberController extends AbstractController
 
     /**
      * @Route("/{localIdentifier}/email-subscription", name="member_email_subscription")
+     * @IsGranted("ROLE_EMAIL_MANAGER")
      */
     public function emailSubscription(Member $member, EmailService $emailService): Response
     {
@@ -164,7 +165,7 @@ class MemberController extends AbstractController
 
     /**
      * @Route("/{localIdentifier}/add-subscriber", name="member_email_subscribe")
-     * @IsGranted("ROLE_ADMIN")
+     * @IsGranted("ROLE_EMAIL_MANAGER")
      */
     public function addSubscriber(Member $member, EmailService $emailService): Response
     {
@@ -187,7 +188,7 @@ class MemberController extends AbstractController
 
     /**
      * @Route("/{localIdentifier}/update-subscriber", name="member_email_update")
-     * @IsGranted("ROLE_ADMIN")
+     * @IsGranted("ROLE_EMAIL_MANAGER")
      */
     public function updateSubscriber(Member $member, EmailService $emailService): Response
     {
@@ -210,7 +211,7 @@ class MemberController extends AbstractController
 
     /**
      * @Route("/{localIdentifier}/remove-subscriber", name="member_email_remove")
-     * @IsGranted("ROLE_ADMIN")
+     * @IsGranted("ROLE_EMAIL_MANAGER")
      */
     public function removeSubscriber(Member $member, EmailService $emailService): Response
     {

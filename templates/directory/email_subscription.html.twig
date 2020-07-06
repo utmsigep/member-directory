@@ -39,7 +39,7 @@
               <th>Status</th>
               <td>{{ subscriber.State }}</td>
             </tr>
-            {% if is_granted('ROLE_ADMIN') %}
+            {% if is_granted('ROLE_EMAIL_MANAGER') %}
             {% for field in subscriber.CustomFields %}
             <tr class="table-secondary">
               <th>{{ field.Key }}</th>
