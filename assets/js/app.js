@@ -4,6 +4,7 @@ global.$ = global.jQuery = $
 require('popper.js')
 require('bootstrap')
 require('bootstrap-select')
+require('bootstrap-autocomplete')
 require('../../node_modules/startbootstrap-sb-admin-2/js/sb-admin-2.js')
 require('../../node_modules/datatables.net/js/jquery.dataTables.js')
 require('../../node_modules/datatables.net-bs4/js/dataTables.bootstrap4.js')
@@ -33,6 +34,23 @@ $('.selectpicker').selectpicker();
 if ($(window).width() < 768) {
   $('#sidebarToggleTop').trigger('click')
 }
+
+// Search field autocomplete
+$(document).ready(function () {
+  $('.member-search-autocomplete').autoComplete({
+      resolverSettings: {
+          url: Routing.generate('search_autocomplete')
+      },
+      formatResult: function (item) {
+        return {
+          text: item.displayName
+        }
+      }
+  });
+  $('.member-search-autocomplete').on('autocomplete.select', function(evt, item) {
+    window.location.href = Routing.generate('member_show', {localIdentifier: item.localIdentifier})
+  })
+})
 
 // File uploads
 $('.custom-file-input').on('change', function(event) {

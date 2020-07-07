@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ parent() }} - {{ app.request.get('searchTerm')|escape }}{% endblock %}
+{% block title %}{{ parent() }} - {{ app.request.get('q')|escape }}{% endblock %}
 
 {% block body %}
 <div class="h4">Search Results</div>

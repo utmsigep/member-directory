@@ -15,16 +15,34 @@ use Symfony\Component\HttpFoundation\Request;
 class SearchController extends AbstractController
 {
     /**
-     * @Route("/", name="search")
+     * @Route("/", name="search", options={"expose" = true})
      */
     public function index(MemberRepository $memberRepository, Request $request)
     {
         $results = [];
-        if ($request->query->get('searchTerm')) {
-            $results = $memberRepository->search($request->query->get('searchTerm'));
+        if ($request->query->get('q')) {
+            $results = $memberRepository->search($request->query->get('q'));
         }
         return $this->render('search/index.html.twig', [
             'results' => $results
         ]);
+    }
+
+    /**
+     * @Route("/autocomplete", name="search_autocomplete", options={"expose" = true})
+     */
+    public function autoComplete(MemberRepository $memberRepository, Request $request)
+    {
+        $output = [];
+        if ($request->query->get('q')) {
+            $results = $memberRepository->search($request->query->get('q'), 10);
+            foreach ($results as $member) {
+                $output[] = [
+                    'localIdentifier' => $member[0]->getLocalIdentifier(),
+                    'displayName' => $member[0]->getDisplayName()
+                ];
+            }
+        }
+        return $this->json($output);
     }
 }

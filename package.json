@@ -16,6 +16,7 @@
     },
     "dependencies": {
         "bootstrap": "^4.5.0",
+        "bootstrap-autocomplete": "^2.3.5",
         "bootstrap-select": "^1.13.17",
         "datatables.net": "^1.10.21",
         "datatables.net-bs4": "^1.10.21",

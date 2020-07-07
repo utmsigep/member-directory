@@ -51,7 +51,7 @@
             <!-- Topbar Search -->
             <form action="{{ path('search') }}" method="GET" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
               <div class="input-group">
-                <input id="searchTerm" name="searchTerm" type="search" value="{{ app.request.get('searchTerm')|escape('html_attr') }}" class="form-control bg-light border-0 small" placeholder="Search Directory ..." aria-label="Search">
+                <input name="q" type="search" value="{{ app.request.get('q')|escape('html_attr') }}" class="form-control bg-light border-0 small member-search-autocomplete" placeholder="Search Directory ..." aria-label="Search" autocomplete="off">
                 <div class="input-group-append">
                   <button class="btn btn-primary" type="submit">
                     <i class="fas fa-search fa-sm"></i>
@@ -72,7 +72,7 @@
                 <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
                   <form action="{{ path('search') }}" method="GET"class="form-inline mr-auto w-100 navbar-search">
                     <div class="input-group">
-                      <input type="text" name="searchTerm" class="form-control bg-light border-0 small" value="{{ app.request.get('searchTerm')|escape('html_attr') }}"  placeholder="Search Directory ..." aria-label="Search">
+                      <input type="text" name="q" class="form-control bg-light border-0 small member-search-autocomplete" value="{{ app.request.get('q')|escape('html_attr') }}"  placeholder="Search Directory ..." aria-label="Search" autocomplete="off">
                       <div class="input-group-append">
                         <button class="btn btn-primary" type="submit">
                           <i class="fas fa-search fa-sm"></i>
