@@ -54,6 +54,27 @@ class DonationRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function getTotalDonationsByMember()
+    {
+        return $this->createQueryBuilder('d')
+            ->select('IDENTITY(d.member) as memberId, m.preferredName, m.lastName, m.localIdentifier, COUNT(d) AS totalDonations, COUNT(DISTINCT d.member) AS totalDonors, SUM(d.amount) AS totalAmount, SUM(d.processingFee) AS totalProcessingFee, SUM(d.netAmount) AS totalNetAmount, MAX(d.receivedAt) AS latestDonation, d.currency')
+            ->join('d.member', 'm')
+            ->groupBy('d.currency', 'd.member')
+            ->orderBy('m.lastName', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function getTotalDonationsByCampaign()
+    {
+        return $this->createQueryBuilder('d')
+            ->select('d.campaign, COUNT(d) AS totalDonations, COUNT(DISTINCT d.member) AS totalDonors, SUM(d.amount) AS totalAmount, SUM(d.processingFee) AS totalProcessingFee, SUM(d.netAmount) AS totalNetAmount, MAX(d.receivedAt) AS latestDonation, d.currency')
+            ->groupBy('d.currency', 'd.campaign')
+            ->orderBy('latestDonation', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
     public function getTotalDonationsByMonth()
     {
         return $this->createQueryBuilder('d')
@@ -63,7 +84,6 @@ class DonationRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-
 
     public function getTotalDonationsForMember(Member $member)
     {

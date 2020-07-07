@@ -5,4 +5,10 @@ $(document).ready(function () {
     ],
     pageLength: 50
   })
+  $('#donorTable').DataTable({
+    order: [
+      [4, 'desc']
+    ],
+    pageLength: 50
+  })
 })

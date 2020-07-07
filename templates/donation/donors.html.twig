@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} - Donors{% endblock %}
+
+{% block body %}
+
+<div class="row mb-3">
+  <div class="col-lg-6">
+    <div class="h4">Donors</div>
+  </div>
+  <div class="col-lg-6 text-right">
+    <a href="{{ path('donorbox_import') }}" class="btn btn-sm btn-primary"><i class="fas fa-upload fa-fw"></i> Import from Donorbox</a>
+    <a href="{{ path('donation_new') }}" class="btn btn-sm btn-primary"><i class="fas fa-plus fa-fw"></i> New Donation</a>
+  </div>
+</div>
+
+{% include 'donation/_nav.html.twig' %}
+
+{% if donors %}
+<div class="card mb-3 shadow">
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-striped" id="donorTable">
+        <thead>
+          <tr>
+            <th>Donor</th>
+            <th>Latest Donation</th>
+            <th>Amount</th>
+            <th>Fees</th>
+            <th>Net Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for donor in donors %}
+          <tr>
+            <td data-order="{{ donor.lastName }}, {{ donor.preferredName }}"><a href="{{ path('member_donations', {localIdentifier: donor.localIdentifier}) }}">{{ donor.preferredName }} {{ donor.lastName }}</a></td>
+            <td data-order="{{ donor.latestDonation|date('Y-m-d') }}">{{ donor.latestDonation|date('n/j/Y') }}</td>
+            <td data-order="{{ donor.totalAmount }}" class="text-right">{{ donor.totalAmount|format_currency(donor.currency) }}</td>
+            <td data-order="{{ donor.totalProcessingFee }}" class="text-right">{{ donor.totalProcessingFee|format_currency(donor.currency) }}</td>
+            <td data-order="{{ donor.totalNetAmount }}" class="text-right font-weight-bold">{{ donor.totalNetAmount|format_currency(donor.currency) }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% else %}
+{% include '_no_records_card.html.twig' with {message: 'No donors matched your criteria.'} %}
+{% endif %}
+
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+{{ encore_entry_script_tags('donations') }}
+{% endblock %}

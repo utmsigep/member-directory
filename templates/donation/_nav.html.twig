@@ -1,0 +1,6 @@
+{% set current_route = app.request.get('_route') %}
+<ul class="nav nav-tabs mb-3">
+  <li class="nav-item"><a class="nav-link {{ current_route == 'donation_index' ? 'active' }}" href="{{ path('donation_index') }}"><i class="fas fa-hand-holding-usd"></i> Donations</a></li>
+  <li class="nav-item"><a class="nav-link {{ current_route == 'donation_donors' ? 'active' }}" href="{{ path('donation_donors') }}"><i class="fas fa-users"></i> Donors</a></li>
+  <li class="nav-item"><a class="nav-link {{ current_route == 'donation_campaigns' ? 'active' }}" href="{{ path('donation_campaigns') }}"><i class="fas fa-donate"></i> Campaigns</a></li>
+</ul>

@@ -10,7 +10,7 @@
   <td>{{ donation.description }}{% if donation.donorComment %} <span title="{{ donation.donorComment|escape('html_attr') }}" data-toggle="tooltip"><i class="far fa-sticky-note"></i></span>{% endif %}</td>
   <td class="text-right" data-order="{{ donation.amount }}">{{ donation.amount|format_currency(donation.currency) }}</td>
   <td class="text-right" data-order="{{ donation.processingFee }}">{{ donation.processingFee|format_currency(donation.currency) }}</td>
-  <td class="text-right" data-order="{{ donation.netAmount }}">{{ donation.netAmount|format_currency(donation.currency) }}</td>
+  <td class="text-right font-weight-bold" data-order="{{ donation.netAmount }}">{{ donation.netAmount|format_currency(donation.currency) }}</td>
   <td class="text-center" data-order="{{ donation.isRecurring }}">{{ donation.isRecurring ? '<i class="fas fa-redo"></i>' : '' }}</td>
   <td><a href="{{ path('donation_edit', {id: donation.id}) }}"><i class="fas fa-edit fa-fw"></i></a></td>
 </tr>

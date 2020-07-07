@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} - Campaigns{% endblock %}
+
+{% block body %}
+
+<div class="row mb-3">
+  <div class="col-lg-6">
+    <div class="h4">Campaigns</div>
+  </div>
+  <div class="col-lg-6 text-right">
+    <a href="{{ path('donorbox_import') }}" class="btn btn-sm btn-primary"><i class="fas fa-upload fa-fw"></i> Import from Donorbox</a>
+    <a href="{{ path('donation_new') }}" class="btn btn-sm btn-primary"><i class="fas fa-plus fa-fw"></i> New Donation</a>
+  </div>
+</div>
+
+{% include 'donation/_nav.html.twig' %}
+
+{% if campaigns %}
+<div class="card mb-3 shadow">
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-striped" id="donorTable">
+        <thead>
+          <tr>
+            <th>Campaign</th>
+            <th>Latest Donation</th>
+            <th>Amount</th>
+            <th>Fees</th>
+            <th>Net Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for campaign in campaigns %}
+          <tr>
+            <td data-order="{{ campaign.campaign }}">{{ campaign.campaign }}</td>
+            <td data-order="{{ campaign.latestDonation|date('Y-m-d') }}">{{ campaign.latestDonation|date('n/j/Y') }}</td>
+            <td data-order="{{ campaign.totalAmount }}" class="text-right">{{ campaign.totalAmount|format_currency(campaign.currency) }}</td>
+            <td data-order="{{ campaign.totalProcessingFee }}" class="text-right">{{ campaign.totalProcessingFee|format_currency(campaign.currency) }}</td>
+            <td data-order="{{ campaign.totalNetAmount }}" class="text-right font-weight-bold">{{ campaign.totalNetAmount|format_currency(campaign.currency) }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% else %}
+{% include '_no_records_card.html.twig' with {message: 'No campaigns matched your criteria.'} %}
+{% endif %}
+
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+{{ encore_entry_script_tags('donations') }}
+{% endblock %}

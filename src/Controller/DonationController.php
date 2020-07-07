@@ -38,6 +38,37 @@ class DonationController extends AbstractController
     }
 
     /**
+     * @Route("/donors", name="donation_donors", methods={"GET"})
+     */
+    public function donors(DonationRepository $donationRepository): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $donors = $entityManager->getRepository(Donation::class)->getTotalDonationsByMember();
+        $totals = $entityManager->getRepository(Donation::class)->getTotalDonations();
+
+        return $this->render('donation/donors.html.twig', [
+            'donors' => $donors,
+            'totals' => $totals,
+        ]);
+    }
+
+    /**
+     * @Route("/campaigns", name="donation_campaigns", methods={"GET"})
+     */
+    public function campaigns(DonationRepository $donationRepository): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $campaigns = $entityManager->getRepository(Donation::class)->getTotalDonationsByCampaign();
+        $totals = $entityManager->getRepository(Donation::class)->getTotalDonations();
+
+        return $this->render('donation/campaigns.html.twig', [
+            'campaigns' => $campaigns,
+            'totals' => $totals,
+        ]);
+    }
+
+
+    /**
      * @Route("/new", name="donation_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
