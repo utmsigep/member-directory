@@ -9,8 +9,7 @@
     <div class="h4">Donors</div>
   </div>
   <div class="col-lg-6 text-right">
-    <a href="{{ path('donorbox_import') }}" class="btn btn-sm btn-primary"><i class="fas fa-upload fa-fw"></i> Import from Donorbox</a>
-    <a href="{{ path('donation_new') }}" class="btn btn-sm btn-primary"><i class="fas fa-plus fa-fw"></i> New Donation</a>
+    {% include 'donation/_buttons.html.twig' %}
   </div>
 </div>
 
@@ -48,6 +47,8 @@
 {% else %}
 {% include '_no_records_card.html.twig' with {message: 'No donors matched your criteria.'} %}
 {% endif %}
+
+{% include 'donation/_date_range_modal.html.twig' %}
 
 {% endblock %}
 

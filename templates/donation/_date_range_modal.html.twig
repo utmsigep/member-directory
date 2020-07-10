@@ -1,0 +1,46 @@
+<div class="modal fade" id="dateRangeModal" tabindex="-1" role="dialog" aria-labelledby="dateRangeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="dateRangeModalLabel">Select a Date Range</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="get" id="dateRangeForm">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="start_date">Start Date</label>
+                <input name="start_date" id="start_date" class="form-control" type="date" value="{{ start_date|date('Y-m-d') }}" />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="end_date">End Date</label>
+                <input name="end_date" id="end_date" class="form-control" type="date" value="{{ end_date|date('Y-m-d') }}" />
+              </div>
+            </div>
+          </div>
+          <ul class="list-inline">
+            <li class="list-inline-item"><strong>Presets:</strong></li>
+            <li class="list-inline-item"><a href="#thisMonth">This Month</a></li>
+            <li class="list-inline-item"><a href="#thisYear">This Year</a></li>
+            <li class="list-inline-item"><a href="#lastMonth">Last Month<a></li>
+            <li class="list-inline-item"><a href="#lastYear">Last Year</a></li>
+            <li class="list-inline-item"><a href="#thirtyDays">Last 30 Days</a></li>
+          </ul>
+          <div class="row">
+            <div class="col-md-6 text-center text-md-left">
+              <a href="?reset=1" class="btn"><i class="fas fa-recycle fa-fw"></i> Reset to Defaults</a>
+            </div>
+            <div class="col-md-6 text-center text-md-right">
+              <input class="btn btn-primary" type="submit" value="Update" />
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

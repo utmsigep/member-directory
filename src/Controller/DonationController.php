@@ -12,6 +12,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -20,19 +21,32 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class DonationController extends AbstractController
 {
+    protected $startDate;
+
+    protected $endDate;
+
+    public function __construct()
+    {
+        $session = new Session();
+        $this->startDate = new \DateTime($session->get('donation_start_date', DonationRepository::DEFAULT_START_DATE));
+        $this->endDate = new \DateTime($session->get('donation_end_date', DonationRepository::DEFAULT_END_DATE));
+    }
+
     /**
      * @Route("/", name="donation_index", methods={"GET"})
      */
-    public function index(DonationRepository $donationRepository): Response
+    public function index(DonationRepository $donationRepository, Request $request): Response
     {
-        $entityManager = $this->getDoctrine()->getManager();
-        $donations = $entityManager->getRepository(Donation::class)->findAll();
-        $donationsByMonth = $entityManager->getRepository(Donation::class)->getTotalDonationsByMonth();
-        $totals = $entityManager->getRepository(Donation::class)->getTotalDonations();
+        $this->handleDateRequest($request);
+        $donations = $donationRepository->setDateRange($this->startDate, $this->endDate)->findAll();
+        $donationsByMonth = $donationRepository->setDateRange($this->startDate, $this->endDate)->getTotalDonationsByMonth();
+        $totals = $donationRepository->setDateRange($this->startDate, $this->endDate)->getTotalDonations();
 
         return $this->render('donation/index.html.twig', [
             'donations' => $donations,
             'totals' => $totals,
+            'start_date' => $this->startDate,
+            'end_date' => $this->endDate,
             'chart_data' => ChartService::buildDonationColumnChartData($donationsByMonth)
         ]);
     }
@@ -40,30 +54,34 @@ class DonationController extends AbstractController
     /**
      * @Route("/donors", name="donation_donors", methods={"GET"})
      */
-    public function donors(DonationRepository $donationRepository): Response
+    public function donors(DonationRepository $donationRepository, Request $request): Response
     {
-        $entityManager = $this->getDoctrine()->getManager();
-        $donors = $entityManager->getRepository(Donation::class)->getTotalDonationsByMember();
-        $totals = $entityManager->getRepository(Donation::class)->getTotalDonations();
+        $this->handleDateRequest($request);
+        $donors = $donationRepository->setDateRange($this->startDate, $this->endDate)->getTotalDonationsByMember();
+        $totals = $donationRepository->setDateRange($this->startDate, $this->endDate)->getTotalDonations();
 
         return $this->render('donation/donors.html.twig', [
             'donors' => $donors,
             'totals' => $totals,
+            'start_date' => $this->startDate,
+            'end_date' => $this->endDate
         ]);
     }
 
     /**
      * @Route("/campaigns", name="donation_campaigns", methods={"GET"})
      */
-    public function campaigns(DonationRepository $donationRepository): Response
+    public function campaigns(DonationRepository $donationRepository, Request $request): Response
     {
-        $entityManager = $this->getDoctrine()->getManager();
-        $campaigns = $entityManager->getRepository(Donation::class)->getTotalDonationsByCampaign();
-        $totals = $entityManager->getRepository(Donation::class)->getTotalDonations();
+        $this->handleDateRequest($request);
+        $campaigns = $donationRepository->setDateRange($this->startDate, $this->endDate)->getTotalDonationsByCampaign();
+        $totals = $donationRepository->setDateRange($this->startDate, $this->endDate)->getTotalDonations();
 
         return $this->render('donation/campaigns.html.twig', [
             'campaigns' => $campaigns,
             'totals' => $totals,
+            'start_date' => $this->startDate,
+            'end_date' => $this->endDate,
         ]);
     }
 
@@ -166,5 +184,40 @@ class DonationController extends AbstractController
         }
 
         return $this->redirectToRoute('donation_index');
+    }
+
+    private function handleDateRequest(Request $request)
+    {
+        $session = new Session();
+        if ($request->query->get('reset')) {
+            $this->startDate = new \DateTime(DonationRepository::DEFAULT_START_DATE);
+            $session->set('donation_start_date', $this->startDate->format('Y-m-d'));
+            $this->endDate = new \DateTime(DonationRepository::DEFAULT_END_DATE);
+            $session->set('donation_end_date', $this->endDate->format('Y-m-d'));
+            $this->addFlash('info', 'Reset to default dates.');
+            return;
+        }
+        if ($request->query->get('start_date')) {
+            try {
+                $this->startDate = new \DateTime($request->query->get('start_date'));
+                $session->set('donation_start_date', $this->startDate->format('Y-m-d'));
+            } catch (\Exception $e) {
+                $this->addFlash('error', 'Invalid start date provided.');
+                return;
+            }
+        }
+        if ($request->query->get('end_date')) {
+            try {
+                $this->endDate = new \DateTime($request->query->get('end_date'));
+                $session->set('donation_end_date', $this->endDate->format('Y-m-d'));
+            } catch (\Exception $e) {
+                $this->addFlash('error', 'Invalid end date provided.');
+                return;
+            }
+        }
+
+        if ($this->startDate > $this->endDate) {
+            $this->addFlash('error', 'Start date cannot be after end date.');
+        }
     }
 }

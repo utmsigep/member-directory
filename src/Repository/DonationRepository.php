@@ -14,9 +14,25 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  */
 class DonationRepository extends ServiceEntityRepository
 {
+    const DEFAULT_START_DATE = '-1 years midnight';
+    const DEFAULT_END_DATE = 'tomorrow -1 min';
+
+    protected $startDate;
+
+    protected $endDate;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Donation::class);
+        $this->startDate = new \DateTime('-5 years midnight');
+        $this->endDate = new \DateTime('tomorrow -1 min');
+    }
+
+    public function setDateRange(\DateTime $startDate, \DateTime $endDate): DonationRepository
+    {
+        $this->startDate = $startDate;
+        $this->endDate = $endDate;
+        return $this;
     }
 
     public function findAll()
@@ -26,6 +42,10 @@ class DonationRepository extends ServiceEntityRepository
             ->addSelect('t')
             ->join('d.member', 'm')
             ->leftJoin('m.tags', 't')
+            ->andWhere('d.receivedAt >= :startDate')
+            ->andWhere('d.receivedAt <= :endDate')
+            ->setParameter('startDate', $this->startDate)
+            ->setParameter('endDate', $this->endDate)
             ->orderBy('d.receivedAt', 'DESC')
             ->getQuery()
             ->getResult();
@@ -39,7 +59,11 @@ class DonationRepository extends ServiceEntityRepository
             ->join('d.member', 'm')
             ->leftJoin('m.tags', 't')
             ->where('d.member = :member')
+            ->andWhere('d.receivedAt >= :startDate')
+            ->andWhere('d.receivedAt <= :endDate')
             ->setParameter('member', $member)
+            ->setParameter('startDate', $this->startDate)
+            ->setParameter('endDate', $this->endDate)
             ->orderBy('d.receivedAt', 'DESC')
             ->getQuery()
             ->getResult();
@@ -50,6 +74,10 @@ class DonationRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('d')
             ->select('COUNT(d) AS totalDonations, COUNT(DISTINCT d.member) AS totalDonors, SUM(d.amount) AS totalAmount, SUM(d.processingFee) AS totalProcessingFee, SUM(d.netAmount) AS totalNetAmount, MAX(d.receivedAt) AS latestDonation, d.currency')
             ->groupBy('d.currency')
+            ->andWhere('d.receivedAt >= :startDate')
+            ->andWhere('d.receivedAt <= :endDate')
+            ->setParameter('startDate', $this->startDate)
+            ->setParameter('endDate', $this->endDate)
             ->getQuery()
             ->getResult();
     }
@@ -59,6 +87,10 @@ class DonationRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('d')
             ->select('IDENTITY(d.member) as memberId, m.preferredName, m.lastName, m.localIdentifier, COUNT(d) AS totalDonations, COUNT(DISTINCT d.member) AS totalDonors, SUM(d.amount) AS totalAmount, SUM(d.processingFee) AS totalProcessingFee, SUM(d.netAmount) AS totalNetAmount, MAX(d.receivedAt) AS latestDonation, d.currency')
             ->join('d.member', 'm')
+            ->andWhere('d.receivedAt >= :startDate')
+            ->andWhere('d.receivedAt <= :endDate')
+            ->setParameter('startDate', $this->startDate)
+            ->setParameter('endDate', $this->endDate)
             ->groupBy('d.currency', 'd.member')
             ->orderBy('m.lastName', 'ASC')
             ->getQuery()
@@ -70,6 +102,10 @@ class DonationRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('d')
             ->select('d.campaign, COUNT(d) AS totalDonations, COUNT(DISTINCT d.member) AS totalDonors, SUM(d.amount) AS totalAmount, SUM(d.processingFee) AS totalProcessingFee, SUM(d.netAmount) AS totalNetAmount, MAX(d.receivedAt) AS latestDonation, d.currency')
             ->groupBy('d.currency', 'd.campaign')
+            ->andWhere('d.receivedAt >= :startDate')
+            ->andWhere('d.receivedAt <= :endDate')
+            ->setParameter('startDate', $this->startDate)
+            ->setParameter('endDate', $this->endDate)
             ->orderBy('latestDonation', 'DESC')
             ->getQuery()
             ->getResult();
@@ -79,6 +115,10 @@ class DonationRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('d')
             ->select('DATE_FORMAT(d.receivedAt, \'%Y-%m-01\') AS aggregatedDate, COUNT(d) AS totalDonations, COUNT(DISTINCT d.member) AS totalDonors, SUM(d.amount) AS totalAmount, SUM(d.processingFee) AS totalProcessingFee, SUM(d.netAmount) AS totalNetAmount, d.currency')
+            ->andWhere('d.receivedAt >= :startDate')
+            ->andWhere('d.receivedAt <= :endDate')
+            ->setParameter('startDate', $this->startDate)
+            ->setParameter('endDate', $this->endDate)
             ->groupBy('d.currency', 'aggregatedDate')
             ->orderBy('aggregatedDate', 'ASC')
             ->getQuery()
@@ -91,7 +131,11 @@ class DonationRepository extends ServiceEntityRepository
             ->select('COUNT(d) AS totalDonations, SUM(d.amount) AS totalAmount, SUM(d.processingFee) AS totalProcessingFee, SUM(d.netAmount) AS totalNetAmount, MAX(d.receivedAt) AS latestDonation, d.currency')
             ->join('d.member', 'm')
             ->where('d.member = :member')
+            ->andWhere('d.receivedAt >= :startDate')
+            ->andWhere('d.receivedAt <= :endDate')
             ->setParameter('member', $member)
+            ->setParameter('startDate', $this->startDate)
+            ->setParameter('endDate', $this->endDate)
             ->groupBy('d.currency')
             ->getQuery()
             ->getResult();
@@ -105,7 +149,11 @@ class DonationRepository extends ServiceEntityRepository
             ->orderBy('aggregatedDate', 'ASC')
             ->join('d.member', 'm')
             ->where('d.member = :member')
+            ->andWhere('d.receivedAt >= :startDate')
+            ->andWhere('d.receivedAt <= :endDate')
             ->setParameter('member', $member)
+            ->setParameter('startDate', $this->startDate)
+            ->setParameter('endDate', $this->endDate)
             ->getQuery()
             ->getResult();
     }
