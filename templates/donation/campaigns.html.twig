@@ -24,6 +24,8 @@
           <tr>
             <th>Campaign</th>
             <th>Latest Donation</th>
+            <th>Donors</th>
+            <th>Donations</th>
             <th>Amount</th>
             <th>Fees</th>
             <th>Net Amount</th>
@@ -34,6 +36,8 @@
           <tr>
             <td data-order="{{ campaign.campaign }}">{{ campaign.campaign }}</td>
             <td data-order="{{ campaign.latestDonation|date('Y-m-d') }}">{{ campaign.latestDonation|date('n/j/Y') }}</td>
+            <td data-order="{{ campaign.totalDonors }}" class="text-right">{{ campaign.totalDonors|number_format }}</td>
+            <td data-order="{{ campaign.totalDonations }}" class="text-right">{{ campaign.totalDonations|number_format }}</td>
             <td data-order="{{ campaign.totalAmount }}" class="text-right">{{ campaign.totalAmount|format_currency(campaign.currency) }}</td>
             <td data-order="{{ campaign.totalProcessingFee }}" class="text-right">{{ campaign.totalProcessingFee|format_currency(campaign.currency) }}</td>
             <td data-order="{{ campaign.totalNetAmount }}" class="text-right font-weight-bold">{{ campaign.totalNetAmount|format_currency(campaign.currency) }}</td>
