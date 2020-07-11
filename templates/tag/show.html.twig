@@ -24,7 +24,7 @@
   </div>
 </div>
 {% else %}
-{% include '_no_records_card.html.twig' with {message: 'No members tagged with "' ~ tag.tagName ~ '".'} %}
+{% include '_no_records_card.html.twig' with {message: 'No Members tagged with "' ~ tag ~ '".'} %}
 {% endif %}
 
 {% endblock %}

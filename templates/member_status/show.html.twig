@@ -29,7 +29,7 @@
   </div>
 </div>
 {% else %}
-{% include '_no_records_card.html.twig' with {message: 'No members with status "' ~ member_status.label ~ '".'} %}
+{% include '_no_records_card.html.twig' with {message: 'No Members with status "' ~ member_status ~ '".'} %}
 {% endif %}
 
 {% endblock %}
