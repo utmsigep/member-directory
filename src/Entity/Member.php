@@ -670,7 +670,7 @@ class Member
     public function getLocalIdentifierShort(): string
     {
         preg_match('/(\d+)\-(\d+)/', $this->localIdentifier, $matches);
-        return isset($matches[2]) ? number_format($matches[2], 0) : 'N/A';
+        return isset($matches[2]) ? ltrim((string) $matches[2], '0') : 'N/A';
     }
 
     public function getDisplayName(): string
