@@ -18,7 +18,9 @@
       <table class="table table-sm" id="memberTable">
       {% for group, members in group %}
         <thead>
-          <tr><th class="h5" colspan="99">{{ group|default('Not Set') }}</th></tr>
+          <tr>
+            <th class="h5" colspan="99">{{ group|default('Not Set') }}</th>
+          </tr>
           <tr>
             <th class="text-center">Roll #</th>
             <th data-sortable="false" data-searchable="false"></th>

@@ -11,9 +11,8 @@
 {% embed '_page_header.html.twig' %}
 {% block page_header_title %}Member Map{% endblock %}
 {% block page_header_buttons %}
-<ul class="list-inline">
-  <li class="list-inline-item"><button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#searchFormModal"><i class="fas fa-cog"></i></button></li>
-  <li class="list-inline-item"><button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#searchResultsModal">Search Results <span class="badge badge-light" id="searchResultCount">0</span></button></li>
+  <button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#searchFormModal"><i class="fas fa-cog"></i></button>
+  <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#searchResultsModal">Search Results <span class="badge badge-light" id="searchResultCount">0</span></button>
 </ul>
 {% endblock %}
 {% endembed %}
@@ -22,9 +21,6 @@
   <div class="col-lg-12">
     <div id="mapContainer" style="height: 80vh"></div>
   </div>
-</div>
-<div class="modal">
-
 </div>
 
 <div id="searchFormModal" class="modal" tabindex="-1" role="dialog">
@@ -69,7 +65,6 @@
     </div>
   </div>
 </div>
-
 {% endblock %}
 
 {% block javascripts %}

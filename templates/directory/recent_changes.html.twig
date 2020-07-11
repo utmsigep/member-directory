@@ -9,6 +9,7 @@
 
 {{ form(form, {attr: {id: 'filter-form', class: 'form-inline mb-2'}}) }}
 
+{% if members %}
 <div class="card shadow">
   <div class="card-body">
     <div class="table-responsive">
@@ -59,16 +60,15 @@
               </ul>
             </td>
           </tr>
-          {% else %}
-          <tr>
-            <td colspan="99"><div class="alert alert-info">No records matched your criteria.</div></td>
-          </tr>
           {% endfor %}
         </tbody>
       </table>
     </div>
   </div>
 </div>
+{% else %}
+{% include '_no_records_card.html.twig' with {message: 'No Recent Changes matched your criteria.'} %}
+{% endif %}
 {% endblock %}
 
 {% block javascripts %}

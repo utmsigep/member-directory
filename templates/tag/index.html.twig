@@ -11,6 +11,7 @@
 {% endembed %}
 
 {% include 'admin/_nav.html.twig' %}
+{% if tags %}
 <div class="card mb-3 shadow">
   <div class="card-body">
     <div class="table-responsive">
@@ -31,14 +32,13 @@
               <a href="{{ path('tag_edit', {'id': tag.id}) }}"><i class="fas fa-edit fa-fw"></i></a>
             </td>
           </tr>
-          {% else %}
-          <tr>
-            <td colspan="99"><div class="alert alert-info">No records matched your criteria.</div></td>
-          </tr>
           {% endfor %}
         </tbody>
       </table>
     </div>
   </div>
 </div>
+{% else %}
+{% include '_no_records_card.html.twig' with {message: 'No Tags matched your criteria.'} %}
+{% endif %}
 {% endblock %}
