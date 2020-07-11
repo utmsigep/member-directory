@@ -3,10 +3,12 @@
 {% block title %}{{ parent() }} - Tags{% endblock %}
 
 {% block body %}
-<div class="float-right">
-  <a href="{{ path('tag_new') }}" class="btn btn-sm btn-primary"><i class="fas fa-plus fa-fw"></i> New Tag</a>
-</div>
-<div class="h4">Tags</div>
+{% embed '_page_header.html.twig' %}
+{% block page_header_title %}Tags{% endblock %}
+{% block page_header_buttons %}
+<a role="button" href="{{ path('tag_new') }}" class="btn btn-sm btn-primary"><i class="fas fa-plus fa-fw"></i> New Tag</a>
+{% endblock %}
+{% endembed %}
 
 {% include 'admin/_nav.html.twig' %}
 <div class="card mb-3 shadow">

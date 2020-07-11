@@ -3,11 +3,12 @@
 {% block title %}{{ parent()}} - {{ member_status }}{% endblock %}
 
 {% block body %}
-
-<div class="float-right">
-  <a href="{{ path('member_status_edit', {'id': member_status.id}) }}" class="btn btn-sm btn-primary"><i class="fas fa-edit fa-fw"></i> Edit</a>
-</div>
-<div class="h4">{{ member_status.label }}</div>
+{% embed '_page_header.html.twig' %}
+{% block page_header_title %}{{ member_status }}{% endblock %}
+{% block page_header_buttons %}
+<a role="button" href="{{ path('member_status_edit', {'id': member_status.id}) }}" class="btn btn-sm btn-primary"><i class="fas fa-edit fa-fw"></i> Edit</a>
+{% endblock %}
+{% endembed %}
 
 {% include 'admin/_nav.html.twig' %}
 

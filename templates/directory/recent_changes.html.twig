@@ -1,10 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ parent() }} - Recent Updates{% endblock %}
+{% block title %}{{ parent() }} - Recent Changes{% endblock %}
 
 {% block body %}
-
-<div class="h4">Recent Changes</div>
+{% embed '_page_header.html.twig' %}
+{% block page_header_title %}Recent Changes{% endblock %}
+{% endembed %}
 
 {{ form(form, {attr: {id: 'filter-form', class: 'form-inline mb-2'}}) }}
 
@@ -57,6 +58,10 @@
                 </li>
               </ul>
             </td>
+          </tr>
+          {% else %}
+          <tr>
+            <td colspan="99"><div class="alert alert-info">No records matched your criteria.</div></td>
           </tr>
           {% endfor %}
         </tbody>

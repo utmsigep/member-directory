@@ -3,7 +3,9 @@
 {% block title %}{{ parent() }} - {{donation}}{% endblock %}
 
 {% block body %}
-<div class="h4">{{ donation }}</div>
+{% embed '_page_header.html.twig' %}
+{% block page_header_title %}{{ donation }}{% endblock %}
+{% endembed %}
 
 {{ include('donation/_form.html.twig', {'button_label': 'Update'}) }}
 

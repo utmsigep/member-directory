@@ -3,53 +3,53 @@
 {% block title %}{{ parent() }} - {{ member.displayName }} - Donations{% endblock %}
 
 {% block body %}
+{% embed '_page_header.html.twig' %}
+{% block page_header_title %}{{ member.displayName }}{% endblock %}
+{% endembed %}
 
-<div>
-  <div class="h4">{{ member.displayName }} </div>
+{% include 'member/_badges.html.twig' %}
 
-  {% include 'member/_badges.html.twig' %}
+{% include 'member/_nav.html.twig' %}
 
-  {% include 'member/_nav.html.twig' %}
+{% if donations %}
+<div class="card mb-3 shadow">
+  <div class="card-body">
+    <div id="donationChart"></div>
+  </div>
+</div>
 
-  {% if donations %}
-  <div class="card mb-3 shadow">
-    <div class="card-body">
-      <div id="donationChart"></div>
+{% include 'donation/_donation_totals.html.twig' %} 
+
+<div class="card shadow">
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-striped" id="donationsTable">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Donor</th>
+            <th>Campaign</th>
+            <th>Description</th>
+            <th>Amount</th>
+            <th>Fees</th>
+            <th>Net Amount</th>
+            <th>Recurring?</th>
+            <th class="col-edit" data-orderable="false"></td>
+          </tr>
+        </thead>
+        <tbody>
+          {% for donation in donations %}
+          {% include 'donation/_donation_row.html.twig' %}
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
   </div>
+</div>
+{% else %}
+{% include '_no_records_card.html.twig' with {message: 'No donations matched your criteria.'} %}
+{% endif %}
 
-  {% include 'donation/_donation_totals.html.twig' %} 
-
-  <div class="card shadow">
-    <div class="card-body">
-      <div class="table-responsive">
-        <table class="table table-striped" id="donationsTable">
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Donor</th>
-              <th>Campaign</th>
-              <th>Description</th>
-              <th>Amount</th>
-              <th>Fees</th>
-              <th>Net Amount</th>
-              <th>Recurring?</th>
-              <th class="col-edit" data-orderable="false"></td>
-            </tr>
-          </thead>
-          <tbody>
-            {% for donation in donations %}
-            {% include 'donation/_donation_row.html.twig' %}
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-  {% else %}
-  {% include '_no_records_card.html.twig' with {message: 'No donations matched your criteria.'} %}
-  {% endif %}
-<div>
 {% endblock %}
 
 {% block javascripts %}

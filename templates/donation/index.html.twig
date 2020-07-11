@@ -3,15 +3,12 @@
 {% block title %}{{ parent() }} - Donations{% endblock %}
 
 {% block body %}
-
-<div class="row mb-3">
-  <div class="col-lg-6">
-    <div class="h4">Donations</div>
-  </div>
-  <div class="col-lg-6 text-right">
-    {% include 'donation/_buttons.html.twig' %}
-  </div>
-</div>
+{% embed '_page_header.html.twig' %}
+{% block page_header_title %}Donations{% endblock %}
+{% block page_header_buttons %}
+{% include 'donation/_buttons.html.twig' %}
+{% endblock %}
+{% endembed %}
 
 {% include 'donation/_nav.html.twig' %}
 

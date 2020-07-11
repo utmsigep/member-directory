@@ -3,7 +3,9 @@
 {% block title %}{{ parent() }} - {{ member.displayName }} - Message{% endblock %}
 
 {% block body %}
-<div class="h4">{{ member.displayName }}</div>
+{% embed '_page_header.html.twig' %}
+{% block page_header_title %}{{ member.displayName }}{% endblock %}
+{% endembed %}
 
 {% include 'member/_badges.html.twig' %}
 

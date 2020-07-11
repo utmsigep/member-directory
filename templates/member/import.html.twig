@@ -3,14 +3,9 @@
 {% block title %}{{ parent() }} - Import Member Records{% endblock %}
 
 {% block body %}
-
-{% if errors is not empty %}
-{% for error in errors %}
-<p class="alert alert-warning">{{ error }}</p>
-{% endfor %}
-{% endif %}
-
-<div class="h4">Import</div>
+{% embed '_page_header.html.twig' %}
+{% block page_header_title %}Import{% endblock %}
+{% endembed %}
 
 {{ form_start(form) }}
 <div class="card mb-3 shadow">

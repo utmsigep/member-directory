@@ -8,16 +8,17 @@
 {% endblock %}
 
 {% block body %}
+{% embed '_page_header.html.twig' %}
+{% block page_header_title %}Member Map{% endblock %}
+{% block page_header_buttons %}
+<ul class="list-inline">
+  <li class="list-inline-item"><button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#searchFormModal"><i class="fas fa-cog"></i></button></li>
+  <li class="list-inline-item"><button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#searchResultsModal">Search Results <span class="badge badge-light" id="searchResultCount">0</span></button></li>
+</ul>
+{% endblock %}
+{% endembed %}
+
 <div class="row">
-  <div class="col-lg-12">
-    <div class="float-right">
-      <ul class="list-inline">
-        <li class="list-inline-item"><button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#searchFormModal"><i class="fas fa-cog"></i></button></li>
-        <li class="list-inline-item"><button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#searchResultsModal">Search Results <span class="badge badge-light" id="searchResultCount">0</span></button></li>
-      </ul>
-    </div>
-    <div class="h4">Member Map</div>
-  </div>
   <div class="col-lg-12">
     <div id="mapContainer" style="height: 80vh"></div>
   </div>

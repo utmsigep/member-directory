@@ -8,33 +8,34 @@
 {% endblock %}
 
 {% block body %}
-<div>
-  <div class="h4">{{ member.displayName }}</div>
+{% embed '_page_header.html.twig' %}
+{% block page_header_title %}{{ member.displayName }}{% endblock %}
+{% endembed %}
 
-  {% include 'member/_nav.html.twig' %}
+{% include 'member/_nav.html.twig' %}
 
-  {% include 'member/_summary.html.twig' %}
+{% include 'member/_summary.html.twig' %}
 
-  {{ form_start(form) }}
-  <div class="row justify-content-lg-center mt-3">
-    <div class="col col-lg-8">
-      <div class="card mb-3 shadow">
-        <div class="card-header text-white bg-danger">Are you sure you want to delete this Member?</div>
-        <div class="card-body">
-          <div>
-            <p>In most cases, you would rather update the <strong>Member Status</strong> instead of deleting the Member record. Associated records will also be deleted and cannot be recovered.</p>
-            <p><strong>You should only delete a Member if he/she was created in error.</strong></p>
-          </div>
+{{ form_start(form) }}
+<div class="row justify-content-lg-center mt-3">
+  <div class="col col-lg-8">
+    <div class="card mb-3 shadow">
+      <div class="card-header text-white bg-danger">Are you sure you want to delete this Member?</div>
+      <div class="card-body">
+        <div>
+          <p>In most cases, you would rather update the <strong>Member Status</strong> instead of deleting the Member record. Associated records will also be deleted and cannot be recovered.</p>
+          <p><strong>You should only delete a Member if he/she was created in error.</strong></p>
         </div>
-        <div class="card-footer text-right">
-          <button class="btn btn-danger"><i class="fas fa-trash fa-fw"></i> Delete</button>
-        </div>
+      </div>
+      <div class="card-footer text-right">
+        <button class="btn btn-danger"><i class="fas fa-trash fa-fw"></i> Delete</button>
       </div>
     </div>
   </div>
-  {{ form_rest(form) }}
-  {{ form_end(form) }}
 </div>
+{{ form_rest(form) }}
+{{ form_end(form) }}
+
 {% endblock %}
 
 {% block javascripts %}

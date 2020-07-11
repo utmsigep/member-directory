@@ -4,10 +4,12 @@
 {% block title %}{{ parent() }} - Users{% endblock %}
 
 {% block body %}
-<div class="float-right">
-  <a href="{{ path('user_new') }}" class="btn btn-sm btn-primary"><i class="fas fa-plus fa-fw"></i> New User</a>
-</div>
-<div class="h4">Users</div>
+{% embed '_page_header.html.twig' %}
+{% block page_header_title %}Search Results{% endblock %}
+{% block page_header_buttons %}
+<a role="button" href="{{ path('user_new') }}" class="btn btn-sm btn-primary"><i class="fas fa-plus fa-fw"></i> New User</a>
+{% endblock %}
+{% endembed %}
 
 {% include 'admin/_nav.html.twig' %}
 
@@ -17,7 +19,7 @@
       <table class="table">
         <thead>
             <tr>
-                <th>E-mail</th>
+                <th>Login E-mail</th>
                 <th>Roles</th>
                 <th class="col-edit">&nbsp;</th>
             </tr>

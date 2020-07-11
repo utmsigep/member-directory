@@ -3,7 +3,9 @@
 {% block title %}{{ parent() }} - New Member {% endblock %}
 
 {% block body %}
-<div class="h4">New Member</div>
+{% embed '_page_header.html.twig' %}
+{% block page_header_title %}New Member{% endblock %}
+{% endembed %}
 
 {{ form_start(form) }}
 {% include 'member/_form.html.twig' %}

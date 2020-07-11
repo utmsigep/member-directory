@@ -1,3 +1,3 @@
-<a href="#dateRangeModal" data-toggle="modal" class="btn btn-sm"><i class="fas fa-calendar fa-fw"></i> {{ start_date|date('F j, Y') }} - {{ end_date|date('F j, Y') }}</a>
-<a href="{{ path('donorbox_import') }}" class="btn btn-sm btn-primary"><i class="fas fa-upload fa-fw"></i> Import from Donorbox</a>
-<a href="{{ path('donation_new') }}" class="btn btn-sm btn-primary"><i class="fas fa-plus fa-fw"></i> New Donation</a>
+<a role="button" href="#dateRangeModal" data-toggle="modal" class="btn btn-sm"><i class="fas fa-calendar fa-fw"></i> {{ start_date|date('F j, Y') }} - {{ end_date|date('F j, Y') }}</a>
+<a role="button" href="{{ path('donorbox_import') }}" class="btn btn-sm btn-primary"><i class="fas fa-upload fa-fw"></i> Import from Donorbox</a>
+<a role="button" href="{{ path('donation_new') }}" class="btn btn-sm btn-primary"><i class="fas fa-plus fa-fw"></i> New Donation</a>

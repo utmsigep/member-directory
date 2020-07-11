@@ -8,26 +8,26 @@
 {% endblock %}
 
 {% block body %}
-<div>
-  <div class="h4">{{ member.displayName }}</div>
+{% embed '_page_header.html.twig' %}
+{% block page_header_title %}{{ member.displayName }}{% endblock %}
+{% endembed %}
 
-  {% include 'member/_badges.html.twig' %}
+{% include 'member/_badges.html.twig' %}
 
-  {% include 'member/_nav.html.twig' %}
+{% include 'member/_nav.html.twig' %}
 
-  {{ form_start(form) }}
-  {% include 'member/_form.html.twig' %}
-  <div class="row mb-3">
-    <div class="col">
-      <a href="{{ path('member_delete', {localIdentifier: member.localIdentifier}) }}" class="btn btn-link text-danger"><i class="fas fa-trash fa-fw"></i>Delete</a>
-    </div>
-    <div class="col text-right">
-      <button class="btn btn-primary">{{ button_label|default('Update') }}</button>
-    </div>
+{{ form_start(form) }}
+{% include 'member/_form.html.twig' %}
+<div class="row mb-3">
+  <div class="col">
+    <a href="{{ path('member_delete', {localIdentifier: member.localIdentifier}) }}" class="btn btn-link text-danger"><i class="fas fa-trash fa-fw"></i>Delete</a>
   </div>
-  {{ form_rest(form) }}
-  {{ form_end(form) }}
+  <div class="col text-right">
+    <button class="btn btn-primary">{{ button_label|default('Update') }}</button>
+  </div>
 </div>
+{{ form_rest(form) }}
+{{ form_end(form) }}
 {% endblock %}
 
 {% block javascripts %}

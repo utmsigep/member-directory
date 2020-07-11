@@ -8,16 +8,17 @@
 {% endblock %}
 
 {% block body %}
-<div class="float-right">
-  {% if is_granted('ROLE_ADMIN') %}
-  {% if member.status.code not in ['RESIGNED', 'EXPELLED'] and member.isDeceased == false %}
-  <a href="#modalEditLink" data-toggle="modal" class="btn btn-sm btn-secondary"><i class="fas fa-link"></i></a>
-  {% endif %}
-  <a href="{{ path('member_edit', {localIdentifier: member.localIdentifier}) }}" class="btn btn-sm btn-primary"><i class="fas fa-edit fa-fw"></i> Edit</a>
-  {% endif %}
-</div>
-
-<div class="h4">{{ member.displayName }}</div>
+{% embed '_page_header.html.twig' %}
+{% block page_header_title %}{{ member.displayName }}{% endblock %}
+{% block page_header_buttons %}
+{% if is_granted('ROLE_ADMIN') %}
+{% if member.status.code not in ['RESIGNED', 'EXPELLED'] and member.isDeceased == false %}
+<a role="button" href="#modalEditLink" data-toggle="modal" class="btn btn-sm btn-secondary"><i class="fas fa-link"></i></a>
+{% endif %}
+<a role="button" href="{{ path('member_edit', {localIdentifier: member.localIdentifier}) }}" class="btn btn-sm btn-primary"><i class="fas fa-edit fa-fw"></i> Edit</a>
+{% endif %}
+{% endblock %}
+{% endembed %}
 
 {% include 'member/_badges.html.twig' %}
 

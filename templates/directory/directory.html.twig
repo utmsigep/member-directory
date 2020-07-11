@@ -3,43 +3,44 @@
 {% block title %}{{ parent() }} - {{ view_name }}{% endblock %}
 
 {% block body %}
+{% embed '_page_header.html.twig' %}
+{% block page_header_title %}{{ view_name }}{% endblock %}
+{% block page_header_buttons %}
+{% if is_granted('ROLE_ADMIN') %}
+<a role="button" href="{{ path('member_new') }}" class="btn btn-sm btn-primary"><i class="fas fa-plus fa-fw"></i> New Member</a>
+{% endif %}
+{% endblock %}
+{% endembed %}
 
-<div>
-  {% if is_granted('ROLE_ADMIN') %}
-  <div class="float-right text-right">
-    <a href="{{ path('member_new') }}" class="btn btn-sm btn-primary"><i class="fas fa-plus fa-fw"></i> New Member</a>
-  </div>
-  {% endif %}
-  <div class="h4">{{ view_name }}</div>
-  <div class="card shadow">
-    <div class="card-body">
-      <div class="table-responsive">
-        <table class="table table-sm" id="memberTable">
-          <thead>
-            <tr>
-              <th class="text-center">Roll #</th>
-              <th data-sortable="false" data-searchable="false"></th>
-              <th>Name</th>
-              {% if show_status %}
-              <th>Status</th>
-              {% endif %}
-              <th>Class</th>
-              <th>E-mail</th>
-              <th data-sortable="false" data-searchable="false">Social</th>
-              <th>Phone Number</th>
-              <th>Mailing Address</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for member in members %}
-            {% include 'directory/_row.html.twig' %}
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
+<div class="card shadow">
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-sm" id="memberTable">
+        <thead>
+          <tr>
+            <th class="text-center">Roll #</th>
+            <th data-sortable="false" data-searchable="false"></th>
+            <th>Name</th>
+            {% if show_status %}
+            <th>Status</th>
+            {% endif %}
+            <th>Class</th>
+            <th>E-mail</th>
+            <th data-sortable="false" data-searchable="false">Social</th>
+            <th>Phone Number</th>
+            <th>Mailing Address</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for member in members %}
+          {% include 'directory/_row.html.twig' %}
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
   </div>
 </div>
+
 {% endblock %}
 
 {% block javascripts %}

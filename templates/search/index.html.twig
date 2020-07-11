@@ -3,7 +3,9 @@
 {% block title %}{{ parent() }} - {{ app.request.get('q')|escape }}{% endblock %}
 
 {% block body %}
-<div class="h4">Search Results</div>
+{% embed '_page_header.html.twig' %}
+{% block page_header_title %}Search Results{% endblock %}
+{% endembed %}
 
 {% for row in results %}
 {% set member = row[0] %}

@@ -121,6 +121,9 @@ class DonationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $donorboxDonationService->run($form['csv_file']->getData());
+                foreach ($donorboxDonationService->getErrors() as $error) {
+                    $this->addFlash('warning', $error);
+                }
             } catch (\Exception $e) {
                 throw new \Exception($e->getMessage(), 500);
             }
@@ -136,8 +139,7 @@ class DonationController extends AbstractController
 
         return $this->render('donation/import.html.twig', [
             'form' => $form->createView(),
-            'donations' => $donorboxDonationService->getDonations(),
-            'errors' => $donorboxDonationService->getErrors()
+            'donations' => $donorboxDonationService->getDonations()
         ]);
     }
 

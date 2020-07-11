@@ -88,14 +88,17 @@ class ImportController extends AbstractController
             } else {
                 $this->addFlash('info', 'Import dry-run complete!');
             }
+
+            foreach ($csvToMemberService->getErrors() as $error) {
+                $this->addFlash('error', $error);
+            }
         }
 
         return $this->render('member/import.html.twig', [
             'form' => $form->createView(),
             'members' => $members,
             'newMembers' => $newMembers,
-            'memberChangeSets' => $memberChangeSets,
-            'errors' => $csvToMemberService->getErrors()
+            'memberChangeSets' => $memberChangeSets
         ]);
     }
 }

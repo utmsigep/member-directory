@@ -3,7 +3,9 @@
 {% block title %}{{ parent() }} - New Donation{% endblock %}
 
 {% block body %}
-<div class="h4">New Donation</div>
+{% embed '_page_header.html.twig' %}
+{% block page_header_title %}New Donation{% endblock %}
+{% endembed %}
 
 {{ include('donation/_form.html.twig') }}
 

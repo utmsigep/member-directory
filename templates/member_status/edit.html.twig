@@ -3,7 +3,9 @@
 {% block title %}{{ parent()}} - {{ member_status }}{% endblock %}
 
 {% block body %}
-<div class="h4">{{ member_status }}</div>
+{% embed '_page_header.html.twig' %}
+{% block page_header_title %}{{ member_status }}{% endblock %}
+{% endembed %}
 
 {% include 'admin/_nav.html.twig' %}
 

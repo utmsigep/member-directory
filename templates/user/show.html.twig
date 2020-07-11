@@ -4,16 +4,20 @@
 {% block title %}{{ parent()}} - {{ user }}{% endblock %}
 
 {% block body %}
-<div class="float-right">
-  <a href="{{ path('user_edit', {'id': user.id}) }}" class="btn btn-sm btn-primary"><i class="fas fa-edit fa-fw"></i> Edit</a>
-</div>
-<div class="h4">{{ user.email }}</div>
+{% embed '_page_header.html.twig' %}
+{% block page_header_title %}{{ user }}{% endblock %}
+{% block page_header_buttons %}
+<a role="button" href="{{ path('user_edit', {'id': user.id}) }}" class="btn btn-sm btn-primary"><i class="fas fa-edit fa-fw"></i> Edit</a>
+{% endblock %}
+{% endembed %}
 
 {% include 'admin/_nav.html.twig' %}
 
 <div class="card mb-3 shadow">
   <div class="card-body">
     <dl>
+      <dt>Login E-mail</dt>
+      <dd>{{ user.email }}</dd>
       <dt>Roles</dt>
       <dd>{{ macros.user_roles(user.roles) }}</dd>
     </dl>

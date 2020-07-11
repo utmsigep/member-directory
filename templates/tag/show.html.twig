@@ -3,11 +3,12 @@
 {% block title %}{{ parent()}} - {{ tag }}{% endblock %}
 
 {% block body %}
-
-<div class="float-right">
-  <a href="{{ path('tag_edit', {'id': tag.id}) }}" class="btn btn-sm btn-primary"><i class="fas fa-edit fa-fw"></i> Edit</a>
-</div>
-<div class="h4">{{ tag.tagName }}</div>
+{% embed '_page_header.html.twig' %}
+{% block page_header_title %}{{ tag }}{% endblock %}
+{% block page_header_buttons %}
+<a role="button" href="{{ path('tag_edit', {'id': tag.id}) }}" class="btn btn-sm btn-primary"><i class="fas fa-edit fa-fw"></i> Edit</a>
+{% endblock %}
+{% endembed %}
 
 {% include 'admin/_nav.html.twig' %}
 

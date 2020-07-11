@@ -1,9 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New MemberStatus{% endblock %}
+{% block title %}New Member Status{% endblock %}
 
 {% block body %}
-<div class="h4">New Member Status</div>
+{% embed '_page_header.html.twig' %}
+{% block page_header_title %}New Member Status{% endblock %}
+{% endembed %}
 
 {% include 'admin/_nav.html.twig' %}
 

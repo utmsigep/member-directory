@@ -3,48 +3,45 @@
 {% block title %}{{ parent() }} - {{ member.displayName }} - Change Log{% endblock %}
 
 {% block body %}
+{% embed '_page_header.html.twig' %}
+{% block page_header_title %}{{ member.displayName }}{% endblock %}
+{% endembed %}
 
-<div>
-  <div class="h4">{{ member.displayName }} </div>
+{% include 'member/_badges.html.twig' %}
 
-  {% include 'member/_badges.html.twig' %}
+{% include 'member/_nav.html.twig' %}
 
-  {% include 'member/_nav.html.twig' %}
-
-  <div>
-    {% for logEntry in logEntries %}
-    <div class="card mb-3 shadow">
-      <div class="card-header">
-        <span class="badge badge-secondary">{{ logEntry.action|upper }}</span> {{ logEntry.loggedAt|date('F j, Y g:i a') }} {{ logEntry.username }}
-      </div>
-      <div class="card-body">
-        <div class="table-responsive">
-          <table class="table table-sm">
-            <thead>
-              <tr>
-                <th>Field</th>
-                <th>Data</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for field, value in logEntry.data %}
-              <tr>
-                <td class="w-25"><code>{{ field }}</code></td>
-                {% if value.timestamp is defined %}
-                <td><tt>{{ value|date('c') }}</tt></td>
-                {% elseif value is iterable %}
-                <td><tt>{{ value|json_encode() }}</tt></td>
-                {% else %}
-                <td>{{ value }}</td>
-                {% endif %}
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-    {% endfor %}
+{% for logEntry in logEntries %}
+<div class="card mb-3 shadow">
+  <div class="card-header">
+    <span class="badge badge-secondary">{{ logEntry.action|upper }}</span> {{ logEntry.loggedAt|date('F j, Y g:i a') }} {{ logEntry.username }}
   </div>
-<div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-sm">
+        <thead>
+          <tr>
+            <th>Field</th>
+            <th>Data</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for field, value in logEntry.data %}
+          <tr>
+            <td class="w-25"><code>{{ field }}</code></td>
+            {% if value.timestamp is defined %}
+            <td><tt>{{ value|date('c') }}</tt></td>
+            {% elseif value is iterable %}
+            <td><tt>{{ value|json_encode() }}</tt></td>
+            {% else %}
+            <td>{{ value }}</td>
+            {% endif %}
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endfor %}
 {% endblock %}

@@ -3,20 +3,15 @@
 {% block title %}{{ parent() }} - Directory Admin{% endblock %}
 
 {% block body %}
-<div>
-  <div class="h4">Directory Admin</div>
+{% embed '_page_header.html.twig' %}
+{% block page_header_title %}Directory Admin{% endblock %}
+{% endembed %}
 
-  <div class="row">
-    <div class="offset-lg-3 col-lg-4">
-
-          <a href="{{ path('tag_index') }}" class="btn btn-lg btn-block btn-link border-primary"><i class="fas fa-tags fa-fw"></i> Tags</a>
-
-          <a href="{{ path('member_status_index') }}" class="btn btn-lg btn-block btn-link border-primary"><i class="fas fa-flag fa-fw"></i> Member Statuses</a>
-
-          <a href="{{ path('user_index') }}" class="btn btn-lg btn-block btn-link border-primary"><i class="fas fa-users fa-fw"></i> Users</a>
-
-    </div>
+<div class="row">
+  <div class="offset-lg-3 col-lg-4">
+    <a href="{{ path('tag_index') }}" class="btn btn-lg btn-block btn-link border-primary"><i class="fas fa-tags fa-fw"></i> Tags</a>
+    <a href="{{ path('member_status_index') }}" class="btn btn-lg btn-block btn-link border-primary"><i class="fas fa-flag fa-fw"></i> Member Statuses</a>
+    <a href="{{ path('user_index') }}" class="btn btn-lg btn-block btn-link border-primary"><i class="fas fa-users fa-fw"></i> Users</a>
   </div>
-
 </div>
 {% endblock %}

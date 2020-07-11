@@ -3,7 +3,9 @@
 {% block title %}{{ parent() }} - Profile{% endblock %}
 
 {% block body %}
-<div class="h4">Profile</div>
+{% embed '_page_header.html.twig' %}
+{% block page_header_title %}Profile{% endblock %}
+{% endembed %}
 
 {{ form_start(form) }}
 <div class="card mb-3 shadow" style="max-width:40rem">

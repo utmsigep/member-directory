@@ -3,11 +3,12 @@
 {% block title %}{{ parent() }} - {{donation}}{% endblock %}
 
 {% block body %}
-
-<div class="float-right">
-  <a href="{{ path('donation_edit', {id: donation.id}) }}" class="btn btn-primary btn-sm"><i class="fas fa-edit fa-fw"></i> Edit</a>
-</div>
-<div class="h4">{{ donation }}</div>
+{% embed '_page_header.html.twig' %}
+{% block page_header_title %}{{ donation }}{% endblock %}
+{% block page_header_buttons %}
+<a role="button" href="{{ path('donation_edit', {id: donation.id}) }}" class="btn btn-primary btn-sm"><i class="fas fa-edit fa-fw"></i> Edit</a>
+{% endblock %}
+{% endembed %}
 
 <div class="row">
   <div class="col-lg-4">
