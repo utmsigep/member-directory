@@ -17,7 +17,7 @@
     "dependencies": {
         "bootstrap": "^4.5.0",
         "bootstrap-autocomplete": "^2.3.5",
-        "bootstrap-select": "^1.13.17",
+        "bootstrap-select": "^1.13.18",
         "datatables.net": "^1.10.21",
         "datatables.net-bs4": "^1.10.21",
         "jquery": "^3.5.1",
@@ -25,8 +25,8 @@
         "leaflet-defaulticon-compatibility": "^0.1.1",
         "moment": "^2.27.0",
         "popper.js": "^1.16.1",
-        "sass-loader": "^8.0.2",
-        "startbootstrap-sb-admin-2": "^4.0.7",
+        "sass-loader": "^9.0.2",
+        "startbootstrap-sb-admin-2": "^4.1.1",
         "underscore": "^1.10.2"
     }
 }
