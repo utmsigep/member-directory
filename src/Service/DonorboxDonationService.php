@@ -13,8 +13,8 @@ use App\Entity\Member;
 class DonorboxDonationService
 {
     const NAME_HEADER = 'Name';
-    const FIRST_NAME_HEADER = 'First Name';
-    const LAST_NAME_HEADER = 'Last Name';
+    const FIRST_NAME_HEADER = 'Donor First Name';
+    const LAST_NAME_HEADER = 'Donor Last Name';
     const EMAIL_HEADER = 'Donor Email';
     const MAKE_DONATION_ANONYMOUS_HEADER = 'Make Donation Anonymous';
     const CAMPAIGN_HEADER = 'Campaign';
@@ -23,6 +23,7 @@ class DonorboxDonationService
     const CURRENCY_HEADER = 'Currency';
     const PROCESSING_FEE_HEADER = 'Processing Fee';
     const PLATFORM_FEE_HEADER = 'Platform Fee';
+    const TOTAL_FEE_HEADER = 'Total Fee';
     const NET_AMOUNT_HEADER = 'Net Amount';
     const FEE_COVERED_HEADER = 'Fee Covered';
     const DONOR_COMMENT_HEADER = 'Donor Comment';
@@ -149,7 +150,9 @@ class DonorboxDonationService
                 $donation->setCurrency($csvRecord[self::CURRENCY_HEADER]);
             }
             // Roll up the Donorbox platform fee into "Processing Fees" rather than tracking separately
-            if (isset($csvRecord[self::PROCESSING_FEE_HEADER]) && $csvRecord[self::PROCESSING_FEE_HEADER]) {
+            if (isset($csvRecord[self::TOTAL_FEE_HEADER]) && $csvRecord[self::TOTAL_FEE_HEADER]) {
+                $donation->setProcessingFee((float) $csvRecord[self::TOTAL_FEE_HEADER]);
+            } elseif (isset($csvRecord[self::PLATFORM_FEE_HEADER]) && isset($csvRecord[self::PROCESSING_FEE_HEADER]) && $csvRecord[self::PLATFORM_FEE_HEADER]) {
                 $donation->setProcessingFee((float) $csvRecord[self::PROCESSING_FEE_HEADER] + (float) $csvRecord[self::PLATFORM_FEE_HEADER]);
             } elseif (isset($csvRecord[self::PROCESSING_FEE_HEADER])) {
                 $donation->setProcessingFee((float) $csvRecord[self::PROCESSING_FEE_HEADER]);
