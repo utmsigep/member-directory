@@ -1,6 +1,6 @@
 {
     "devDependencies": {
-        "@symfony/webpack-encore": "^0.30.2",
+        "@symfony/webpack-encore": "symfony/webpack-encore",
         "core-js": "^3.6.5",
         "node-sass": "^4.14.1",
         "webpack-dev-server": "^3.11.0",
@@ -15,7 +15,7 @@
         "build": "encore production --progress"
     },
     "dependencies": {
-        "bootstrap": "^4.5.0",
+        "bootstrap": "^4.5.1",
         "bootstrap-autocomplete": "^2.3.5",
         "bootstrap-select": "^1.13.18",
         "datatables.net": "^1.10.21",
