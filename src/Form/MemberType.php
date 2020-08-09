@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Member;
+use App\Repository\TagRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -11,6 +12,12 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class MemberType extends AbstractType
 {
+    private $tagRespository;
+
+    public function __construct(TagRepository $tagRespository) {
+        $this->tagRepository = $tagRespository;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -58,10 +65,12 @@ class MemberType extends AbstractType
             ->add('isExternalDoNotContact')
             ->add('directoryNotes')
             ->add('status')
-            ->add('tags', null, [
-                'by_reference' => false
-            ])
         ;
+        if (count($this->tagRepository->findAll())) {
+          $builder->add('tags', null, [
+              'by_reference' => false
+          ]);
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver)

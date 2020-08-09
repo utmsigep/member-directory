@@ -8,6 +8,7 @@
 <li class="nav-item {{ active_route == 'resigned_expelled' ? 'active' }}"><a class="nav-link" href="{{ path('resigned_expelled')}}"><i class="fas fa-thumbs-down fa-fw"></i> <span>Resigned/Expelled</span></a></li>
 <li class="nav-item {{ active_route == 'transferred' ? 'active' }}"><a class="nav-link" href="{{ path('transferred')}}"><i class="fas fa-exchange-alt fa-fw"></i> <span>Transferred</span></a></li>
 <li class="nav-item {{ active_route == 'other' ? 'active' }}"><a class="nav-link" href="{{ path('other')}}"><i class="fas fa-user-friends fa-fw"></i> <span>Other</span></a></li>
+{% if get_tags()|length > 0 %}
 <hr class="sidebar-divider my-1"/>
 <li class="nav-item {{ active_route == 'tag' ? 'active' }}">
   <a class="nav-link {{ active_route != 'tag' ? 'collapsed' }}" href="#" data-toggle="collapse" data-target="#collapseTags" aria-expanded="true" aria-controls="collapseTags">
@@ -18,10 +19,13 @@
     <div class="bg-white py-2 collapse-inner rounded">
       {% for _tag in get_tags() %}
       <a class="collapse-item text-truncate" href="{{ path('tag', {tagId: _tag.id})}}"><i class="fas fa-tag fa-fw"></i> <span title="{{ _tag.tagName|escape('html_attr') }}">{{ _tag.tagName }}</span></a>
+      {% else %}
+      <div class="p-2">No tags configured.</div>
       {% endfor %}
     </div>
   </div>
 </li>
+{% endif %}
 <hr class="sidebar-divider my-1"/>
 {% if is_granted('ROLE_DONATION_MANAGER') %}
 <li class="nav-item {{ active_route == 'donation_index' ? 'active' }}"><a class="nav-link" href="{{ path('donation_index')}}"><i class="fas fa-hand-holding-usd fa-fw"></i> <span>Donations</span></a></li>

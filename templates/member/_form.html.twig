@@ -44,7 +44,6 @@
           {{ form_row(form.mailingCountry, {label: 'Country'}) }}
         </div>
       </div>
-
       <div class="card mb-3 shadow">
         <div class="card-header">Contact Flags</div>
         <div class="card-body">
@@ -57,14 +56,6 @@
     </div>
     <div class="col-lg-4">
       <div class="card mb-3 shadow">
-        <div class="card-header">GPS Coordinates</div>
-        <div class="card-body">
-          {{ form_row(form.mailingLatitude, {label: 'Latitude'}) }}
-          {{ form_row(form.mailingLongitude, {label: 'Longitude'}) }}
-        </div>
-      </div>
-
-      <div class="card mb-3 shadow">
         <div class="card-header">Details</div>
         <div class="card-body">
           {{ form_row(form.joinDate, {label: 'Join Date'}) }}
@@ -72,11 +63,6 @@
           {{ form_row(form.status, {label: 'Status'}) }}
         </div>
       </div>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-lg-6">
       <div class="card mb-3 shadow">
         <div class="card-header">Employment</div>
         <div class="card-body">
@@ -88,12 +74,35 @@
         </div>
       </div>
     </div>
-    <div class="col-lg-6">
+  </div>
+
+  <div class="row">
+    <div class="col-lg-8">
       <div class="card mb-3 shadow">
         <div class="card-header">Notes</div>
         <div class="card-body">
-          {{ form_row(form.directoryNotes, {label: 'Directory Notes'}) }}
-          {{ form_row(form.tags, {label: 'Tags', attr: { class: 'selectpicker'}}) }}
+          {{ form_row(form.directoryNotes, {label: 'Directory Notes', help: 'Markdown formatting available.', attr: { rows: 5 }}) }}
+          {% if form.tags is defined %}
+          {{ form_row(form.tags, {label: 'Tags', attr: { class: 'selectpicker' }}) }}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <div class="card mb-3 shadow">
+        <div class="card-header">GPS Coordinates</div>
+        <div id="gpsInfoBox" class="card-body">
+          <div class="d-flex">
+            <div class="p-2"><i class="fas fa-info-circle"></i></div>
+            <div class="p-2">
+              <p>Coordinates are updated automatically on record save.</p>
+              <a href="javascript:void(0)" class="showGpsFormFields">Set Manually</a>
+            </div>
+          </div>
+        </div>
+        <div id="gpsFormFields" class="card-body collapse">
+          {{ form_row(form.mailingLatitude, {label: 'Latitude'}) }}
+          {{ form_row(form.mailingLongitude, {label: 'Longitude'}) }}
         </div>
       </div>
     </div>

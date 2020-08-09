@@ -104,3 +104,8 @@ $(document).ready(function () {
       })
   })
 })
+
+$('.showGpsFormFields').on('click', function () {
+  $('#gpsInfoBox').hide()
+  $('#gpsFormFields').show()
+})
