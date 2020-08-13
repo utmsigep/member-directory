@@ -28,6 +28,7 @@ services:
   - mysql
 
 before_install:
+  - nvm use stable
   - composer self-update
 
 install:
