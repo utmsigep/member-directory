@@ -8,3 +8,33 @@
 		opacity: 1;
 	}
 }
+
+/* User Steps */
+ol.user-steps {
+  padding-left: 0;
+  counter-reset: li;
+  list-style: none;
+  *list-style: decimal;
+}
+ol.user-steps > li {
+  position: relative;
+  padding-left: 60px;
+  min-height: 60px;
+}
+ol.user-steps > li:before {
+  content: counter(li);
+  counter-increment: li;
+  color: #fff;
+  background-color: #1e1e1e;
+  border-color: #000;
+  border-radius: 50%;
+  font-size: 18px;
+  width: 48px;
+  height: 48px;
+  line-height: 48px;
+  text-align: center;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+}

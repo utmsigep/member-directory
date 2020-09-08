@@ -27,7 +27,7 @@ class Donation
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Member", inversedBy="donations")
+     * @ORM\ManyToOne(targetEntity=Member::class, inversedBy="donations")
      * @Assert\NotBlank
      * @Gedmo\Versioned
      */

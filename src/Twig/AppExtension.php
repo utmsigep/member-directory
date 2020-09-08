@@ -10,6 +10,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Service\EmailService;
 use App\Service\PostalValidatorService;
 use App\Entity\Tag;
+use App\Entity\DirectoryCollection;
 
 class AppExtension extends AbstractExtension
 {
@@ -28,10 +29,17 @@ class AppExtension extends AbstractExtension
     public function getFunctions(): array
     {
         return [
+            new TwigFunction('get_directory_collections', [$this, 'getDirectoryCollections']),
             new TwigFunction('get_tags', [$this, 'getTags']),
             new TwigFunction('is_email_service_configured', [$this, 'isEmailServiceConfigured']),
             new TwigFunction('is_postal_validator_service_configured', [$this, 'isPostalValidatorServiceConfigured']),
         ];
+    }
+
+    public function getDirectoryCollections()
+    {
+        $directoryCollections = $this->entityManager->getRepository(DirectoryCollection::class)->findBy([], ['position' => 'ASC']);
+        return $directoryCollections;
     }
 
     public function getTags()

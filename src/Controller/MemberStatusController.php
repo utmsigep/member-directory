@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\DirectoryCollection;
 use App\Entity\MemberStatus;
 use App\Form\MemberStatusType;
 use App\Repository\MemberStatusRepository;
@@ -41,6 +42,9 @@ class MemberStatusController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($memberStatus);
             $entityManager->flush();
+            if ($form['createDirectoryCollection']->getData()) {
+                $this->createDirectoryCollectionFromMemberStatus($memberStatus);
+            }
             $this->addFlash('success', sprintf('%s created!', $memberStatus));
             return $this->redirectToRoute('member_status_index');
         }
@@ -98,5 +102,25 @@ class MemberStatusController extends AbstractController
         }
 
         return $this->redirectToRoute('member_status_index');
+    }
+
+    /**
+     * Private Methods
+     */
+    private function createDirectoryCollectionFromMemberStatus(MemberStatus $memberStatus)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $directoryCollection = new DirectoryCollection();
+        $directoryCollection->setLabel($memberStatus->getLabel());
+        $directoryCollection->setIcon('fa-user');
+        $directoryCollection->setShowMemberStatus(false);
+        $directoryCollection->addMemberStatus($memberStatus);
+        try {
+            $entityManager->persist($directoryCollection);
+            $entityManager->flush();
+        } catch (\Exception $e) {
+            throw $e;
+            $this->addFlash('error', 'Unable to create Directory Collection automatically.');
+        }
     }
 }

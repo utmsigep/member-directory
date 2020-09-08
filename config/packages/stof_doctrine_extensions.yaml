@@ -6,3 +6,5 @@ stof_doctrine_extensions:
         default:
             timestampable: true
             loggable: true
+            sluggable: true
+            sortable: true

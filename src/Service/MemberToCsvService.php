@@ -36,8 +36,7 @@ class MemberToCsvService
             'tags',
             'isDeceased',
             'isLost',
-            'isLocalDoNotContact',
-            'isExternalDoNotContact'
+            'isLocalDoNotContact'
         ]);
         foreach ($members as $member) {
             $csvWriter->insertOne($this->memberToArray($member));
@@ -71,8 +70,7 @@ class MemberToCsvService
             $member->getTagsAsCSV(),
             $member->getIsDeceased(),
             $member->getIsLost(),
-            $member->getIsLocalDoNotContact(),
-            $member->getIsExternalDoNotContact()
+            $member->getIsLocalDoNotContact()
         ];
     }
 }

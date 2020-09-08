@@ -1,13 +1,13 @@
 {% set active_route = app.request.get('_route') %}
-<!-- active_route = {{active_route}}  -->
-<li class="nav-item {{ active_route == 'alumni' ? 'active' }}"><a class="nav-link" href="{{ path('alumni') }}"><i class="fas fa-user-graduate fa-fw"></i> <span>Alumni</span></a></li>
-<li class="nav-item {{ active_route == 'lost' ? 'active' }}"><a class="ml-sm-3 nav-link" href="{{ path('lost')}}"><i class="fas fa-frown fa-fw"></i> <span>Lost Alumni</span></a></li>
-<li class="nav-item {{ active_route == 'year' ? 'active' }}"><a class="ml-sm-3 nav-link" href="{{ path('year')}}"><i class="fas fa-calendar fa-fw"></i> <span>Class Year</span></a></li>
-<li class="nav-item {{ active_route == 'do_not_contact' ? 'active' }}"><a class="ml-sm-3 nav-link" href="{{ path('do_not_contact')}}"><i class="fas fa-ban fa-fw"></i> <span>Do Not Contact</span></a></li>
-<li class="nav-item {{ active_route == 'undergraduates' ? 'active' }}"><a class="nav-link" href="{{ path('undergraduates')}}"><i class="fas fa-user fa-fw"></i> <span>Undergraduates</span></a></li>
-<li class="nav-item {{ active_route == 'resigned_expelled' ? 'active' }}"><a class="nav-link" href="{{ path('resigned_expelled')}}"><i class="fas fa-thumbs-down fa-fw"></i> <span>Resigned/Expelled</span></a></li>
-<li class="nav-item {{ active_route == 'transferred' ? 'active' }}"><a class="nav-link" href="{{ path('transferred')}}"><i class="fas fa-exchange-alt fa-fw"></i> <span>Transferred</span></a></li>
-<li class="nav-item {{ active_route == 'other' ? 'active' }}"><a class="nav-link" href="{{ path('other')}}"><i class="fas fa-user-friends fa-fw"></i> <span>Other</span></a></li>
+{% set route_params_slug = app.request.get('_route_params').slug is defined ? app.request.get('_route_params').slug : null %}
+<!-- active_route = {{active_route}}; route_params_slug = {{ route_params_slug }}  -->
+{% for _collection in get_directory_collections() %}
+<li class="nav-item {{ (active_route == 'directory_collection' and route_params_slug == _collection.slug) ? 'active' }}"><a class="nav-link" href="{{ path('directory_collection', {slug: _collection.slug}) }}"><i class="fas {{ _collection.icon }} fa-fw"></i> <span>{{ _collection.label }}</span></a></li>
+{% else %}
+{% if is_granted('ROLE_ADMIN') %}
+<li class="nav-item bg-info"><a class="nav-link" href="{{ path('directory_collection_new') }}"><i class="fas fa-plus fa-fw"></i> Directory Collection</a></li>
+{% endif %}
+{% endfor %}
 {% if get_tags()|length > 0 %}
 <hr class="sidebar-divider my-1"/>
 <li class="nav-item {{ active_route == 'tag' ? 'active' }}">

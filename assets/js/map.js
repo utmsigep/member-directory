@@ -24,7 +24,6 @@ var markerIcon = L.Icon.extend({
 
 var memberMarkers = [];
 var defaultIcon = new markerIcon();
-var undergraduateIcon = new markerIcon({ iconUrl: require('../images/marker-icon-undergraduate.svg').default });
 
 var drawMap = function () {
   var directoryMap = L.map('mapContainer').setView([39.828175, -98.5795], 4);
@@ -87,12 +86,7 @@ var drawMap = function () {
   // Make initial data call
   $.getJSON(Routing.generate('map_data'), {}, function(data) {
     $(data).each(function (i, row) {
-      var marker = L.marker(L.latLng(row.mailingLatitude, row.mailingLongitude))
-      if (row.status.label == 'Undergraduate') {
-        marker.setIcon(undergraduateIcon)
-      } else {
-        marker.setIcon(defaultIcon)
-      }
+      var marker = L.marker(L.latLng(row.mailingLatitude, row.mailingLongitude)).setIcon(defaultIcon)
       marker.bindTooltip(formatMemberTooltip(row)).bindPopup(formatMemberPopup(row)).addTo(directoryMap)
       memberMarkers.push(marker)
     })
@@ -133,10 +127,7 @@ var formatTags = function (data) {
     tags += '<span class="badge badge-dark mr-1">Deceased</span>'
   }
   if (data.isLocalDoNotContact) {
-    tags += '<span class="badge badge-warning mr-1">Do Not Contact (National)</span>'
-  }
-  if (data.isLocalDoNotContact) {
-    tags += '<span class="badge badge-danger mr-1">Do Not Contact (Local)</span>'
+    tags += '<span class="badge badge-danger mr-1">Do Not Contact</span>'
   }
   if (tags) {
     tags = '<br />' + tags

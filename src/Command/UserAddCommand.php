@@ -31,9 +31,8 @@ class UserAddCommand extends Command
     protected function configure()
     {
         $this
-            ->setDescription('Adds a user to the system.')
+            ->setDescription('Adds an administrative user to the system.')
             ->addArgument('email', InputArgument::REQUIRED, 'Email address of the user')
-            ->addOption('roles', null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Roles')
         ;
     }
 
@@ -41,7 +40,6 @@ class UserAddCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
         $email = $input->getArgument('email');
-        $roles = $input->getOption('roles');
 
         if ($email) {
             $io->note(sprintf('Adding user: %s', $email));
@@ -69,9 +67,7 @@ class UserAddCommand extends Command
         // Add user to the database
         $user = new User();
         $user->setEmail($email);
-        if ($input->getOption('roles') && count($roles)) {
-            $user->setRoles($roles);
-        }
+        $user->setRoles(['ROLE_ADMIN']);
         $user->setPassword($this->passwordEncoder->encodePassword(
             $user,
             $password

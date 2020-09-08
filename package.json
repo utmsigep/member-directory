@@ -29,6 +29,7 @@
         "popper.js": "^1.16.1",
         "sass-loader": "^9.0.2",
         "startbootstrap-sb-admin-2": "^4.1.1",
+        "tablednd": "^1.0.4",
         "underscore": "^1.10.2"
     }
 }

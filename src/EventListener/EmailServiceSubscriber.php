@@ -24,16 +24,13 @@ class EmailServiceSubscriber
         if (!$this->emailService->isConfigured()) {
             return;
         }
-        // If set to 'Do Not Contact (Local)', unsubscribe the user
+        // If set to 'Do Not Contact', unsubscribe the user
         if ($eventArgs->hasChangedField('isLocalDoNotContact') && $member->getIsLocalDoNotContact()) {
             $this->emailService->unsubscribeMember($member);
             return;
         }
-        // If status moved to Resigned/Expelled, delete the user user's subscription
-        if ($eventArgs->hasChangedField('status') && in_array($member->getStatus()->getCode(), [
-            'RESIGNED',
-            'EXPELLED'
-        ])) {
+        // If new Member Status is listed as inactive, delete the user user's subscription
+        if ($eventArgs->hasChangedField('status') && $member->getStatus()->getIsInactive()) {
             $this->emailService->deleteMember($member);
             return;
         }
@@ -82,10 +79,7 @@ class EmailServiceSubscriber
     public function prePersist(Member $member, LifecycleEventArgs $eventArgs)
     {
         if (!$this->emailService->isConfigured()
-            || in_array($member->getStatus()->getCode(), [
-                'RESIGNED',
-                'EXPELLED'
-            ])
+            || $member->getStatus()->getIsInactive()
         ) {
             return;
         }

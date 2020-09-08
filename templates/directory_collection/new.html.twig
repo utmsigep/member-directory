@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Directory Collection{% endblock %}
+
+{% block body %}
+{% embed '_page_header.html.twig' %}
+{% block page_header_title %}New Directory Collection{% endblock %}
+{% endembed %}
+
+{% include 'admin/_nav.html.twig' %}
+
+    {{ include('directory_collection/_form.html.twig') }}
+
+{% endblock %}

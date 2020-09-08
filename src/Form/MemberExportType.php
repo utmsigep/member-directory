@@ -21,7 +21,7 @@ class MemberExportType extends AbstractType
                 'label' => 'Apply default filters',
                 'required' => false,
                 'data' => true,
-                'help' => 'Excludes: Do Not Contact (Local), Lost, Deceased'
+                'help' => 'Excludes: Do Not Contact, Lost, Deceased'
             ])
             ->add('mailable', CheckboxType::class, [
                 'label' => 'Mailable',

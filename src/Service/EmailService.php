@@ -67,10 +67,7 @@ class EmailService
     {
         if (!$member->getPrimaryEmail()
             || $member->getIsLocalDoNotContact()
-            || in_array($member->getStatus()->getCode(), [
-                'RESIGNED',
-                'EXPELLED'
-            ])
+            || $member->getStatus()->getIsInactive()
         ) {
             return false;
         }

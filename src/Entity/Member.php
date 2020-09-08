@@ -53,7 +53,7 @@ class Member
     private $externalIdentifier;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\MemberStatus", inversedBy="members")
+     * @ORM\ManyToOne(targetEntity=MemberStatus::class, inversedBy="members")
      * @Assert\NotBlank
      * @Gedmo\Versioned
      */
@@ -215,25 +215,19 @@ class Member
     private $isLocalDoNotContact = false;
 
     /**
-     * @ORM\Column(type="boolean", nullable=true)
-     * @Gedmo\Versioned
-     */
-    private $isExternalDoNotContact = false;
-
-    /**
      * @ORM\Column(type="text", nullable=true)
      * @Gedmo\Versioned
      */
     private $directoryNotes;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Tag", mappedBy="members")
+     * @ORM\ManyToMany(targetEntity=Tag::class, mappedBy="members")
      * @ORM\OrderBy({"tagName": "ASC"})
      */
     private $tags;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Donation", mappedBy="member")
+     * @ORM\OneToMany(targetEntity=Donation::class, mappedBy="member")
      * @ORM\OrderBy({"receivedAt": "DESC"})
      */
     private $donations;
@@ -587,18 +581,6 @@ class Member
         return $this;
     }
 
-    public function getIsExternalDoNotContact(): ?bool
-    {
-        return $this->isExternalDoNotContact;
-    }
-
-    public function setIsExternalDoNotContact(?bool $isExternalDoNotContact): self
-    {
-        $this->isExternalDoNotContact = $isExternalDoNotContact;
-
-        return $this;
-    }
-
     /**
      * @return Collection|Tag[]
      */
@@ -669,6 +651,7 @@ class Member
 
     public function getLocalIdentifierShort(): string
     {
+        // <Chapter Identifier>-<Roll Number>
         preg_match('/^(\d+)\-(\d+)$/', $this->localIdentifier, $matches);
         return isset($matches[2]) ? ltrim((string) $matches[2], '0') : 'N/A';
     }

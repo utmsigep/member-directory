@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} - Directory Collections{% endblock %}
+
+{% block body %}
+{% embed '_page_header.html.twig' %}
+{% block page_header_title %}Directory Collections{% endblock %}
+{% block page_header_buttons %}
+<a role="button" href="{{ path('directory_collection_new') }}" class="btn btn-sm btn-primary"><i class="fas fa-plus fa-fw"></i> New Directory Collection</a>
+{% endblock %}
+{% endembed %}
+
+{% include 'admin/_nav.html.twig' %}
+
+{% if directory_collections %}
+<div class="card mb-3 shadow">
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table" data-draggable>
+        <thead>
+          <tr>
+            <th class="col-edit"></th>
+            <th>Label</th>
+            <th>Icon</th>
+            <th class="col-edit">&nbsp;</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for directory_collection in directory_collections %}
+          <tr id="collection-{{ directory_collection.id }}" data-id="{{ directory_collection.id }}">
+              <td><span class="drag_handle" style="cursor:move;"><i class="fas fa-grip-lines fa-fw"></i></span></td>
+              <td><a href="{{ path('directory_collection_show', {'id': directory_collection.id}) }}">{{ directory_collection.label }}</a></td>
+              <td><i class="fas {{ directory_collection.icon }} fa-fw"></i></td>
+              <td>
+                  <a href="{{ path('directory_collection_edit', {'id': directory_collection.id}) }}"><i class="fas fa-edit fa-fw"></i></a>
+              </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% else %}
+{% include '_no_records_card.html.twig' with {message: 'No Member Statuses matched your criteria.'} %}
+{% endif %}
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+{{ encore_entry_script_tags('directory') }}
+{% endblock %}

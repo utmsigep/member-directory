@@ -5,12 +5,14 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\MemberStatusRepository")
  * @Gedmo\Loggable
+ * @UniqueEntity("code")
  */
 class MemberStatus
 {
@@ -40,14 +42,25 @@ class MemberStatus
     private $label;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Member", mappedBy="status")
+     * @ORM\OneToMany(targetEntity=Member::class, mappedBy="status")
      * @ORM\OrderBy({"lastName": "ASC"})
      */
     private $members;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isInactive = false;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=DirectoryCollection::class, mappedBy="memberStatuses")
+     */
+    private $directoryCollections;
+
     public function __construct()
     {
         $this->members = new ArrayCollection();
+        $this->directoryCollections = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -113,19 +126,47 @@ class MemberStatus
         return $this;
     }
 
-    public function isInactive(): bool
+    public function setIsInactive(bool $isInactive): self
     {
-        if (in_array($this->code, [
-            'EXPELLED',
-            'RESIGNED'
-        ])) {
-            return true;
-        }
-        return false;
+        $this->isInactive = $isInactive;
+        return $this;
+    }
+
+    public function getIsInactive(): ?bool
+    {
+        return $this->isInactive;
     }
 
     public function __toString(): string
     {
          return $this->label;
+    }
+
+    /**
+     * @return Collection|DirectoryCollection[]
+     */
+    public function getDirectoryCollections(): Collection
+    {
+        return $this->directoryCollections;
+    }
+
+    public function addDirectoryCollection(DirectoryCollection $directoryCollection): self
+    {
+        if (!$this->directoryCollections->contains($directoryCollection)) {
+            $this->directoryCollections[] = $directoryCollection;
+            $directoryCollection->addMemberStatus($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDirectoryCollection(DirectoryCollection $directoryCollection): self
+    {
+        if ($this->directoryCollections->contains($directoryCollection)) {
+            $this->directoryCollections->removeElement($directoryCollection);
+            $directoryCollection->removeMemberStatus($this);
+        }
+
+        return $this;
     }
 }
