@@ -137,11 +137,6 @@ class MemberStatus
         return $this->isInactive;
     }
 
-    public function __toString(): string
-    {
-         return $this->label;
-    }
-
     /**
      * @return Collection|DirectoryCollection[]
      */
@@ -168,5 +163,12 @@ class MemberStatus
         }
 
         return $this;
+    }
+
+    /* Model Methods */
+
+    public function __toString(): string
+    {
+        return $this->label;
     }
 }
