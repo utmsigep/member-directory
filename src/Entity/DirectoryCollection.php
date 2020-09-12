@@ -13,13 +13,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class DirectoryCollection
 {
-
-    const FILTER_ENUMS = [
-        'include',
-        'exclude',
-        null
-    ];
-
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -179,11 +172,6 @@ class DirectoryCollection
         return $this->slug;
     }
 
-    public function __toString(): string
-    {
-        return $this->label;
-    }
-
     public function getFilterLost(): ?string
     {
         return $this->filterLost;
@@ -218,5 +206,10 @@ class DirectoryCollection
         $this->filterDeceased = $filterDeceased;
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->label;
     }
 }
