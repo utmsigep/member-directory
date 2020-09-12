@@ -85,13 +85,13 @@ class DonationRepository extends ServiceEntityRepository
     public function getTotalDonationsByMember()
     {
         return $this->createQueryBuilder('d')
-            ->select('IDENTITY(d.member) as memberId, m.preferredName, m.lastName, m.localIdentifier, COUNT(d) AS totalDonations, COUNT(DISTINCT d.member) AS totalDonors, SUM(d.amount) AS totalAmount, SUM(d.processingFee) AS totalProcessingFee, SUM(d.netAmount) AS totalNetAmount, MAX(d.receivedAt) AS latestDonation, d.currency')
+            ->select('IDENTITY(d.member) as memberId, m.preferredName, m.lastName, m.localIdentifier, COUNT(d) AS totalDonations, COUNT(DISTINCT d.member) AS totalDonors, SUM(d.amount) AS totalAmount, SUM(d.processingFee) AS totalProcessingFee, SUM(d.netAmount) AS totalNetAmount, MAX(d.receivedAt) AS latestDonation, d.currency, d.isAnonymous')
             ->join('d.member', 'm')
             ->andWhere('d.receivedAt >= :startDate')
             ->andWhere('d.receivedAt <= :endDate')
             ->setParameter('startDate', $this->startDate)
             ->setParameter('endDate', $this->endDate->setTime(23, 59, 59))
-            ->groupBy('d.currency', 'd.member')
+            ->groupBy('d.currency', 'd.member', 'd.isAnonymous')
             ->orderBy('m.lastName', 'ASC')
             ->getQuery()
             ->getResult();

@@ -11,6 +11,9 @@ use App\Entity\MemberStatus;
 
 class MemberFixtures extends Fixture implements DependentFixtureInterface
 {
+
+    public const UNCLE_BILLY = 'William L. Phillips';
+
     public function load(ObjectManager $manager)
     {
         $memberStatusMember = $this->getReference(MemberStatusFixtures::MEMBER);
@@ -108,6 +111,8 @@ class MemberFixtures extends Fixture implements DependentFixtureInterface
         $member->setJoinDate(new \DateTime('November 1, 1901'));
         $member->setDirectoryNotes("William Lazell Phillips devoted virtually all the mature years of his life to Sigma Phi Epsilon.\n\nA study of the leadership pattern of the founding group reveals that he is the one titan after Jenkens. The latter said to his brothers, \"This is how we must build our Fraternity.\" Phillips built it. Born in Normal, Illinois, in 1873, William L. Phillips came to Richmond College in September, 1901, to study law and the Bible. He attended one year, dropped out a year, and then returned. His pursuit of legal studies gave way to his devotion to Sigma Phi Epsilon and he never graduated.\n\nThe first Conclave at Richmond College in December, 1903, authorized the establishment of the Journal and appointed Uncle Billy as its first editor. The first issue, March, 1904, \"Published by the Grand Council in the interest of the Fraternity,\" reveals that Uncle Billy was determined to make the Journal carry news from all chapters and thus add dignity and strength to his young Fraternity.\n\nIn addition to his work as the first Journal editor, he played some baseball and football (not on the college team), attended the Philogian Literary Society, and attended classes in law. He was the first secretary of Virginia Alpha in 1901-1902.\n\nA complete record of his professional career tells the story of his work for Sigma Phi Epsilon: Editor of the Journal, 1904-1912, 1919-1921; business manager of the Journal, 1904-1911, 1919-1942; member, Ritual Committee, 1907; editor of membership directories, 1915 and 1921; trustee of the Endowment Fund 1925-1939, 1944-1949; trustee of the national Headquarters, 1927-1942; trustee of the Student Loan Fund, 1930-1940; Grand Secretary, 1908-1942; Grand Secretary Emeritus, 1942-1956; Grand Vice President, 1943; Grand President, 1944; National Interfraternity Conference, founder, 1909; Vice Chairman, 1929-1930; member, War Committee, 1942; a founder and Chairman of College Fraternity Secretaries Association 1939-1940.\n\nUncle Billy passed away at his home on June 20, 1956, and left his personal estate to the Fraternity, which founded the Phillips Fund within the Sigma Phi Epsilon Educational Foundation. That fund provides scholarships for members of the University of Richmond chapter.\n\nHe loved his Fraternity intensely and had attended every one of the 24 Conclaves from the first at Richmond College, 1903, to Cincinnati, 1955. William L. Phillips must be numbered among the first handful of truly great builders of the American college fraternity system. No one has achieved a greater record.");
         $manager->persist($member);
+
+        $this->addReference(self::UNCLE_BILLY, $member);
 
         $member = new Member();
         $member->setExternalIdentifier(md5('1-0007'));
