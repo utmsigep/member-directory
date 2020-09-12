@@ -6,7 +6,7 @@
     {{ form_row(form.label, {help: 'Short name of the Member Status. Examples: <tt>Alumnus</tt> or <tt>Resigned</tt>', help_html: true}) }}
     {{ form_row(form.isInactive, {label: 'Inactive Status?', help: 'If checked, Member Status is excluded from maps, update lists and some sync operations.'}) }}
     {% if form.createDirectoryCollection is defined %}
-    {{ form_row(form.createDirectoryCollection, {label: 'Create corresponding Directory Collection?', help: 'If checked, will create a corresponding Directory Collection for this Member Status.'}) }}
+    {{ form_row(form.createDirectoryCollection, {label: 'Create Directory Collection?', help: 'If checked, will create a corresponding Directory Collection for this Member Status.'}) }}
     {% endif %}
   </div>
   <div class="card-footer text-right">

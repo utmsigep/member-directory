@@ -68,7 +68,7 @@ class DirectoryController extends AbstractController
         $members = $entityManager->getRepository(Member::class)->findLost();
         return $this->render('directory/directory.html.twig', [
             'view_name' => 'Lost',
-            'show_status' => false,
+            'show_status' => true,
             'members' => $members
         ]);
     }
@@ -76,15 +76,27 @@ class DirectoryController extends AbstractController
     /**
      * @Route("/do-not-contact", name="do_not_contact")
      */
-    public function doNotContact(Request $request)
+    public function doNotContact()
     {
         $entityManager = $this->getDoctrine()->getManager();
-        $members = $entityManager->getRepository(Member::class)->findDoNotContact(
-            $request->query->get('type')
-        );
+        $members = $entityManager->getRepository(Member::class)->findDoNotContact();
         return $this->render('directory/directory.html.twig', [
             'view_name' => 'Do Not Contact',
-            'show_status' => false,
+            'show_status' => true,
+            'members' => $members
+        ]);
+    }
+
+    /**
+     * @Route("/deceased", name="deceased")
+     */
+    public function deceased()
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $members = $entityManager->getRepository(Member::class)->findDeceased();
+        return $this->render('directory/directory.html.twig', [
+            'view_name' => 'Do Not Contact',
+            'show_status' => true,
             'members' => $members
         ]);
     }

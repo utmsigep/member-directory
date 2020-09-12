@@ -113,7 +113,7 @@ class MemberRepository extends ServiceEntityRepository
         ;
     }
 
-    public function findDoNotContact($type = null)
+    public function findDoNotContact()
     {
         return $this->createQueryBuilder('m')
             ->addSelect('t')
@@ -121,6 +121,21 @@ class MemberRepository extends ServiceEntityRepository
             ->join('m.status', 's')
             ->leftJoin('m.tags', 't')
             ->andWhere('m.isLocalDoNotContact = 1')
+            ->orderBy('m.lastName', 'ASC')
+            ->addOrderBy('m.firstName', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findDeceased()
+    {
+        return $this->createQueryBuilder('m')
+            ->addSelect('t')
+            ->addSelect('s')
+            ->join('m.status', 's')
+            ->leftJoin('m.tags', 't')
+            ->andWhere('m.isDeceased = 1')
             ->orderBy('m.lastName', 'ASC')
             ->addOrderBy('m.firstName', 'ASC')
             ->getQuery()

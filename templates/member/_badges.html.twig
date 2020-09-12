@@ -1,6 +1,6 @@
 <div class="mt-1">
   {% if member.isDeceased %}
-  <sup class="badge badge-dark" title="Deceased">Deceased</sup>
+  <a href="{{ path('deceased') }}"><sup class="badge badge-dark" title="Deceased">Deceased</sup></a>
   {% endif %}
   {% if member.isLost %}
   <a href="{{ path('lost') }}"><sup class="badge badge-warning" title="Lost">Lost</sup></a>
