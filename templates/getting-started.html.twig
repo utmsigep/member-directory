@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+{% embed '_page_header.html.twig' %}
+{% block page_header_title %}Getting Started{% endblock %}
+{% endembed %}
+
+{% if is_granted('ROLE_ADMIN') %}
+<p class="lead">Follow these steps to get started with Member Directory.</p>
+
+<ol class="user-steps">
+  <li>
+    <h4><a href="{{ path('member_status_new') }}">Add Member Statuses</a></h4>
+    <p>Every member must have a status, even if there is only one for your organization.</p>
+  </li>
+  <li>
+    <h4><a href="{{ path('directory_collection_new') }}">Add Directory Collections</a></h4>
+    <p>Directory Collections let you create the main menu "Views" of your membership roster.</p>
+  </li>
+  <li>
+    <h4><a href="{{ path('import') }}">Import Members</a> <small>(optional)</small></h4>
+    <p>If you already have a spreadsheet of members that matches our format, you can quickly add Members in bulk.</p>
+  </li>
+</ol>
+{% else %}
+<div class="alert alert-info">
+  <div class="p-5 text-center">Please contact your Administrator to complete setup.</div>
+</div>
+{% endif %}
+{% endblock %}

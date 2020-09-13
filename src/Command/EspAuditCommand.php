@@ -44,13 +44,7 @@ class EspAuditCommand extends Command
             return 1;
         }
 
-        $members = $this->entityManager->getRepository(Member::class)->findByStatusCodes([
-            'ALUMNUS',
-            'RENAISSANCE',
-            'UNDERGRADUATE',
-            'TRANSFERRED',
-            'OTHER'
-        ]);
+        $members = $this->entityManager->getRepository(Member::class)->findByActiveMemberStatuses();
 
         foreach ($members as $member) {
             // Exlcude a few cases from report

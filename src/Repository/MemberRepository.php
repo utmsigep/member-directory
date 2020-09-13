@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Member;
+use App\Entity\DirectoryCollection;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -20,87 +21,129 @@ class MemberRepository extends ServiceEntityRepository
         parent::__construct($registry, Member::class);
     }
 
-    public function findByStatusCodes($statusCodes = [])
-    {
-        return $this->createQueryBuilder('m')
-            ->addSelect('t')
-            ->addSelect('s')
-            ->join('m.status', 's')
-            ->leftJoin('m.tags', 't')
-            ->andWhere('s.code IN (:statusCodes)')
-            ->setParameter('statusCodes', $statusCodes)
-            ->orderBy('m.lastName', 'ASC')
-            ->addOrderBy('m.firstName', 'ASC')
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-
-    public function findLostByStatusCodes($statusCodes = [])
-    {
-        return $this->createQueryBuilder('m')
-            ->addSelect('t')
-            ->addSelect('s')
-            ->join('m.status', 's')
-            ->leftJoin('m.tags', 't')
-            ->andWhere('s.code IN (:statusCodes)')
-            ->andWhere('m.isLost = 1')
-            ->setParameter('statusCodes', $statusCodes)
-            ->orderBy('m.lastName', 'ASC')
-            ->addOrderBy('m.firstName', 'ASC')
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-
-    public function findDoNotContactByStatusCodes($statusCodes = [], $type = null)
+    public function findByDirectoryCollection(DirectoryCollection $directoryCollection)
     {
         $qb = $this->createQueryBuilder('m')
             ->addSelect('t')
             ->addSelect('s')
             ->join('m.status', 's')
+            ->join('s.directoryCollections', 'dc')
             ->leftJoin('m.tags', 't')
-            ->andWhere('s.code IN (:statusCodes)')
-            ->setParameter('statusCodes', $statusCodes)
+            ->andWhere('dc = :directoryCollection')
+            ->setParameter('directoryCollection', $directoryCollection)
             ->orderBy('m.lastName', 'ASC')
-            ->addOrderBy('m.firstName', 'ASC');
-        // Filter based on type of DNC
-        if ($type == 'local') {
-            $qb->andWhere('m.isLocalDoNotContact = 1');
-        } elseif ($type == 'external') {
-            $qb->andWhere('m.isExternalDoNotContact = 1');
-        } else {
-            $qb->andWhere('m.isLocalDoNotContact = 1')
-                ->orWhere('m.isExternalDoNotContact = 1');
+            ->addOrderBy('m.firstName', 'ASC')
+        ;
+        if ($directoryCollection->getFilterLost()) {
+            $qb->andWhere('m.isLost = :isLost')
+                ->setParameter('isLost', $directoryCollection->getFilterLost() == 'include');
         }
+        if ($directoryCollection->getFilterLocalDoNotContact()) {
+            $qb->andWhere('m.isLocalDoNotContact = :isLocalDoNotContact')
+                ->setParameter('isLocalDoNotContact', $directoryCollection->getFilterLocalDoNotContact() == 'include');
+        }
+        if ($directoryCollection->getFilterDeceased()) {
+            $qb->andWhere('m.isDeceased = :isDeceased')
+                ->setParameter('isDeceased', $directoryCollection->getFilterDeceased() == 'include');
+        }
+
+        // Group By
+        if ($directoryCollection->getGroupBy()) {
+            switch ($directoryCollection->getGroupBy()) {
+                case 'classYear':
+                    $methodName = 'getClassYear';
+                    break;
+                case 'status':
+                    $methodName = 'getStatus';
+                    break;
+                case 'mailingState':
+                    $methodName = 'getMailingState';
+                    break;
+                case 'mailingPostalCode':
+                    $methodName = 'getMailingPostalCode';
+                    break;
+                default:
+                    throw new \Exception(sprintf('Unable to group by %s', $directoryCollection->getGroupBy()));
+            }
+
+            $result = $qb->getQuery()
+                ->getResult()
+            ;
+            $output = [];
+            foreach ($result as $row) {
+                $groupKey = $row->{$methodName}() ? (string) $row->{$methodName}() : '(blank)';
+                $output[$groupKey][] = $row;
+            }
+            ksort($output);
+            return $output;
+        }
+
         return $qb->getQuery()
             ->getResult()
         ;
     }
 
-    public function findByStatusCodesGroupByClassYear($statusCodes = [])
+    public function findByActiveMemberStatuses()
     {
-        $results = $this->createQueryBuilder('m')
+        return $this->createQueryBuilder('m')
             ->addSelect('t')
             ->addSelect('s')
             ->join('m.status', 's')
             ->leftJoin('m.tags', 't')
-            ->andWhere('s.code IN (:statusCodes)')
-            ->setParameter('statusCodes', $statusCodes)
-            ->orderBy('m.classYear', 'ASC')
-            ->addOrderBy('m.lastName', 'ASC')
+            ->andWhere('s.isInactive = 0')
+            ->orderBy('m.lastName', 'ASC')
             ->addOrderBy('m.firstName', 'ASC')
             ->getQuery()
             ->getResult()
         ;
-        $output = [];
-        foreach ($results as $row) {
-            $output[$row->getClassYear()][] = $row;
-        }
-        return $output;
     }
 
-    public function findGeocodedAddresses($statusCodes = [])
+    public function findLost()
+    {
+        return $this->createQueryBuilder('m')
+            ->addSelect('t')
+            ->addSelect('s')
+            ->join('m.status', 's')
+            ->leftJoin('m.tags', 't')
+            ->andWhere('m.isLost = 1')
+            ->orderBy('m.lastName', 'ASC')
+            ->addOrderBy('m.firstName', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findDoNotContact()
+    {
+        return $this->createQueryBuilder('m')
+            ->addSelect('t')
+            ->addSelect('s')
+            ->join('m.status', 's')
+            ->leftJoin('m.tags', 't')
+            ->andWhere('m.isLocalDoNotContact = 1')
+            ->orderBy('m.lastName', 'ASC')
+            ->addOrderBy('m.firstName', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findDeceased()
+    {
+        return $this->createQueryBuilder('m')
+            ->addSelect('t')
+            ->addSelect('s')
+            ->join('m.status', 's')
+            ->leftJoin('m.tags', 't')
+            ->andWhere('m.isDeceased = 1')
+            ->orderBy('m.lastName', 'ASC')
+            ->addOrderBy('m.firstName', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findGeocodedAddresses()
     {
         return $this->createQueryBuilder('m')
             ->addSelect('t')
@@ -112,17 +155,16 @@ class MemberRepository extends ServiceEntityRepository
             ->andWhere('m.mailingLongitude IS NOT NULL')
             ->andWhere('m.mailingLongitude != 0')
             ->andWhere('m.isDeceased = 0')
-            ->andWhere('s.code IN (:statusCodes)')
-            ->setParameter('statusCodes', $statusCodes)
+            ->andWhere('s.isInactive = 0')
             ->getQuery()
             ->getResult()
         ;
     }
 
-    public function findMembersWithinRadius($latitude, $longitude, $radius, array $statusCodes = [])
+    public function findMembersWithinRadius($latitude, $longitude, $radius)
     {
         $entityManager = $this->getEntityManager();
-        return $entityManager->createQuery('SELECT
+        $query = $entityManager->createQuery('SELECT
                     m, s, t, (
                       3959 * acos (
                       cos ( radians(:latitude) )
@@ -133,7 +175,7 @@ class MemberRepository extends ServiceEntityRepository
                     )
                 ) AS distance
                 FROM App\Entity\Member m JOIN m.status s LEFT JOIN m.tags t
-                WHERE s.code IN (:statusCodes)
+                WHERE s.isInactive = false
                     AND m.isDeceased = 0
                 HAVING distance < :radius
                 ORDER BY distance
@@ -141,30 +183,30 @@ class MemberRepository extends ServiceEntityRepository
             ->setParameter('latitude', $latitude)
             ->setParameter('longitude', $longitude)
             ->setParameter('radius', $radius)
-            ->setParameter('statusCodes', $statusCodes)
-            ->getResult()
         ;
+
+        return $query->getResult();
     }
 
     public function findRecentUpdates(array $criteria)
     {
-        if (isset($criteria['exclude_inactive']) && $criteria['exclude_inactive']) {
-            $statuses = ['ALUMNUS', 'UNDERGRADUATE', 'OTHER'];
-        } else {
-            $statuses = ['ALUMNUS', 'UNDERGRADUATE', 'OTHER', 'RESIGNED', 'EXPELLED', 'TRANSFERRED'];
-        }
-
-        return $this->createQueryBuilder('m')
+        $qb = $this->createQueryBuilder('m')
             ->addSelect('t')
             ->addSelect('s')
             ->join('m.status', 's')
             ->leftJoin('m.tags', 't')
             ->where('m.updatedAt > :since')
-            ->andWhere('s.code IN (:statuses)')
             ->setParameter('since', $criteria['since'])
-            ->setParameter('statuses', $statuses)
             ->orderBy('m.updatedAt', 'DESC')
-            ->getQuery()
+        ;
+
+        if (isset($criteria['exclude_inactive']) && $criteria['exclude_inactive']) {
+            $qb->andWhere('s.isInactive != :isInactive')
+                ->setParameter('isInactive', true)
+            ;
+        }
+
+        return $qb->getQuery()
             ->getResult()
         ;
     }
@@ -197,8 +239,7 @@ class MemberRepository extends ServiceEntityRepository
             $qb->andWhere('m.isDeceased = 0');
             $qb->andWhere('m.isLost = 0');
             $qb->andWhere('m.isLocalDoNotContact = 0');
-            $qb->andWhere('s.code NOT IN (:resignedExpelled)');
-            $qb->setParameter('resignedExpelled', ['RESIGNED', 'EXPELLED']);
+            $qb->andWhere('s.isInactive = 0');
         }
         // Return only mailable records
         if (isset($filters['mailable']) && $filters['mailable']) {

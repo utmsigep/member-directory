@@ -2,10 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\DirectoryCollection;
 use App\Entity\Member;
 use App\Entity\Tag;
+use App\Repository\DirectoryCollectionRepository;
+use App\Repository\MemberRepository;
 use App\Service\EmailService;
 use App\Service\PostalValidatorService;
+use Doctrine\ORM\NoResultException ;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
@@ -26,9 +30,75 @@ class DirectoryController extends AbstractController
     /**
      * @Route("/", name="home")
      */
-    public function index()
+    public function index(DirectoryCollectionRepository $directoryCollectionRepository)
     {
-        return $this->redirectToRoute('alumni');
+        try {
+            $records = $directoryCollectionRepository->getDefaultDirectoryCollection();
+            return $this->redirectToRoute('directory_collection', ['slug' => $records->getSlug()]);
+        } catch (NoResultException $e) {
+            return $this->render('getting-started.html.twig');
+        }
+    }
+
+    /**
+     * @Route("/collection/{slug}", name="directory_collection", options={"expose" = true})
+     */
+    public function directoryCollection(DirectoryCollection $directoryCollection, MemberRepository $memberRepository)
+    {
+        if ($directoryCollection->getGroupBy()) {
+            return $this->render('directory/directory_group.html.twig', [
+                'view_name' => $directoryCollection->getLabel(),
+                'show_status' => $directoryCollection->getShowMemberStatus(),
+                'group' => $memberRepository->findByDirectoryCollection($directoryCollection)
+            ]);
+        }
+        return $this->render('directory/directory.html.twig', [
+            'view_name' => $directoryCollection->getLabel(),
+            'show_status' => $directoryCollection->getShowMemberStatus(),
+            'members' => $memberRepository->findByDirectoryCollection($directoryCollection)
+        ]);
+    }
+
+    /**
+     * @Route("/lost", name="lost")
+     */
+    public function lost()
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $members = $entityManager->getRepository(Member::class)->findLost();
+        return $this->render('directory/directory.html.twig', [
+            'view_name' => 'Lost',
+            'show_status' => true,
+            'members' => $members
+        ]);
+    }
+
+    /**
+     * @Route("/do-not-contact", name="do_not_contact")
+     */
+    public function doNotContact()
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $members = $entityManager->getRepository(Member::class)->findDoNotContact();
+        return $this->render('directory/directory.html.twig', [
+            'view_name' => 'Do Not Contact',
+            'show_status' => true,
+            'members' => $members
+        ]);
+    }
+
+    /**
+     * @Route("/deceased", name="deceased")
+     */
+    public function deceased()
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $members = $entityManager->getRepository(Member::class)->findDeceased();
+        return $this->render('directory/directory.html.twig', [
+            'view_name' => 'Do Not Contact',
+            'show_status' => true,
+            'members' => $members
+        ]);
     }
 
     /**
@@ -71,145 +141,6 @@ class DirectoryController extends AbstractController
         return $this->json([
             'status' => 'success',
             'verify' => $jsonResponse['AddressValidateResponse']['Address']
-        ]);
-    }
-
-    /**
-     * @Route("/alumni", name="alumni")
-     */
-    public function alumni(): Response
-    {
-        $entityManager = $this->getDoctrine()->getManager();
-        $members = $entityManager->getRepository(Member::class)->findByStatusCodes([
-            'ALUMNUS',
-            'RENAISSANCE'
-        ]);
-        return $this->render('directory/directory.html.twig', [
-            'view_name' => 'Alumni',
-            'show_status' => false,
-            'members' => $members
-        ]);
-    }
-
-    /**
-     * @Route("/undergraduates", name="undergraduates")
-     */
-    public function undergraduates()
-    {
-        $entityManager = $this->getDoctrine()->getManager();
-        $members = $entityManager->getRepository(Member::class)->findByStatusCodes([
-            'UNDERGRADUATE'
-        ]);
-        return $this->render('directory/directory.html.twig', [
-            'view_name' => 'Undergraduates',
-            'show_status' => false,
-            'members' => $members
-        ]);
-    }
-
-    /**
-     * @Route("/resigned-expelled", name="resigned_expelled")
-     */
-    public function resignedExpelled()
-    {
-        $entityManager = $this->getDoctrine()->getManager();
-        $members = $entityManager->getRepository(Member::class)->findByStatusCodes([
-            'RESIGNED',
-            'EXPELLED'
-        ]);
-        return $this->render('directory/directory.html.twig', [
-            'view_name' => 'Resigned/Expelled',
-            'show_status' => true,
-            'members' => $members
-        ]);
-    }
-
-    /**
-     * @Route("/lost", name="lost")
-     */
-    public function lost()
-    {
-        $entityManager = $this->getDoctrine()->getManager();
-        $members = $entityManager->getRepository(Member::class)->findLostByStatusCodes([
-            'ALUMNUS',
-            'RENAISSANCE'
-        ]);
-        return $this->render('directory/directory.html.twig', [
-            'view_name' => 'Lost Alumni',
-            'show_status' => false,
-            'members' => $members
-        ]);
-    }
-
-    /**
-     * @Route("/do-not-contact", name="do_not_contact")
-     */
-    public function doNotContact(Request $request)
-    {
-        $entityManager = $this->getDoctrine()->getManager();
-        $members = $entityManager->getRepository(Member::class)->findDoNotContactByStatusCodes(
-            [
-                'ALUMNUS',
-                'RENAISSANCE'
-            ],
-            $request->query->get('type')
-        );
-        return $this->render('directory/directory.html.twig', [
-            'view_name' => 'Do Not Contact',
-            'show_status' => false,
-            'members' => $members
-        ]);
-    }
-
-    /**
-     * @Route("/year", name="year")
-     */
-    public function year()
-    {
-        $entityManager = $this->getDoctrine()->getManager();
-        $group = $entityManager->getRepository(Member::class)->findByStatusCodesGroupByClassYear(
-            [
-                'ALUMNUS',
-                'RENAISSANCE'
-            ]
-        );
-        return $this->render('directory/directory_group.html.twig', [
-            'view_name' => 'Class Year',
-            'show_status' => false,
-            'group' => $group
-        ]);
-    }
-
-
-    /**
-     * @Route("/transferred", name="transferred")
-     */
-    public function transferred()
-    {
-        $entityManager = $this->getDoctrine()->getManager();
-        $members = $entityManager->getRepository(Member::class)->findByStatusCodes([
-            'TRANSFERRED'
-        ]);
-        return $this->render('directory/directory.html.twig', [
-            'view_name' => 'Transferred',
-            'show_status' => false,
-            'members' => $members
-        ]);
-    }
-
-    /**
-     * @Route("/other", name="other")
-     */
-    public function other()
-    {
-        $entityManager = $this->getDoctrine()->getManager();
-        $members = $entityManager->getRepository(Member::class)->findByStatusCodes([
-            'OTHER'
-        ]);
-        return $this->render('directory/directory.html.twig', [
-            'view_name' => 'Other',
-            'show_status' => false,
-            'members' => $members
         ]);
     }
 
@@ -286,13 +217,7 @@ class DirectoryController extends AbstractController
         $members = $entityManager->getRepository(Member::class)->findMembersWithinRadius(
             $request->get('latitude'),
             $request->get('longitude'),
-            $request->get('radius'),
-            [
-                'UNDERGRADUATE',
-                'ALUMNUS',
-                'RENAISSANCE',
-                'TRANSFERRED'
-            ]
+            $request->get('radius')
         );
 
         $jsonObject = $serializer->serialize($members, 'json', [
@@ -311,12 +236,7 @@ class DirectoryController extends AbstractController
     public function mapData(SerializerInterface $serializer)
     {
         $entityManager = $this->getDoctrine()->getManager();
-        $members = $entityManager->getRepository(Member::class)->findGeocodedAddresses([
-            'UNDERGRADUATE',
-            'ALUMNUS',
-            'RENAISSANCE',
-            'TRANSFERRED'
-        ]);
+        $members = $entityManager->getRepository(Member::class)->findGeocodedAddresses();
 
         $jsonObject = $serializer->serialize($members, 'json', [
             'ignored_attributes' => ['status' => 'members'],

@@ -36,12 +36,7 @@ class EspSyncCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $members = $this->entityManager->getRepository(Member::class)->findByStatusCodes([
-            'ALUMNUS',
-            'RENAISSANCE',
-            'UNDERGRADUATE',
-            'OTHER'
-        ]);
+        $members = $this->entityManager->getRepository(Member::class)->findByActiveMemberStatuses();
         // Only work with records that have an email set
         $members = array_filter($members, function ($record) {
             return (bool) $record->getPrimaryEmail();

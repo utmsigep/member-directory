@@ -62,7 +62,6 @@ class MemberType extends AbstractType
             ->add('linkedinUrl')
             ->add('isLost')
             ->add('isLocalDoNotContact')
-            ->add('isExternalDoNotContact')
             ->add('directoryNotes')
             ->add('status')
         ;

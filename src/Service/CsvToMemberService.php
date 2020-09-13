@@ -41,31 +41,13 @@ class CsvToMemberService
     const MAILING_LONGITUDE_HEADER = 'mailingLongitude';
     const LOST_HEADER = 'isLost';
     const LOCAL_DO_NOT_CONTACT_HEADER = 'isLocalDoNotContact';
-    const EXTERNAL_DO_NOT_CONTACT_HEADER = 'isExternalDoNotContact';
     const DIRECTORY_NOTES_HEADER = 'directoryNotes';
-
-    const STATUS_MAP = [
-        'Brother' => 'UNDERGRADUATE',
-        'Undergraduate' => 'UNDERGRADUATE',
-        'Alumnus' => 'ALUMNUS',
-        'Honorary (Renaissance)' => 'RENAISSANCE',
-        'Renaissance (Honorary)' => 'RENAISSANCE',
-        'Resigned' => 'RESIGNED',
-        'Resigned Pending' => 'RESIGNED',
-        'Expelled' => 'EXPELLED',
-        'Expelled Pending' => 'EXPELLED',
-        'Constituent' => 'OTHER',
-        'Other / Constituent' => 'OTHER',
-        'Quit LM Refund' => 'RESIGNED',
-        'Resigned Life Member' => 'RESIGNED',
-        'Remove Accepted' => 'RESIGNED',
-        'Remove Candidate' => 'RESIGNED',
-        'Transferred' => 'TRANSFERRED'
-    ];
 
     protected $entityManager;
 
     protected $validator;
+
+    protected $memberStatusMap;
 
     protected $members = [];
 
@@ -75,6 +57,7 @@ class CsvToMemberService
     {
         $this->entityManager = $entityManager;
         $this->validator = $validator;
+        $this->loadMemberStatusMapping();
     }
 
     public function getMembers()
@@ -217,20 +200,12 @@ class CsvToMemberService
             if (isset($csvRecord[self::LOCAL_DO_NOT_CONTACT_HEADER])) {
                 $member->setIsLocalDoNotContact($this->formatBoolean($csvRecord[self::LOCAL_DO_NOT_CONTACT_HEADER]));
             }
-            if (isset($csvRecord[self::EXTERNAL_DO_NOT_CONTACT_HEADER])) {
-                $member->setIsExternalDoNotContact($this->formatBoolean($csvRecord[self::EXTERNAL_DO_NOT_CONTACT_HEADER]));
-            }
             if (isset($csvRecord[self::DIRECTORY_NOTES_HEADER])) {
                 $member->setDirectoryNotes($csvRecord[self::DIRECTORY_NOTES_HEADER]);
             }
             if (isset($csvRecord[self::STATUS_HEADER])) {
-                $memberStatus = $this->entityManager->getRepository(MemberStatus::class)->findOneBy([
-                    'code' => self::STATUS_MAP[$csvRecord[self::STATUS_HEADER]]
-                    ? self::STATUS_MAP[$csvRecord[self::STATUS_HEADER]]
-                    : null
-                ]);
-                if ($memberStatus === null) {
-                    $errorRows[] = sprintf(
+                if (!isset($this->memberStatusMap[$csvRecord[self::STATUS_HEADER]])) {
+                    $this->errors[] = sprintf(
                         '[%s|%s %s, %s] Unable to set status to "%s" (not mapped)',
                         $member->getExternalIdentifier(),
                         $member->getLocalIdentifier(),
@@ -240,7 +215,7 @@ class CsvToMemberService
                     );
                     continue;
                 }
-                $member->setStatus($memberStatus);
+                $member->setStatus($this->memberStatusMap[$csvRecord[self::STATUS_HEADER]]);
             }
             // If elements empty, populate
             if (!$member->getPreferredName()) {
@@ -291,4 +266,14 @@ class CsvToMemberService
         }
         return (bool) $bool;
     }
+
+    private function loadMemberStatusMapping()
+    {
+        $memberStatuses = $this->entityManager->getRepository(MemberStatus::class)->findBy([]);
+        foreach ($memberStatuses as $memberStatus) {
+            $this->memberStatusMap[$memberStatus->getCode()] = $memberStatus;
+            $this->memberStatusMap[$memberStatus->getLabel()] = $memberStatus;
+        }
+    }
+
 }

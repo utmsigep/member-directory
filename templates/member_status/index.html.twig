@@ -27,7 +27,7 @@
         </thead>
         <tbody>
         {% for member_status in member_statuses %}
-        <tr>
+        <tr class="{{ member_status.isInactive ? 'inactive' : '' }}" role="row">
           <td><a href="{{ path('member_status_show', {'id': member_status.id}) }}">{{ member_status.code }}</a></td>
           <td>{{ member_status.label }}</td>
           <td>{{ member_status.members|length|default('0') }}</td>

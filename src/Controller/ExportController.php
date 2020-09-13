@@ -61,13 +61,7 @@ class ExportController extends AbstractController
         $results = $this->getDoctrine()->getRepository(Member::class)->findMembersWithinRadius(
             (float) $request->get('latitude'),
             (float) $request->get('longitude'),
-            (int) $request->get('radius'),
-            [
-                'UNDERGRADUATE',
-                'ALUMNUS',
-                'RENAISSANCE',
-                'TRANSFERRED'
-            ]
+            (int) $request->get('radius')
         );
 
         $members = [];

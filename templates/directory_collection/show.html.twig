@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent()}} - {{ directory_collection }}{% endblock %}
+
+{% block body %}
+{% embed '_page_header.html.twig' %}
+{% block page_header_title %}{{ directory_collection }}{% endblock %}
+{% block page_header_buttons %}
+<a role="button" href="{{ path('directory_collection_edit', {'id': directory_collection.id}) }}" class="btn btn-sm btn-primary"><i class="fas fa-edit fa-fw"></i> Edit</a>
+{% endblock %}
+{% endembed %}
+
+{% include 'admin/_nav.html.twig' %}
+
+<div class="card mb-3 shadow" style="max-width:40rem">
+  <div class="card-header">Directory Collection</div>
+  <div class="card-body">
+    <div class="form-group">
+      <label>Label</label>
+      <div class="form-control">{{ directory_collection.label }}</div>
+    </div>
+    <div class="form-group">
+      <label>Icon</label>
+      <div class="form-control"><i class="fas {{ directory_collection.icon }} fa-fw"></i> {{ directory_collection.icon }}</div>
+    </div>
+    <div class="form-group">
+      <label>Member Statuses</label>
+      <div>
+        <ul class="">
+          {% for memberStatus in directory_collection.memberStatuses %}
+          <li class="list-item">
+            {{ memberStatus }}
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Show Member Status Column?</label>
+      <div class="form-control">{{ directory_collection.showMemberStatus ? 'Yes' : 'No' }}</div>
+    </div>
+    <div class="form-group">
+      <label>Group By</label>
+      <div class="form-control">{{ directory_collection.groupBy|default('(None)') }}</div>
+    </div>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Record Flags</th>
+          <th>Filter</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Lost</td>
+          <td>{{ directory_collection.filterLost|upper }}</td>
+        </tr>
+        <tr>
+          <td>Do Not Contact</td>
+          <td>{{ directory_collection.filterLocalDoNotContact|upper }}</td>
+        </tr>
+        <tr>
+          <td>Deceased</td>
+          <td>{{ directory_collection.filterDeceased|upper }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}

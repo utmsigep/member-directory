@@ -12,6 +12,7 @@
 {% endblock %}
 {% endembed %}
 
+{% if group %}
 <div class="card shadow">
   <div class="card-body">
     <div class="table-responsive">
@@ -45,6 +46,9 @@
     </div>
   </div>
 </div>
+{% else %}
+{% include '_no_records_card.html.twig' with {message: 'No Members matched your criteria.'} %}
+{% endif %}
 
 {% endblock %}
 
