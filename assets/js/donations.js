@@ -1,7 +1,7 @@
 var moment = require('moment')
 
 $(document).ready(function () {
-  var donationsButtons = [
+  var exportButtons = [
     {
       text: '<i class="fas fa-save fa-fw"></i> Download CSV',
       extend: 'csvHtml5'
@@ -13,7 +13,7 @@ $(document).ready(function () {
   ]
   
   var donationsTable = $('#donationsTable').DataTable({
-    buttons: donationsButtons,
+    buttons: exportButtons,
     order: [
       [0, 'desc']
     ],
@@ -22,13 +22,22 @@ $(document).ready(function () {
   donationsTable.buttons().container().addClass('d-block text-center py-3').appendTo(donationsTable.table().container())
     
   var donorTable = $('#donorTable').DataTable({
-    buttons: donationsButtons,
+    buttons: exportButtons,
     order: [
-      [4, 'desc']
+      [5, 'desc']
     ],
     pageLength: 50
   })
   donorTable.buttons().container().addClass('d-block text-center py-3').appendTo(donorTable.table().container())
+
+  var campaignTable = $('#campaignTable').DataTable({
+    buttons: exportButtons,
+    order: [
+      [6, 'desc']
+    ],
+    pageLength: 50
+  })
+  campaignTable.buttons().container().addClass('d-block text-center py-3').appendTo(campaignTable.table().container())
 
   // Date Range Form
   var startDateField = $('#start_date')
