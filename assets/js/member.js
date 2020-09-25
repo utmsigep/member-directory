@@ -42,6 +42,19 @@ $(document).ready(function() {
 
 // Inline address verification
 $(document).ready(function () {
+  var memberForm = $('form[name="member"]')
+  if (memberForm.length > 0) {
+    var memberFormOriginal = memberForm.serialize()
+    memberForm.submit(function() {
+        window.onbeforeunload = null
+    })
+    window.onbeforeunload = function() {
+      if (memberForm.serialize() != memberFormOriginal) {
+        return true
+      }
+    }
+  }
+
   var verifyAddressButton = $('#verifyAddressButton')
   var verifyAddressStatusIndicator = $('#verifyAddressStatusIndicator')
   var toastContainer = $('#toastContainer')
