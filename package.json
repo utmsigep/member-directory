@@ -24,7 +24,7 @@
         "jquery": "^3.5.1",
         "leaflet": "^1.7.1",
         "leaflet-defaulticon-compatibility": "^0.1.1",
-        "moment": "^2.28.0",
+        "moment": "^2.29.0",
         "node-sass": "^4.14.1",
         "popper.js": "^1.16.1",
         "sass-loader": "^10.0.2",

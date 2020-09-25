@@ -156,18 +156,11 @@ class DirectoryController extends AbstractController
             'exclude_inactive' => $request->get('exclude_inactive', true)
         ])
             ->add('since', DateType::class, [
-                'label' => false,
-                'attr' => [
-                    'class' => 'form-control mr-sm-2',
-                ],
                 'widget' => 'single_text',
             ])
             ->add('exclude_inactive', CheckboxType::class, [
                 'label' => 'Exclude Inactive',
                 'required' => false,
-                'label_attr' => [
-                    'class' => 'mr-sm-2',
-                ],
             ])
             ->getForm()
             ;
