@@ -22,6 +22,7 @@
           <tr>
             <th>Login E-mail</th>
             <th>Roles</th>
+            <th>Two-Factor</th>
             <th class="col-edit">&nbsp;</th>
           </tr>
         </thead>
@@ -30,6 +31,13 @@
           <tr>
             <td><a href="{{ path('user_show', {'id': user.id}) }}">{{ user.email }}</a></td>
             <td>{{ macros.user_roles(user.roles) }}</td>
+            <td>
+              {% if user.isTotpAuthenticationEnabled %}
+              <i class="fas fa-check fa-fw text-success"></i> Enabled</a>
+              {% else %}
+              <i class="fas fa-times fa-fw text-danger"></i> Disabled</a>
+              {% endif %}
+            </td>
             <td>
               <a href="{{ path('user_edit', {'id': user.id}) }}"><i class="fas fa-edit fa-fw"></i></a>
             </td>

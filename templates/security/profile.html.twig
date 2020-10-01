@@ -1,15 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ parent() }} - Profile{% endblock %}
+{% block title %}{{ parent() }} - Edit Profile{% endblock %}
 
 {% block body %}
 {% embed '_page_header.html.twig' %}
-{% block page_header_title %}Profile{% endblock %}
+{% block page_header_title %}Edit Profile{% endblock %}
 {% endembed %}
 
 {{ form_start(form) }}
 <div class="card mb-3 shadow" style="max-width:40rem">
-  <div class="card-header">Update Profile</div>
   <div class="card-body">
     {{ form_row(form.email) }}
   </div>

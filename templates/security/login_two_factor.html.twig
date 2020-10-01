@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>{{ config.app_name }} - Log In</title>
+    {{ encore_entry_link_tags('app') }}
+    {{ encore_entry_link_tags('login') }}
+  </head>
+
+  <body class="text-center">
+    <form class="form-signin" action="{{ checkPathUrl ? checkPathUrl : path(checkPathRoute) }}" method="post">
+      {% if authenticationError %}
+          <div class="alert alert-danger">{{ authenticationError|trans(authenticationErrorData, 'SchebTwoFactorBundle') }}</div>
+      {% endif %}
+      {% if config.app_logo %}
+      <div class="text-center mb-5">
+        <img src="{{ config.app_logo }}" class="img-fluid" style="max-height:40vh" />
+      </div>
+      {% endif %}
+
+      <div class="h3 mb-3 font-weight-normal">Your Two-Factor Code</div>
+
+      <p class="widget">
+          <input
+              class="form-control"
+              id="_auth_code"
+              type="text"
+              name="{{ authCodeParameterName }}"
+              autocomplete="one-time-code"
+              autofocus
+              inputmode="numeric"
+              pattern="[0-9]*"
+          />
+      </p>
+
+      {% if displayTrustedOption %}
+          <p class="widget"><label for="_trusted"><input id="_trusted" type="checkbox" name="{{ trustedParameterName }}" /> {{ "trusted"|trans({}, 'SchebTwoFactorBundle') }}</label></p>
+      {% endif %}
+      {% if isCsrfProtectionEnabled %}
+          <input type="hidden" name="{{ csrfParameterName }}" value="{{ csrf_token(csrfTokenId) }}">
+      {% endif %}
+      <p class="submit"><input class="btn btn-block btn-primary" type="submit" value="{{ "login"|trans({}, 'SchebTwoFactorBundle') }}" /></p>
+
+      <p class="cancel"><a href="{{ logoutPath }}">{{ "cancel"|trans({}, 'SchebTwoFactorBundle') }}</a></p>
+
+
+    </form>
+    <script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+    {{ encore_entry_script_tags('app') }}
+  </body>
+</html>

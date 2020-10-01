@@ -1,15 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ parent() }} - Donations Import{% endblock %}
+{% block title %}{{ parent() }} - Donation Import{% endblock %}
 
 {% block body %}
 {% embed '_page_header.html.twig' %}
-{% block page_header_title %}Donations Import{% endblock %}
+{% block page_header_title %}Donation Import{% endblock %}
 {% endembed %}
 
 {{ form_start(form) }}
 <div class="card mb-3 shadow">
-  <div class="card-header">Import Donations</div>
   <div class="card-body">
     {{ form_row(form.csv_file) }}
     {{ form_row(form.dry_run) }}
