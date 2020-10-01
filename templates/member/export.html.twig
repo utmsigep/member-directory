@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ parent() }} - Export{% endblock %}
+{% block title %}{{ parent() }} - Member Export{% endblock %}
 
 {% block stylesheets -%}
 {{ parent() }}
@@ -9,7 +9,7 @@
 
 {% block body %}
 {% embed '_page_header.html.twig' %}
-{% block page_header_title %}Export{% endblock %}
+{% block page_header_title %}Member Export{% endblock %}
 {% endembed %}
 
 <div class="alert alert-info">
@@ -18,7 +18,6 @@
 
 {{ form_start(form) }}
 <div class="card mb-3 shadow">
-  <div class="card-header">Export Members</div>
   <div class="card-body">
     {{ form_row(form.default_filters) }}
     {{ form_row(form.mailable) }}

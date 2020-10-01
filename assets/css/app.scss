@@ -24,8 +24,8 @@ ol.user-steps > li {
 ol.user-steps > li:before {
   content: counter(li);
   counter-increment: li;
-  color: #fff;
-  background-color: #1e1e1e;
+  color: #f8f9fc;
+  background-color: #858796;
   border-color: #000;
   border-radius: 50%;
   font-size: 18px;
