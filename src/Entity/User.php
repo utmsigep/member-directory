@@ -3,17 +3,20 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Scheb\TwoFactorBundle\Model\Totp\TotpConfiguration;
+use Scheb\TwoFactorBundle\Model\Totp\TotpConfigurationInterface;
+use Scheb\TwoFactorBundle\Model\Totp\TwoFactorInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Gedmo\Timestampable\Traits\TimestampableEntity;
-use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @UniqueEntity("email")
  * @Gedmo\Loggable
  */
-class User implements UserInterface
+class User implements UserInterface, TwoFactorInterface
 {
     /**
      * Hook timestampable behavior
@@ -46,7 +49,15 @@ class User implements UserInterface
      */
     private $password;
 
+    /**
+     * @var string The plaintext password (not stored)
+     */
     private $plainPassword;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $totpSecret;
 
     public function getId(): ?int
     {
@@ -135,6 +146,17 @@ class User implements UserInterface
         return $this->plainPassword;
     }
 
+    public function getTotpSecret(): string
+    {
+        return $this->totpSecret;
+    }
+
+    public function setTotpSecret(?string $totpSecret): self
+    {
+        $this->totpSecret = $totpSecret;
+        return $this;
+    }
+
     /**
      * Model Methods
      */
@@ -142,5 +164,20 @@ class User implements UserInterface
     public function __toString(): string
     {
         return $this->email;
+    }
+
+    public function isTotpAuthenticationEnabled(): bool
+    {
+        return $this->totpSecret ? true : false;
+    }
+
+    public function getTotpAuthenticationUsername(): string
+    {
+        return $this->email;
+    }
+
+    public function getTotpAuthenticationConfiguration(): TotpConfigurationInterface
+    {
+        return new TotpConfiguration($this->totpSecret, TotpConfiguration::ALGORITHM_SHA1, 30, 6);
     }
 }

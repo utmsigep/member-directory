@@ -2,21 +2,22 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
+use App\Form\TwoFactorVerifyType;
+use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Totp\TotpAuthenticatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\Length;
-
-use App\Entity\User;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class SecurityController extends AbstractController
 {
@@ -120,4 +121,58 @@ class SecurityController extends AbstractController
             'form' => $form->createView()
         ]);
     }
+
+    /**
+     * @Route("/manage-two-factor", name="app_manage_two_factor")
+     */
+    public function manageTwoFactor(Request $request, TotpAuthenticatorInterface $totpAuthenticatorService)
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        $user = $this->getUser();
+        if ($user->isTotpAuthenticationEnabled()) {
+            return $this->render('security/two_factor_manage.html.twig');
+        }
+
+        $user->setTotpSecret($totpAuthenticatorService->generateSecret());
+        $qrCodeData = $totpAuthenticatorService->getQRContent($user);
+
+        $form = $this->createForm(TwoFactorVerifyType::class, $user);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user = $form->getData();
+            if ($totpAuthenticatorService->checkCode($user, $form['two_factor_confirm']->getData())) {
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($user);
+                $entityManager->flush();
+                $this->addFlash('success', 'Two-Factor Security setup complete!');
+                return $this->redirectToRoute('app_manage_two_factor');
+            } else {
+                $this->addFlash('error', 'Your code did not match. Please try again.');
+            }
+        }
+
+        return $this->render('security/two_factor_setup.html.twig', [
+            'form' => $form->createView(),
+            'qr_code' => $qrCodeData,
+            'user' => $user
+        ]);
+    }
+
+    /**
+     * @Route("/disable-two-factor", name="app_disable_two_factor")
+     */
+    public function disableTwoFactor(Request $request, TotpAuthenticatorInterface $totpAuthenticatorService)
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        $user = $this->getUser();
+        $user->setTotpSecret(null);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($user);
+        $entityManager->flush();
+        $this->addFlash('success', 'Two-Factor security disabled.');
+        return $this->redirectToRoute('app_manage_two_factor');
+    }
+
 }

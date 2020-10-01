@@ -96,8 +96,12 @@
                     Edit Profile
                   </a>
                   <a class="dropdown-item" href="{{ path('app_change_password')}}">
-                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                    <i class="fas fa-lock fa-sm fa-fw mr-2 text-gray-400"></i>
                     Change Password
+                  </a>
+                  <a class="dropdown-item" href="{{ path('app_manage_two_factor')}}">
+                    <i class="fas fa-stopwatch fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Two-Factor Security
                   </a>
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="{{ path('app_logout') }}">

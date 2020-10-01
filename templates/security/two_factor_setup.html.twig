@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} - Manage Two-Factor Security{% endblock %}
+
+{% block body %}
+{% embed '_page_header.html.twig' %}
+{% block page_header_title %}Manage Two-Factor Security{% endblock %}
+{% endembed %}
+
+{{ form_start(form) }}
+<div class="card mb-3 shadow" style="max-width:40rem">
+  <div class="card-body">
+    <p class="lead">Two-Factor Security is not set up on this account.</p>
+    <ol class="user-steps">
+      <li>
+        <p>Use the QR code below to add to your authenticator app (e.g. Google Authenticator) on your mobile phone or desktop.</p>
+        <div><img src="{{ qr_code_data_uri(qr_code, { writer: 'svg', size: 250 }) }}" /></div>
+        <p><i class="fas fa-info-circle fa-fw"></i> If you need to add it manually, use:<br /> <code>{{ user.totpSecret }}</code></p>
+      </li>
+      <li>
+        <p>Enter the generated code below to confirm it is set up correctly.</p>
+        {{ form_row(form.two_factor_confirm) }}
+      </li>
+    </ol>
+  </div>
+  <div class="card-footer text-right">
+    {{ form_widget(form.submit) }}
+  </div>
+</div>
+{{ form_rest(form) }}
+{{ form_end(form) }}
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+{% endblock %}
