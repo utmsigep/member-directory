@@ -35,7 +35,7 @@ class DonationImportType extends AbstractType
             ->add('dry_run', CheckboxType::class, [
                 'label' => 'Dry-run',
                 'help' => 'Does not save or create records when checked.',
-                'data' => true,
+                'data' => false,
                 'required' => false
             ])
         ;
