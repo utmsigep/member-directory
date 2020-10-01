@@ -12,6 +12,7 @@ Member Directory is a [Symfony](https://symfony.com/) 5 project to manage the me
 * **Tagging** of membership records to indicate committees or extra data
 * **Donation tracking** via [Donorbox](https://donorbox.org) import or manual entry
 * **Self-service record updates** via unique, one-time use URLs
+* **Two-Factor Security** (optional) to help keep your member data safe
 
 ## [Developer Quick Start](https://github.com/stephenyeargin/member-directory/wiki/Developer-Quick-Start)
 
