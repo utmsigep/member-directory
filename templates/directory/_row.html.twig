@@ -27,8 +27,8 @@
       {% else %}
       <li class="list-inline-item m-0"><i class="fab fa-linkedin fa-lg" style="opacity:0.2"></i></li>
       {% endif %}
-      {% if member.facebookIdentifier %}
-      <li class="list-inline-item m-0"><a href="https://facebook.com/{{ member.facebookIdentifier }}" target="_blank"><i class="fab fa-facebook fa-lg"></i></a></li>
+      {% if member.facebookUrl %}
+      <li class="list-inline-item m-0"><a href="{{ member.facebookUrl }}" target="_blank"><i class="fab fa-facebook fa-lg"></i></a></li>
       {% else %}
       <li class="list-inline-item m-0"><i class="fab fa-facebook fa-lg" style="opacity:0.2"></i></li>
       {% endif %}

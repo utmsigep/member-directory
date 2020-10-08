@@ -218,6 +218,14 @@ class EmailService
                 'Value' => $member->getOccupation()
             ],
             [
+                'Key' => 'LinkedIn Profile',
+                'Value' => $member->getLinkedinUrl()
+            ],
+            [
+                'Key' => 'Facebook Profile',
+                'Value' => $member->getFacebookUrl()
+            ],
+            [
                 'Key' => 'Tags',
                 'Value' => $member->getTagsAsCSV()
             ],

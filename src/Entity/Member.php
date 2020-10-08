@@ -695,6 +695,14 @@ class Member
         );
     }
 
+    public function getFacebookUrl(): ?string
+    {
+        if ($this->facebookIdentifier) {
+            return sprintf('https://www.facebook.com/%d', $this->facebookIdentifier);
+        }
+        return null;
+    }
+
     public function getUpdateToken(): string
     {
         return sha1(json_encode([

@@ -120,8 +120,8 @@
         </div>
         <div class="text-center">
           <ul class="list-inline">
-            {% if member.facebookIdentifier %}
-            <li class="list-inline-item"><a href="https://facebook.com/{{ member.facebookIdentifier }}" target="_blank"><i class="fab fa-facebook fa-2x"></i></a></li>
+            {% if member.facebookUrl %}
+            <li class="list-inline-item"><a href="{{ member.facebookUrl }}" target="_blank"><i class="fab fa-facebook fa-2x"></i></a></li>
             {% endif %}
             {% if member.linkedinUrl %}
             <li class="list-inline-item"><a href="{{ member.linkedinUrl }}" target="_blank"><i class="fab fa-linkedin fa-2x"></i></a></li>
