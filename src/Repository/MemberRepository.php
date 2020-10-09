@@ -269,8 +269,8 @@ class MemberRepository extends ServiceEntityRepository
     public function search(string $searchTerm, $limit = 1000)
     {
         return $this->createQueryBuilder('m')
-            ->addSelect('MATCH (m.firstName, m.preferredName, m.middleName, m.lastName) AGAINST (:searchTerm) AS score')
-            ->setParameter('searchTerm', $searchTerm)
+            ->addSelect('MATCH (m.firstName, m.preferredName, m.middleName, m.lastName) AGAINST (:searchTerm IN BOOLEAN MODE) AS score')
+            ->setParameter('searchTerm', $searchTerm . '*')
             ->having('score > 0')
             ->orderBy('score', 'DESC')
             ->setMaxResults($limit)
