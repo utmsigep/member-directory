@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\ProfileType;
 use App\Form\TwoFactorVerifyType;
 use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Totp\TotpAuthenticatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -42,18 +43,7 @@ class SecurityController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         $user = $this->getUser();
-        $form = $this->createFormBuilder($user)
-            ->add('name')
-            ->add('email', EmailType::class, [
-                'constraints' => [
-                    new Email([
-                        'message' => 'Must be a valid email address!'
-                    ])
-                ]
-            ])
-            ->getForm()
-            ;
-
+        $form = $this->createForm(ProfileType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
