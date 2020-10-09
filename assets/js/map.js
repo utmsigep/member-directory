@@ -69,14 +69,14 @@ var drawMap = function () {
                 fullName: row[0].preferredName + ' ' + row[0].lastName,
                 localIdentifierShort: row[0].localIdentifierShort,
                 distance: row.distance,
-                classYear: row[0].classYear,
+                classYear: row[0].classYear ? ' (' + row[0].classYear + ')' : '',
                 status: row[0].status.label,
                 link: Routing.generate('member_show', {localIdentifier: row[0].localIdentifier}),
                 photoUrl: row[0].photoUrl,
                 tags: formatTags(row[0])
               }
               searchResultsContainer.append(L.Util.template(
-                '<div><strong><a href="{link}" target="_blank">{fullName}</a> ({classYear})</strong>{tags}<br />{localIdentifierShort} / {status}</div><hr />', result
+                '<div><strong><a href="{link}" target="_blank">{fullName}</a> {classYear}</strong>{tags}<br />{localIdentifierShort} / {status}</div><hr />', result
               ))
             })
           }
