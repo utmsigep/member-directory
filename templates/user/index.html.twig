@@ -5,7 +5,7 @@
 
 {% block body %}
 {% embed '_page_header.html.twig' %}
-{% block page_header_title %}Search Results{% endblock %}
+{% block page_header_title %}Users{% endblock %}
 {% block page_header_buttons %}
 <a role="button" href="{{ path('user_new') }}" class="btn btn-sm btn-primary"><i class="fas fa-plus fa-fw"></i> New User</a>
 {% endblock %}
@@ -21,8 +21,10 @@
         <thead>
           <tr>
             <th>Login E-mail</th>
+            <th>Name</th>
             <th>Roles</th>
             <th>Two-Factor</th>
+            <th>Last Login</th>
             <th class="col-edit">&nbsp;</th>
           </tr>
         </thead>
@@ -30,6 +32,7 @@
           {% for user in users %}
           <tr>
             <td><a href="{{ path('user_show', {'id': user.id}) }}">{{ user.email }}</a></td>
+            <td>{{ user.name }}</td>
             <td>{{ macros.user_roles(user.roles) }}</td>
             <td>
               {% if user.isTotpAuthenticationEnabled %}
@@ -38,6 +41,7 @@
               <i class="fas fa-times fa-fw text-danger"></i> Disabled</a>
               {% endif %}
             </td>
+            <td>{{ user.lastLogin ? user.lastLogin|date('F j, Y g:i a') : 'Never' }}</td>
             <td>
               <a href="{{ path('user_edit', {'id': user.id}) }}"><i class="fas fa-edit fa-fw"></i></a>
             </td>

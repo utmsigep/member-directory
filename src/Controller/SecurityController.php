@@ -43,6 +43,7 @@ class SecurityController extends AbstractController
 
         $user = $this->getUser();
         $form = $this->createFormBuilder($user)
+            ->add('name')
             ->add('email', EmailType::class, [
                 'constraints' => [
                     new Email([
