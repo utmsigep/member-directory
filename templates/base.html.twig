@@ -86,7 +86,7 @@
               <!-- Nav Item - User Information -->
               <li class="nav-item dropdown no-arrow">
                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ app.user.email }}</span>
+                  <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ app.user.name ? app.user.name : app.user.email }}</span>
                   <i class="fas {% if is_granted('ROLE_ADMIN') %}fa-user-shield{% else %}fa-user{% endif %} fa-fw"></i>
                 </a>
                 <!-- Dropdown - User Information -->

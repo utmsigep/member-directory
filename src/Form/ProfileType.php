@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\Length;
 
-class UserType extends AbstractType
+class ProfileType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -28,34 +28,13 @@ class UserType extends AbstractType
                     ])
                 ]
             ])
-            ->add('roles', ChoiceType::class, [
-                'choices' => [
-                    'Basic User' => 'ROLE_USER',
-                    'Donation Manager' => 'ROLE_DONATION_MANAGER',
-                    'Email Manager' => 'ROLE_EMAIL_MANAGER',
-                    'Site Administrator' => 'ROLE_ADMIN'
-                ],
-                'multiple' => true,
-                'expanded' => true
-            ])
-            ->add('plainPassword', RepeatedType::class, [
-                'label' => 'Password',
-                'mapped' => false,
-                'type' => PasswordType::class,
-                'invalid_message' => 'The password fields must match.',
-                'options' => ['attr' => ['class' => 'password-field']],
-                'required' => $options['require_password'],
-                'first_options'  => ['label' => 'Password'],
-                'second_options' => ['label' => 'Repeat Password'],
-            ])
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => User::class,
-            'require_password' => true
+            'data_class' => User::class
         ]);
     }
 }

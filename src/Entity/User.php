@@ -59,6 +59,16 @@ class User implements UserInterface, TwoFactorInterface
      */
     private $totpSecret;
 
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $name;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $lastLogin;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -154,6 +164,26 @@ class User implements UserInterface, TwoFactorInterface
     public function setTotpSecret(?string $totpSecret): self
     {
         $this->totpSecret = $totpSecret;
+        return $this;
+    }
+
+    public function getLastLogin(): ?\DateTime {
+        return $this->lastLogin;
+    }
+
+    public function setLastLogin(?\DateTime $lastLogin): self {
+        $this->lastLogin = $lastLogin;
+
+        return $this;
+    }
+
+    public function getName(): ?string {
+        return $this->name;
+    }
+
+    public function setName(?string $name): self {
+        $this->name = $name;
+
         return $this;
     }
 
