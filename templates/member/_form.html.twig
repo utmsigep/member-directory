@@ -7,7 +7,6 @@
         <div class="card-body">
           {{ form_row(form.localIdentifier, {label: 'Local Identifier'}) }}
           {{ form_row(form.externalIdentifier, {label: 'External Identifier'}) }}
-          {{ form_row(form.facebookIdentifier, {label: 'Facebook Identifier'}) }}
         </div>
       </div>
 
@@ -21,6 +20,8 @@
           <hr />
           {{ form_row(form.primaryEmail, {label: 'Primary E-mail'}) }}
           {{ form_row(form.primaryTelephoneNumber, {label: 'Primary Telephone Number'}) }}
+          <hr />
+          {{ form_row(form.photoUrl, {label: 'Photo URL'}) }}
         </div>
       </div>
     </div>
@@ -45,17 +46,16 @@
         </div>
       </div>
       <div class="card mb-3 shadow">
-        <div class="card-header">Contact Flags</div>
+        <div class="card-header">Social Media</div>
         <div class="card-body">
-          {{ form_row(form.isLost, {label: 'Lost' }) }}
-          {{ form_row(form.isDeceased, {label: 'Deceased'}) }}
-          {{ form_row(form.isLocalDoNotContact, {label: 'Do Not Contact'}) }}
+          {{ form_row(form.linkedinUrl, {label: 'LinkedIn URL', attr: {placeholder: 'e.g. https://www.linkedin.com/in/williamhgates'}}) }}
+          {{ form_row(form.facebookUrl, {label: 'Facebook URL', attr: {placeholder: 'e.g. https://www.facebook.com/zuck'}}) }}
         </div>
       </div>
     </div>
     <div class="col-lg-4">
       <div class="card mb-3 shadow">
-        <div class="card-header">Details</div>
+        <div class="card-header">Membership Details</div>
         <div class="card-body">
           {{ form_row(form.joinDate, {label: 'Join Date'}) }}
           {{ form_row(form.classYear, {label: 'Class Year'}) }}
@@ -68,8 +68,14 @@
           {{ form_row(form.employer, {label: 'Employer'}) }}
           {{ form_row(form.jobTitle, {label: 'Job Title'}) }}
           {{ form_row(form.occupation, {label: 'Occupation'}) }}
-          <hr />
-          {{ form_row(form.linkedinUrl, {label: 'LinkedIn URL', attr: {placeholder: 'e.g. https://www.linkedin.com/in/williamhgates/'}}) }}
+        </div>
+      </div>
+      <div class="card mb-3 shadow">
+        <div class="card-header">Contact Flags</div>
+        <div class="card-body">
+          {{ form_row(form.isLost, {label: 'Lost' }) }}
+          {{ form_row(form.isDeceased, {label: 'Deceased'}) }}
+          {{ form_row(form.isLocalDoNotContact, {label: 'Do Not Contact'}) }}
         </div>
       </div>
     </div>

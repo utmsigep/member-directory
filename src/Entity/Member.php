@@ -186,10 +186,15 @@ class Member
     private $occupation;
 
     /**
-     * @ORM\Column(type="bigint", nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @Gedmo\Versioned
+     * @Assert\Regex(
+     *   pattern     = "/^https?\:\/\/(www\.)?facebook.com\/(.*)$/i",
+     *   htmlPattern = "https?://(www.)?facebook.com/.+",
+     *   message     = "Please provide a Facebook URL"
+     * )
      */
-    private $facebookIdentifier;
+    private $facebookUrl;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -201,6 +206,12 @@ class Member
      * )
      */
     private $linkedinUrl;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Gedmo\Versioned
+     */
+    private $photoUrl;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
@@ -521,14 +532,14 @@ class Member
         return $this;
     }
 
-    public function getFacebookIdentifier(): ?int
+    public function getFacebookUrl(): ?string
     {
-        return $this->facebookIdentifier;
+        return $this->facebookUrl;
     }
 
-    public function setFacebookIdentifier(?int $facebookIdentifier): self
+    public function setFacebookUrl(?string $facebookUrl): self
     {
-        $this->facebookIdentifier = $facebookIdentifier;
+        $this->facebookUrl = $facebookUrl;
 
         return $this;
     }
@@ -553,6 +564,18 @@ class Member
     public function setDirectoryNotes(?string $directoryNotes): self
     {
         $this->directoryNotes = $directoryNotes;
+
+        return $this;
+    }
+
+    public function getPhotoUrl(): ?string
+    {
+        return $this->photoUrl;
+    }
+
+    public function setPhotoUrl(?string $photoUrl): ?string
+    {
+        $this->photoUrl = $photoUrl;
 
         return $this;
     }
@@ -668,39 +691,6 @@ class Member
             $output[] = $tag->getTagName();
         }
         return join(',', $output);
-    }
-
-    public function getPhotoUrl(int $size = 400): ?string
-    {
-        if ($this->facebookIdentifier) {
-            return sprintf(
-                'https://graph.facebook.com/v3.3/%d/picture?width=%d&height=%d&type=square',
-                $this->facebookIdentifier,
-                $size,
-                $size
-            );
-        }
-        if ($this->primaryEmail) {
-            return sprintf(
-                'https://www.gravatar.com/avatar/%s?size=%d&default=mm',
-                md5($this->primaryEmail),
-                $size
-            );
-        }
-        // Default Gravatar image
-        return sprintf(
-            'https://www.gravatar.com/avatar/%s?size=%d&default=mm',
-            md5('unknown-user@example.com'),
-            $size
-        );
-    }
-
-    public function getFacebookUrl(): ?string
-    {
-        if ($this->facebookIdentifier) {
-            return sprintf('https://www.facebook.com/%d', $this->facebookIdentifier);
-        }
-        return null;
     }
 
     public function getUpdateToken(): string
