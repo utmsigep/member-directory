@@ -1,6 +1,12 @@
 .col-edit {
   width: 10px;
 }
+.img-profile-sm {
+  max-width: 30px;
+  max-height: 30px;
+  overflow: hidden;
+  display: block;
+}
 .inactive {
 	opacity: 0.7;
 	transition: opacity .2s ease-out;

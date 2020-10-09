@@ -58,6 +58,6 @@ final class Version20200909030146 extends AbstractMigration
     public function postUp(Schema $schema) : void
     {
         // Forward compatability update
-        $this->addSql('UPDATE member_status SET is_inactive = 1 WHERE code IN ("RESIGNED", "EXPELLED")');
+        $this->connection->executeQuery('UPDATE member_status SET is_inactive = 1 WHERE code IN ("RESIGNED", "EXPELLED")');
     }
 }

@@ -33,6 +33,7 @@ class AppExtension extends AbstractExtension
             new TwigFunction('get_tags', [$this, 'getTags']),
             new TwigFunction('is_email_service_configured', [$this, 'isEmailServiceConfigured']),
             new TwigFunction('is_postal_validator_service_configured', [$this, 'isPostalValidatorServiceConfigured']),
+            new TwigFunction('gravatar', [$this, 'gravatar']),
         ];
     }
 
@@ -56,5 +57,22 @@ class AppExtension extends AbstractExtension
     public function isPostalValidatorServiceConfigured(): bool
     {
         return $this->postalValidatorService->isConfigured();
+    }
+
+    public function gravatar(?string $email, int $size = 256): string
+    {
+        if ($email) {
+            return sprintf(
+                'https://www.gravatar.com/avatar/%s?size=%d&default=mm',
+                md5($email),
+                $size
+            );
+        }
+        // Default Gravatar image
+        return sprintf(
+            'https://www.gravatar.com/avatar/%s?size=%d&default=mm',
+            md5('unknown-user@example.com'),
+            $size
+        );
     }
 }

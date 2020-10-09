@@ -43,7 +43,9 @@
             </td>
             <td class="text-center">{{ member.localIdentifierShort }}</td>
             <td width="32">
-              <a href="{{ path('member_show', {localIdentifier: member.localIdentifier}) }}"><img src="{{ member.photoUrl }}" class="img-fluid" style="max-width:32px;" /></a>
+              <a href="{{ path('member_show', {localIdentifier: member.localIdentifier}) }}">
+                <img src="{{ member.photoUrl ? member.photoUrl : gravatar(member.primaryEmail) }}" class="img-fluid img-profile-sm" alt="Profile Photo" />
+              </a>
             </td>
             <td>
               <a href="{{ path('member_show', {localIdentifier: member.localIdentifier}) }}">{{ member.displayName }} </a>

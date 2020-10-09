@@ -116,7 +116,11 @@
       </div>
       <div class="col-lg-4">
         <div class="text-center mb-5">
-          <img src="{{ member.photoUrl }}" class="img-fluid img-thumbnail" />
+          {% if member.photoUrl %}
+          <img src="{{ member.photoUrl(256) }}" class="img-fluid img-thumbnail" />
+          {% else %}
+          <img src="{{ gravatar(member.primaryEmail, 256) }}" class="img-fluid img-thumbnail" />
+          {% endif %}
         </div>
         <div class="text-center">
           <ul class="list-inline">
