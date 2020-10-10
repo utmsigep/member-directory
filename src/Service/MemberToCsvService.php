@@ -15,7 +15,6 @@ class MemberToCsvService
         $csvWriter->insertOne([
             'externalIdentifier',
             'localIdentifier',
-            'localIdentifierShort',
             'status',
             'firstName',
             'preferredName',
@@ -51,7 +50,6 @@ class MemberToCsvService
         return [
             $member->getExternalIdentifier(),
             $member->getLocalIdentifier(),
-            $member->getLocalIdentifierShort(),
             $member->getStatus(),
             $member->getFirstName(),
             $member->getPreferredName(),

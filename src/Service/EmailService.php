@@ -170,10 +170,6 @@ class EmailService
                 'Value' => $member->getLocalIdentifier()
             ],
             [
-                'Key' => 'Local Identifier Short',
-                'Value' => $member->getLocalIdentifierShort()
-            ],
-            [
                 'Key' => 'External Identifier',
                 'Value' => $member->getExternalIdentifier()
             ],
