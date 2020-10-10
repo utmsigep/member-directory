@@ -1,11 +1,15 @@
 .col-edit {
   width: 10px;
 }
+.col-profile-img {
+  max-width: 30px;
+  text-align: center;
+}
 .img-profile-sm {
   max-width: 30px;
   max-height: 30px;
   overflow: hidden;
-  display: block;
+  display: inline-block;
 }
 .inactive {
 	opacity: 0.7;

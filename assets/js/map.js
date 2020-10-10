@@ -87,6 +87,7 @@ var drawMap = function () {
   $.getJSON(Routing.generate('map_data'), {}, function(data) {
     $(data).each(function (i, row) {
       var marker = L.marker(L.latLng(row.mailingLatitude, row.mailingLongitude)).setIcon(defaultIcon)
+      row = formatMemberData(row)
       marker.bindTooltip(formatMemberTooltip(row)).bindPopup(formatMemberPopup(row)).addTo(directoryMap)
       memberMarkers.push(marker)
     })
@@ -98,22 +99,25 @@ var drawMap = function () {
     })
   }
 
-var formatMemberPopup = function (data) {
+var formatMemberData = function (data) {
   data.statusLabel = data.status.label
   data.mailingAddressLine2 = data.mailingAddressLine2 ? data.mailingAddressLine2 : ''
   data.link = Routing.generate('member_show', {localIdentifier: data.localIdentifier})
+  data.classYear = data.classYear ? '(' + data.classYear + ')' : ''
   data.tags = formatTags(data)
+  return data
+}
+
+var formatMemberPopup = function (data) {
   return L.Util.template(
-    '<strong><a href="{link}">{preferredName} {lastName}</a> ({classYear})</strong>{tags}<br />{localIdentifierShort} / {statusLabel}<hr />{mailingAddressLine1} {mailingAddressLine2}<br />{mailingCity}, {mailingState} {mailingPostalCode}',
+    '<strong><a href="{link}">{preferredName} {lastName}</a> {classYear}</strong>{tags}<br />{localIdentifierShort} / {statusLabel}<hr />{mailingAddressLine1} {mailingAddressLine2}<br />{mailingCity}, {mailingState} {mailingPostalCode}',
     data
   )
 }
 
 var formatMemberTooltip = function (data) {
-  data.statusLabel = data.status.label
-  data.tags = formatTags(data)
   return L.Util.template(
-    '<strong>{preferredName} {lastName} ({classYear})</strong>{tags}<br />{localIdentifierShort} / {statusLabel}',
+    '<strong>{preferredName} {lastName} {classYear}</strong>{tags}<br />{localIdentifierShort} / {statusLabel}',
     data
   )
 }

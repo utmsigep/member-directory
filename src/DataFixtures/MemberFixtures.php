@@ -35,10 +35,12 @@ class MemberFixtures extends Fixture implements DependentFixtureInterface
         $member->setMailingState('VA');
         $member->setMailingPostalCode('23220-5706');
         $member->setMailingCountry('United States');
+        $member->setPrimaryTelephoneNumber('804-353-1901');
         $member->setStatus($memberStatusMember);
         $member->setJoinDate(new \DateTime('November 1, 1901'));
         $member->setDirectoryNotes("Carter Ashton Jenkens was born in Oxford, North Carolina, on April 9, 1882, and received his early education in New Jersey.\n\nHe graduated from Richmond College in June, 1902, and then taught for two years at Chase City, Virginia, Military Academy and Richmond Preparatory. He received a baccalaureate degree in the ministry at Crozer Seminary in Chester, Pennsylvania, and served for more than 20 years as a pastor in churches in Hampton, Norfolk, and Richmond, finally to become an evangelist and conduct revivals throughout the United States. His gift for inspiring oratory was so outstanding that the famed evangelist \"Billy Sunday\" is reported on one occasion to have exclaimed, \"If only the Almighty had blessed me with the voice of Carter Jenkens!\" His twilight years were spent in Louisville, Kentucky, where he died on July 23, 1952.");
         $member->addTag($tag1901Club);
+        $member->setPhotoUrl('https://sigep.org/wp-content/uploads/2016/11/jenkins.jpg');
         $manager->persist($member);
 
         $member = new Member();
@@ -107,9 +109,17 @@ class MemberFixtures extends Fixture implements DependentFixtureInterface
         $member->setLastName('Phillips');
         $member->setPrimaryEmail('unclebilly@example.org');
         $member->setClassYear(null);
+        $member->setMailingAddressLine1('2 Ryland Circle');
+        $member->setMailingCity('Richmond');
+        $member->setMailingState('VA');
+        $member->setMailingPostalCode('23226');
+        $member->setMailingLatitude(37.5775);
+        $member->setMailingLongitude(-77.537222);
+        $member->setMailingCountry('United States');
         $member->setStatus($memberStatusMember);
         $member->setJoinDate(new \DateTime('November 1, 1901'));
         $member->setDirectoryNotes("William Lazell Phillips devoted virtually all the mature years of his life to Sigma Phi Epsilon.\n\nA study of the leadership pattern of the founding group reveals that he is the one titan after Jenkens. The latter said to his brothers, \"This is how we must build our Fraternity.\" Phillips built it. Born in Normal, Illinois, in 1873, William L. Phillips came to Richmond College in September, 1901, to study law and the Bible. He attended one year, dropped out a year, and then returned. His pursuit of legal studies gave way to his devotion to Sigma Phi Epsilon and he never graduated.\n\nThe first Conclave at Richmond College in December, 1903, authorized the establishment of the Journal and appointed Uncle Billy as its first editor. The first issue, March, 1904, \"Published by the Grand Council in the interest of the Fraternity,\" reveals that Uncle Billy was determined to make the Journal carry news from all chapters and thus add dignity and strength to his young Fraternity.\n\nIn addition to his work as the first Journal editor, he played some baseball and football (not on the college team), attended the Philogian Literary Society, and attended classes in law. He was the first secretary of Virginia Alpha in 1901-1902.\n\nA complete record of his professional career tells the story of his work for Sigma Phi Epsilon: Editor of the Journal, 1904-1912, 1919-1921; business manager of the Journal, 1904-1911, 1919-1942; member, Ritual Committee, 1907; editor of membership directories, 1915 and 1921; trustee of the Endowment Fund 1925-1939, 1944-1949; trustee of the national Headquarters, 1927-1942; trustee of the Student Loan Fund, 1930-1940; Grand Secretary, 1908-1942; Grand Secretary Emeritus, 1942-1956; Grand Vice President, 1943; Grand President, 1944; National Interfraternity Conference, founder, 1909; Vice Chairman, 1929-1930; member, War Committee, 1942; a founder and Chairman of College Fraternity Secretaries Association 1939-1940.\n\nUncle Billy passed away at his home on June 20, 1956, and left his personal estate to the Fraternity, which founded the Phillips Fund within the Sigma Phi Epsilon Educational Foundation. That fund provides scholarships for members of the University of Richmond chapter.\n\nHe loved his Fraternity intensely and had attended every one of the 24 Conclaves from the first at Richmond College, 1903, to Cincinnati, 1955. William L. Phillips must be numbered among the first handful of truly great builders of the American college fraternity system. No one has achieved a greater record.");
+        $member->setPhotoUrl('https://sigep.org/wp-content/uploads/2016/11/phillips.jpg');
         $manager->persist($member);
 
         $this->addReference(self::UNCLE_BILLY, $member);
@@ -185,6 +195,7 @@ class MemberFixtures extends Fixture implements DependentFixtureInterface
         $member->setDirectoryNotes("Frank Webb Kerfoot, who died in an accident on August 29, 1918, was another Baptist preacher.\n\nA native Virginian, he was born October 2, 1876, in Buckland, Prince William County, and at Richmond was a member of the Class of 1902. At the time of his death, he was a chaplain in the Army. He had been pastor of parishes in Buckingham and Middlesex Counties, and Chatham, Virginia; Nowata, Oklahoma, and Fort Smith, Arkansas.");
         $member->addTag($tag1901Club);
         $member->setIsDeceased(true);
+        $member->setPhotoUrl('https://sigep.org/wp-content/uploads/2016/11/kerfoot.jpg');
         $manager->persist($member);
 
         $member = new Member();
@@ -199,7 +210,7 @@ class MemberFixtures extends Fixture implements DependentFixtureInterface
         $member->setStatus($memberStatusMember);
         $member->setJoinDate(new \DateTime('November 1, 1901'));
         $member->setDirectoryNotes("Thomas Vaden McCaul was born in Charles City County, Virginia on November 25, 1878.\n\nHe attended Richmond public schools, graduated from Richmond High School, and entered Richmond College as a pre-law student in February, 1898. In September of that year, Uncle Tom returned to Richmond College as a ministerial student, being convinced of a call to preach. He received his B.A. from Richmond College in June, 1902; the masters of theology from the Southern Baptist Theological Seminary in 1905, and the M.A. from the University of Virginia in 1908. The honorary degree of doctor of divinity was conferred upon him by the University of Richmond and Stetson University.\n\nWhile at Richmond College, Uncle Tom was active in debates and oratorical contests. He won the writer's medal offered by his literary society his senior year. He won the orator's medal at the University of Virginia in 1907. Uncle Tom served as the first president of Virginia Alpha in 1901-1902 and wrote the Fraternity's first song, \"Our Fraternity,\" in 1902. In the fall of 1902, he visited Bethany College, West Virginia; Washington and Jefferson College, Pennsylvania; and West Virginia University and formed a nucleus for chapters in all three. He helped establish Virginia Eta at the University of Virginia in 1907 and Florida Alpha at the University of Florida in 1925. He was appointed National Chaplain in 1947 and served until 1959.\n\nUncle Tom served as pastor of Baptist churches in Kentucky, Virginia, South Carolina, and Florida. After more than 2 years as pastor of the First Baptist Church of Gainesville, Florida, he retired on January 1, 1949. He remained in Gainesville, frequently looking in on his young Florida Alpha brothers. He continued to attend Conclaves, his last being the 32nd Grand Chapter in Atlanta in 1971. On November 18, 1972, he died peacefully in Gainesville at the age of 93. He was the Fraternity's last remaining founder.");
-        $member->setIsLocalDoNotContact(true);
+        $member->setPhotoUrl('https://sigep.org/wp-content/uploads/2016/11/mccaul.jpg');
         $manager->persist($member);
 
         $manager->flush();
