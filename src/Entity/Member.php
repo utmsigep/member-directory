@@ -672,13 +672,6 @@ class Member
         return sprintf('%s, %s (%s)', $this->lastName, $this->preferredName, $this->localIdentifier);
     }
 
-    public function getLocalIdentifierShort(): string
-    {
-        // <Chapter Identifier>-<Roll Number>
-        preg_match('/^(\d+)\-(\d+)$/', $this->localIdentifier, $matches);
-        return isset($matches[2]) ? ltrim((string) $matches[2], '0') : 'N/A';
-    }
-
     public function getDisplayName(): string
     {
         return $this->preferredName . ' ' . $this->lastName;

@@ -41,7 +41,7 @@
             <td class="text-muted small" nowrap>
               {{ member.updatedAt|date('n/j/Y h:i a') }}
             </td>
-            <td class="text-center">{{ member.localIdentifierShort }}</td>
+            <td class="text-center">{{ member.localIdentifier }}</td>
             <td width="32">
               <a href="{{ path('member_show', {localIdentifier: member.localIdentifier}) }}">
                 <img src="{{ member.photoUrl ? member.photoUrl : gravatar(member.primaryEmail) }}" class="img-fluid img-profile-sm" alt="Profile Photo" />

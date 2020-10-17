@@ -67,7 +67,7 @@ var drawMap = function () {
             $(data).each(function (i, row) {
               var result = {
                 fullName: row[0].preferredName + ' ' + row[0].lastName,
-                localIdentifierShort: row[0].localIdentifierShort,
+                localIdentifier: row[0].localIdentifier,
                 distance: row.distance,
                 classYear: row[0].classYear ? ' (' + row[0].classYear + ')' : '',
                 status: row[0].status.label,
@@ -76,7 +76,7 @@ var drawMap = function () {
                 tags: formatTags(row[0])
               }
               searchResultsContainer.append(L.Util.template(
-                '<div><strong><a href="{link}" target="_blank">{fullName}</a> {classYear}</strong>{tags}<br />{localIdentifierShort} / {status}</div><hr />', result
+                '<div><strong><a href="{link}" target="_blank">{fullName}</a> {classYear}</strong>{tags}<br />{localIdentifier} / {status}</div><hr />', result
               ))
             })
           }
@@ -110,14 +110,14 @@ var formatMemberData = function (data) {
 
 var formatMemberPopup = function (data) {
   return L.Util.template(
-    '<strong><a href="{link}">{preferredName} {lastName}</a> {classYear}</strong>{tags}<br />{localIdentifierShort} / {statusLabel}<hr />{mailingAddressLine1} {mailingAddressLine2}<br />{mailingCity}, {mailingState} {mailingPostalCode}',
+    '<strong><a href="{link}">{preferredName} {lastName}</a> {classYear}</strong>{tags}<br />{localIdentifier} / {statusLabel}<hr />{mailingAddressLine1} {mailingAddressLine2}<br />{mailingCity}, {mailingState} {mailingPostalCode}',
     data
   )
 }
 
 var formatMemberTooltip = function (data) {
   return L.Util.template(
-    '<strong>{preferredName} {lastName} {classYear}</strong>{tags}<br />{localIdentifierShort} / {statusLabel}',
+    '<strong>{preferredName} {lastName} {classYear}</strong>{tags}<br />{localIdentifier} / {statusLabel}',
     data
   )
 }
