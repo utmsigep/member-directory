@@ -11,7 +11,7 @@
   </head>
 
   <body class="text-center">
-    <form class="form-signin" action="{{ checkPathUrl ? checkPathUrl : path(checkPathRoute) }}" method="post">
+    <form class="form-two-factor" action="{{ checkPathUrl ? checkPathUrl : path(checkPathRoute) }}" method="post">
       {% if authenticationError %}
           <div class="alert alert-danger">{{ authenticationError|trans(authenticationErrorData, 'SchebTwoFactorBundle') }}</div>
       {% endif %}
@@ -25,7 +25,7 @@
 
       <p class="widget">
           <input
-              class="form-control"
+              class="form-control form-control-lg text-center"
               id="_auth_code"
               type="text"
               name="{{ authCodeParameterName }}"
