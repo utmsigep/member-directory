@@ -5,7 +5,7 @@ namespace App\Repository;
 use App\Entity\Donation;
 use App\Entity\Member;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method Donation|null find($id, $lockMode = null, $lockVersion = null)
