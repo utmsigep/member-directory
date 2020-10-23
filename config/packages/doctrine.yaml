@@ -30,7 +30,7 @@ doctrine:
             gedmo_loggable:
                 is_bundle: false
                 type: annotation
-                dir: '%kernel.project_dir%/vendor/gedmo/doctrine-extensions/lib/Gedmo/Loggable/Entity'
+                dir: '%kernel.project_dir%/vendor/gedmo/doctrine-extensions/src/Loggable/Entity'
                 prefix: Gedmo\Loggable\Entity
 
         dql:

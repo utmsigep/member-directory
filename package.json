@@ -27,7 +27,7 @@
         "moment": "^2.29.1",
         "node-sass": "^4.14.1",
         "popper.js": "^1.16.1",
-        "sass-loader": "^10.0.3",
+        "sass-loader": "^10.0.4",
         "startbootstrap-sb-admin-2": "^4.1.1",
         "tablednd": "^1.0.4",
         "underscore": "^1.11.0"

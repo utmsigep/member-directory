@@ -2,10 +2,9 @@
 
 namespace App\DataFixtures;
 
-use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Persistence\ObjectManager;
-
 use App\Entity\MemberStatus;
+use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Persistence\ObjectManager;
 
 class MemberStatusFixtures extends Fixture
 {
@@ -18,7 +17,7 @@ class MemberStatusFixtures extends Fixture
         $memberStatusMember->setCode('MEMBER');
         $memberStatusMember->setLabel('Member');
         $manager->persist($memberStatusMember);
-        
+
         $memberStatusAlumnus = new MemberStatus();
         $memberStatusAlumnus->setCode('ALUMNUS');
         $memberStatusAlumnus->setLabel('Alumnus');
