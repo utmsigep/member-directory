@@ -105,32 +105,34 @@ class DonorboxDonationService
             }
 
             // Find member record by email, then name
+            $member = null;
             if (isset($csvRecord[self::EMAIL_HEADER])) {
                 $member = $this->entityManager->getRepository(Member::class)->findOneBy([
                     'primaryEmail' => $csvRecord[self::EMAIL_HEADER]
                 ]);
-                if ($member === null) {
-                    $member = $this->entityManager->getRepository(Member::class)->findOneBy([
-                        'preferredName' => $csvRecord[self::FIRST_NAME_HEADER],
-                        'lastName' => $csvRecord[self::LAST_NAME_HEADER]
-                    ]);
-                }
-                if ($member === null) {
-                    $member = $this->entityManager->getRepository(Member::class)->findOneBy([
-                        'firstName' => $csvRecord[self::FIRST_NAME_HEADER],
-                        'lastName' => $csvRecord[self::LAST_NAME_HEADER]
-                    ]);
-                }
-                if ($member === null) {
-                    $this->errors[] = sprintf(
-                        'Unable to locate member record using: "%s" or "%s"; Skipped.',
-                        $csvRecord[self::EMAIL_HEADER],
-                        $csvRecord[self::NAME_HEADER]
-                    );
-                    continue;
-                }
-                $donation->setMember($member);
             }
+            if ($member === null && isset($csvRecord[self::FIRST_NAME_HEADER]) && isset($csvRecord[self::LAST_NAME_HEADER])) {
+                $member = $this->entityManager->getRepository(Member::class)->findOneBy([
+                    'preferredName' => $csvRecord[self::FIRST_NAME_HEADER],
+                    'lastName' => $csvRecord[self::LAST_NAME_HEADER]
+                ]);
+            }
+            if ($member === null && isset($csvRecord[self::FIRST_NAME_HEADER]) && isset($csvRecord[self::LAST_NAME_HEADER])) {
+                $member = $this->entityManager->getRepository(Member::class)->findOneBy([
+                    'firstName' => $csvRecord[self::FIRST_NAME_HEADER],
+                    'lastName' => $csvRecord[self::LAST_NAME_HEADER]
+                ]);
+            }
+            if ($member === null) {
+                $this->errors[] = sprintf(
+                    'Unable to locate member record using: "%s" or "%s"; Skipped.',
+                    $csvRecord[self::EMAIL_HEADER],
+                    $csvRecord[self::NAME_HEADER]
+                );
+                continue;
+            }
+            $donation->setMember($member);
+
             if (isset($csvRecord[self::RECEIPT_ID_HEADER])) {
                 $donation->setReceiptIdentifier($csvRecord[self::RECEIPT_ID_HEADER]);
             }
@@ -221,7 +223,6 @@ class DonorboxDonationService
                 case 'T':
                 case 'CHECKED':
                     return true;
-                    break;
                 default:
                     return false;
             }

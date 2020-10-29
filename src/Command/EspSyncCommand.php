@@ -16,6 +16,10 @@ use App\Service\EmailService;
 
 class EspSyncCommand extends Command
 {
+    protected $entityManager;
+
+    protected $emailService;
+
     protected static $defaultName = 'app:esp:sync';
 
     public function __construct(EntityManagerInterface $entityManager, EmailService $emailService)

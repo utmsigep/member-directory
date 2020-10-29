@@ -18,7 +18,9 @@ class UserAddCommand extends Command
 {
     protected static $defaultName = 'app:user:add';
 
-    protected $passwordEncode;
+    protected $entityManager;
+
+    protected $passwordEncoder;
 
     public function __construct(EntityManagerInterface $entityManager, UserPasswordEncoderInterface $passwordEncoder)
     {
@@ -26,7 +28,6 @@ class UserAddCommand extends Command
         $this->entityManager = $entityManager;
         $this->passwordEncoder = $passwordEncoder;
     }
-
 
     protected function configure()
     {

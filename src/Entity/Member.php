@@ -477,7 +477,7 @@ class Member
         return (float) $this->mailingLatitude;
     }
 
-    public function setMailingLatitude(?string $mailingLatitude): self
+    public function setMailingLatitude(?float $mailingLatitude): self
     {
         $this->mailingLatitude = $mailingLatitude;
 
@@ -489,7 +489,7 @@ class Member
         return (float) $this->mailingLongitude;
     }
 
-    public function setMailingLongitude(?string $mailingLongitude): self
+    public function setMailingLongitude(?float $mailingLongitude): self
     {
         $this->mailingLongitude = $mailingLongitude;
 

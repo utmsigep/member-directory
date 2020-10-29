@@ -248,7 +248,7 @@ class DirectoryController extends AbstractController
     {
         if (!$emailService->isConfigured()) {
             $this->addFlash('danger', 'Email service not configured.');
-            return $this->redirectToRoute('member', ['localIdentifier' => $localIdentifier]);
+            return $this->redirectToRoute('home');
         }
         $campaign = $emailService->getCampaignById($campaignId);
         return $this->redirect($campaign->WebVersionURL);

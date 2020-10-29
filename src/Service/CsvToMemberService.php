@@ -259,7 +259,6 @@ class CsvToMemberService
                 case 'T':
                 case 'CHECKED':
                     return true;
-                    break;
                 default:
                     return false;
             }

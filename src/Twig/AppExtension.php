@@ -16,6 +16,10 @@ class AppExtension extends AbstractExtension
 {
     protected $entityManager;
 
+    protected $postalValidatorService;
+
+    protected $emailService;
+
     public function __construct(
         EntityManagerInterface $entityManager,
         PostalValidatorService $postalValidatorService,

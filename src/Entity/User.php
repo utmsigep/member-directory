@@ -50,7 +50,7 @@ class User implements UserInterface, TwoFactorInterface
     private $password;
 
     /**
-     * @var string The plaintext password (not stored)
+     * @var string|null The plaintext password
      */
     private $plainPassword;
 
@@ -133,7 +133,7 @@ class User implements UserInterface, TwoFactorInterface
      */
     public function getSalt()
     {
-        // not needed when using the "bcrypt" algorithm in security.yaml
+        return null;
     }
 
     /**

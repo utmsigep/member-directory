@@ -18,6 +18,8 @@ class EmailService
 
     protected $client;
 
+    protected $campaignsClient;
+
     public function __construct(ParameterBagInterface $params)
     {
         $this->params = $params;

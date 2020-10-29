@@ -35,7 +35,7 @@ class EmailServiceSubscriber
             return;
         }
         // If member is now deceased, unsubscribe
-        if ($eventArgs->hasChangedField('isDeceased') && $member->isDeceased()) {
+        if ($eventArgs->hasChangedField('isDeceased') && $member->getIsDeceased()) {
             $this->emailService->unsubscribeMember($member);
             return;
         }

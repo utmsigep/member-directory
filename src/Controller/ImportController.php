@@ -2,20 +2,20 @@
 
 namespace App\Controller;
 
+use App\Entity\Member;
+use App\Entity\MemberStatus;
+use App\Form\MemberImportType;
+use App\Form\MemberType;
+use App\Service\CsvToMemberService;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\EntityManagerInterface;
 use Gedmo\Loggable\Entity\LogEntry;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-
-use App\Entity\Member;
-use App\Entity\MemberStatus;
-use App\Service\CsvToMemberService;
-use App\Form\MemberImportType;
-use App\Form\MemberType;
 
 /**
  * @IsGranted("ROLE_ADMIN")
@@ -48,9 +48,8 @@ class ImportController extends AbstractController
     /**
      * @Route("/", name="import")
      */
-    public function import(Request $request, CsvToMemberService $csvToMemberService)
+    public function import(Request $request, CsvToMemberService $csvToMemberService, EntityManagerInterface $entityManager)
     {
-        $entityManager = $this->getDoctrine()->getManager();
         $form = $this->createForm(MemberImportType::class, null);
         $form->handleRequest($request);
         $memberChangeSets = [];

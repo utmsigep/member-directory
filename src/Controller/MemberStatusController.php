@@ -43,9 +43,13 @@ class MemberStatusController extends AbstractController
             $entityManager->persist($memberStatus);
             $entityManager->flush();
             if ($form['createDirectoryCollection']->getData()) {
-                $this->createDirectoryCollectionFromMemberStatus($memberStatus);
+                try {
+                    $this->createDirectoryCollectionFromMemberStatus($memberStatus);
+                    $this->addFlash('success', sprintf('%s created!', $memberStatus));
+                } catch (\Exception $e) {
+                    $this->addFlash('error', 'Unable to create Directory Collection automatically.');
+                }
             }
-            $this->addFlash('success', sprintf('%s created!', $memberStatus));
             return $this->redirectToRoute('member_status_index');
         }
 
@@ -115,12 +119,7 @@ class MemberStatusController extends AbstractController
         $directoryCollection->setIcon('fa-user');
         $directoryCollection->setShowMemberStatus(false);
         $directoryCollection->addMemberStatus($memberStatus);
-        try {
-            $entityManager->persist($directoryCollection);
-            $entityManager->flush();
-        } catch (\Exception $e) {
-            throw $e;
-            $this->addFlash('error', 'Unable to create Directory Collection automatically.');
-        }
+        $entityManager->persist($directoryCollection);
+        $entityManager->flush();
     }
 }

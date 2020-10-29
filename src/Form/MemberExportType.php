@@ -17,7 +17,7 @@ class MemberExportType extends AbstractType
 {
     protected $memberStatusRepository;
 
-    protected $tagRespository;
+    protected $tagRepository;
 
     public function __construct(MemberStatusRepository $memberStatusRepository, TagRepository $tagRespository)
     {

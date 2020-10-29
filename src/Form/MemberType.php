@@ -12,7 +12,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class MemberType extends AbstractType
 {
-    private $tagRespository;
+    private $tagRepository;
 
     public function __construct(TagRepository $tagRespository) {
         $this->tagRepository = $tagRespository;

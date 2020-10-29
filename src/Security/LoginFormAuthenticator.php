@@ -81,6 +81,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
+        /** @var \App\Entity\User */
         $user = $token->getUser();
         $user->setLastLogin(new \DateTime());
         $this->entityManager->persist($user);
