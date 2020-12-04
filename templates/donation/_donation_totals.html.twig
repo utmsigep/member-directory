@@ -19,7 +19,7 @@
             </div>
           </div>
           <div class="col-auto">
-            <i class="fas fa-{{icon}} fa-2x text-gray-300"></i>
+            <i class="{{icon}} fa-2x text-gray-300"></i>
           </div>
         </div>
       </div>
@@ -30,13 +30,13 @@
 {% for total in totals %}
 {% if totals|length > 1 %}<small class="text-muted">Currency: {{ total.currency }}</small>{% endif %}
 <div class="row">
-  {{ _self.totalCell(total.latestDonation, 'Latest Donation', 'calendar', 'dark', 'date') }}
+  {{ _self.totalCell(total.latestDonation, 'Latest Donation', 'fas fa-calendar', 'dark', 'date') }}
   {% if total.totalDonors is defined %}
-  {{ _self.totalCell(total.totalDonors, 'Donors', 'users', 'primary', 'number_format') }}
+  {{ _self.totalCell(total.totalDonors, 'Donors', 'fas fa-users', 'primary', 'number_format') }}
   {% endif %}
-  {{ _self.totalCell(total.totalDonations, 'Donations', 'hand-holding-usd', 'primary', 'number_format') }}
-  {{ _self.totalCell(total.totalAmount, 'Total Amount', 'dollar-sign', 'primary', 'currency', total.currency) }}
-  {{ _self.totalCell(total.totalProcessingFee, 'Processing Fees', 'file-invoice-dollar', 'danger', 'currency', total.currency) }}
-  {{ _self.totalCell(total.totalNetAmount, 'Net Amount', 'equals', 'success', 'currency', total.currency) }}
+  {{ _self.totalCell(total.totalDonations, 'Donations', 'fas fa-hand-holding-usd', 'primary', 'number_format') }}
+  {{ _self.totalCell(total.totalAmount, 'Total Amount', 'fas fa-dollar-sign', 'primary', 'currency', total.currency) }}
+  {{ _self.totalCell(total.totalProcessingFee, 'Processing Fees', 'fas fa-file-invoice-dollar', 'danger', 'currency', total.currency) }}
+  {{ _self.totalCell(total.totalNetAmount, 'Net Amount', 'fas fa-equals', 'success', 'currency', total.currency) }}
 </div>
 {% endfor %}

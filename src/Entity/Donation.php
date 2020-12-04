@@ -200,12 +200,12 @@ class Donation
         return $this;
     }
 
-    public function getAmount(): ?float
+    public function getAmount(): ?string
     {
         return $this->amount;
     }
 
-    public function setAmount(float $amount): self
+    public function setAmount(string $amount): self
     {
         $this->amount = $amount;
 
@@ -224,24 +224,24 @@ class Donation
         return $this;
     }
 
-    public function getProcessingFee(): ?float
+    public function getProcessingFee(): ?string
     {
         return $this->processingFee;
     }
 
-    public function setProcessingFee(float $processingFee): self
+    public function setProcessingFee(string $processingFee): self
     {
         $this->processingFee = $processingFee;
 
         return $this;
     }
 
-    public function getNetAmount(): ?float
+    public function getNetAmount(): ?string
     {
         return $this->netAmount;
     }
 
-    public function setNetAmount(float $netAmount): self
+    public function setNetAmount(string $netAmount): self
     {
         $this->netAmount = $netAmount;
 
