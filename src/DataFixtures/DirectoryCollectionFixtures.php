@@ -16,21 +16,21 @@ class DirectoryCollectionFixtures extends Fixture implements DependentFixtureInt
 
         $directoryCollection = new DirectoryCollection();
         $directoryCollection->setLabel($memberStatusMember->getLabel());
-        $directoryCollection->setIcon('fa-user');
+        $directoryCollection->setIcon('fas fa-user');
         $directoryCollection->setShowMemberStatus(false);
         $directoryCollection->addMemberStatus($memberStatusMember);
         $manager->persist($directoryCollection);
 
         $directoryCollection = new DirectoryCollection();
         $directoryCollection->setLabel($memberStatusAlumnus->getLabel());
-        $directoryCollection->setIcon('fa-user-graduate');
+        $directoryCollection->setIcon('fas fa-user-graduate');
         $directoryCollection->setShowMemberStatus(false);
         $directoryCollection->addMemberStatus($memberStatusAlumnus);
         $manager->persist($directoryCollection);
 
         $directoryCollection = new DirectoryCollection();
         $directoryCollection->setLabel('Do Not Contact');
-        $directoryCollection->setIcon('fa-ban');
+        $directoryCollection->setIcon('fas fa-ban');
         $directoryCollection->setShowMemberStatus(false);
         $directoryCollection->addMemberStatus($memberStatusMember);
         $directoryCollection->addMemberStatus($memberStatusAlumnus);

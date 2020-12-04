@@ -28,7 +28,7 @@ class DirectoryCollection
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $icon;
+    private $icon = 'fas fa-address-book';
 
     /**
      * @ORM\ManyToMany(targetEntity=MemberStatus::class, inversedBy="directoryCollections")
@@ -96,6 +96,10 @@ class DirectoryCollection
 
     public function getIcon(): ?string
     {
+        // Append 'Solid' style if no icon style set
+        if (!preg_match('/^fa[srldb]\s/', $this->icon)) {
+            return 'fas ' . $this->icon;
+        }
         return $this->icon;
     }
 

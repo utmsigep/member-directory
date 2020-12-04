@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Directory Collection{% endblock %}
+{% block title %}{{ parent() }} - New Directory Collection{% endblock %}
 
 {% block body %}
 {% embed '_page_header.html.twig' %}
@@ -11,4 +11,9 @@
 
     {{ include('directory_collection/_form.html.twig') }}
 
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+{{ encore_entry_script_tags('admin') }}
 {% endblock %}
