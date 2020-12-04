@@ -2,7 +2,7 @@
 {% set route_params_slug = app.request.get('_route_params').slug is defined ? app.request.get('_route_params').slug : null %}
 <!-- active_route = {{active_route}}; route_params_slug = {{ route_params_slug }}  -->
 {% for _collection in get_directory_collections() %}
-<li class="nav-item {{ (active_route == 'directory_collection' and route_params_slug == _collection.slug) ? 'active' }}"><a class="nav-link" href="{{ path('directory_collection', {slug: _collection.slug}) }}"><i class="fas {{ _collection.icon }} fa-fw"></i> <span>{{ _collection.label }}</span></a></li>
+<li class="nav-item {{ (active_route == 'directory_collection' and route_params_slug == _collection.slug) ? 'active' }}"><a class="nav-link" href="{{ path('directory_collection', {slug: _collection.slug}) }}"><i class="{{ _collection.icon }} fa-fw"></i> <span>{{ _collection.label }}</span></a></li>
 {% else %}
 {% if is_granted('ROLE_ADMIN') %}
 <li class="nav-item bg-info"><a class="nav-link" href="{{ path('directory_collection_new') }}"><i class="fas fa-plus fa-fw"></i> Directory Collection</a></li>

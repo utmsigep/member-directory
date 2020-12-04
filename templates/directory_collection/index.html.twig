@@ -30,7 +30,7 @@
           <tr id="collection-{{ directory_collection.id }}" data-id="{{ directory_collection.id }}">
               <td><span class="drag_handle" style="cursor:move;"><i class="fas fa-grip-lines fa-fw"></i></span></td>
               <td><a href="{{ path('directory_collection_show', {'id': directory_collection.id}) }}">{{ directory_collection.label }}</a></td>
-              <td><i class="fas {{ directory_collection.icon }} fa-fw"></i></td>
+              <td><i class="{{ directory_collection.icon }} fa-fw"></i></td>
               <td>
                   <a href="{{ path('directory_collection_edit', {'id': directory_collection.id}) }}"><i class="fas fa-edit fa-fw"></i></a>
               </td>

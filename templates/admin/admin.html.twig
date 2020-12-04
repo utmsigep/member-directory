@@ -4,7 +4,7 @@
     <div class="card-body text-center">
       <div class="p-3">
         <a href="{{ path(link) }}">
-          <div class="p-3"><i class="fas fa-{{ icon }} fa-2x"></i></div>
+          <div class="p-3"><i class="{{ icon }} fa-2x"></i></div>
           <div style="min-height:3rem;">{{ text }}</div>
         </a>
       </div>
@@ -23,9 +23,9 @@
 {% endembed %}
 
 <div class="row">
-  {{ _self.adminCard('member_status_index', 'Member Statuses', 'flag') }}
-  {{ _self.adminCard('directory_collection_index', 'Directory Collections', 'address-book') }}
-  {{ _self.adminCard('tag_index', 'Tags', 'tags') }}
-  {{ _self.adminCard('user_index', 'Users', 'users') }}
+  {{ _self.adminCard('member_status_index', 'Member Statuses', 'fas fa-flag') }}
+  {{ _self.adminCard('directory_collection_index', 'Directory Collections', 'fas fa-address-book') }}
+  {{ _self.adminCard('tag_index', 'Tags', 'fas fa-tags') }}
+  {{ _self.adminCard('user_index', 'Users', 'fas fa-users') }}
 </div>
 {% endblock %}

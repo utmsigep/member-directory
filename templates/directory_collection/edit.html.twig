@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ parent()}} - {{ directory_collection }}{% endblock %}
+{% block title %}{{ parent() }} - {{ directory_collection }}{% endblock %}
 
 {% block body %}
 {% embed '_page_header.html.twig' %}
@@ -12,4 +12,9 @@
 {{ include('directory_collection/_form.html.twig', {'button_label': 'Update'}) }}
 
 {{ include('directory_collection/_delete_form.html.twig') }}
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+{{ encore_entry_script_tags('admin') }}
 {% endblock %}
