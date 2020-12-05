@@ -7,7 +7,7 @@
 production:
   domain: "deploy_user@yourserver.example.com"
   deploy_to: "/path/to/member-directory"
-  repository: "git@github.com:/stephenyeargin/member-directory.git"
+  repository: "git@github.com:/utmsigep/member-directory.git"
   branch: "master"
   post_deploy_script: "config/post_deploy.sh"
   
