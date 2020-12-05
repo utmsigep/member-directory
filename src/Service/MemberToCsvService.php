@@ -9,70 +9,74 @@ use App\Entity\Member;
 
 class MemberToCsvService
 {
-    public function arrayToCsvString(ArrayCollection $members): string
+
+    const ALLOWED_COLUMNS = [
+        'externalIdentifier',
+        'localIdentifier',
+        'firstName',
+        'preferredName',
+        'middleName',
+        'lastName',
+        'displayName',
+        'status',
+        'classYear',
+        'primaryEmail',
+        'primaryTelephoneNumber',
+        'mailingAddressLine1',
+        'mailingAddressLine2',
+        'mailingCity',
+        'mailingState',
+        'mailingPostalCode',
+        'mailingCountry',
+        'employer',
+        'jobTitle',
+        'occupation',
+        'linkedinUrl',
+        'facebookUrl',
+        'tags',
+        'isDeceased',
+        'isLost',
+        'isLocalDoNotContact'
+    ];
+
+    public function arrayToCsvString(ArrayCollection $members, $columns = []): string
     {
+        // Show all fields if not provided
+        if (empty($columns)) {
+            $columns = self::ALLOWED_COLUMNS;
+        }
+
         $csvWriter = Writer::createFromString();
-        $csvWriter->insertOne([
-            'externalIdentifier',
-            'localIdentifier',
-            'status',
-            'firstName',
-            'preferredName',
-            'middleName',
-            'lastName',
-            'classYear',
-            'primaryEmail',
-            'primaryTelephoneNumber',
-            'mailingAddressLine1',
-            'mailingAddressLine2',
-            'mailingCity',
-            'mailingState',
-            'mailingPostalCode',
-            'mailingCountry',
-            'employer',
-            'jobTitle',
-            'occupation',
-            'linkedinUrl',
-            'facebookUrl',
-            'tags',
-            'isDeceased',
-            'isLost',
-            'isLocalDoNotContact'
-        ]);
+        $headers = [];
+        foreach ($columns as $column) {
+            if (in_array($column, self::ALLOWED_COLUMNS)) {
+                $headers[] = $column;
+            }
+        }
+        $csvWriter->insertOne($headers);
         foreach ($members as $member) {
-            $csvWriter->insertOne($this->memberToArray($member));
+            $csvWriter->insertOne($this->memberToArray($member, $headers));
         }
         return $csvWriter->getContent();
     }
 
-    private function memberToArray(Member $member)
+    private function memberToArray(Member $member, $columns = [])
     {
-        return [
-            $member->getExternalIdentifier(),
-            $member->getLocalIdentifier(),
-            $member->getStatus(),
-            $member->getFirstName(),
-            $member->getPreferredName(),
-            $member->getMiddleName(),
-            $member->getLastName(),
-            $member->getClassYear(),
-            $member->getPrimaryEmail(),
-            $member->getPrimaryTelephoneNumber(),
-            $member->getMailingAddressLine1(),
-            $member->getMailingAddressLine2(),
-            $member->getMailingCity(),
-            $member->getMailingState(),
-            $member->getMailingPostalCode(),
-            $member->getMailingCountry(),
-            $member->getEmployer(),
-            $member->getJobTitle(),
-            $member->getOccupation(),
-            $member->getLinkedinUrl(),
-            $member->getFacebookUrl(),
-            $member->getTagsAsCSV(),
-            $member->getIsDeceased(),
-            $member->getIsLost(),
-            $member->getIsLocalDoNotContact()
-        ];
+        $row = [];
+        foreach ($columns as $column) {
+            $methodName = sprintf('get%s', ucfirst($column));
+            if (is_callable([$member, $methodName])) {
+                switch($column) {
+                    case 'tags':
+                        $row[] = $member->getTagsAsCSV();
+                        break;
+                    default:
+                        $row[] = (string) $member->$methodName();
+                }
+            } else {
+                $row[] = '#ERROR';
+            }
+        }
+        return $row;
     }
 }
