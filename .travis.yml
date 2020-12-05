@@ -21,7 +21,7 @@ services:
   - mysql
 
 before_install:
-  - nvm use 12.18.1
+  - nvm use v12.18.1
   - phpenv shell 7.4.2
   - composer self-update
 
