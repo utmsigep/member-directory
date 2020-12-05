@@ -34,7 +34,7 @@ class ExportController extends AbstractController
             $members = $this->getDoctrine()->getRepository(Member::class)->findWithExportFilters($filters);
 
             $filename = 'member-export-' . date('Y-m-d') . '.csv';
-            $response = new Response($memberToCsvService->arrayToCsvString(new ArrayCollection($members)));
+            $response = new Response($memberToCsvService->arrayToCsvString(new ArrayCollection($members), $filters['columns']));
             $response->headers->set('Content-type', 'text/csv');
             $disposition = $response->headers->makeDisposition(
                 ResponseHeaderBag::DISPOSITION_ATTACHMENT,

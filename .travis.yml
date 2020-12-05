@@ -1,5 +1,5 @@
 language: generic
-dist: xenial
+dist: bionic
 os: linux
 
 notifications:
@@ -17,18 +17,12 @@ env:
     - SYMFONY_DEPRECATIONS_HELPER=disabled
     - DATABASE_URL=mysql://travis@127.0.0.1:3306/chapterportal
 
-jobs:
-  fast_finish: true
-  include:
-    - php: 7.1
-    - php: 7.2
-    - php: 7.3
-
 services:
   - mysql
 
 before_install:
   - nvm use stable
+  - phpenv shell 7.4
   - composer self-update
 
 install:
