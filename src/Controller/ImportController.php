@@ -59,7 +59,8 @@ class ImportController extends AbstractController
             try {
                 $csvToMemberService->run($form['csv_file']->getData());
             } catch (\Exception $e) {
-                throw new \Exception($e->getMessage(), 500);
+                $this->addFlash('error', $e->getMessage());
+                return $this->redirectToRoute('import');
             }
             $formData = $form->getData();
             $dryRun = (bool) $formData['dry_run'];
