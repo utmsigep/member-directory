@@ -72,9 +72,9 @@ class MemberExportType extends AbstractType
                     'Linkedin URL' => 'linkedinUrl',
                     'Facebook URL' => 'facebookUrl',
                     'Tags' => 'tags',
-                    'Is Deceased' => 'isDeceased',
-                    'Is Lost' => 'isLost',
-                    'Is LocalDoNotContact' => 'isLocalDoNotContact'
+                    'Is Deceased?' => 'isDeceased',
+                    'Is Lost?' => 'isLost',
+                    'Is Do Not Contact?' => 'isLocalDoNotContact'
                 ],
                 'data' => [
                     'displayName',
