@@ -97,6 +97,6 @@ class EspSyncCommand extends Command
         $io->writeln(implode(PHP_EOL, $output['ignored']));
 
         $io->success('Done!');
-        return 0;
+        return Command::SUCCESS;
     }
 }

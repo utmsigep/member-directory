@@ -51,7 +51,7 @@ class MemberGeocodeCommand extends Command
         ]);
         if (is_null($member)) {
             $io->error('Member not found matching Local Identifier: ' . $localIdentifier);
-            return 1;
+            return Command::FAILURE;
         }
 
         // Clear existing coordinates
@@ -71,7 +71,7 @@ class MemberGeocodeCommand extends Command
             $io->writeln('<options=bold>Longitude:</>       ' . $member->getMailingLongitude());
         } catch (\Exception $e) {
             $io->error($e->getMessage());
-            return 1;
+            return Command::FAILURE;
         }
 
         if ($input->getOption('save')) {
@@ -80,6 +80,6 @@ class MemberGeocodeCommand extends Command
         }
 
         $io->success('Done!');
-        return 0;
+        return Command::SUCCESS;
     }
 }

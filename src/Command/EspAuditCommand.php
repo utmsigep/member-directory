@@ -41,7 +41,7 @@ class EspAuditCommand extends Command
 
         if (!$this->emailService->isConfigured()) {
             $io->error('Email service not configured.');
-            return 1;
+            return Command::FAILURE;
         }
 
         $members = $this->entityManager->getRepository(Member::class)->findByActiveMemberStatuses();
@@ -91,6 +91,6 @@ class EspAuditCommand extends Command
 
         $io->success('Done!');
 
-        return 0;
+        return Command::SUCCESS;
     }
 }
