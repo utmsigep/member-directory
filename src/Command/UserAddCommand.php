@@ -62,7 +62,7 @@ class UserAddCommand extends Command
 
         if (!$password || $password != $password_confirm) {
             $io->error('Passwords did not match, or were blank.');
-            return 1;
+            return Command::FAILURE;
         }
 
         // Add user to the database
@@ -77,6 +77,6 @@ class UserAddCommand extends Command
         $this->entityManager->flush();
 
         $io->success(sprintf('You have added %s to the system as ID %d.', $user->getEmail(), $user->getId()));
-        return 0;
+        return Command::SUCCESS;
     }
 }
