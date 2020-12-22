@@ -5,6 +5,9 @@
 {% block body %}
 {% embed '_page_header.html.twig' %}
 {% block page_header_title %}New Member{% endblock %}
+{% block page_header_buttons %}
+<a role="button" href="{{ path('import') }}" class="btn btn-sm btn-primary"><i class="fas fa-upload fa-fw"></i> Import from CSV</a>
+{% endblock %}
 {% endembed %}
 
 {{ form_start(form) }}

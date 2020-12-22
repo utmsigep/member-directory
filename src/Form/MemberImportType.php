@@ -17,9 +17,6 @@ class MemberImportType extends AbstractType
             ->add('csv_file', FileType::class, [
                 'label' => 'CSV to Upload',
                 'mapped' => false,
-                'row_attr' => [
-                    'class' => 'w-50'
-                ],
                 'attr' => ['placeholder' => 'Choose file ...'],
                 'constraints' => [
                     new File([

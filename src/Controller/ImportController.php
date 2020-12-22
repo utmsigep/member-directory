@@ -98,7 +98,8 @@ class ImportController extends AbstractController
             'form' => $form->createView(),
             'members' => $members,
             'newMembers' => $newMembers,
-            'memberChangeSets' => $memberChangeSets
+            'memberChangeSets' => $memberChangeSets,
+            'allowedProperties' => self::ALLOWED_PROPERTIES
         ]);
     }
 }

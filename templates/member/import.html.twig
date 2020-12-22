@@ -10,8 +10,16 @@
 {{ form_start(form) }}
 <div class="card mb-3 shadow">
   <div class="card-body">
-    {{ form_row(form.csv_file) }}
-    {{ form_row(form.dry_run) }}
+    <div class="row">
+      <div class="col-md-6">
+        {{ form_row(form.csv_file) }}
+        {{ form_row(form.dry_run) }}
+      </div>
+      <div class="offset-md-1 col-md-5">
+        <h6>Accepted Column Headings</h6>
+        <small><tt>{{ allowedProperties|join(', ') }}</tt></small>
+      </div>
+    </div>
   </div>
   <div class="card-footer text-right">
     <button class="btn btn-primary">{{ button_label|default('Import') }}</button>

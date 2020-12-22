@@ -9,6 +9,7 @@
 {% if is_granted('ROLE_ADMIN') %}
 <a role="button" href="{{ path('member_new') }}" class="btn btn-sm btn-primary"><i class="fas fa-plus fa-fw"></i> New Member</a>
 {% endif %}
+<a role="button" href="{{ path('export') }}" class="btn btn-sm btn-primary"><i class="fas fa-download fa-fw"></i> Export</a>
 {% endblock %}
 {% endembed %}
 

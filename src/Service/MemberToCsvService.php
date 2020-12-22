@@ -9,7 +9,6 @@ use App\Entity\Member;
 
 class MemberToCsvService
 {
-
     const ALLOWED_COLUMNS = [
         'externalIdentifier',
         'localIdentifier',
