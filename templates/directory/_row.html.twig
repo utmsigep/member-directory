@@ -1,8 +1,8 @@
 <tr class="{% if member.status.isInactive %}inactive{% endif %}">
   <td class="text-center" data-order="{{ member.localIdentifier }}">{{ member.localIdentifier }}</td>
-  <td class="col-profile-img">
+  <td class="col-img-profile text-center">
     <a href="{{ path('member_show', {localIdentifier: member.localIdentifier}) }}">
-      <img src="{{ member.photoUrl ? member.photoUrl : gravatar(member.primaryEmail) }}" class="img-fluid img-profile-sm" alt="Profile Photo" />
+      <img src="{{ member.photoUrl ? member.photoUrl : gravatar(member.primaryEmail) }}" class="img-fluid" alt="Profile Photo" />
     </a>
   </td>
   <td data-order="{{ member.lastName }} {{ member.firstName }}">

@@ -1,22 +1,20 @@
+/* Directory Tables */
 .col-edit {
   width: 10px;
 }
-.col-profile-img {
-  max-width: 30px;
-  text-align: center;
-}
-.img-profile-sm {
-  max-width: 30px;
-  max-height: 30px;
-  overflow: hidden;
-  display: inline-block;
+.col-img-profile {
+  width: 35px;
+  img {
+    max-width: 30px;
+    max-height: 30px;
+  }
 }
 .inactive {
-	opacity: 0.7;
-	transition: opacity .2s ease-out;
-	&:hover {
-		opacity: 1;
-	}
+  opacity: 0.7;
+  transition: opacity .2s ease-out;
+  &:hover {
+     opacity: 1;
+   }
 }
 
 /* User Steps */
@@ -25,26 +23,26 @@ ol.user-steps {
   counter-reset: li;
   list-style: none;
   *list-style: decimal;
-}
-ol.user-steps > li {
-  position: relative;
-  padding-left: 60px;
-  min-height: 60px;
-}
-ol.user-steps > li:before {
-  content: counter(li);
-  counter-increment: li;
-  color: #f8f9fc;
-  background-color: #858796;
-  border-color: #000;
-  border-radius: 50%;
-  font-size: 18px;
-  width: 48px;
-  height: 48px;
-  line-height: 48px;
-  text-align: center;
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
+  >li {
+    position: relative;
+    padding-left: 60px;
+    min-height: 60px;
+    &:before {
+      content: counter(li);
+      counter-increment: li;
+      color: #f8f9fc;
+      background-color: #858796;
+      border-color: #000;
+      border-radius: 50%;
+      font-size: 18px;
+      width: 48px;
+      height: 48px;
+      line-height: 48px;
+      text-align: center;
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  }
 }
