@@ -46,13 +46,14 @@ class DonationType extends AbstractType
                         ->addOrderBy('s.label', 'ASC')
                         ->addOrderBy('m.lastName', 'ASC')
                         ->addOrderBy('m.preferredName', 'ASC')
-
-                        ;
+                    ;
                 },
                 'group_by' => function($choice, $key, $value) {
                     return $choice->getStatus()->getLabel();
                 }
             ])
+            ->add('donorFirstName')
+            ->add('donorLastName')
         ;
     }
 

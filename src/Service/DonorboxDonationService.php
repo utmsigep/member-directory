@@ -125,13 +125,16 @@ class DonorboxDonationService
             }
             if ($member === null) {
                 $this->errors[] = sprintf(
-                    'Unable to locate member record using: "%s" or "%s"; Skipped.',
+                    'Warning: Unable to locate Member record using "%s" or "%s"',
                     $csvRecord[self::EMAIL_HEADER],
                     $csvRecord[self::NAME_HEADER]
                 );
-                continue;
+            } else {
+                $donation->setMember($member);
             }
-            $donation->setMember($member);
+            $donation->setDonorFirstName($csvRecord[self::FIRST_NAME_HEADER]);
+            $donation->setDonorLastName($csvRecord[self::LAST_NAME_HEADER]);
+
 
             if (isset($csvRecord[self::RECEIPT_ID_HEADER])) {
                 $donation->setReceiptIdentifier($csvRecord[self::RECEIPT_ID_HEADER]);

@@ -1,8 +1,15 @@
 <tr class="{% if donation.isAnonymous %}text-muted{% endif %}">
   <td data-order="{{ donation.receivedAt|date('Y-m-d') }}">
-    <a href="{{ path('donation_show', {id: donation.id}) }}">{{ donation.receivedAt|date('n/j/Y') }}</a></td>
+    {% if donation.id %}
+    <a href="{{ path('donation_show', {id: donation.id}) }}">{{ donation.receivedAt|date('n/j/Y') }}</a>
+    {% else %}
+    {{ donation.receivedAt|date('n/j/Y') }}
+    {% endif %}
+  </td>
   {% if donation.isAnonymous %}
   <td data-order="Donor, Anonymous"><i class="fas fa-user-secret"></i> Anonymous Donor</td>
+  {% elseif donation.member is null %}
+  <td data-order="{{ donation.donorLastName }}, {{ donation.donorFirstName }}">{{ donation.donorFirstName }} {{donation.donorLastName }}</td>
   {% else %}
   <td data-order="{{ donation.member.lastName }}, {{ donation.member.preferredName }}"><a href="{{ path('member_donations', {localIdentifier: donation.member.localIdentifier}) }}">{{ donation.member.displayName }}</a></td>
   {% endif %}
@@ -12,5 +19,11 @@
   <td class="text-right" data-order="{{ donation.processingFee }}">{{ donation.processingFee|format_currency(donation.currency) }}</td>
   <td class="text-right font-weight-bold" data-order="{{ donation.netAmount }}">{{ donation.netAmount|format_currency(donation.currency) }}</td>
   <td class="text-center" data-order="{{ donation.isRecurring }}">{{ donation.isRecurring ? '<i class="fas fa-redo"></i><span class="sr-only">Yes</span>' : '<span class="sr-only">No</span>' }}</td>
-  <td><a href="{{ path('donation_edit', {id: donation.id}) }}"><i class="fas fa-edit fa-fw"></i></a></td>
+  <td>
+    {% if donation.id %}
+    <a href="{{ path('donation_edit', {id: donation.id}) }}"><i class="fas fa-edit fa-fw"></i></a>
+    {% else %}
+    <i class="fas fa-plus fa-fw"></i>
+    {% endif %}
+  </td>
 </tr>

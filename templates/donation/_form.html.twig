@@ -7,6 +7,10 @@
         {{ form_row(form.receivedAt) }}
         {{ form_row(form.receiptIdentifier) }}
         {{ form_row(form.member, {attr: { class: 'selectpicker', 'data-live-search': 'true'}}) }}
+        <div id="donorNameFields" class="collapse">
+          {{ form_row(form.donorFirstName) }}
+          {{ form_row(form.donorLastName) }}
+        </div>
         {{ form_row(form.campaign) }}
         {{ form_row(form.description) }}
       </div>

@@ -28,10 +28,21 @@ class Donation
 
     /**
      * @ORM\ManyToOne(targetEntity=Member::class, inversedBy="donations")
-     * @Assert\NotBlank
      * @Gedmo\Versioned
      */
     private $member;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Gedmo\Versioned
+     */
+    private $donorFirstName;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Gedmo\Versioned
+     */
+    private $donorLastName;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -148,6 +159,30 @@ class Donation
     public function setMember(?Member $member): self
     {
         $this->member = $member;
+
+        return $this;
+    }
+
+    public function getDonorFirstName(): ?string
+    {
+        return $this->donorFirstName;
+    }
+
+    public function setDonorFirstName(?string $donorFirstName): self
+    {
+        $this->donorFirstName = $donorFirstName;
+
+        return $this;
+    }
+
+    public function getDonorLastName(): ?string
+    {
+        return $this->donorLastName;
+    }
+
+    public function setDonorLastName(?string $donorLastName): self
+    {
+        $this->donorLastName = $donorLastName;
 
         return $this;
     }
@@ -350,6 +385,10 @@ class Donation
 
     public function __toString(): string
     {
-        return sprintf('#%s - %s @ %s (%s %s)', $this->receiptIdentifier, $this->member, $this->receivedAt->format('Y-m-d'), $this->amount, $this->currency);
+        $donorName = $this->member;
+        if (is_null($donorName)) {
+            $donorName = sprintf('%s %s', $this->donorFirstName, $this->donorLastName);
+        }
+        return sprintf('#%s - %s @ %s (%s %s)', $this->receiptIdentifier, $donorName, $this->receivedAt->format('Y-m-d'), $this->amount, $this->currency);
     }
 }
