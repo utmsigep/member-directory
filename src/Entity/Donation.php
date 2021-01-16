@@ -385,8 +385,8 @@ class Donation
 
     public function __toString(): string
     {
-        $donorName = $this->member;
-        if (is_null($donorName)) {
+        $donorName = (string) $this->member;
+        if (!$donorName) {
             $donorName = sprintf('%s %s', $this->donorFirstName, $this->donorLastName);
         }
         return sprintf('#%s - %s @ %s (%s %s)', $this->receiptIdentifier, $donorName, $this->receivedAt->format('Y-m-d'), $this->amount, $this->currency);
