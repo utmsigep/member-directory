@@ -10,3 +10,21 @@
 {{ include('donation/_form.html.twig') }}
 
 {% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script>
+$(document).ready(function () {
+  if ($('#donation_member').val() === '') {
+    $('#donorNameFields').show()
+  }
+  $('#donation_member').on('change', function (el) {
+    if ($(el.target).val()) {
+      $('#donorNameFields').hide()
+    } else {
+      $('#donorNameFields').show()
+    }
+  })
+})
+</script>
+{% endblock %}

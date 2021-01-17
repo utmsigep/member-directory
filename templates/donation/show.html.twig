@@ -22,9 +22,11 @@
           <dd>{{ donation.receiptIdentifier }}</dd>
           <dt>Member</dt>
           {% if donation.isAnonymous %}
-          <dd><span title="{{ donation.member }}" data-toggle="tooltip"> <i class="fas fa-user-secret"></i> Anonymous Donor</span></dd>
-          {% else %}
+          <dd><i class="fas fa-user-secret"></i> Anonymous Donor</dd>
+          {% elseif donation.member %}
           <dd><a href="{{ path('member_show', {localIdentifier: donation.member.localIdentifier}) }}">{{ donation.member }}</a></dd>
+          {% else %}
+          <dd>{{ donation.donorFirstName }} {{ donation.donorLastName }}</dd>
           {% endif %}
           <dt>Campaign</dt>
           <dd>{{ donation.campaign }}</dd>

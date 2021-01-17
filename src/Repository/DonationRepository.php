@@ -40,7 +40,7 @@ class DonationRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('d')
             ->addSelect('m')
             ->addSelect('t')
-            ->join('d.member', 'm')
+            ->leftJoin('d.member', 'm')
             ->leftJoin('m.tags', 't')
             ->andWhere('d.receivedAt >= :startDate')
             ->andWhere('d.receivedAt <= :endDate')

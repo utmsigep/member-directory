@@ -26,7 +26,8 @@ class DonationImportType extends AbstractType
                         'maxSize' => '1024k',
                         'mimeTypes' => [
                             'text/csv',
-                            'text/plain'
+                            'text/plain',
+                            'application/csv'
                         ],
                         'mimeTypesMessage' => 'Please upload a valid CSV file.',
                     ])
