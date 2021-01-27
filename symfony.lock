@@ -129,6 +129,9 @@
     "erusev/parsedown": {
         "version": "1.7.4"
     },
+    "friendsofphp/proxy-manager-lts": {
+        "version": "v1.0.3"
+    },
     "friendsofsymfony/jsrouting-bundle": {
         "version": "2.3",
         "recipe": {
@@ -176,9 +179,6 @@
     },
     "ocramius/package-versions": {
         "version": "1.4.0"
-    },
-    "ocramius/proxy-manager": {
-        "version": "2.1.1"
     },
     "paragonie/constant_time_encoding": {
         "version": "v2.3.0"
@@ -644,9 +644,6 @@
     },
     "vinceg/usps-php-api": {
         "version": "1.0.1"
-    },
-    "webimpress/safe-writer": {
-        "version": "2.1.0"
     },
     "willdurand/jsonp-callback-validator": {
         "version": "v1.1.0"
