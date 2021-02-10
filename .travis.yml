@@ -9,6 +9,7 @@ cache:
   directories:
     - $HOME/.composer/cache/files
     - ./bin/.phpunit
+    - ~/.symfony
 
 env:
   global:
@@ -25,6 +26,10 @@ before_install:
   - nvm use 12.18.1
   - phpenv shell 7.4.2
   - composer self-update
+  - |
+    if [ ! -f ~/.symfony/bin/symfony ]; then
+      wget https://get.symfony.com/cli/installer -O - | bash
+    fi
 
 install:
   - composer install
@@ -40,5 +45,5 @@ script:
   - ./bin/console lint:yaml config
   - ./bin/console lint:twig templates
   - ./bin/console lint:xliff translations
-  - ./bin/console security:check
+  - ~/.symfony/bin/symfony security:check
   - ./bin/console doctrine:schema:validate -vvv --no-interaction

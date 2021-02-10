@@ -73,8 +73,7 @@
     "scripts": {
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
-            "assets:install %PUBLIC_DIR%": "symfony-cmd",
-            "security-checker security:check": "script"
+            "assets:install %PUBLIC_DIR%": "symfony-cmd"
         },
         "post-install-cmd": [
             "@auto-scripts"
@@ -97,7 +96,6 @@
         "phpstan/extension-installer": "^1.0",
         "phpstan/phpstan": "^0.12.52",
         "phpstan/phpstan-doctrine": "^0.12.22",
-        "sensiolabs/security-checker": "^6.0",
         "symfony/browser-kit": "^5.2",
         "symfony/css-selector": "^5.2",
         "symfony/maker-bundle": "^1.11",
