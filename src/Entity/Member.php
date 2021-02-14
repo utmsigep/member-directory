@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -35,6 +36,7 @@ class Member
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"member_main"})
      */
     private $id;
 
@@ -42,6 +44,7 @@ class Member
      * @ORM\Column(type="string", nullable=true, length=255)
      * @Assert\NotBlank
      * @Gedmo\Versioned
+     * @Groups({"member_main"})
      */
     private $localIdentifier;
 
@@ -49,6 +52,7 @@ class Member
      * @ORM\Column(type="string", nullable=true, length=255)
      * @Assert\NotBlank
      * @Gedmo\Versioned
+     * @Groups({"member_main"})
      */
     private $externalIdentifier;
 
@@ -56,6 +60,7 @@ class Member
      * @ORM\ManyToOne(targetEntity=MemberStatus::class, inversedBy="members")
      * @Assert\NotBlank
      * @Gedmo\Versioned
+     * @Groups({"member_main"})
      */
     private $status;
 
@@ -63,18 +68,21 @@ class Member
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\NotBlank
      * @Gedmo\Versioned
+     * @Groups({"member_main"})
      */
     private $firstName;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Gedmo\Versioned
+     * @Groups({"member_main"})
      */
     private $preferredName;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Gedmo\Versioned
+     * @Groups({"member_main"})
      */
     private $middleName;
 
@@ -82,6 +90,7 @@ class Member
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\NotBlank
      * @Gedmo\Versioned
+     * @Groups({"member_main"})
      */
     private $lastName;
 
@@ -120,42 +129,49 @@ class Member
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Gedmo\Versioned
+     * @Groups({"member_main"})
      */
     private $mailingAddressLine1;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Gedmo\Versioned
+     * @Groups({"member_main"})
      */
     private $mailingAddressLine2;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Gedmo\Versioned
+     * @Groups({"member_main"})
      */
     private $mailingCity;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Gedmo\Versioned
+     * @Groups({"member_main"})
      */
     private $mailingState;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Gedmo\Versioned
+     * @Groups({"member_main"})
      */
     private $mailingPostalCode;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Gedmo\Versioned
+     * @Groups({"member_main"})
      */
     private $mailingCountry;
 
     /**
      * @ORM\Column(type="decimal", precision=10, scale=8, nullable=true)
      * @Assert\Type("numeric")
+     * @Groups({"member_main"})
      * @Gedmo\Versioned
      */
     protected $mailingLatitude;
@@ -163,6 +179,7 @@ class Member
     /**
      * @ORM\Column(type="decimal", precision=11, scale=8, nullable=true)
      * @Assert\Type("numeric")
+     * @Groups({"member_main"})
      * @Gedmo\Versioned
      */
     protected $mailingLongitude;

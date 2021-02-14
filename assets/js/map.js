@@ -12,8 +12,8 @@ Routing.setRoutingData(routes);
 
 var markerIcon = L.Icon.extend({
   options: {
-    iconUrl:       require('../images/marker-icon.svg').default,
-    shadowUrl:     require('../images/marker-shadow.png').default,
+    iconUrl:       require('../images/marker-icon.svg'),
+    shadowUrl:     require('../images/marker-shadow.png'),
     iconSize:    [12, 20],
     iconAnchor:  [6, 20],
     popupAnchor: [1, -16],

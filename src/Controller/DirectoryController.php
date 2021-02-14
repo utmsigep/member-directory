@@ -18,7 +18,6 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Constraints\Date;
 
 /**
@@ -204,7 +203,7 @@ class DirectoryController extends AbstractController
     /**
      * @Route("/map-search", name="map_search", options={"expose" = true})
      */
-    public function mapSearch(Request $request, SerializerInterface $serializer)
+    public function mapSearch(Request $request)
     {
         $entityManager = $this->getDoctrine()->getManager();
         $members = $entityManager->getRepository(Member::class)->findMembersWithinRadius(
@@ -213,32 +212,28 @@ class DirectoryController extends AbstractController
             $request->get('radius')
         );
 
-        $jsonObject = $serializer->serialize($members, 'json', [
-            'ignored_attributes' => ['status' => 'members'],
+        return $this->json($members, 200, [], [
+            'groups' => ['member_main', 'status_main'],
             'circular_reference_handler' => function ($object) {
-                return $object->getId();
+                return (string) $object;
             }
         ]);
-
-        return new Response($jsonObject, 200, ['Content-Type' => 'application/json']);
     }
 
     /**
      * @Route("/map-data", name="map_data", options={"expose" = true})
      */
-    public function mapData(SerializerInterface $serializer)
+    public function mapData()
     {
         $entityManager = $this->getDoctrine()->getManager();
         $members = $entityManager->getRepository(Member::class)->findGeocodedAddresses();
 
-        $jsonObject = $serializer->serialize($members, 'json', [
-            'ignored_attributes' => ['status' => 'members'],
+        return $this->json($members, 200, [], [
+            'groups' => ['member_main', 'status_main'],
             'circular_reference_handler' => function ($object) {
-                return $object->getId();
+                return (string) $object;
             }
         ]);
-
-        return new Response($jsonObject, 200, ['Content-Type' => 'application/json']);
     }
 
     /**
