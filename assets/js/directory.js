@@ -5,7 +5,8 @@ $(document).ready(function() {
   	dom: "<'row'<'col-sm-3'l><'col-sm-3'f><'col-sm-6'p>>" +
       "<'row'<'col-sm-12'tr>>" +
       "<'row'<'col-sm-5'i><'col-sm-7'p>>",
-    pageLength: 50
+    pageLength: 50,
+    searching: false
   });
 
   var toastTemplate = $('#toastTemplate').html()
