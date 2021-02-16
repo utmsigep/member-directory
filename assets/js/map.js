@@ -26,6 +26,7 @@ var memberMarkers = [];
 var defaultIcon = new markerIcon();
 
 var drawMap = function () {
+  $('#mapContainerLoading').show();
   var directoryMap = L.map('mapContainer').setView([39.828175, -98.5795], 4);
   L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}{r}.png', {
     subdomains: 'abcd',
@@ -96,6 +97,7 @@ var drawMap = function () {
     .done(function () {
       var group = new L.featureGroup(memberMarkers);
       directoryMap.fitBounds(group.getBounds());
+      $('#mapContainerLoading').hide();
     })
   }
 

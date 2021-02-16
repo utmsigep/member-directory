@@ -17,6 +17,30 @@
    }
 }
 
+/* Map */
+#mapElements {
+  position: relative;
+}
+#mapContainer {
+  height: 80vh;
+}
+#mapContainerLoading {
+  position: absolute;
+  font-size: 3rem;
+  width: 100%;
+  text-align:center;
+  top: 50%;
+  left: 0;
+  z-index: 1000;
+  &> div {
+    background-color: rgba(255, 255, 255, 0.75);
+    padding: 1rem;
+    border-radius: 10px;
+    max-width: 375px;
+    margin: auto;
+  }
+}
+
 /* User Steps */
 ol.user-steps {
   padding-left: 0;
