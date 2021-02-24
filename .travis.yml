@@ -42,6 +42,7 @@ install:
 
 script:
   - ./bin/phpunit
+  - ./vendor/bin/phpstan analyse --memory-limit 2G
   - ./bin/console lint:yaml config
   - ./bin/console lint:twig templates
   - ./bin/console lint:xliff translations
