@@ -52,7 +52,7 @@ class Member
      * @ORM\Column(type="string", nullable=true, length=255)
      * @Assert\NotBlank
      * @Gedmo\Versioned
-     * @Groups({"member_main"})
+     * @Groups({"member_extended"})
      */
     private $externalIdentifier;
 
@@ -104,12 +104,14 @@ class Member
     /**
      * @ORM\Column(type="integer", nullable=true)
      * @Gedmo\Versioned
+     * @Groups({"member_main"})
      */
     private $classYear;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
      * @Gedmo\Versioned
+     * @Groups({"member_main"})
      */
     private $isDeceased = false;
 
@@ -117,12 +119,14 @@ class Member
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\Email
      * @Gedmo\Versioned
+     * @Groups({"member_main"})
      */
     private $primaryEmail;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Gedmo\Versioned
+     * @Groups({"member_main"})
      */
     private $primaryTelephoneNumber;
 
@@ -171,7 +175,7 @@ class Member
     /**
      * @ORM\Column(type="decimal", precision=10, scale=8, nullable=true)
      * @Assert\Type("numeric")
-     * @Groups({"member_main"})
+     * @Groups({"member_extended"})
      * @Gedmo\Versioned
      */
     protected $mailingLatitude;
@@ -179,7 +183,7 @@ class Member
     /**
      * @ORM\Column(type="decimal", precision=11, scale=8, nullable=true)
      * @Assert\Type("numeric")
-     * @Groups({"member_main"})
+     * @Groups({"member_extended"})
      * @Gedmo\Versioned
      */
     protected $mailingLongitude;
@@ -210,6 +214,7 @@ class Member
      *   htmlPattern = "https?://(www.)?facebook.com/.+",
      *   message     = "Please provide a Facebook URL"
      * )
+     * @Groups({"member_main"})
      */
     private $facebookUrl;
 
@@ -221,24 +226,28 @@ class Member
      *   htmlPattern = "https?://(www.)?linkedin.com/.+",
      *   message     = "Please provide a LinkedIn URL"
      * )
+     * @Groups({"member_main"})
      */
     private $linkedinUrl;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Gedmo\Versioned
+     * @Groups({"member_main"})
      */
     private $photoUrl;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
      * @Gedmo\Versioned
+     * @Groups({"member_main"})
      */
     private $isLost = false;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
      * @Gedmo\Versioned
+     * @Groups({"member_main"})
      */
     private $isLocalDoNotContact = false;
 
@@ -251,6 +260,7 @@ class Member
     /**
      * @ORM\ManyToMany(targetEntity=Tag::class, mappedBy="members")
      * @ORM\OrderBy({"tagName": "ASC"})
+     * @Groups({"member_extended"})
      */
     private $tags;
 
@@ -585,8 +595,15 @@ class Member
         return $this;
     }
 
-    public function getPhotoUrl(): ?string
+    public function getPhotoUrl(int $size = 400): ?string
     {
+        if (!$this->photoUrl && !preg_match('/https\:\/\/www.gravatar.com\/avatar/i', $this->photoUrl)) {
+            return sprintf(
+                'https://www.gravatar.com/avatar/%s?default=mm&size=%d',
+                md5($this->primaryEmail),
+                $size
+            );
+        }
         return $this->photoUrl;
     }
 
@@ -689,6 +706,9 @@ class Member
         return sprintf('%s, %s (%s)', $this->lastName, $this->preferredName, $this->localIdentifier);
     }
 
+    /**
+     * @Groups({"member_main"})
+     */
     public function getDisplayName(): string
     {
         return $this->preferredName . ' ' . $this->lastName;

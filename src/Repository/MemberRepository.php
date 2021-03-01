@@ -2,12 +2,13 @@
 
 namespace App\Repository;
 
-use App\Entity\Member;
 use App\Entity\DirectoryCollection;
+use App\Entity\Member;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query\Expr\Join;
-use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\ORM\Tools\Pagination\Paginator;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method Member|null find($id, $lockMode = null, $lockVersion = null)
@@ -22,7 +23,7 @@ class MemberRepository extends ServiceEntityRepository
         parent::__construct($registry, Member::class);
     }
 
-    public function findByDirectoryCollection(DirectoryCollection $directoryCollection, $params = [])
+    public function findByDirectoryCollection(DirectoryCollection $directoryCollection, $params = []): Paginator
     {
         $qb = $this->createQueryBuilder('m')
             ->addSelect('t')
@@ -48,41 +49,8 @@ class MemberRepository extends ServiceEntityRepository
                 ->setParameter('isDeceased', $directoryCollection->getFilterDeceased() == 'include');
         }
 
-        // Group By
-        if ($directoryCollection->getGroupBy()) {
-            switch ($directoryCollection->getGroupBy()) {
-                case 'classYear':
-                    $methodName = 'getClassYear';
-                    break;
-                case 'status':
-                    $methodName = 'getStatus';
-                    break;
-                case 'mailingState':
-                    $methodName = 'getMailingState';
-                    break;
-                case 'mailingPostalCode':
-                    $methodName = 'getMailingPostalCode';
-                    break;
-                default:
-                    throw new \Exception(sprintf('Unable to group by %s', $directoryCollection->getGroupBy()));
-            }
-
-            $result = $qb->getQuery()
-                ->getResult()
-            ;
-            $output = [];
-            foreach ($result as $row) {
-                $groupKey = $row->{$methodName}() ? (string) $row->{$methodName}() : '(blank)';
-                $output[$groupKey][] = $row;
-            }
-            ksort($output);
-            return $output;
-        }
         $this->processParams($qb, $params);
-
-        return $qb->getQuery()
-            ->getResult()
-        ;
+        return new Paginator($qb->getQuery(), $fetchJoinCollection = true);
     }
 
     public function findByActiveMemberStatuses($params = [])
@@ -95,10 +63,7 @@ class MemberRepository extends ServiceEntityRepository
             ->andWhere('s.isInactive = 0')
         ;
         $this->processParams($qb, $params);
-
-        return $qb->getQuery()
-            ->getResult()
-        ;
+        return new Paginator($qb->getQuery(), $fetchJoinCollection = true);
     }
 
     public function findLost($params = [])
@@ -111,10 +76,7 @@ class MemberRepository extends ServiceEntityRepository
             ->andWhere('m.isLost = 1')
         ;
         $this->processParams($qb, $params);
-
-        return $qb->getQuery()
-            ->getResult()
-        ;
+        return new Paginator($qb->getQuery(), $fetchJoinCollection = true);
     }
 
     public function findDoNotContact($params = [])
@@ -127,10 +89,7 @@ class MemberRepository extends ServiceEntityRepository
             ->andWhere('m.isLocalDoNotContact = 1')
         ;
         $this->processParams($qb, $params);
-
-        return $qb->getQuery()
-            ->getResult()
-        ;
+        return new Paginator($qb->getQuery(), $fetchJoinCollection = true);
     }
 
     public function findDeceased($params = [])
@@ -145,10 +104,7 @@ class MemberRepository extends ServiceEntityRepository
             ->addOrderBy('m.firstName', 'ASC')
         ;
         $this->processParams($qb, $params);
-
-        return $qb->getQuery()
-            ->getResult()
-        ;
+        return new Paginator($qb->getQuery(), $fetchJoinCollection = true);
     }
 
     public function findGeocodedAddresses($params = [])
@@ -166,10 +122,7 @@ class MemberRepository extends ServiceEntityRepository
             ->andWhere('s.isInactive = 0')
         ;
         $this->processParams($qb, $params);
-
-        return $qb->getQuery()
-            ->getResult()
-        ;
+        return new Paginator($qb->getQuery(), $fetchJoinCollection = true);
     }
 
     public function findMembersWithinRadius(float $latitude, float $longitude, int $radius)
@@ -234,10 +187,7 @@ class MemberRepository extends ServiceEntityRepository
             ->setParameter('tags', $tags)
         ;
         $this->processParams($qb, $params);
-
-        return $qb->getQuery()
-            ->getResult()
-        ;
+        return new Paginator($qb->getQuery(), $fetchJoinCollection = true);
     }
 
     public function findWithExportFilters(array $filters)
@@ -300,9 +250,11 @@ class MemberRepository extends ServiceEntityRepository
 
         // Sorting
         if (isset($params['sort_by'], $params['sort_direction'])) {
-            $qb->orderBy($params['sort_by'], 'ASC')
-                ->addOrderBy($params['sort_direction'], 'ASC')
-            ;
+            $qb->orderBy($params['sort_by'], $params['sort_direction']);
+            if (isset($params['group_by']) && $params['group_by']) {
+                $qb->orderBy($params['group_by'], 'ASC');
+                $qb->addOrderBy($params['sort_by'], $params['sort_direction']);
+            }
         } else {
             $qb->orderBy('m.lastName', 'ASC')
                 ->addOrderBy('m.firstName', 'ASC');
