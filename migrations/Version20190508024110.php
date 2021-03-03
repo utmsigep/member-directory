@@ -42,4 +42,9 @@ final class Version20190508024110 extends AbstractMigration
         $schema->dropTable('tag');
         $schema->dropTable('tag_member');
     }
+
+    public function isTransactional(): bool
+    {
+        return false;
+    }
 }

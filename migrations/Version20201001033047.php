@@ -25,4 +25,9 @@ final class Version20201001033047 extends AbstractMigration
         $userTable = $schema->getTable('user');
         $userTable->dropColumn('totp_secret');
     }
+
+    public function isTransactional(): bool
+    {
+        return false;
+    }
 }

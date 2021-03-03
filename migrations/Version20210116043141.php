@@ -27,4 +27,9 @@ final class Version20210116043141 extends AbstractMigration
         $donationTable->dropColumn('donor_first_name');
         $donationTable->dropColumn('donor_last_name');
     }
+
+    public function isTransactional(): bool
+    {
+        return false;
+    }
 }
