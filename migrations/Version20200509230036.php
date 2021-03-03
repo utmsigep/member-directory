@@ -33,4 +33,9 @@ final class Version20200509230036 extends AbstractMigration
         $donationTable->changeColumn('card_type', ['notnull' => true, 'default' => '']);
         $donationTable->changeColumn('last_four', ['notnull' => true, 'default' => '']);
     }
+
+    public function isTransactional(): bool
+    {
+        return false;
+    }
 }

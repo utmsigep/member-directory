@@ -25,4 +25,9 @@ final class Version20200424215912 extends AbstractMigration
         $memberTable = $schema->getTable('member');
         $memberTable->dropColumn('linkedin_url');
     }
+
+    public function isTransactional(): bool
+    {
+        return false;
+    }
 }

@@ -25,4 +25,9 @@ final class Version20201009035253 extends AbstractMigration
         $memberTable = $schema->getTable('member');
         $memberTable->addColumn('facebook_identifier', 'bigint', ['notnull' => false]);
     }
+
+    public function isTransactional(): bool
+    {
+        return false;
+    }
 }

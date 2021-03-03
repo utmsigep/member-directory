@@ -60,4 +60,9 @@ final class Version20200909030146 extends AbstractMigration
         // Forward compatability update
         $this->connection->executeQuery('UPDATE member_status SET is_inactive = 1 WHERE code IN ("RESIGNED", "EXPELLED")');
     }
+
+    public function isTransactional(): bool
+    {
+        return false;
+    }
 }

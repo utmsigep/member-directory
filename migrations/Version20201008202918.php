@@ -34,4 +34,9 @@ final class Version20201008202918 extends AbstractMigration
         $this->connection->executeQuery('UPDATE member SET facebook_url = CONCAT("https://www.facebook.com/", facebook_identifier) WHERE facebook_identifier > 0');
         $this->connection->executeQuery('UPDATE member SET photo_url = CONCAT("https://graph.facebook.com/v3.3/", facebook_identifier, "/picture?width=256&height=256&type=square") WHERE facebook_identifier > 0');
     }
+
+    public function isTransactional(): bool
+    {
+        return false;
+    }
 }
