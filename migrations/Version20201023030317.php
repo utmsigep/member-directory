@@ -27,4 +27,9 @@ final class Version20201023030317 extends AbstractMigration
         $extLogEntriesTable->changeColumn('object_class', ['length' => 255, 'nullable' => false]);
         $extLogEntriesTable->changeColumn('username', ['length' => 255, 'nullable' => true]);
     }
+
+    public function isTransactional(): bool
+    {
+        return false;
+    }
 }

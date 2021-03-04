@@ -27,4 +27,9 @@ final class Version20201009174116 extends AbstractMigration
         $userTable->dropColumn('name');
         $userTable->dropColumn('last_login');
     }
+
+    public function isTransactional(): bool
+    {
+        return false;
+    }
 }

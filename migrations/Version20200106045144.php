@@ -47,4 +47,9 @@ final class Version20200106045144 extends AbstractMigration
     {
         $schema->dropTable('donation');
     }
+
+    public function isTransactional(): bool
+    {
+        return false;
+    }
 }

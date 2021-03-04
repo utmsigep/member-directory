@@ -96,4 +96,9 @@ final class Version20190429003353 extends AbstractMigration
         $schema->dropTable('member_status');
         $schema->dropTable('ext_log_entries');
     }
+
+    public function isTransactional(): bool
+    {
+        return false;
+    }
 }

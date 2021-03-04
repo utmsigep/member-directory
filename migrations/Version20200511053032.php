@@ -27,4 +27,9 @@ final class Version20200511053032 extends AbstractMigration
         $memberTable = $schema->getTable('member');
         $memberTable->dropIndex('idx_70e4fa78a9d1c13261cd21aa59107af8c808ba5a');
     }
+
+    public function isTransactional(): bool
+    {
+        return false;
+    }
 }
