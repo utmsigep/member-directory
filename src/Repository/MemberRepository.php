@@ -243,7 +243,7 @@ class MemberRepository extends ServiceEntityRepository
         }
         // Return only mailable records
         if (isset($filters['mailable']) && $filters['mailable']) {
-            $qb->andWhere('m.mailingAddressLine1 != \'\'');
+            $qb->andWhere('m.mailingAddressLine1 != \'\' OR m.mailingAddressLine2 != \'\'');
         }
         // Return only e-mailable records
         if (isset($filters['emailable']) && $filters['emailable']) {

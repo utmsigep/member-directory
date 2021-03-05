@@ -33,12 +33,12 @@ class MemberExportType extends AbstractType
                 'label' => 'Apply default filters',
                 'required' => false,
                 'data' => true,
-                'help' => 'Excludes: Do Not Contact, Lost, Deceased'
+                'help' => 'Excludes: Do Not Contact, Lost, Deceased, Inactive Member Statuses'
             ])
             ->add('mailable', CheckboxType::class, [
                 'label' => 'Mailable',
                 'required' => false,
-                'help' => 'Excludes: Blank Address Line 1'
+                'help' => 'Excludes: Empty Mailing Addresses'
             ])
             ->add('emailable', CheckboxType::class, [
                 'label' => 'E-mailable',
