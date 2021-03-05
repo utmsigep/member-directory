@@ -83,7 +83,7 @@
               {% if member.mailingLatitude and member.mailingLongitude %}
               <tr>
                 <td colspan="2">
-                  <div id="mapContainer" style="min-height:200px;" data-mailing_latitude="{{ member.mailingLatitude }}" data-mailing_longitude="{{ member.mailingLongitude }}" data-map_label="{{ member.displayName }} "></div>
+                  <div id="mapContainer" style="max-height:30vh" data-mailing_latitude="{{ member.mailingLatitude }}" data-mailing_longitude="{{ member.mailingLongitude }}" data-map_label="{{ member.displayName }} "></div>
                 </td>
               </tr>
               {% endif %}

@@ -7,9 +7,11 @@ use App\Entity\Member;
 use App\Entity\Tag;
 use App\Repository\DirectoryCollectionRepository;
 use App\Repository\MemberRepository;
+use App\Repository\TagRepository;
 use App\Service\EmailService;
 use App\Service\PostalValidatorService;
 use Doctrine\ORM\NoResultException ;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
@@ -26,6 +28,19 @@ use Symfony\Component\Validator\Constraints\Date;
  */
 class DirectoryController extends AbstractController
 {
+
+    const COLUMN_MAP = [
+        'm.localIdentifier',
+        null,
+        'm.lastName',
+        's.label',
+        'm.classYear',
+        'm.primaryEmail',
+        null,
+        'm.primaryTelephoneNumber',
+        null
+    ];
+
     /**
      * @Route("/", name="home")
      */
@@ -40,63 +55,117 @@ class DirectoryController extends AbstractController
     }
 
     /**
-     * @Route("/collection/{slug}", name="directory_collection", options={"expose" = true})
+     * @Route("/collection/{slug}.{_format}", name="directory_collection", defaults={"_format"="html"}), options={"expose" = true})
      */
-    public function directoryCollection(DirectoryCollection $directoryCollection, MemberRepository $memberRepository)
+    public function directoryCollectionTableSource(DirectoryCollection $directoryCollection, MemberRepository $memberRepository, Request $request, string $_format): Response
     {
-        if ($directoryCollection->getGroupBy()) {
-            return $this->render('directory/directory_group.html.twig', [
+        if ($_format === 'html') {
+            return $this->render('directory/directory.html.twig', [
                 'view_name' => $directoryCollection->getLabel(),
-                'show_status' => $directoryCollection->getShowMemberStatus(),
-                'group' => $memberRepository->findByDirectoryCollection($directoryCollection)
+                'group_by' => $directoryCollection->getGroupBy(),
+                'data_source' => $this->generateUrl('directory_collection', ['slug' => $directoryCollection->getSlug(), '_format' => 'json']),
+                'show_status' => $directoryCollection->getShowMemberStatus()
             ]);
         }
-        return $this->render('directory/directory.html.twig', [
-            'view_name' => $directoryCollection->getLabel(),
-            'show_status' => $directoryCollection->getShowMemberStatus(),
-            'members' => $memberRepository->findByDirectoryCollection($directoryCollection)
+
+        $members = $memberRepository->findByDirectoryCollection($directoryCollection, [
+            'limit' => $request->get('length', 100),
+            'offset' => $request->get('start', 0),
+            'group_by' => $this->getGroupBy($directoryCollection),
+            'sort_by' => $this->getSortBy($request),
+            'sort_direction' => $this->getSortDirection($request)
+        ]);
+        $response = $this->buildDataResponse($members);
+
+        return $this->json($response, 200, [], [
+            'groups' => ['member_main', 'member_extended', 'status_main', 'tag_main'],
+            'circular_reference_handler' => function ($object) {
+                return (string) $object;
+            }
         ]);
     }
 
     /**
-     * @Route("/lost", name="lost")
+     * @Route("/lost.{_format}", name="lost", defaults={"_format"="html"}, options={"expose" = true})
      */
-    public function lost()
+    public function lost(MemberRepository $memberRepository, Request $request, string $_format)
     {
-        $entityManager = $this->getDoctrine()->getManager();
-        $members = $entityManager->getRepository(Member::class)->findLost();
-        return $this->render('directory/directory.html.twig', [
-            'view_name' => 'Lost',
-            'show_status' => true,
-            'members' => $members
+        if ($_format === 'html') {
+            return $this->render('directory/directory.html.twig', [
+                'view_name' => 'Lost',
+                'show_status' => true,
+                'data_source' => $this->generateUrl('lost', ['_format' => 'json']),
+            ]);
+        }
+        $members = $memberRepository->findLost([
+            'limit' => $request->get('length', 100),
+            'offset' => $request->get('start', 0),
+            'sort_by' => $this->getSortBy($request),
+            'sort_direction' => $this->getSortDirection($request)
+        ]);
+        $response = $this->buildDataResponse($members);
+
+        return $this->json($response, 200, [], [
+            'groups' => ['member_main', 'member_extended', 'status_main', 'tag_main'],
+            'circular_reference_handler' => function ($object) {
+                return (string) $object;
+            }
         ]);
     }
 
     /**
-     * @Route("/do-not-contact", name="do_not_contact")
+     * @Route("/do-not-contact.{_format}", name="do_not_contact", defaults={"_format"="html"}, options={"expose" = true})
      */
-    public function doNotContact()
+    public function doNotContact(MemberRepository $memberRepository, Request $request, string $_format)
     {
-        $entityManager = $this->getDoctrine()->getManager();
-        $members = $entityManager->getRepository(Member::class)->findDoNotContact();
-        return $this->render('directory/directory.html.twig', [
-            'view_name' => 'Do Not Contact',
-            'show_status' => true,
-            'members' => $members
+        if ($_format === 'html') {
+            return $this->render('directory/directory.html.twig', [
+                'view_name' => 'Do Not Contact',
+                'show_status' => true,
+                'data_source' => $this->generateUrl('do_not_contact', ['_format' => 'json']),
+            ]);
+        }
+        $members = $memberRepository->findDoNotContact([
+            'limit' => $request->get('length', 100),
+            'offset' => $request->get('start', 0),
+            'sort_by' => $this->getSortBy($request),
+            'sort_direction' => $this->getSortDirection($request)
+        ]);
+        $response = $this->buildDataResponse($members);
+
+        return $this->json($response, 200, [], [
+            'groups' => ['member_main', 'member_extended', 'status_main', 'tag_main'],
+            'circular_reference_handler' => function ($object) {
+                return (string) $object;
+            }
         ]);
     }
 
     /**
-     * @Route("/deceased", name="deceased")
+     * @Route("/deceased.{_format}", name="deceased", defaults={"_format"="html"}, options={"expose" = true})
      */
-    public function deceased()
+    public function deceased(MemberRepository $memberRepository, Request $request, string $_format)
     {
-        $entityManager = $this->getDoctrine()->getManager();
-        $members = $entityManager->getRepository(Member::class)->findDeceased();
-        return $this->render('directory/directory.html.twig', [
-            'view_name' => 'Do Not Contact',
-            'show_status' => true,
-            'members' => $members
+        if ($_format === 'html') {
+            return $this->render('directory/directory.html.twig', [
+                'view_name' => 'Deceased',
+                'show_status' => true,
+                'data_source' => $this->generateUrl('deceased', ['_format' => 'json']),
+            ]);
+        }
+        $members = $memberRepository->findDeceased([
+            'limit' => $request->get('length', 100),
+            'offset' => $request->get('start', 0),
+            'sort_by' => $this->getSortBy($request),
+            'sort_direction' => $this->getSortDirection($request)
+        ]);
+        $response = $this->buildDataResponse($members);
+
+        return $this->json($response, 200, [], [
+            'groups' => ['member_main', 'member_extended', 'status_main', 'tag_main'],
+            'circular_reference_handler' => function ($object) {
+                return (string) $object;
+            }
         ]);
     }
 
@@ -175,20 +244,35 @@ class DirectoryController extends AbstractController
     }
 
     /**
-     * @Route("/tags/{tagId}", name="tag")
+     * @Route("/tags/{tagId}.{_format}", name="tag", defaults={"_format"="html"}, options={"expose" = true})
      */
-    public function tag($tagId)
+    public function tag(MemberRepository $memberRepository, TagRepository $tagRepository, Request $request, $_format, $tagId)
     {
-        $entityManager = $this->getDoctrine()->getManager();
-        $tag = $entityManager->getRepository(Tag::class)->find($tagId);
+        $tag = $tagRepository->find($tagId);
         if (is_null($tag)) {
             throw $this->createNotFoundException('Tag not found.');
         }
-        $members = $entityManager->getRepository(Member::class)->findByTags($tag);
-        return $this->render('directory/directory.html.twig', [
-            'view_name' => $tag->getTagName(),
-            'show_status' => true,
-            'members' => $members
+
+        if ($_format === 'html') {
+            return $this->render('directory/directory.html.twig', [
+                'view_name' => $tag->getTagName(),
+                'show_status' => true,
+                'data_source' => $this->generateUrl('tag', ['tagId' => $tagId, '_format' => 'json']),
+            ]);
+        }
+        $members = $memberRepository->findByTags([$tag], [
+            'limit' => $request->get('length', 100),
+            'offset' => $request->get('start', 0),
+            'sort_by' => $this->getSortBy($request),
+            'sort_direction' => $this->getSortDirection($request)
+        ]);
+        $response = $this->buildDataResponse($members);
+
+        return $this->json($response, 200, [], [
+            'groups' => ['member_main', 'member_extended', 'status_main', 'tag_main'],
+            'circular_reference_handler' => function ($object) {
+                return (string) $object;
+            }
         ]);
     }
 
@@ -203,15 +287,13 @@ class DirectoryController extends AbstractController
     /**
      * @Route("/map-search", name="map_search", options={"expose" = true})
      */
-    public function mapSearch(Request $request)
+    public function mapSearch(MemberRepository $memberRepository, Request $request)
     {
-        $entityManager = $this->getDoctrine()->getManager();
-        $members = $entityManager->getRepository(Member::class)->findMembersWithinRadius(
+        $members = $memberRepository->findMembersWithinRadius(
             $request->get('latitude'),
             $request->get('longitude'),
             $request->get('radius')
         );
-
         return $this->json($members, 200, [], [
             'groups' => ['member_main', 'status_main'],
             'circular_reference_handler' => function ($object) {
@@ -223,13 +305,11 @@ class DirectoryController extends AbstractController
     /**
      * @Route("/map-data", name="map_data", options={"expose" = true})
      */
-    public function mapData()
+    public function mapData(MemberRepository $memberRepository)
     {
-        $entityManager = $this->getDoctrine()->getManager();
-        $members = $entityManager->getRepository(Member::class)->findGeocodedAddresses();
-
+        $members = $memberRepository->findGeocodedAddresses();
         return $this->json($members, 200, [], [
-            'groups' => ['member_main', 'status_main'],
+            'groups' => ['member_main', 'member_extended', 'status_main'],
             'circular_reference_handler' => function ($object) {
                 return (string) $object;
             }
@@ -248,4 +328,49 @@ class DirectoryController extends AbstractController
         $campaign = $emailService->getCampaignById($campaignId);
         return $this->redirect($campaign->WebVersionURL);
     }
+
+    /* Private Methods */
+
+    private function getSortBy(Request $request): string
+    {
+        $order = $request->get('order');
+        if (isset($order[0]['column'], self::COLUMN_MAP[(int) $order[0]['column']])) {
+            return self::COLUMN_MAP[(int) $order[0]['column']];
+        }
+        return 'm.localIdentifier';
+    }
+
+    private function getSortDirection(Request $request): string
+    {
+        $order = $request->get('order');
+        if (isset($order[0]['dir']) && $order[0]['dir'] === 'desc') {
+            return 'DESC';
+        }
+        return 'ASC';
+    }
+
+    private function getGroupBy(DirectoryCollection $directoryCollection): ?string
+    {
+        switch ($directoryCollection->getGroupBy()) {
+            case 'classYear':
+                return 'm.classYear';
+            case 'status':
+                return 's.label';
+            case 'mailingState':
+                return 'm.mailingState';
+            case 'mailingPostalCode':
+                return 'm.mailingPostalCode';
+        }
+        return null;
+    }
+
+    private function buildDataResponse(Paginator $members): array
+    {
+        return [
+            'recordsTotal' => count($members),
+            'recordsFiltered' => count($members),
+            'data' => $members
+        ];
+    }
+
 }

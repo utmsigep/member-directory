@@ -13,19 +13,16 @@
 {% endblock %}
 {% endembed %}
 
-{% if members %}
 <div class="card shadow">
   <div class="card-body">
     <div class="table-responsive">
-      <table class="table table-sm" id="memberTable">
+      <table class="table table-sm" id="memberDataTable" data-source="{{ data_source }}" data-show-status="{{ show_status }}" data-group-by="{{ group_by|default('') }}">
         <thead>
           <tr>
             <th class="text-center">Roll #</th>
             <th data-sortable="false" data-searchable="false"></th>
             <th>Name</th>
-            {% if show_status %}
             <th>Status</th>
-            {% endif %}
             <th>Class</th>
             <th>E-mail</th>
             <th data-sortable="false" data-searchable="false">Social</th>
@@ -34,17 +31,11 @@
           </tr>
         </thead>
         <tbody>
-          {% for member in members %}
-          {% include 'directory/_row.html.twig' %}
-          {% endfor %}
         </tbody>
       </table>
     </div>
   </div>
 </div>
-{% else %}
-{% include '_no_records_card.html.twig' with {message: 'No Members matched your criteria.'} %}
-{% endif %}
 
 {% endblock %}
 

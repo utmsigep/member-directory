@@ -25,8 +25,7 @@ class DirectoryCollectionType extends AbstractType
                 'choices' => [
                     'Class Year' => 'classYear',
                     'Member Status' => 'status',
-                    'State' => 'mailingState',
-                    'Postal Code' => 'mailingPostalCode'
+                    'State' => 'mailingState'
                 ],
                 'placeholder' => '',
                 'required' => false

@@ -52,6 +52,7 @@ class MemberStatus
 
     /**
      * @ORM\Column(type="boolean")
+     * @Groups({"status_main"})
      */
     private $isInactive = false;
 
