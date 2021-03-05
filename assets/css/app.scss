@@ -1,15 +1,18 @@
 /* Directory Tables */
-.col-edit {
+th.col-edit {
   width: 10px;
 }
-.col-img-profile {
+th.col-img-profile {
   width: 35px;
   img {
     max-width: 30px;
     max-height: 30px;
   }
 }
-.inactive {
+
+/* Inactive */
+div.inactive,
+tr.inactive {
   opacity: 0.7;
   transition: opacity .2s ease-out;
   &:hover {
@@ -39,6 +42,9 @@
     max-width: 375px;
     margin: auto;
   }
+}
+#memberMapContainer {
+  height: 30vh;
 }
 
 /* User Steps */

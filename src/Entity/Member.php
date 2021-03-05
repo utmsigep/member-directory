@@ -20,8 +20,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *   }
  * )
  * @ORM\HasLifecycleCallbacks
- * @UniqueEntity("localIdentifier")
- * @UniqueEntity("externalIdentifier")
+ * @UniqueEntity({"localIdentifier","externalIdentifier"})
  * @Gedmo\Loggable
  */
 class Member
@@ -41,7 +40,7 @@ class Member
     private $id;
 
     /**
-     * @ORM\Column(type="string", nullable=true, length=255)
+     * @ORM\Column(type="string", nullable=true, length=255, unique=true)
      * @Assert\NotBlank
      * @Gedmo\Versioned
      * @Groups({"member_main"})
@@ -49,7 +48,7 @@ class Member
     private $localIdentifier;
 
     /**
-     * @ORM\Column(type="string", nullable=true, length=255)
+     * @ORM\Column(type="string", nullable=true, length=255, unique=true)
      * @Assert\NotBlank
      * @Gedmo\Versioned
      * @Groups({"member_extended"})
@@ -597,13 +596,6 @@ class Member
 
     public function getPhotoUrl(int $size = 400): ?string
     {
-        if (!$this->photoUrl && !preg_match('/https\:\/\/www.gravatar.com\/avatar/i', $this->photoUrl)) {
-            return sprintf(
-                'https://www.gravatar.com/avatar/%s?default=mm&size=%d',
-                md5($this->primaryEmail),
-                $size
-            );
-        }
         return $this->photoUrl;
     }
 

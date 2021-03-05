@@ -1,4 +1,5 @@
 /* globals Routing, $ */
+var gravatar = require('gravatar');
 
 $(document).ready(function() {
   var memberDataTable = $('#memberDataTable').DataTable({
@@ -11,7 +12,12 @@ $(document).ready(function() {
     autoWidth: false,
     pageLength: 25,
     searching: false,
-    drawCallback: function ( settings ) {
+    createdRow: function (row, data, dataIndex) {
+      if (data.status.isInactive == true) {
+        $(row).addClass('inactive');
+      }
+    },
+    drawCallback: function (settings) {
       var groupBy = $('#memberDataTable').data('group-by');
       var groupByCol = false;
       switch (groupBy) {
@@ -50,13 +56,12 @@ $(document).ready(function() {
         orderable: false,
         className: "col-img-profile text-center",
         render: function (data, type, row, meta) {
-          if (!data) {
-            return '<i class="fas fa-user fa-fw fa-2x text-muted"></i>';
-          }
-          var output = '';
+          var link = Routing.generate('member_show', {localIdentifier: row.localIdentifier});
           var photoUrl = data;
-          var link = Routing.generate('member_show', {localIdentifier: data});
-          output += '<a href="' + link + '">';
+          if (!photoUrl) {
+            photoUrl = gravatar.url(row.primaryEmail, {default: 'mm'});
+          }
+          var output = '<a href="' + link + '">';
           output += '  <img src="' + photoUrl + '" class="img-fluid" alt="Profile Photo" />';
           output += '</a>';
           return output;

@@ -21,6 +21,7 @@
         "datatables.net-bs4": "^1.10.23",
         "datatables.net-buttons": "^1.6.5",
         "datatables.net-buttons-bs4": "^1.6.5",
+        "gravatar": "^1.8.1",
         "ini": "^2.0.0",
         "jquery": "^3.5.1",
         "leaflet": "^1.7.1",
