@@ -2,12 +2,10 @@
 
 namespace App\Controller;
 
+use App\Service\EmailService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Mime\Header\Headers;
-use Symfony\Component\Mailer\MailerInterface;
 
 use App\Entity\Member;
 use App\Form\MemberUpdateType;
@@ -35,7 +33,7 @@ class UpdateController extends AbstractController
     /**
      * @Route("/update-my-info/{externalIdentifier}/{updateToken}", name="self_service_update")
      */
-    public function update(Request $request, MailerInterface $mailer)
+    public function update(Request $request, EmailService $emailService)
     {
         $member = $this->getDoctrine()->getRepository(Member::class)->findOneBy([
             'externalIdentifier' => $request->get('externalIdentifier')
@@ -55,25 +53,10 @@ class UpdateController extends AbstractController
             $member = $form->getData();
             // If form is submitted, member is no longer "lost"
             $member->setIsLost(false);
-            // Set headers for grouping in transactional email reporting
-            $headers = new Headers();
-            $headers->addTextHeader('X-Cmail-GroupName', 'Member Record Update');
-            $headers->addTextHeader('X-MC-Tags', 'Member Record Update');
-            $message = new TemplatedEmail($headers);
-            $message
-                ->to($this->getParameter('app.email.to'))
-                ->from($this->getParameter('app.email.from'))
-                ->subject(sprintf('Member Record Update: %s', $member->getDisplayName()))
-                ->htmlTemplate('update/email_update.html.twig')
-                ->context(['member' => $member])
-                ;
-            if ($member->getPrimaryEmail()) {
-                $message->replyTo($member->getPrimaryEmail());
-            }
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($member);
             $entityManager->flush();
-            $mailer->send($message);
+            $emailService->sendMemberUpdate($member);
             return $this->render('update/confirmation.html.twig');
         }
 

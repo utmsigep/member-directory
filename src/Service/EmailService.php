@@ -2,9 +2,13 @@
 
 namespace App\Service;
 
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use CS_REST_Subscribers;
 use CS_REST_Campaigns;
+use CS_REST_Subscribers;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Header\Headers;
 
 use App\Entity\Member;
 
@@ -16,15 +20,22 @@ class EmailService
 
     protected $defaultListId;
 
+    protected $webhookToken;
+
     protected $client;
 
     protected $campaignsClient;
 
-    public function __construct(ParameterBagInterface $params)
+    protected $em;
+
+    protected $mailer;
+
+    public function __construct(ParameterBagInterface $params, EntityManagerInterface $em, MailerInterface $mailer)
     {
         $this->params = $params;
         $this->apiKey = $params->get('campaign_monitor.api_key');
         $this->defaultListId = $params->get('campaign_monitor.default_list_id');
+        $this->webhookToken = $params->get('campaign_monitor.webhook_token');
         $this->client = new CS_REST_Subscribers(
             $this->defaultListId,
             [
@@ -37,6 +48,8 @@ class EmailService
                 'api_key' => $this->apiKey
             ]
         );
+        $this->em = $em;
+        $this->mailer = $mailer;
     }
 
     public function isConfigured(): bool
@@ -136,6 +149,78 @@ class EmailService
         $this->campaignsClient->set_campaign_id($campaignId);
         $result = $this->campaignsClient->get_summary();
         return $result->response;
+    }
+
+    public function getWebhookToken(): string
+    {
+        return $this->webhookToken;
+    }
+
+    public function processWebhookBody(string $content): array
+    {
+        $content = json_decode($content, null, $depth=512, JSON_THROW_ON_ERROR);
+        if (!property_exists($content, 'Events') || !is_array($content->Events)) {
+            throw new \Exception('Invalid webhook payload. Must have Events.');
+        }
+        $memberRepository = $this->em->getRepository(Member::class);
+        $output = [];
+        foreach ($content->Events as $event) {
+            switch($event->Type) {
+                case 'Update':
+                    $member = $memberRepository->findOneBy([
+                        'primaryEmail' => $event->OldEmailAddress
+                    ]);
+                    if (!$member) {
+                        $output[] = [
+                            'result' => sprintf(
+                                'Unable to locate member with %s',
+                                $event->OldEmailAddress
+                            ),
+                            'payload' => $event
+                        ];
+                        break;
+                    }
+                    $member->setPrimaryEmail($event->EmailAddress);
+                    $this->sendMemberUpdate($member);
+                    $this->em->persist($member);
+                    $this->em->flush();
+                    $output[] = [
+                        'result' => sprintf(
+                            'Email for %s updated from %s to %s',
+                            $member,
+                            $event->OldEmailAddress,
+                            $event->EmailAddress
+                        ),
+                        'payload' => $event
+                    ];
+                    break;
+                default:
+                    $output[] = [
+                        'result' => 'No action taken.',
+                        'payload' => $event
+                    ];
+            }
+        }
+        return $output;
+    }
+
+    public function sendMemberUpdate(Member $member): void
+    {
+        $headers = new Headers();
+        $headers->addTextHeader('X-Cmail-GroupName', 'Member Record Update');
+        $headers->addTextHeader('X-MC-Tags', 'Member Record Update');
+        $message = new TemplatedEmail($headers);
+        $message
+            ->to($this->params->get('app.email.to'))
+            ->from($this->params->get('app.email.from'))
+            ->subject(sprintf('Member Record Update: %s', $member->getDisplayName()))
+            ->htmlTemplate('update/email_update.html.twig')
+            ->context(['member' => $member])
+            ;
+        if ($member->getPrimaryEmail()) {
+            $message->replyTo($member->getPrimaryEmail());
+        }
+        $this->mailer->send($message);
     }
 
     /* Private Methods */

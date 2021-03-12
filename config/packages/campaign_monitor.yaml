@@ -1,3 +1,4 @@
 parameters:
   campaign_monitor.api_key: '%env(CAMPAIGN_MONITOR_API_KEY)%'
   campaign_monitor.default_list_id: '%env(CAMPAIGN_MONITOR_DEFAULT_LIST_ID)%'
+  campaign_monitor.webhook_token: '%env(CAMPAIGN_MONITOR_WEBHOOK_TOKEN)%'
