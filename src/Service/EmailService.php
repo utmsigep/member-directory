@@ -207,7 +207,7 @@ class EmailService
 
     public function processWebhookBody(string $content): array
     {
-        $content = json_decode($content, null, $depth=512, JSON_THROW_ON_ERROR);
+        $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
         if (!property_exists($content, 'Events') || !is_array($content->Events)) {
             throw new \Exception('Invalid webhook payload. Must have Events.');
         }
