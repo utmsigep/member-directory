@@ -229,6 +229,20 @@ class EmailService
                         ];
                         break;
                     }
+                    if (
+                        $event->OldEmailAddress === $event->EmailAddress
+                        || $event->EmailAddress === $member->getPrimaryEmail()
+                    ) {
+                        $output[] = [
+                            'result' => sprintf(
+                                'Email for %s already %s, skipping.',
+                                $member,
+                                $event->EmailAddress
+                            ),
+                            'payload' => $event
+                        ];
+                        break;
+                    }
                     $member->setPrimaryEmail($event->EmailAddress);
                     $this->sendMemberUpdate($member);
                     $this->em->persist($member);
