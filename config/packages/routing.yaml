@@ -1,4 +1,5 @@
 framework:
     router:
+        default_uri: '%env(resolve:APP_BASE_URI)%'
         strict_requirements: ~
         utf8: true
