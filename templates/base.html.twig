@@ -29,7 +29,9 @@
           </div>
         </a>
 
+        {% if app.user and is_granted('ROLE_USER') %}
         {% include '_main_nav.html.twig' %}
+        {% endif %}
 
       </ul>
       <!-- End of Sidebar -->
@@ -48,6 +50,7 @@
               <i class="fa fa-bars"></i>
             </button>
 
+            {% if app.user and is_granted('ROLE_USER') %}
             <!-- Topbar Search -->
             <form action="{{ path('search') }}" method="GET" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
               <div class="input-group">
@@ -59,16 +62,18 @@
                 </div>
               </div>
             </form>
+            {% endif %}
 
             <!-- Topbar Navbar -->
             <ul class="navbar-nav ml-auto">
 
+              {% if app.user and is_granted('ROLE_USER') %}
               <!-- Nav Item - Search Dropdown (Visible Only XS) -->
               <li class="nav-item dropdown no-arrow d-sm-none">
                 <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <i class="fas fa-search fa-fw"></i>
                 </a>
-                <!-- Dropdown - Messages -->
+                <!-- Dropdown - Search -->
                 <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
                   <form action="{{ path('search') }}" method="GET"class="form-inline mr-auto w-100 navbar-search">
                     <div class="input-group">
@@ -82,6 +87,7 @@
                   </form>
                 </div>
               </li>
+              {% endif %}
 
               <!-- Nav Item - User Information -->
               {% if app.user and is_granted('ROLE_USER') %}
@@ -90,7 +96,7 @@
                   <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ app.user.name ? app.user.name : app.user.email }}</span>
                   <i class="fas {% if is_granted('ROLE_ADMIN') %}fa-user-shield{% else %}fa-user{% endif %} fa-fw"></i>
                 </a>
-                <!-- Dropdown - User Information -->
+                <!-- Dropdown - User Actions -->
                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                   <a class="dropdown-item" href="{{ path('app_profile') }}">
                     <i class="fas fa-id-card fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -111,6 +117,8 @@
                   </a>
                 </div>
               </li>
+              {% else %}
+              <li class="nav-item"><a class="" href="{{ path('app_login')}}"><i class="fas fa-sign-in-alt fa-fw"></i> <span>Sign In</span></a></li>
               {% endif %}
             </ul>
 
