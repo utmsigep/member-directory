@@ -54,7 +54,7 @@
         {% endif %}
         {% if is_granted('ROLE_ADMIN') %}
         <div class="mt-1 text-center">
-          {% if subscriber.State is not defined or subscriber.State != 'Active' %}
+          {% if subscriber.Code is not defined and (subscriber.State is not defined or subscriber.State != 'Active') %}
           <a href="{{ path('member_email_subscribe', {localIdentifier: member.localIdentifier} ) }}" class="btn btn-primary mb-1">Add Member to List</a>
           {% endif %}
           {% if subscriber.State is defined %}
