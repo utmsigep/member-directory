@@ -3,6 +3,7 @@
   <li class="nav-item"><a class="nav-link {{ (current_route == 'member_show' or current_route == 'member_edit') ? 'active' }}" href="{{ path('member_show', {localIdentifier: member.localIdentifier}) }}"><i class="fas fa-id-badge"></i> Member Profile</a></li>
   {% if is_granted('ROLE_ADMIN') %}
   <li class="nav-item"><a class="nav-link {{ current_route == 'member_change_log' ? 'active' }}" href="{{ path('member_change_log', {localIdentifier: member.localIdentifier}) }}"><i class="fas fa-history"></i> Changes</a></li>
+  <li class="nav-item"><a class="nav-link {{ current_route == 'member_change_log' ? 'active' }}" href="{{ path('member_change_log', {localIdentifier: member.localIdentifier}) }}"><i class="fas fa-bullhorn"></i> Communications</a></li>
   {% endif %}
   {% if is_email_service_configured() and member.primaryEmail %}
   {% if is_granted('ROLE_EMAIL_MANAGER') %}
