@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\CommunicationLog;
 use App\Entity\Donation;
 use App\Entity\Member;
+use App\Form\MemberCommunicationLogType;
 use App\Form\MemberMessageType;
 use App\Form\MemberType;
 use App\Service\ChartService;
@@ -120,6 +122,35 @@ class MemberController extends AbstractController
         return $this->render('directory/change_log.html.twig', [
             'member' => $member,
             'logEntries' => $logEntries
+        ]);
+    }
+
+    /**
+     * @Route("/{localIdentifier}/communication-log", name="member_communication_log")
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function communicationLog(Member $member, Request $request): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $communicationLogs = $entityManager->getRepository(CommunicationLog::class)->getCommunicationLogsByMember($member);
+        $communicationLog = new CommunicationLog();
+        $form = $this->createForm(MemberCommunicationLogType::class, $communicationLog, ['timezone' => $this->getUser()->getTimezone()]);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $communicationLog = $form->getData();
+            $communicationLog->setMember($member);
+            $communicationLog->setUser($this->getUser());
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($communicationLog);
+            $entityManager->flush();
+            $this->addFlash('success', sprintf('%s communication logged!', $member));
+            return $this->redirectToRoute('member_communication_log', ['localIdentifier' => $member->getLocalIdentifier()]);
+        }
+
+        return $this->render('directory/communication_log.html.twig', [
+            'member' => $member,
+            'communicationLogs' => $communicationLogs,
+            'form' => $form->createView()
         ]);
     }
 
@@ -286,11 +317,12 @@ class MemberController extends AbstractController
                     'subject' => $this->formatMessage($formData['subject'], $member),
                     'body' => $this->formatMessage($formData['message_body'], $member)
                 ])
-                ;
+            ;
             if ($formData['send_copy']) {
                 $message->bcc($this->getUser()->getEmail());
             }
             $mailer->send($message);
+            $this->logEmailCommunication($message, $member);
             $this->addFlash('success', 'Message sent!');
         }
 
@@ -316,5 +348,24 @@ class MemberController extends AbstractController
         $content = preg_replace('/\[PrimaryTelephoneNumber\]/i', $member->getPrimaryTelephoneNumber(), $content);
 
         return $content;
+    }
+
+    private function logEmailCommunication(TemplatedEmail $message, Member $member): void
+    {
+        $context = $message->getContext();
+        $communicationLog = new CommunicationLog();
+        $communicationLog->setMember($member);
+        $communicationLog->setUser($this->getUser());
+        $communicationLog->setLoggedAt(new \DateTime());
+        $communicationLog->setType(CommunicationLog::COMMUNICATION_TYPES['Email']);
+        $communicationLog->setSummary(sprintf(
+            "To: %s  \nSubject: %s  \n---  \n%s",
+            $member->getPrimaryEmail(),
+            $context['subject'],
+            $context['body']
+        ));
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($communicationLog);
+        $entityManager->flush();
     }
 }

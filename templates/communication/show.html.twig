@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent()}} - {{ communication_log }}{% endblock %}
+
+{% block body %}
+{% embed '_page_header.html.twig' %}
+{% block page_header_title %}{{ communication_log }}{% endblock %}
+{% block page_header_buttons %}
+<a role="button" href="{{ path('communication_edit', {id: communication_log.id}) }}" class="btn btn-sm btn-primary"><i class="fas fa-edit fa-fw"></i> Edit</a>
+{% endblock %}
+{% endembed %}
+
+<div class="card mb-3 shadow">
+  <div class="card-body">
+    <dl class="row">
+      <dt class="col-sm-2 mb-3">Member</dt>
+      <dd class="col-sm-10 mb-3"><a href="{{ path('member_show', {localIdentifier: communication_log.member.localIdentifier}) }}">{{ communication_log.member }}</a></dd>
+      <dt class="col-sm-2 mb-3">Logged At</dt>
+      <dd class="col-sm-10 mb-3">{{ communication_log.loggedAt ? communication_log.loggedAt|date('n/j/Y h:i a', app.user.timezone) : '' }}</dd>
+      <dt class="col-sm-2 mb-3">Type</dt>
+      <dd class="col-sm-10 mb-3">{{ communication_log.typeDisplay }}</dd>
+      <dt class="col-sm-2 mb-3">Summary</dt>
+      <dd class="col-sm-10 mb-3">{{ communication_log.summary|markdown_to_html }}</d>
+    </dl>
+  </div>
+</div>
+{% endblock %}

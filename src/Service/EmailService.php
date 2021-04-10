@@ -58,7 +58,11 @@ class EmailService
 
     public function isConfigured(): bool
     {
-        if ($this->params->get('campaign_monitor.api_key') && $this->params->get('campaign_monitor.default_list_id')) {
+        if ($this->params->has('campaign_monitor.api_key')
+            && $this->params->get('campaign_monitor.api_key')
+            && $this->params->has('campaign_monitor.default_list_id')
+            && $this->params->get('campaign_monitor.default_list_id')
+        ) {
             return true;
         }
         return false;

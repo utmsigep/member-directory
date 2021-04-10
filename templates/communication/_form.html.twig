@@ -1,0 +1,20 @@
+{{ form_start(form) }}
+<div class="row">
+  <div class="col-lg-8">
+    <div class="card mb-3 shadow">
+      <div class="card-header">Communication Log</div>
+      <div class="card-body">
+        {{ form_row(form.member, {placeholder: '-- Select Member --'}) }}
+        <hr />
+        {{ form_row(form.loggedAt) }}
+        {{ form_row(form.type) }}
+        {{ form_row(form.summary, {attr: {rows: 10}}) }}
+      </div>
+      <div class="card-footer text-right">
+        <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+      </div>
+    </div>
+  </div>
+</div>
+{{ form_rest(form) }}
+{{ form_end(form) }}

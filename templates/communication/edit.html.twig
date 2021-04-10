@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent()}} - {{ communication_log }}{% endblock %}
+
+{% block body %}
+{% embed '_page_header.html.twig' %}
+{% block page_header_title %}{{ communication_log }}{% endblock %}
+{% endembed %}
+
+{{ include('communication/_form.html.twig', {'button_label': 'Update'}) }}
+
+{{ include('communication/_delete_form.html.twig') }}
+
+{% endblock %}

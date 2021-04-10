@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
@@ -68,6 +70,21 @@ class User implements UserInterface, TwoFactorInterface
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $lastLogin;
+
+    /**
+     * @ORM\OneToMany(targetEntity=CommunicationLog::class, mappedBy="user")
+     */
+    private $communicationLogs;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $timezone;
+
+    public function __construct()
+    {
+        $this->communicationLogs = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -188,12 +205,54 @@ class User implements UserInterface, TwoFactorInterface
     }
 
     /**
+     * @return Collection|CommunicationLog[]
+     */
+    public function getCommunicationLogs(): Collection
+    {
+        return $this->communicationLogs;
+    }
+
+    public function addCommunicationLog(CommunicationLog $communicationLog): self
+    {
+        if (!$this->communicationLogs->contains($communicationLog)) {
+            $this->communicationLogs[] = $communicationLog;
+            $communicationLog->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommunicationLog(CommunicationLog $communicationLog): self
+    {
+        if ($this->communicationLogs->removeElement($communicationLog)) {
+            // set the owning side to null (unless already changed)
+            if ($communicationLog->getUser() === $this) {
+                $communicationLog->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getTimezone(): ?string
+    {
+        return $this->timezone;
+    }
+
+    public function setTimezone(?string $timezone): self
+    {
+        $this->timezone = $timezone;
+
+        return $this;
+    }
+
+    /**
      * Model Methods
      */
 
     public function __toString(): string
     {
-        return $this->email;
+        return sprintf('%s (%s)', $this->name, $this->email);
     }
 
     public function isTotpAuthenticationEnabled(): bool

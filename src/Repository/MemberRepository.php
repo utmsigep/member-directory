@@ -33,7 +33,6 @@ class MemberRepository extends ServiceEntityRepository
             ->leftJoin('m.tags', 't')
             ->andWhere('dc = :directoryCollection')
             ->setParameter('directoryCollection', $directoryCollection)
-
         ;
 
         if ($directoryCollection->getFilterLost()) {
