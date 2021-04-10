@@ -40,7 +40,7 @@ class CommunicationController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($communicationLog);
             $entityManager->flush();
-
+            $this->addFlash('success', sprintf('%s created!', $communicationLog));
             return $this->redirectToRoute('communication_index');
         }
 
@@ -70,7 +70,7 @@ class CommunicationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-
+            $this->addFlash('success', sprintf('%s updated!', $communicationLog));
             return $this->redirectToRoute('communication_index');
         }
 
@@ -86,7 +86,7 @@ class CommunicationController extends AbstractController
     public function delete(Request $request, CommunicationLog $communicationLog): Response
     {
         if ($this->isCsrfTokenValid('delete'.$communicationLog->getId(), $request->request->get('_token'))) {
-            $flashMessage = sprintf('%s deleted.', $communicationLog);
+            $flashMessage = sprintf('%s deleted!', $communicationLog);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($communicationLog);
             $entityManager->flush();
