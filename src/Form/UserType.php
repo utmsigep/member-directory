@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\TimezoneType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -47,6 +48,18 @@ class UserType extends AbstractType
                 'required' => $options['require_password'],
                 'first_options'  => ['label' => 'Password'],
                 'second_options' => ['label' => 'Repeat Password'],
+            ])
+            ->add('timezone', TimezoneType::class, [
+                'preferred_choices' => [
+                    'America/New_York',
+                    'America/Chicago',
+                    'America/Denver',
+                    'America/Phoenix',
+                    'America/Los_Angeles',
+                    'America/Anchorage',
+                    'America/Adak',
+                    'Pacific/Honolulu'
+                ]
             ])
         ;
     }

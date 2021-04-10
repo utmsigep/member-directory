@@ -28,91 +28,61 @@
   <div class="card-body">
     <div class="row">
       <div class="col-lg-8">
-        <div class="table-responsive">
-          <table class="table table-borderless">
-            <tbody>
-              <tr>
-                <th class="w-25">Status</th>
-                <td>{{ member.status.label }}</td>
-              </tr>
-              <tr>
-                <th>Full Name</th>
-                <td>
+            <dl class="row">
+                <dt class="col-sm-3 mb-3">Status</dt>
+                <dd class="col-sm-9 mb-3">{{ member.status.label }}</dd>
+                <dt class="col-sm-3 mb-3">Full Name</dt>
+                <dd class="col-sm-9 mb-3">
                   {{ member.firstName }} {{ member.middleName }} {{ member.lastName }}
-                </td>
-              </tr>
-              <tr>
-                <th>Roll #</th>
-                <td>{{ member.localIdentifier }}</td>
-              </tr>
-              <tr>
-                <th>Join Date</th>
-                <td>{{ member.joinDate ? member.joinDate|date('F j, Y') : '-' }}
-              </tr>
-              <tr>
-                <th>Class Year</th>
-                <td>{{ member.classYear|default('-') }}
-              </tr>
-              <tr>
-                <th>E-mail</th>
-                <td>
+                </dd>
+                <dt class="col-sm-3 mb-3">Roll #</dt>
+                <dd class="col-sm-9 mb-3">{{ member.localIdentifier }}</dd>
+                <dt class="col-sm-3 mb-3">Join Date</dt>
+                <dd class="col-sm-9 mb-3">{{ member.joinDate ? member.joinDate|date('F j, Y') : '-' }}
+                <dt class="col-sm-3 mb-3">Class Year</dt>
+                <dd class="col-sm-9 mb-3">{{ member.classYear|default('-') }}
+                <dt class="col-sm-3 mb-3">E-mail</dt>
+                <dd class="col-sm-9 mb-3">
                   {% if member.primaryEmail %}
                   <a href="mailto:{{ member.primaryEmail }}">{{ member.primaryEmail }}</a>
                   {% endif %}
-                </td>
-              </tr>
-              <tr>
-                <th>Phone Number</th>
-                <td>
-                  {% if member.primaryTelephoneNumber %}
-                  {{ member.primaryTelephoneNumber }}
-                  {% endif %}
-                </td>
-              </tr>
-              <tr>
-                <th>Mailing Address</th>
-                <td>
+                </dd>
+                <dt class="col-sm-3 mb-3">Phone Number</dt>
+                <dd class="col-sm-9 mb-3">{{ member.primaryTelephoneNumber }}</dd>
+                <dt class="col-sm-3 mb-3">Mailing Address</dt>
+                <dd class="col-sm-9 mb-3">
                   {% if member.mailingAddressLine1 %}
                   {{ member.mailingAddressLine1 }}<br />
                   {% if member.mailingAddressLine2 %}{{ member.mailingAddressLine2 }}<br />{% endif %}
                   {{ member.mailingCity }}, {{ member.mailingState }} {{ member.mailingPostalCode }}<br />
                   {{ member.mailingCountry }}
                   {% endif %}
-                </td>
-              </tr>
+                </dd>
+              </dl>
               {% if member.mailingLatitude and member.mailingLongitude %}
-              <tr>
-                <td colspan="2">
-                  <div id="mapContainer" style="max-height:30vh" data-mailing_latitude="{{ member.mailingLatitude }}" data-mailing_longitude="{{ member.mailingLongitude }}" data-map_label="{{ member.displayName }} "></div>
-                </td>
-              </tr>
+              <div class="mb-3">
+                <div id="mapContainer" style="max-height:30vh" data-mailing_latitude="{{ member.mailingLatitude }}" data-mailing_longitude="{{ member.mailingLongitude }}" data-map_label="{{ member.displayName }} "></div>
+              </div>
               {% endif %}
-              <tr>
-                <th>Employer</th>
-                <td>{{ member.employer }}</td>
-              </tr>
-              <tr>
-                <th>Job Title</th>
-                <td>{{ member.jobTitle }}</td>
-              </tr>
-              <tr>
-                <th>Occupation</th>
-                <td>{{ member.occupation }}</td>
-              </tr>
+              <dl class="row">
+                <dt class="col-sm-3 mb-3">Employer</dt>
+                <dd class="col-sm-9 mb-3">{{ member.employer }}</dd>
+
+                <dt class="col-sm-3 mb-3">Job Title</dt>
+                <dd class="col-sm-9 mb-3">{{ member.jobTitle }}</dd>
+
+                <dt class="col-sm-3 mb-3">Occupation</dt>
+                <dd class="col-sm-9 mb-3">{{ member.occupation }}</dd>
+              </dl>
               {% if is_granted('ROLE_ADMIN') and member.directoryNotes %}
-              <tr>
-                <td colspan="2"><hr /></td>
-              </tr>
-              <tr>
-                <th>Directory Notes</th>
-                <td>
+              <hr />
+              <dl class="row">
+                <dt class="col-sm-3 mb-3">Directory Notes</dt>
+                <dd class="col-sm-9 mb-3">
                   {{ member.directoryNotes|markdown_to_html }}
-                </td>
-              </tr>
+                </dd>
+              </dl>
               {% endif %}
-            </tbody>
-          </table>
-        </div>
       </div>
       <div class="col-lg-4">
         <div class="text-center mb-5">

@@ -269,10 +269,16 @@ class Member
      */
     private $donations;
 
+    /**
+     * @ORM\OneToMany(targetEntity=CommunicationLog::class, mappedBy="member", orphanRemoval=true)
+     */
+    private $communicationLogs;
+
     public function __construct()
     {
         $this->tags = new ArrayCollection();
         $this->donations = new ArrayCollection();
+        $this->communicationLogs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -683,6 +689,36 @@ class Member
             // set the owning side to null (unless already changed)
             if ($donation->getMember() === $this) {
                 $donation->setMember(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CommunicationLog[]
+     */
+    public function getCommunicationLogs(): Collection
+    {
+        return $this->communicationLogs;
+    }
+
+    public function addCommunicationLog(CommunicationLog $communicationLog): self
+    {
+        if (!$this->communicationLogs->contains($communicationLog)) {
+            $this->communicationLogs[] = $communicationLog;
+            $communicationLog->setMember($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommunicationLog(CommunicationLog $communicationLog): self
+    {
+        if ($this->communicationLogs->removeElement($communicationLog)) {
+            // set the owning side to null (unless already changed)
+            if ($communicationLog->getMember() === $this) {
+                $communicationLog->setMember(null);
             }
         }
 

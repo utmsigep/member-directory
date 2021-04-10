@@ -30,7 +30,7 @@
           <tr>
             <td class="w-25"><code>{{ field }}</code></td>
             {% if value.timestamp is defined %}
-            <td><tt>{{ value|date('c') }}</tt></td>
+            <td><tt>{{ value|date('n/j/Y h:i a') }}</tt></td>
             {% elseif value is iterable %}
             <td><tt>{{ value|json_encode() }}</tt></td>
             {% else %}

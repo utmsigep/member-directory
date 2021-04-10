@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} - New Communication{% endblock %}
+
+{% block body %}
+{% embed '_page_header.html.twig' %}
+{% block page_header_title %}New Communication{% endblock %}
+{% endembed %}
+
+{{ include('communication/_form.html.twig') }}
+
+{% endblock %}

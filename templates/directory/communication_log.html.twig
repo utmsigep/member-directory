@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} - {{ member.displayName }} - Change Log{% endblock %}
+
+{% block body %}
+{% embed '_page_header.html.twig' %}
+{% block page_header_title %}{{ member.displayName }}{% endblock %}
+{% endembed %}
+
+{% include 'member/_badges.html.twig' %}
+
+{% include 'member/_nav.html.twig' %}
+
+<div class="row">
+  <div class="col-lg-8">
+    {% if communicationLogs %}
+    <div class="card">
+      <div class="card-body">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Logged</th>
+              <th>Type</th>
+              <th>Entry</th>
+              <th>User</th>
+              <th>&nbsp;</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for log in communicationLogs %}
+            <tr>
+              <td><a href="{{ path('communication_show', {id: log.id}) }}">{{ log.loggedAt|date('n/j/Y h:i a', app.user.timezone|default('UTC')) }}</a></td>
+              <td>{{ log.typeDisplay }}</td>
+              <td>{{ log.summary|truncate(100)|markdown_to_html }}</td>
+              <td>{{ log.user|default('System') }}</td>
+              <td><a href="{{ path('communication_edit', {id: log.id }) }}"><i class="fas fa-edit"></i></a></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    {% else %}
+    {% include '_no_records_card.html.twig' with {message: 'No Communication Logs matched your criteria.'} %}
+    {% endif %}
+  </div>
+  <div class="col-lg-4">
+    {{ form_start(form) }}
+    <div class="card shadow mb-3">
+      <div class="card-header">
+        Log New Communication
+      </div>
+      <div class="card-body">
+        {{ form_row(form.loggedAt, {label: 'Logged At'}) }}
+        {{ form_row(form.type) }}
+        {{ form_row(form.summary, {attr: {rows: 10}}) }}
+        {{ form_rest(form) }}
+      </div>
+      <div class="card-footer text-right">
+        <button class="btn btn-primary">Create Log Entry</button>
+      </div>
+    </div>
+    {{ form_end(form) }}
+  </div>
+</div>
+
+{% endblock %}
