@@ -15,6 +15,7 @@
 {% if member.status.isInactive == false and member.isDeceased == false %}
 <a role="button" href="#modalEditLink" data-toggle="modal" class="btn btn-sm btn-secondary"><i class="fas fa-link"></i></a>
 {% endif %}
+<a role="button" href="{{ path('member_change_log', {localIdentifier: member.localIdentifier}) }}" class="btn btn-sm btn-secondary"><i class="fas fa-history"></i> Changes</a></li>
 <a role="button" href="{{ path('member_edit', {localIdentifier: member.localIdentifier}) }}" class="btn btn-sm btn-primary"><i class="fas fa-edit fa-fw"></i> Edit</a>
 {% endif %}
 {% endblock %}
@@ -41,7 +42,7 @@
                 <dd class="col-sm-9 mb-3">{{ member.joinDate ? member.joinDate|date('F j, Y') : '-' }}
                 <dt class="col-sm-3 mb-3">Class Year</dt>
                 <dd class="col-sm-9 mb-3">{{ member.classYear|default('-') }}
-                <dt class="col-sm-3 mb-3">E-mail</dt>
+                <dt class="col-sm-3 mb-3">Email</dt>
                 <dd class="col-sm-9 mb-3">
                   {% if member.primaryEmail %}
                   <a href="mailto:{{ member.primaryEmail }}">{{ member.primaryEmail }}</a>

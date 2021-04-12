@@ -183,6 +183,10 @@ class MemberController extends AbstractController
             $this->addFlash('danger', 'Email service not configured.');
             return $this->redirectToRoute('member_show', ['localIdentifier' => $member->getLocalIdentifier()]);
         }
+        if (!$member->getPrimaryEmail()) {
+            $this->addFlash('danger', 'No primary email set for Member.');
+            return $this->redirectToRoute('member_show', ['localIdentifier' => $member->getLocalIdentifier()]);
+        }
         $entityManager = $this->getDoctrine()->getManager();
         $subscriber = $emailService->getMemberSubscription($member);
         $subscriberHistory = $emailService->getMemberSubscriptionHistory($member);

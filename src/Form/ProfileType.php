@@ -22,7 +22,7 @@ class ProfileType extends AbstractType
         $builder
             ->add('name')
             ->add('email', EmailType::class, [
-                'label' => 'Login E-mail',
+                'label' => 'Login Email',
                 'constraints' => [
                     new Email([
                         'message' => 'Must be a valid email address!'

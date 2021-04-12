@@ -41,9 +41,9 @@ class MemberExportType extends AbstractType
                 'help' => 'Excludes: Empty Mailing Addresses'
             ])
             ->add('emailable', CheckboxType::class, [
-                'label' => 'E-mailable',
+                'label' => 'Emailable',
                 'required' => false,
-                'help' => 'Excludes: Empty E-mail Address'
+                'help' => 'Excludes: Empty Email Address'
             ])
             ->add('columns', ChoiceType::class, [
                 'expanded' => true,
