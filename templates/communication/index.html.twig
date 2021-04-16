@@ -18,8 +18,8 @@
         <thead>
             <tr>
                 <th>Logged At</th>
-                <th>Type</th>
                 <th>Member</th>
+                <th>Type</th>
                 <th class="w-50">Summary</th>
                 <th>User</th>
                 <th class="col-edit" data-orderable="false"></th>
@@ -27,14 +27,7 @@
         </thead>
         <tbody>
         {% for log in communication_logs %}
-            <tr>
-                <td class="text-nowrap"><a href="{{ path('communication_show', {id: log.id}) }}">{{ log.loggedAt|date('n/j/Y h:i a', app.user.timezone|default('UTC')) }}</a></td>
-                <td>{{ log.typeDisplay }}</td>
-                <td><a href="{{ path('member_show', {localIdentifier: log.member.localIdentifier}) }}">{{ log.member.displayName }}</a></td>
-                <td>{{ log.summary|truncate(100)|markdown_to_html }}</td>
-                <td>{{ log.user|default('System') }}</td>
-                <td><a href="{{ path('communication_edit', {id: log.id}) }}"><i class="fas fa-edit fa-fw"></i></a></td>
-            </tr>
+        {% include 'communication/_row.html.twig' with {showUser: true} %}
         {% endfor %}
         </tbody>
       </table>
@@ -42,6 +35,6 @@
   </div>
 </div>
 {% else %}
-{% include '_no_records_card.html.twig' with {message: 'No Communication Logs matched your criteria.'} %}
+{% include '_no_records_card.html.twig' with {message: 'No Communications matched your criteria.'} %}
 {% endif %}
 {% endblock %}

@@ -239,6 +239,20 @@ class MemberRepository extends ServiceEntityRepository
         ;
     }
 
+    public function findOneByPrimaryTelephone(string $telephoneNumber): ?Member
+    {
+        return $this->createQueryBuilder('m')
+            ->where('m.primaryTelephoneNumber = :telephoneNumber')
+            ->setParameter('telephoneNumber', preg_replace(
+                '/.*(\d{3})[^\d]{0,7}(\d{3})[^\d]{0,7}(\d{4}).*/',
+                '($1) $2-$3',
+                $telephoneNumber)
+            )
+            ->getQuery()
+            ->getSingleResult()
+        ;
+    }
+
     private function processParams(QueryBuilder $qb, $params = []): QueryBuilder
     {
         // Pagination

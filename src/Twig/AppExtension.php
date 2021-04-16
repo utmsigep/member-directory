@@ -2,15 +2,15 @@
 
 namespace App\Twig;
 
+use App\Entity\DirectoryCollection;
+use App\Entity\Tag;
+use App\Service\EmailService;
+use App\Service\PostalValidatorService;
+use App\Service\SmsService;
+use Doctrine\ORM\EntityManagerInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
-use Doctrine\ORM\EntityManagerInterface;
-
-use App\Service\EmailService;
-use App\Service\PostalValidatorService;
-use App\Entity\Tag;
-use App\Entity\DirectoryCollection;
 
 class AppExtension extends AbstractExtension
 {
@@ -20,14 +20,18 @@ class AppExtension extends AbstractExtension
 
     protected $emailService;
 
+    protected $smsService;
+
     public function __construct(
         EntityManagerInterface $entityManager,
         PostalValidatorService $postalValidatorService,
-        EmailService $emailService
+        EmailService $emailService,
+        SmsService $smsService
     ) {
         $this->entityManager = $entityManager;
         $this->postalValidatorService = $postalValidatorService;
         $this->emailService = $emailService;
+        $this->smsService = $smsService;
     }
 
     public function getFunctions(): array
@@ -36,6 +40,7 @@ class AppExtension extends AbstractExtension
             new TwigFunction('get_directory_collections', [$this, 'getDirectoryCollections']),
             new TwigFunction('get_tags', [$this, 'getTags']),
             new TwigFunction('is_email_service_configured', [$this, 'isEmailServiceConfigured']),
+            new TwigFunction('is_sms_service_configured', [$this, 'isSmsServiceConfigured']),
             new TwigFunction('is_postal_validator_service_configured', [$this, 'isPostalValidatorServiceConfigured']),
             new TwigFunction('gravatar', [$this, 'gravatar']),
         ];
@@ -56,6 +61,11 @@ class AppExtension extends AbstractExtension
     public function isEmailServiceConfigured(): bool
     {
         return $this->emailService->isConfigured();
+    }
+
+    public function isSmsServiceConfigured(): bool
+    {
+        return $this->smsService->isConfigured();
     }
 
     public function isPostalValidatorServiceConfigured(): bool

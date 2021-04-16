@@ -171,6 +171,9 @@
     "league/csv": {
         "version": "9.2.0"
     },
+    "lorenzo/pinky": {
+        "version": "1.0.5"
+    },
     "monolog/monolog": {
         "version": "1.24.0"
     },
@@ -404,6 +407,18 @@
             "config/packages/test/monolog.yaml"
         ]
     },
+    "symfony/notifier": {
+        "version": "5.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "5.0",
+            "ref": "c31585e252b32fe0e1f30b1f256af553f4a06eb9"
+        },
+        "files": [
+            "config/packages/notifier.yaml"
+        ]
+    },
     "symfony/options-resolver": {
         "version": "v4.4.8"
     },
@@ -552,6 +567,15 @@
             "templates/base.html.twig"
         ]
     },
+    "symfony/twilio-notifier": {
+        "version": "5.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "5.0",
+            "ref": "eb697fe6a90b4972a4a544b4f7ea56520d29d9e9"
+        }
+    },
     "symfony/validator": {
         "version": "4.1",
         "recipe": {
@@ -609,20 +633,17 @@
     "thecodingmachine/safe": {
         "version": "v1.2.1"
     },
-    "twig/extensions": {
-        "version": "1.0",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "1.0",
-            "ref": "ddb2e0a77773b7fd75d8d649545f174e664500ab"
-        },
-        "files": [
-            "config/packages/twig_extensions.yaml"
-        ]
+    "tijsverkoyen/css-to-inline-styles": {
+        "version": "2.2.3"
+    },
+    "twig/cssinliner-extra": {
+        "version": "v3.3.0"
     },
     "twig/extra-bundle": {
         "version": "v3.0.1"
+    },
+    "twig/inky-extra": {
+        "version": "v3.3.0"
     },
     "twig/intl-extra": {
         "version": "v3.0.1"
@@ -630,8 +651,14 @@
     "twig/markdown-extra": {
         "version": "v3.0.1"
     },
+    "twig/string-extra": {
+        "version": "v3.3.0"
+    },
     "twig/twig": {
         "version": "v2.8.1"
+    },
+    "twilio/sdk": {
+        "version": "6.21.0"
     },
     "vinceg/usps-php-api": {
         "version": "1.0.1"

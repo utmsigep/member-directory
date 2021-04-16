@@ -6,10 +6,13 @@ use App\Entity\CommunicationLog;
 use App\Entity\Donation;
 use App\Entity\Member;
 use App\Form\MemberCommunicationLogType;
-use App\Form\MemberMessageType;
+use App\Form\MemberEmailType;
+use App\Form\MemberSMSType;
 use App\Form\MemberType;
 use App\Service\ChartService;
 use App\Service\EmailService;
+use App\Service\SmsService;
+use App\Service\CommunicationLogService;
 use Gedmo\Loggable\Entity\LogEntry;
 use JeroenDesloovere\VCard\VCard;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -296,17 +299,16 @@ class MemberController extends AbstractController
     /**
      * @Route("/{localIdentifier}/message", name="member_message")
      */
-    public function message(Member $member, Request $request, MailerInterface $mailer): Response
+    public function message(Member $member, Request $request, MailerInterface $mailer, SmsService $smsService, CommunicationLogService $communicationLogService): Response
     {
-        if (!$member->getPrimaryEmail()) {
-            $this->addFlash('danger', 'No email set for member.');
-            return $this->redirectToRoute('member_show', ['localIdentifier' => $member->getLocalIdentifier()]);
-        }
-
-        $form = $this->createForm(MemberMessageType::class, null, ['acting_user' => $this->getUser()]);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $formData = $form->getData();
+        $formEmail = $this->createForm(MemberEmailType::class, null, ['acting_user' => $this->getUser()]);
+        $formEmail->handleRequest($request);
+        if ($formEmail->isSubmitted() && $formEmail->isValid()) {
+            if (!$member->getPrimaryEmail()) {
+                $this->addFlash('danger', 'No email set for member.');
+                return $this->redirectToRoute('member_show', ['localIdentifier' => $member->getLocalIdentifier()]);
+            }
+            $formData = $formEmail->getData();
             $headers = new Headers();
             $headers->addTextHeader('X-Cmail-GroupName', 'Member Message');
             $headers->addTextHeader('X-MC-Tags', 'Member Message');
@@ -316,7 +318,7 @@ class MemberController extends AbstractController
                 ->from($this->getParameter('app.email.from'))
                 ->replyTo($formData['reply_to'] ? $formData['reply_to'] : $this->getParameter('app.email.to'))
                 ->subject($formData['subject'])
-                ->htmlTemplate('directory/message_email.html.twig')
+                ->htmlTemplate('directory/message_email_template.html.twig')
                 ->context([
                     'subject' => $this->formatMessage($formData['subject'], $member),
                     'body' => $this->formatMessage($formData['message_body'], $member)
@@ -326,15 +328,45 @@ class MemberController extends AbstractController
                 $message->bcc($this->getUser()->getEmail());
             }
             $mailer->send($message);
-            $this->logEmailCommunication($message, $member);
+            $communicationLogService->log(
+                'Email',
+                sprintf(
+                    "To: %s  \nSubject: %s  \n---  \n%s",
+                    $member->getPrimaryEmail(),
+                    $this->formatMessage($formData['subject'], $member),
+                    $this->formatMessage($formData['message_body'], $member)
+                ),
+                $member,
+                $this->getUser()
+            );
             $this->addFlash('success', 'Message sent!');
+        }
+
+        $formSMS = $this->createForm(MemberSMSType::class, null, ['acting_user' => $this->getUser()]);
+        $formSMS->handleRequest($request);
+        if ($formSMS->isSubmitted() && $formSMS->isValid()) {
+            if (!$member->getPrimaryTelephoneNumber()) {
+                $this->addFlash('danger', 'No telephone number set for member.');
+                return $this->redirectToRoute('member_show', ['localIdentifier' => $member->getLocalIdentifier()]);
+            }
+            $formData = $formSMS->getData();
+            $message = $this->formatMessage($formData['message_body'], $member);
+            try {
+                $smsService->sendMemberSms($message, $member, $this->getUser());
+                $this->addFlash('success', 'SMS message sent!');
+            } catch (\Exception $e) {
+                $this->addFlash('danger', $e->getMessage());
+            }
         }
 
         return $this->render('directory/message.html.twig', [
             'member' => $member,
-            'form' => $form->createView()
+            'formEmail' => $formEmail->createView(),
+            'formSMS' => $formSMS->createView()
         ]);
     }
+
+    /* Private Methods */
 
     private function formatMessage($content, Member $member): string
     {
@@ -352,24 +384,5 @@ class MemberController extends AbstractController
         $content = preg_replace('/\[PrimaryTelephoneNumber\]/i', $member->getPrimaryTelephoneNumber(), $content);
 
         return $content;
-    }
-
-    private function logEmailCommunication(TemplatedEmail $message, Member $member): void
-    {
-        $context = $message->getContext();
-        $communicationLog = new CommunicationLog();
-        $communicationLog->setMember($member);
-        $communicationLog->setUser($this->getUser());
-        $communicationLog->setLoggedAt(new \DateTime());
-        $communicationLog->setType(CommunicationLog::COMMUNICATION_TYPES['Email']);
-        $communicationLog->setSummary(sprintf(
-            "To: %s  \nSubject: %s  \n---  \n%s",
-            $member->getPrimaryEmail(),
-            $context['subject'],
-            $context['body']
-        ));
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->persist($communicationLog);
-        $entityManager->flush();
     }
 }

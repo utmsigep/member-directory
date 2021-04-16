@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Service\SmsService;
 use App\Service\EmailService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,11 +16,28 @@ class WebhookController extends AbstractController
      */
     public function index(Request $request): Response
     {
-        return $this->json([
-            'status' => 200,
-            'title' => 'Success',
-            'message' => 'Webhooks are available.'
-        ]);
+        return $this->json(['status' => 200, 'title' => 'success', 'details' => 'Webhooks are available.']);
+    }
+
+    /**
+     * @Route("/webhook/sms-service", name="webhook_sms_service", methods={"POST"})
+     */
+    public function smsServiceWebhook(Request $request, SmsService $smsService): Response
+    {
+        if (!$smsService->isConfigured()) {
+            return $this->json(['status' => 500, 'title' => 'error', 'details' => 'SMS service not configured.'], 500);
+        }
+        if (!$request->get('token') ||
+            $request->get('token') != $smsService->getWebhookToken()
+        ) {
+            return $this->json(['status' => 403, 'title' => 'error', 'details' => 'Invalid credentials.'], 403);
+        }
+        try {
+            $output = $smsService->handleWebhook($request);
+        } catch (\Exception $e) {
+            return $this->json(['status' => 500, 'title' => 'error', 'details' => $e->getMessage()], 500);
+        }
+        return $this->json(['status' => 200, 'title' => 'success', 'details' => 'Processed webhook.', 'extra' => $output]);
     }
 
     /**
@@ -27,41 +45,19 @@ class WebhookController extends AbstractController
      */
     public function emailServiceWebhook(Request $request, EmailService $emailService): Response
     {
-        // Fail if not configured
         if (!$emailService->isConfigured()) {
-            return $this->json([
-                'status' => 500,
-                'title' => 'Internal server error',
-                'details' => 'Email service not configured.'
-            ], 500);
+            return $this->json(['status' => 500, 'title' => 'error', 'details' => 'Email service not configured.'], 500);
         }
-
-        // Fail if token is missing or mismatched
         if (!$request->get('token') ||
             $request->get('token') != $emailService->getWebhookToken()
         ) {
-            return $this->json([
-                'status' => 403,
-                'title' => 'Access denied',
-                'details' => 'Invalid credentials.'
-            ], 403);
+            return $this->json(['status' => 403, 'title' => 'error', 'details' => 'Invalid credentials.'], 403);
         }
-
-        // Process payload
         try {
             $output = $emailService->processWebhookBody($request->getContent());
-            return $this->json([
-                'status' => 200,
-                'title' => 'success',
-                'details' => 'Processed webhook.',
-                'extra' => $output
-            ]);
+            return $this->json(['status' => 200, 'title' => 'success', 'details' => 'Processed webhook.', 'extra' => $output]);
         } catch (\Exception $e) {
-            return $this->json([
-                'status' => 'error',
-                'title' => 'Internal server error',
-                'message' => $e->getMessage()
-            ], 500);
+            return $this->json(['status' => 500, 'title' => 'error', 'message' => $e->getMessage()], 500);
         }
     }
 
