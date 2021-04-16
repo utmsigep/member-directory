@@ -8,4 +8,4 @@ framework:
             medium: ['email']
             low: ['email']
         admin_recipients:
-            - { email: "%env(APP_EMAIL_TO)%" }
+            - { email: "%env(string:default:app.email.to_default:APP_EMAIL_TO)%" }
