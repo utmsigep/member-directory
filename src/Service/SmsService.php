@@ -84,16 +84,7 @@ class SmsService
             $member,
             null
         );
-        $notification = new IncomingSmsNotification($member, [
-            'action_text' => 'Reply',
-            'action_url' => $this->urlGenerator->generate(
-                'member_message',
-                ['localIdentifier' => $member->getLocalIdentifier()],
-                UrlGeneratorInterface::ABSOLUTE_URL
-            ),
-            'importance' => null,
-            'footer_text' => 'Powered by Member Directory'
-        ]);
+        $notification = new IncomingSmsNotification($member);
         $notification->content($logEntry);
         $this->notifier->send($notification, ...$this->notifier->getAdminRecipients()
             );
