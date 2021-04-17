@@ -12,7 +12,7 @@ class AppConfigService
 
     public function __construct(ParameterBagInterface $params)
     {
-        $this->app_name = $params->get('app.name') ? $params->get('app.name') : 'Member Directory';
+        $this->app_name = $params->get('app.name');
         $this->app_logo = $params->get('app.logo');
     }
 }
