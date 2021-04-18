@@ -25,11 +25,8 @@ class IncomingSmsNotification extends Notification implements EmailNotificationI
     public function asEmailMessage(EmailRecipientInterface $recipient, string $transport = null): ?EmailMessage
     {
         $message = EmailMessage::fromNotification($this, $recipient);
-        $message->getMessage()
-            // @TODO Will work with Symfony 5.3 when released; removes footer and importance designation
-            // ->markAsPublic()
-            ->context($this->options);
-        ;
+        // Future version should use ->markAsPublic() and detect the correct derived class
+        $message->getMessage()->context($this->options); // @phpstan-ignore-line
         return $message;
     }
 }
