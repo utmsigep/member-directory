@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ parent() }} - {{ member.displayName }} - Message{% endblock %}
+{% block title %}{{ parent() }} - {{ member.displayName }} - Send Message{% endblock %}
 
 {% block body %}
 {% embed '_page_header.html.twig' %}
@@ -11,67 +11,80 @@
 
 {% include 'member/_nav.html.twig' %}
 
-{{ form_start(form) }}
-<div class="card mb-3 shadow">
-  <div class="card-body">
-    <div class="row">
-      <div class="col-lg-7">
-        {{ form_row(form.subject) }}
-        {{ form_row(form.message_body) }}
-        {{ form_row(form.reply_to) }}
-        {{ form_row(form.send_copy) }}
+{% if member.primaryEmail or member.primaryTelephoneNumber %}
+<div class="row">
+  <div class="col-lg-7">
+
+    <ul class="nav nav-pills mb-3">
+      <li class="nav-item mr-2">
+        <a class="nav-link form_button {% if not member.primaryEmail %}disabled{% endif %}" href="#email_form"><i class="fas fa-at fa-fw"></i> Send Email</a>
+      </li>
+      {% if is_sms_service_configured() %}
+      <li class="nav-item">
+        <a class="nav-link form_button {% if not member.primaryTelephoneNumber %}disabled{% endif %}" href="#sms_form"><i class="fas fa-sms fa-fw"></i> Send SMS</a>
+      </li>
+      {% endif %}
+    </ul>
+
+    {% if member.primaryEmail %}
+    <div id="email_form" class="message_form">
+      {{ form_start(formEmail) }}
+      <div class="card mb-3 shadow">
+        <div class="card-body">
+          {{ form_row(formEmail.subject) }}
+          {{ form_row(formEmail.message_body) }}
+          {{ form_row(formEmail.reply_to) }}
+          {{ form_row(formEmail.send_copy) }}
+        </div>
       </div>
-      <div class="col-lg-5">
-        <h5>Personalization Tags</h5>
-        <table class="table table-sm">
-          <tr>
-            <th class="text-nowrap"><code>[FirstName]</code></th>
-            <td>{{ member.firstName }}</td>
-          </tr>
-          <tr>
-            <th class="text-nowrap"><code>[PreferredName]</code></th>
-            <td>{{ member.preferredName }}</td>
-          </tr>
-          <tr>
-            <th class="text-nowrap"><code>[LastName]</code></th>
-            <td>{{ member.lastName }}</td>
-          </tr>
-          <tr>
-            <th class="text-nowrap"><code>[MailingAddressLine1]</code></th>
-            <td>{{ member.mailingAddressLine1 }}</td>
-          </tr>
-          <tr>
-            <th class="text-nowrap"><code>[MailingAddressLine2]</code></th>
-            <td>{{ member.mailingAddressLine2 }}</td>
-          </tr>
-          <tr>
-            <th class="text-nowrap"><code>[MailingCity]</code></th>
-            <td>{{ member.mailingCity }}</td>
-          </tr>
-          <tr>
-            <th class="text-nowrap"><code>[MailingState]</code></th>
-            <td>{{ member.mailingState }}</td>
-          </tr>
-          <tr>
-            <th class="text-nowrap"><code>[MailingPostalCode]</code></th>
-            <td>{{ member.mailingPostalCode }}</td>
-          </tr>
-          <tr>
-            <th class="text-nowrap"><code>[PrimaryEmail]</code></th>
-            <td>{{ member.primaryEmail }}</td>
-          </tr>
-          <tr>
-            <th class="text-nowrap"><code>[PrimaryTelephoneNumber]</code></th>
-            <td>{{ member.primaryTelephoneNumber }}</td>
-          </tr>
-        </table>  
+      <div class="text-right mb-3">
+        {{ form_widget(formEmail.submit) }}
       </div>
+      {{ form_rest(formEmail) }}
+      {{ form_end(formEmail) }}
     </div>
+    {% endif %}
+
+    {% if is_sms_service_configured() and member.primaryTelephoneNumber %}
+    <div id="sms_form" class="message_form">
+      {{ form_start(formSMS) }}
+      <div class="card mb-3 shadow">
+        <div class="card-body">
+          {{ form_row(formSMS.message_body) }}
+        </div>
+      </div>
+      <div class="text-right mb-3">
+        {{ form_widget(formSMS.submit) }}
+      </div>
+      {{ form_rest(formSMS) }}
+      {{ form_end(formSMS) }}
+    </div>
+    {% endif %}
+  </div>
+  <div class="col-lg-5">
+    <h4>Personalization Tags</h4>
+    {% include 'directory/_personalization_tags.html.twig' %}
   </div>
 </div>
-<div class="text-right mb-3">
-  {{ form_widget(form.submit) }}
-</div>
-{{ form_rest(form) }}
-{{ form_end(form) }}
+{% else %}
+{% include '_no_records_card.html.twig' with {message: 'Member must have either an Email or Telephone number to receive messages.'} %}
+{% endif %}
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script>
+$(document).ready(function () {
+  $('.message_form').hide();
+  $('.message_form').first().show();
+  $('.form_button').first().addClass('active');
+  $('.form_button').on('click', function (element) {
+    $('.form_button').removeClass('active');
+    $(element.target).addClass('active');
+    $('.message_form').hide();
+    var selector = $(element.target).attr('href');
+    $(selector).show();
+  })
+})
+</script>
 {% endblock %}

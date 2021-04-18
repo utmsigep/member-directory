@@ -1,22 +1,14 @@
 {% set current_route = app.request.get('_route') %}
 <ul class="nav nav-tabs mb-3">
   <li class="nav-item"><a class="nav-link {{ (current_route == 'member_show' or current_route == 'member_edit') ? 'active' }}" href="{{ path('member_show', {localIdentifier: member.localIdentifier}) }}"><i class="fas fa-id-badge"></i> Member Profile</a></li>
-  {% if is_email_service_configured() and member.primaryEmail %}
-  {% if is_granted('ROLE_EMAIL_MANAGER') %}
+  {% if is_granted('ROLE_EMAIL_MANAGER') and is_email_service_configured() and member.primaryEmail %}
   <li class="nav-item"><a class="nav-link {{ current_route == 'member_email_subscription' ? 'active' }}" href="{{ path('member_email_subscription', {localIdentifier: member.localIdentifier}) }}"><i class="fas fa-envelope"></i> Email Subscription</a></li>
   {% endif %}
   <li class="nav-item"><a class="nav-link {{ current_route == 'member_message' ? 'active' }}" href="{{ path('member_message', {localIdentifier: member.localIdentifier}) }}"><i class="fas fa-envelope-open-text"></i> Send Message</a></li>
-  {% elseif is_email_service_configured() and not member.primaryEmail %}
-  {% if is_granted('ROLE_EMAIL_MANAGER') %}
-  <li class="nav-item" title="No email address set." data-toggle="tooltip"><a class="nav-link disabled"><i class="fas fa-envelope"></i> Email Subscription</a></li>
-  {% endif %}
-  <li class="nav-item" title="No email address set." data-toggle="tooltip"><a class="nav-link disabled"><i class="fas fa-envelope-open-text"></i> Send Message</a></li>
-  {% endif %}
   {% if is_granted('ROLE_DONATION_MANAGER') %}
   <li class="nav-item"><a class="nav-link {{ current_route == 'member_donations' ? 'active' }}" href="{{ path('member_donations', {localIdentifier: member.localIdentifier}) }}"><i class="fas fa-hand-holding-usd"></i> Donations</a></li>
   {% endif %}
   {% if is_granted('ROLE_ADMIN') %}
   <li class="nav-item"><a class="nav-link {{ current_route == 'member_communication_log' ? 'active' }}" href="{{ path('member_communication_log', {localIdentifier: member.localIdentifier}) }}"><i class="fas fa-bullhorn"></i> Communications</a></li>
   {% endif %}
-  <li class="nav-item"><a class="nav-link {{ current_route == 'member_vcard' ? 'active' }}" href="{{ path('member_vcard', {localIdentifier: member.localIdentifier}) }}"><i class="fas fa-address-card"></i> Download vCard</a></li>
 </ul>

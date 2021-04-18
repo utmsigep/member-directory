@@ -14,7 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Validator\Constraints\File;
 
-class MemberMessageType extends AbstractType
+class MemberEmailType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {

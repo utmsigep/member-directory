@@ -1,5 +1,8 @@
 parameters:
-  app.name: '%env(APP_NAME)%'
+  app.name: '%env(string:default:app.name_default:APP_NAME)%'
+  app.name_default: 'Member Directory'
   app.logo: '%env(APP_LOGO)%'
-  app.email.to: '%env(APP_EMAIL_TO)%'
-  app.email.from: '%env(APP_EMAIL_FROM)%'
+  app.email.to: '%env(string:default:app.email.to_default:APP_EMAIL_TO)%'
+  app.email.to_default: 'user@example.com'
+  app.email.from: '%env(string:default:app.email.to_default:APP_EMAIL_FROM)%'
+  app.email.from_default: 'user@example.com'

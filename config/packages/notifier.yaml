@@ -1,0 +1,11 @@
+framework:
+    notifier:
+        texter_transports:
+            twilio: '%env(TWILIO_DSN)%'
+        channel_policy:
+            urgent: ['email']
+            high: ['email']
+            medium: ['email']
+            low: ['email']
+        admin_recipients:
+            - { email: "%env(string:default:app.email.to_default:APP_EMAIL_TO)%" }

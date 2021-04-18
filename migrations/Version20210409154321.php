@@ -11,7 +11,7 @@ final class Version20210409154321 extends AbstractMigration
 {
     public function getDescription() : string
     {
-        return 'Add Communication Log';
+        return 'Add Communication';
     }
 
     public function up(Schema $schema) : void

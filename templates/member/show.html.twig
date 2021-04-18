@@ -15,7 +15,8 @@
 {% if member.status.isInactive == false and member.isDeceased == false %}
 <a role="button" href="#modalEditLink" data-toggle="modal" class="btn btn-sm btn-secondary"><i class="fas fa-link"></i></a>
 {% endif %}
-<a role="button" href="{{ path('member_change_log', {localIdentifier: member.localIdentifier}) }}" class="btn btn-sm btn-secondary"><i class="fas fa-history"></i> Changes</a></li>
+<a role="button" href="{{ path('member_vcard', {localIdentifier: member.localIdentifier}) }}" class="btn btn-sm btn-secondary"><i class="fas fa-address-card fa-fw"></i> vCard</a></li>
+<a role="button" href="{{ path('member_change_log', {localIdentifier: member.localIdentifier}) }}" class="btn btn-sm btn-secondary"><i class="fas fa-history fa-fw"></i> Changes</a></li>
 <a role="button" href="{{ path('member_edit', {localIdentifier: member.localIdentifier}) }}" class="btn btn-sm btn-primary"><i class="fas fa-edit fa-fw"></i> Edit</a>
 {% endif %}
 {% endblock %}

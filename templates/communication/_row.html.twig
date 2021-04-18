@@ -1,0 +1,24 @@
+<tr>
+  <td><a href="{{ path('communication_show', {id: log.id}) }}">{{ log.loggedAt|date('n/j/Y h:i a', app.user.timezone|default('UTC')) }}</a></td>
+  {% if showUser is defined %}
+  <td><a href="{{ path('member_show', {localIdentifier: log.member.localIdentifier}) }}">{{ log.member.displayName }}</a></td>
+  {% endif %}
+  <td>
+    {% if log.type == 'SMS' %}
+    <span data-toggle="tooltip" title="{{ log.typeDisplay }}"><i class="fas fa-sms fa-fw"></i></span>
+    {% elseif log.type == 'EMAIL' %}
+    <span data-toggle="tooltip" title="{{ log.typeDisplay }}"><i class="fas fa-at fa-fw"></i></span>
+    {% elseif log.type == 'TELEPHONE' %}
+    <span data-toggle="tooltip" title="{{ log.typeDisplay }}"><i class="fas fa-phone fa-fw"></i></span>
+    {% elseif log.type == 'DM' %}
+    <span data-toggle="tooltip" title="{{ log.typeDisplay }}"><i class="fas fa-comments fa-fw"></i></span>
+    {% elseif log.type == 'OTHER' %}
+    <span data-toggle="tooltip" title="{{ log.typeDisplay }}"><i class="fas fa-bullhorn fa-fw"></i></span>
+    {% else %}
+    {{ log.typeDisplay }}
+    {% endif %}
+  </td>
+  <td>{{ log.summary|u.truncate(200, '...', false)|markdown_to_html }}</td>
+  <td>{{ log.user|default('System') }}</td>
+  <td><a href="{{ path('communication_edit', {id: log.id }) }}"><i class="fas fa-edit"></i></a></td>
+</tr>
