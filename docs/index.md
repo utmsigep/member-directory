@@ -1,37 +1,47 @@
-## Welcome to GitHub Pages
+# Member Directory
 
-You can use the [editor on GitHub](https://github.com/utmsigep/member-directory/edit/master/docs/index.md) to maintain and preview the content for your website in Markdown files.
+Member Directory is a [Symfony](https://symfony.com/) 5 project to manage the membership records of a local chapter of a larger, national organization. It has a handful of useful features:
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+* **CSV imports** that update records based on a common identifier
+* **CSV exports** for use in other systems or building call lists
+* **Email subscription management** through [Campaign Monitor](https://www.campaignmonitor.com/)
+* **Mailing address validation** through the USPS
+* **Geolocation and mapping** through Census data in the United States
+* **Record history** for tracking changes to member records
+* **Role-based access** for administrators to view directory or manage it
+* **Tagging** of membership records to indicate committees or extra data
+* **Donation tracking** via [Donorbox](https://donorbox.org) import or manual entry
+* **Self-service record updates** via unique, one-time use URLs
+* **Two-Factor Security** (optional) to help keep your member data safe
 
-### Markdown
+## [Developer Quick Start](https://github.com/stephenyeargin/member-directory/wiki/Developer-Quick-Start)
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+## Feature Screenshots
 
-```markdown
-Syntax highlighted code block
+### Login Access
 
-# Header 1
-## Header 2
-### Header 3
+![01-login](assets/screenshots/01-login.png)
 
-- Bulleted
-- List
+### Member Directory
 
-1. Numbered
-2. List
+![02-alumni](assets/screenshots/02-alumni.png)
 
-**Bold** and _Italic_ and `Code` text
+### Interactive Map
 
-[Link](url) and ![Image](src)
-```
+![03-map](assets/screenshots/03-map.png)
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+### Member Profile
 
-### Jekyll Themes
+![04-profile](assets/screenshots/04-profile.png)
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/utmsigep/member-directory/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+### Record Tagging
 
-### Support or Contact
+![05-tags](assets/screenshots/05-tags.png)
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+### Admin Role for Updates
+
+![06-member-admin](assets/screenshots/06-member-admin.png)
+
+### Self-Service Update via Unique Link
+
+![07-self-service-updates](assets/screenshots/07-self-service-updates.png)
