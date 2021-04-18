@@ -14,8 +14,6 @@ Member Directory is a [Symfony](https://symfony.com/) 5 project to manage the me
 * **Self-service record updates** via unique, one-time use URLs
 * **Two-Factor Security** (optional) to help keep your member data safe
 
-## [Developer Quick Start](https://github.com/stephenyeargin/member-directory/wiki/Developer-Quick-Start)
-
 ## Feature Screenshots
 
 ### Login Access
