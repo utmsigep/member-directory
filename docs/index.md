@@ -18,28 +18,28 @@ Member Directory is a [Symfony](https://symfony.com/) 5 project to manage the me
 
 ### Login Access
 
-![01-login](assets/screenshots/01-login.png)
+![01-login](screenshots/01-login.png)
 
 ### Member Directory
 
-![02-alumni](assets/screenshots/02-alumni.png)
+![02-alumni](screenshots/02-alumni.png)
 
 ### Interactive Map
 
-![03-map](assets/screenshots/03-map.png)
+![03-map](screenshots/03-map.png)
 
 ### Member Profile
 
-![04-profile](assets/screenshots/04-profile.png)
+![04-profile](screenshots/04-profile.png)
 
 ### Record Tagging
 
-![05-tags](assets/screenshots/05-tags.png)
+![05-tags](screenshots/05-tags.png)
 
 ### Admin Role for Updates
 
-![06-member-admin](assets/screenshots/06-member-admin.png)
+![06-member-admin](screenshots/06-member-admin.png)
 
 ### Self-Service Update via Unique Link
 
-![07-self-service-updates](assets/screenshots/07-self-service-updates.png)
+![07-self-service-updates](screenshots/07-self-service-updates.png)
