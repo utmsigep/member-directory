@@ -11,6 +11,7 @@ use Symfony\Component\Notifier\Notification\Notification;
 use Symfony\Component\Notifier\NotifierInterface;
 use Symfony\Component\Notifier\Recipient\Recipient;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Twilio\TwiML\MessagingResponse;
 
 class SmsService
 {
@@ -64,7 +65,7 @@ class SmsService
         );
     }
 
-    public function handleWebhook(Request $request): array
+    public function handleWebhook(Request $request): MessagingResponse
     {
         $fromTelephone = $request->request->get('From', '');
         $messageBody = $request->request->get('Body', '');
@@ -95,12 +96,9 @@ class SmsService
             'footer_text' => 'Powered by Member Directory'
         ]);
         $notification->content($logEntry);
-        $this->notifier->send($notification, ...$this->notifier->getAdminRecipients()
-            );
-        return [
-            'member' => (string) $member,
-            'from' => $fromTelephone,
-            'message' => $messageBody
-        ];
+        $this->notifier->send($notification, ...$this->notifier->getAdminRecipients());
+
+        $response = new MessagingResponse();
+        return $response;
     }
 }

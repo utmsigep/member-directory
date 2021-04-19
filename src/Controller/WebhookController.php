@@ -33,11 +33,14 @@ class WebhookController extends AbstractController
             return $this->json(['status' => 403, 'title' => 'error', 'details' => 'Invalid credentials.'], 403);
         }
         try {
-            $output = $smsService->handleWebhook($request);
+
+            $response = new Response();
+            $response->headers->set('Content-type', 'text/xml');
+            $response->setContent($smsService->handleWebhook($request));
+            return $response;
         } catch (\Exception $e) {
             return $this->json(['status' => 500, 'title' => 'error', 'details' => $e->getMessage()], 500);
         }
-        return $this->json(['status' => 200, 'title' => 'success', 'details' => 'Processed webhook.', 'extra' => $output]);
     }
 
     /**
