@@ -61,7 +61,8 @@ class SmsService
                 $message
             ),
             $member,
-            $actor
+            $actor,
+            []
         );
     }
 

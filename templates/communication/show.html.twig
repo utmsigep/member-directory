@@ -19,6 +19,8 @@
       <dd class="col-sm-10 mb-3">{{ communication_log.loggedAt ? communication_log.loggedAt|date('n/j/Y h:i a', app.user.timezone) : '' }}</dd>
       <dt class="col-sm-2 mb-3">Type</dt>
       <dd class="col-sm-10 mb-3">{{ communication_log.typeDisplay }}</dd>
+      <dt class="col-sm-2 mb-3">User</dt>
+      <dd class="col-sm-10 mb-3">{{ communication_log.user|default('System') }}</dd>
       <dt class="col-sm-2 mb-3">Summary</dt>
       <dd class="col-sm-10 mb-3">{{ communication_log.summary|markdown_to_html }}</d>
     </dl>

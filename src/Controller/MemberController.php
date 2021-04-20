@@ -337,7 +337,8 @@ class MemberController extends AbstractController
                     $this->formatMessage($formData['message_body'], $member)
                 ),
                 $member,
-                $this->getUser()
+                $this->getUser(),
+                $formData
             );
             $this->addFlash('success', 'Message sent!');
         }
