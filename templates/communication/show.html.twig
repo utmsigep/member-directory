@@ -24,4 +24,12 @@
     </dl>
   </div>
 </div>
+
+{% if communication_log.payload %}
+<details>
+  <summary>Payload</summary>
+  <code>{{ communication_log.payload ? communication_log.payload|json_encode : '' }}</code>
+</details>
+{% endif %}
+
 {% endblock %}

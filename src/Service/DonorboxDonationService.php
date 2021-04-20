@@ -210,6 +210,12 @@ class DonorboxDonationService
         }
     }
 
+    public function getAllowedHeaders(): array
+    {
+        $oClass = new \ReflectionClass(__CLASS__);
+        return array_values($oClass->getConstants());
+    }
+
     private function formatBoolean($bool): bool
     {
         if (is_numeric($bool)) {

@@ -83,7 +83,8 @@ class SmsService
             'Text Message',
             $logEntry,
             $member,
-            null
+            null,
+            $request->request->all()
         );
         $notification = new IncomingSmsNotification($member, [
             'action_text' => 'Reply',

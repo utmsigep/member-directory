@@ -65,6 +65,11 @@ class CommunicationLog
      */
     private $user;
 
+    /**
+     * @ORM\Column(type="json", nullable=true)
+     */
+    private $payload = [];
+
     public function __construct()
     {
         $this->loggedAt = new \DateTime();
@@ -152,6 +157,18 @@ class CommunicationLog
             return $search;
         }
         return $this->type;
+    }
+
+    public function getPayload(): ?array
+    {
+        return $this->payload;
+    }
+
+    public function setPayload(?array $payload): self
+    {
+        $this->payload = $payload;
+
+        return $this;
     }
 
 }

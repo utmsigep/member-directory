@@ -23,28 +23,6 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class ImportController extends AbstractController
 {
-    const ALLOWED_PROPERTIES = [
-        'localIdentifier',
-        'externalIdentifier',
-        'firstName',
-        'preferredName',
-        'middleName',
-        'lastName',
-        'mailingAddressLine1',
-        'mailingAddressLine2',
-        'mailingCity',
-        'mailingState',
-        'mailingPostalCode',
-        'mailingCountry',
-        'employer',
-        'jobTitle',
-        'occupation',
-        'primaryTelephoneNumber',
-        'primaryEmail',
-        'classYear',
-        'joinDate'
-    ];
-
     /**
      * @Route("/", name="import")
      */
@@ -99,7 +77,7 @@ class ImportController extends AbstractController
             'members' => $members,
             'newMembers' => $newMembers,
             'memberChangeSets' => $memberChangeSets,
-            'allowedProperties' => self::ALLOWED_PROPERTIES
+            'allowedProperties' => $csvToMemberService->getAllowedHeaders()
         ]);
     }
 }

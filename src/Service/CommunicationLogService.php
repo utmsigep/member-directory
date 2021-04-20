@@ -16,7 +16,7 @@ class CommunicationLogService {
         $this->entityManager = $entityManager;
     }
 
-    public function log(string $type, string $summary, Member $member, ?User $actor)
+    public function log(string $type, string $summary, Member $member, ?User $actor, array $payload)
     {
         if (!isset(CommunicationLog::COMMUNICATION_TYPES[$type])) {
             throw new \Exception(sprintf('Invalid log type: %s', $type));
@@ -27,6 +27,7 @@ class CommunicationLogService {
         $communicationLog->setLoggedAt(new \DateTime());
         $communicationLog->setType(CommunicationLog::COMMUNICATION_TYPES[$type]);
         $communicationLog->setSummary($summary);
+        $communicationLog->setPayload($payload);
         $this->entityManager->persist($communicationLog);
         $this->entityManager->flush();
     }
