@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-use Symfony\Component\HttpClient\HttpClient;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 use App\Entity\Member;
 
@@ -10,9 +10,9 @@ class GeocoderService
 {
     protected $httpClient;
 
-    public function __construct()
+    public function __construct(HttpClientInterface $httpClient)
     {
-        $this->httpClient = HttpClient::create();
+        $this->httpClient = $httpClient;
     }
 
     const CENSUS_BASE_URL = 'https://geocoding.geo.census.gov/geocoder/locations/address';
