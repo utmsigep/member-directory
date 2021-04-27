@@ -362,6 +362,7 @@ class MemberController extends AbstractController
 
         return $this->render('directory/message.html.twig', [
             'member' => $member,
+            'recentCommunications' => $member->getCommunicationLogs()->slice(0, 3),
             'formEmail' => $formEmail->createView(),
             'formSMS' => $formSMS->createView()
         ]);

@@ -62,8 +62,26 @@
     {% endif %}
   </div>
   <div class="col-lg-5">
-    <h4>Personalization Tags</h4>
-    {% include 'directory/_personalization_tags.html.twig' %}
+    <h4>Recent Communications</h4>
+    {% for log in recentCommunications %}
+    <div class="card shadow mb-2">
+      <div class="card-body p-3">
+        {{ log.summary|markdown_to_html }}
+      </div>
+      <div class="card-footer small p-2">
+        <div class="row mb-0">
+          <div class="col-4">
+            {{ log.typeDisplay }}
+          </div>
+          <div class="col-8 text-right">
+            {{ log.loggedAt|date('n/j/Y h:i a', app.user.timezone)}} - {{ log.user|default('System') }} <a href="{{ path('communication_edit', {id: log.id }) }}"><i class="fas fa-edit"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% else %}
+    {% include '_no_records_card.html.twig' with {message: 'No recent Communications with this member.', size: 'sm'} %}
+    {% endfor %}
   </div>
 </div>
 {% else %}
