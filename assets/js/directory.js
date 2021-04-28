@@ -102,7 +102,7 @@ $(document).ready(function() {
         data: "status.label"
       },
       { data: "classYear" },
-      { 
+      {
         data: "primaryEmail",
         render: function (data, type, row, meta) {
           if (!data) {
@@ -125,7 +125,7 @@ $(document).ready(function() {
             output += '<i class="fab fa-linkedin fa-lg fa-fw" style="opacity:0.2"></i>'
           }
           if (row.facebookUrl) {
-            var facebookLink = row.facebookurl;
+            var facebookLink = row.facebookUrl;
             output += '<a href="' + facebookLink + '"><i class="fab fa-facebook fa-lg fa-fw"></i></a>';
           } else {
             output += '<i class="fab fa-facebook fa-lg fa-fw" style="opacity:0.2"></i>'
