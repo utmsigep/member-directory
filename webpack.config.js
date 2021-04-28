@@ -1,3 +1,5 @@
+/* jshint esversion: 6 */
+
 var Encore = require('@symfony/webpack-encore');
 
 Encore
@@ -22,6 +24,7 @@ Encore
     .addEntry('login', './assets/js/login.js')
     .addEntry('directory', './assets/js/directory.js')
     .addEntry('donations', './assets/js/donations.js')
+    .addEntry('communications', './assets/js/communications.js')
     .addEntry('member', './assets/js/member.js')
     .addEntry('map', './assets/js/map.js')
 

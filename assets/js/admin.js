@@ -1,3 +1,6 @@
+/* jshint esversion: 6 */
+/* globals Routing, $ */
+
 // Directory Collection Icon Field
 $('directory_collection_icon').ready(function () {
   var iconOptions = require('./icons.json');

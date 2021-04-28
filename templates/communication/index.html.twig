@@ -14,16 +14,16 @@
 <div class="card mb-3 shadow">
   <div class="card-body">
     <div class="table-responsive">
-      <table class="table table-striped mb-0">
+      <table id="communicationsTable" class="table table-striped mb-0">
         <thead>
-            <tr>
-                <th>Logged At</th>
-                <th>Member</th>
-                <th>Type</th>
-                <th class="w-50">Summary</th>
-                <th>User</th>
-                <th class="col-edit" data-orderable="false"></th>
-            </tr>
+          <tr>
+            <th>Logged At</th>
+            <th>Member</th>
+            <th>Type</th>
+            <th class="w-50" data-orderable="false">Summary</th>
+            <th>User</th>
+            <th class="col-edit" data-orderable="false"></th>
+          </tr>
         </thead>
         <tbody>
         {% for log in communication_logs %}
@@ -37,4 +37,9 @@
 {% else %}
 {% include '_no_records_card.html.twig' with {message: 'No Communications matched your criteria.'} %}
 {% endif %}
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+{{ encore_entry_script_tags('communications') }}
 {% endblock %}

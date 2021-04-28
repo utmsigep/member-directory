@@ -17,14 +17,14 @@
     <div class="card shadow mb-3">
       <div class="card-body">
         <div class="table-responsive">
-          <table class="table table-striped mb-0">
+          <table id="communicationsTable" class="table table-striped mb-0">
             <thead>
               <tr>
                 <th>Logged</th>
                 <th>Type</th>
-                <th>Entry</th>
+                <th data-orderable="false">Summary</th>
                 <th>User</th>
-                <th>&nbsp;</th>
+                <th class="col-edit" data-orderable="false">&nbsp;</th>
               </tr>
             </thead>
             <tbody>
@@ -60,4 +60,9 @@
   </div>
 </div>
 
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+{{ encore_entry_script_tags('communications') }}
 {% endblock %}

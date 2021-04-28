@@ -1,3 +1,6 @@
+/* jshint esversion: 6 */
+/* globals Routing, $ */
+
 var moment = require('moment');
 
 $(document).ready(function () {

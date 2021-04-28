@@ -1,5 +1,6 @@
-// Javascript
-const $ = require('jquery')
-global.$ = global.jQuery = $
+/* jshint esversion: 6 */
 
-require('../css/login.scss')
+const $ = require('jquery');
+global.$ = global.jQuery = $;
+
+require('../css/login.scss');

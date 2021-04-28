@@ -1,4 +1,6 @@
+/* jshint esversion: 6 */
 /* globals Routing, $ */
+
 var gravatar = require('gravatar');
 
 $(document).ready(function() {
