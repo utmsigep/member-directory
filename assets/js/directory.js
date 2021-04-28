@@ -70,32 +70,32 @@ $(document).ready(function() {
       {
         data: "displayName",
         render: function (data, type, row, meta) {
-          var link = Routing.generate('member_show', {localIdentifier: row.localIdentifier})
+          var link = Routing.generate('member_show', {localIdentifier: row.localIdentifier});
           var output = '<a href="' + link + '">' + data + '</a><div class="mt-1">';
           // Deceased
           if (row.isDeceased) {
-            var deceasedLink = Routing.generate('deceased')
+            var deceasedLink = Routing.generate('deceased');
             output += '<a href="' + deceasedLink + '"><sup class="badge badge-dark" title="Deceased">Deceased</sup></a> ';
           }
           // Lost
           if (row.isLost) {
-            var lostLink = Routing.generate('lost')
+            var lostLink = Routing.generate('lost');
             output += '<a href="' + lostLink + '"><sup class="badge badge-warning" title="Lost">Lost</sup></a> ';
           }
           // Do Not Contact
           if (row.isLocalDoNotContact) {
-            var doNotContactLink = Routing.generate('do_not_contact')
+            var doNotContactLink = Routing.generate('do_not_contact');
             output += '<a href="' + doNotContactLink + '"><sup class="badge badge-danger" title="Do Not Contact">Do Not Contact</sup></a> ';
           }
           // Tags
           if (row.tags) {
-            for (i in row.tags) {
+            for (var i in row.tags) {
               var tagLink = Routing.generate('tag', {tagId: row.tags[i].id});
-              output += '<a href="' + tagLink + '"><sup class="badge badge-secondary" title="' + row.tags[i].tagName + '">' + row.tags[i].tagName + '</sup></a> '
+              output += '<a href="' + tagLink + '"><sup class="badge badge-secondary" title="' + row.tags[i].tagName + '">' + row.tags[i].tagName + '</sup></a> ';
             }
           }
-          output += '</div>'
-          return output
+          output += '</div>';
+          return output;
         }
       },
       {
@@ -122,13 +122,13 @@ $(document).ready(function() {
             var linkedinLink = row.linkedinUrl;
             output += '<a href="' + linkedinLink + '"><i class="fab fa-linkedin fa-lg fa-fw"></i></a>';
           } else {
-            output += '<i class="fab fa-linkedin fa-lg fa-fw" style="opacity:0.2"></i>'
+            output += '<i class="fab fa-linkedin fa-lg fa-fw" style="opacity:0.2"></i>';
           }
           if (row.facebookUrl) {
             var facebookLink = row.facebookUrl;
             output += '<a href="' + facebookLink + '"><i class="fab fa-facebook fa-lg fa-fw"></i></a>';
           } else {
-            output += '<i class="fab fa-facebook fa-lg fa-fw" style="opacity:0.2"></i>'
+            output += '<i class="fab fa-facebook fa-lg fa-fw" style="opacity:0.2"></i>';
           }
           return output;
         }
@@ -167,7 +167,7 @@ $(document).ready(function() {
     memberDataTable.column(3).visible(false);
   }
 
-  var toastTemplate = $('#toastTemplate').html()
+  var toastTemplate = $('#toastTemplate').html();
   $('table[data-draggable]').tableDnD({
     dragHandle: $('.drag_handle'),
     onDrop: function (table, row) {
@@ -178,33 +178,33 @@ $(document).ready(function() {
         url: Routing.generate('directory_collection_reorder', {id: directoryCollectionId}),
         data: {position: position},
         success: function(data) {
-          var toast = $(toastTemplate)
-          $('.toast-header', toast).addClass('bg-success text-light')
-          $('.toast-title', toast).html('Reordered!')
-          $('.toast-body', toast).html('Refresh the page to see results.')
-          $(toast).appendTo(toastContainer)
+          var toast = $(toastTemplate);
+          $('.toast-header', toast).addClass('bg-success text-light');
+          $('.toast-title', toast).html('Reordered!');
+          $('.toast-body', toast).html('Refresh the page to see results.');
+          $(toast).appendTo(toastContainer);
           $('.toast').toast({
             animation: true,
             autohide: true,
             delay: 5000
-          })
-          toast.toast('show')
+          });
+          toast.toast('show');
         },
         error: function(data) {
-          var toast = $(toastTemplate)
-          $('.toast-header', toast).addClass('bg-danger text-light')
-          $('.toast-title', toast).html('An error ocurred')
-          $('.toast-body', toast).html('Please try again.')
-          $(toast).appendTo(toastContainer)
+          var toast = $(toastTemplate);
+          $('.toast-header', toast).addClass('bg-danger text-light');
+          $('.toast-title', toast).html('An error ocurred');
+          $('.toast-body', toast).html('Please try again.');
+          $(toast).appendTo(toastContainer);
           $('.toast').toast({
             animation: true,
             autohide: true,
             delay: 5000
-          })
-          toast.toast('show')
+          });
+          toast.toast('show');
         },
         dataType: 'json'
       });
     }
-  })
+  });
 });
