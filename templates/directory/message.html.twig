@@ -31,6 +31,10 @@
       {{ form_start(formEmail) }}
       <div class="card mb-3 shadow">
         <div class="card-body">
+          <dl class="row">
+            <dt class="col-2">To</dt>
+            <dd class="col-10">{{ member.primaryEmail }}</dd>
+          </dl>
           {{ form_row(formEmail.subject) }}
           {{ form_row(formEmail.message_body) }}
           <p class="text-right small"><a href="#" data-toggle="modal" data-target="#personalizationTagsModal">Personalization Tags</a></p>
@@ -51,6 +55,10 @@
       {{ form_start(formSMS) }}
       <div class="card mb-3 shadow">
         <div class="card-body">
+          <dl class="row">
+            <dt class="col-2">To</dt>
+            <dd class="col-10">{{ member.primaryTelephoneNumber }}</dd>
+          </dl>
           {{ form_row(formSMS.message_body) }}
           <p class="text-right small"><a href="#" data-toggle="modal" data-target="#personalizationTagsModal">Personalization Tags</a></p>
         </div>
