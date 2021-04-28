@@ -33,6 +33,7 @@
         <div class="card-body">
           {{ form_row(formEmail.subject) }}
           {{ form_row(formEmail.message_body) }}
+          <p class="text-right small"><a href="#" data-toggle="modal" data-target="#personalizationTagsModal">Personalization Tags</a></p>
           {{ form_row(formEmail.reply_to) }}
           {{ form_row(formEmail.send_copy) }}
         </div>
@@ -51,6 +52,7 @@
       <div class="card mb-3 shadow">
         <div class="card-body">
           {{ form_row(formSMS.message_body) }}
+          <p class="text-right small"><a href="#" data-toggle="modal" data-target="#personalizationTagsModal">Personalization Tags</a></p>
         </div>
       </div>
       <div class="text-right mb-3">
@@ -62,13 +64,54 @@
     {% endif %}
   </div>
   <div class="col-lg-5">
-    <h4>Personalization Tags</h4>
-    {% include 'directory/_personalization_tags.html.twig' %}
+    <h4>Recent Communications</h4>
+    {% if recentCommunications %}
+    <div class="card shadow">
+      <div class="overflow-auto" style="max-height:70vh">
+        {% for log in recentCommunications %}
+        <div class="card-header small">
+          <div class="row mb-0">
+            <div class="col-4">
+              {{ log.typeDisplay }}
+            </div>
+            <div class="col-8 text-right">
+              {{ log.loggedAt|date('n/j/Y h:i a', app.user.timezone)}} - {{ log.user|default('System') }} <a href="{{ path('communication_edit', {id: log.id }) }}"><i class="fas fa-edit"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="card-body mb-5">
+          {{ log.summary|markdown_to_html }}
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% else %}
+    {% include '_no_records_card.html.twig' with {message: 'No recent Communications for this member.', size: 'sm'} %}
+    {% endif %}
   </div>
 </div>
 {% else %}
 {% include '_no_records_card.html.twig' with {message: 'Member must have either an Email or Telephone number to receive messages.'} %}
 {% endif %}
+
+
+<div class="modal fade" id="personalizationTagsModal" tabindex="-1" role="dialog" aria-labelledby="personalizationTagsModalTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="personalizationTagsModalTitle">Personalization Tags</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        {% include 'directory/_personalization_tags.html.twig' %}
+      </div>
+    </div>
+  </div>
+</div>
+
+
 {% endblock %}
 
 {% block javascripts %}

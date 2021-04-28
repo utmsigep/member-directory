@@ -271,6 +271,7 @@ class Member
 
     /**
      * @ORM\OneToMany(targetEntity=CommunicationLog::class, mappedBy="member", orphanRemoval=true)
+     * @ORM\OrderBy({"loggedAt" = "DESC"})
      */
     private $communicationLogs;
 
