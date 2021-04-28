@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
 
+{% import 'communication/_macros.html.twig' as macros %}
+
 {% block title %}{{ parent() }} - {{ member.displayName }} - Send Message{% endblock %}
 
 {% block body %}
@@ -79,10 +81,10 @@
         {% for log in recentCommunications %}
         <div class="card-header small">
           <div class="row mb-0">
-            <div class="col-4">
-              {{ log.typeDisplay }}
+            <div class="col-sm-1">
+              {{ macros.typeIcon(log) }}
             </div>
-            <div class="col-8 text-right">
+            <div class="col-sm-11 text-sm-right">
               {{ log.loggedAt|date('n/j/Y h:i a', app.user.timezone)}} - {{ log.user|default('System') }} <a href="{{ path('communication_edit', {id: log.id }) }}"><i class="fas fa-edit"></i></a>
             </div>
           </div>
@@ -118,8 +120,6 @@
     </div>
   </div>
 </div>
-
-
 {% endblock %}
 
 {% block javascripts %}

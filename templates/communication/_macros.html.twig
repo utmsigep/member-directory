@@ -1,0 +1,15 @@
+{% macro typeIcon(log) %}
+{% if log.type == 'SMS' %}
+<span data-toggle="tooltip" title="{{ log.typeDisplay }}"><i class="fas fa-sms fa-fw"></i></span>
+{% elseif log.type == 'EMAIL' %}
+<span data-toggle="tooltip" title="{{ log.typeDisplay }}"><i class="fas fa-at fa-fw"></i></span>
+{% elseif log.type == 'TELEPHONE' %}
+<span data-toggle="tooltip" title="{{ log.typeDisplay }}"><i class="fas fa-phone fa-fw"></i></span>
+{% elseif log.type == 'DM' %}
+<span data-toggle="tooltip" title="{{ log.typeDisplay }}"><i class="fas fa-comments fa-fw"></i></span>
+{% elseif log.type == 'OTHER' %}
+<span data-toggle="tooltip" title="{{ log.typeDisplay }}"><i class="fas fa-bullhorn fa-fw"></i></span>
+{% else %}
+{{ log.typeDisplay }}
+{% endif %}
+{% endmacro %}
