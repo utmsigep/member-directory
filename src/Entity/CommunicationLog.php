@@ -26,6 +26,7 @@ class CommunicationLog
         'Text Message' => 'SMS',
         'Telephone Call' => 'TELEPHONE',
         'Direct Message' => 'DM',
+        'Postal Mail' => 'MAIL',
         'Other' => 'OTHER'
     ];
 

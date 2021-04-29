@@ -7,6 +7,8 @@
 <span data-toggle="tooltip" title="{{ log.typeDisplay }}"><i class="fas fa-phone fa-fw"></i></span>
 {% elseif log.type == 'DM' %}
 <span data-toggle="tooltip" title="{{ log.typeDisplay }}"><i class="fas fa-comments fa-fw"></i></span>
+{% elseif log.type == 'MAIL' %}
+<span data-toggle="tooltip" title="{{ log.typeDisplay }}"><i class="fas fa-mail-bulk fa-fw"></i></span>
 {% elseif log.type == 'OTHER' %}
 <span data-toggle="tooltip" title="{{ log.typeDisplay }}"><i class="fas fa-bullhorn fa-fw"></i></span>
 {% else %}
