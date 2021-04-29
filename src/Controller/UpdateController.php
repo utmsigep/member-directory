@@ -29,7 +29,6 @@ class UpdateController extends AbstractController
         }
     }
 
-
     /**
      * @Route("/update-my-info/{externalIdentifier}/{updateToken}", name="self_service_update")
      */
@@ -50,7 +49,6 @@ class UpdateController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $member = $form->getData();
             // If form is submitted, member is no longer "lost"
             $member->setIsLost(false);
             $entityManager = $this->getDoctrine()->getManager();

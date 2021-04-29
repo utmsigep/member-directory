@@ -37,6 +37,7 @@ class CommunicationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $communicationLog->setUser($this->getUser());
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($communicationLog);
             $entityManager->flush();

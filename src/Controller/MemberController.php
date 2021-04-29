@@ -41,7 +41,6 @@ class MemberController extends AbstractController
         $form = $this->createForm(MemberType::class, $member);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $member = $form->getData();
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($member);
             $entityManager->flush();
@@ -75,7 +74,6 @@ class MemberController extends AbstractController
         $form = $this->createForm(MemberType::class, $member);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $member = $form->getData();
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($member);
             $entityManager->flush();
@@ -96,12 +94,9 @@ class MemberController extends AbstractController
      */
     public function memberDelete(Member $member, Request $request): Response
     {
-        $form = $this->createFormBuilder($member)
-            ->getForm()
-            ;
+        $form = $this->createFormBuilder($member)->getForm();
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $member = $form->getData();
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($member);
             $entityManager->flush();
@@ -140,7 +135,6 @@ class MemberController extends AbstractController
         $form = $this->createForm(MemberCommunicationLogType::class, $communicationLog, ['timezone' => $this->getUser()->getTimezone()]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $communicationLog = $form->getData();
             $communicationLog->setMember($member);
             $communicationLog->setUser($this->getUser());
             $entityManager = $this->getDoctrine()->getManager();

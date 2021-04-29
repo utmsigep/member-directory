@@ -47,7 +47,6 @@ class SecurityController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $user = $form->getData();
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
@@ -95,7 +94,6 @@ class SecurityController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $user = $form->getData();
             $user->setPassword($passwordEncoder->encodePassword(
                 $user,
                 $form['plainPassword']->getData()
@@ -131,7 +129,6 @@ class SecurityController extends AbstractController
         $form = $this->createForm(TwoFactorVerifyType::class, $user);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $user = $form->getData();
             if ($totpAuthenticatorService->checkCode($user, $form['two_factor_confirm']->getData())) {
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($user);
