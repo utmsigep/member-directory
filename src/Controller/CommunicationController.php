@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @IsGranted("ROLE_ADMIN")
+ * @IsGranted("ROLE_COMMUNICATIONS_MANAGER")
  * @Route("/communication")
  */
 class CommunicationController extends AbstractController

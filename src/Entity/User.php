@@ -20,6 +20,14 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class User implements UserInterface, TwoFactorInterface
 {
+    const USER_ROLES = [
+        'Basic User' => 'ROLE_USER',
+        'Communications Manager' => 'ROLE_COMMUNICATIONS_MANAGER',
+        'Donation Manager' => 'ROLE_DONATION_MANAGER',
+        'Email Manager' => 'ROLE_EMAIL_MANAGER',
+        'Site Administrator' => 'ROLE_ADMIN'
+    ];
+
     /**
      * Hook timestampable behavior
      * updates createdAt, updatedAt fields

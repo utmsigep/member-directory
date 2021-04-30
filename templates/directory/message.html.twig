@@ -77,6 +77,7 @@
     </div>
     {% endif %}
   </div>
+  {% if is_granted('ROLE_COMMUNICATIONS_MANAGER') %}
   <div class="col-lg-5">
     <h4>Recent Communications</h4>
     {% if recentCommunications %}
@@ -90,9 +91,7 @@
             </div>
             <div class="col-sm-11 text-sm-right">
               {{ log.loggedAt|date('n/j/Y h:i a', app.user.timezone)}} - {{ log.user|default('System') }}
-              {% if is_granted('ROLE_ADMIN') %}
               <a href="{{ path('communication_edit', {id: log.id }) }}"><i class="fas fa-edit"></i></a>
-              {% endif %}
             </div>
           </div>
         </div>
@@ -106,6 +105,7 @@
     {% include '_no_records_card.html.twig' with {message: 'No recent Communications for this member.', size: 'sm'} %}
     {% endif %}
   </div>
+  {% endif %}
 </div>
 {% else %}
 {% include '_no_records_card.html.twig' with {message: 'Member must have either an Email or Telephone number to receive messages.'} %}

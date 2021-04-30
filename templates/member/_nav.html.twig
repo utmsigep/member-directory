@@ -8,7 +8,7 @@
   {% if is_granted('ROLE_DONATION_MANAGER') %}
   <li class="nav-item"><a class="nav-link {{ current_route == 'member_donations' ? 'active' }}" href="{{ path('member_donations', {localIdentifier: member.localIdentifier}) }}"><i class="fas fa-hand-holding-usd"></i> Donations</a></li>
   {% endif %}
-  {% if is_granted('ROLE_ADMIN') %}
+  {% if is_granted('ROLE_COMMUNICATIONS_MANAGER') %}
   <li class="nav-item"><a class="nav-link {{ current_route == 'member_communication_log' ? 'active' }}" href="{{ path('member_communication_log', {localIdentifier: member.localIdentifier}) }}"><i class="fas fa-bullhorn"></i> Communications</a></li>
   {% endif %}
 </ul>
