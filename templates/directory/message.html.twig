@@ -36,6 +36,8 @@
           <dl class="row">
             <dt class="col-2">To</dt>
             <dd class="col-10">{{ member.primaryEmail }}</dd>
+            <dt class="col-2">From</dt>
+            <dd class="col-10">{{ fromEmailAddress }}</dd>
           </dl>
           {{ form_row(formEmail.subject) }}
           {{ form_row(formEmail.message_body) }}
@@ -60,6 +62,8 @@
           <dl class="row">
             <dt class="col-2">To</dt>
             <dd class="col-10">{{ member.primaryTelephoneNumber }}</dd>
+            <dt class="col-2">From</dt>
+            <dd class="col-10">{{ fromTelephoneNumber }}</dd>
           </dl>
           {{ form_row(formSMS.message_body) }}
           <p class="text-right small"><a href="#" data-toggle="modal" data-target="#personalizationTagsModal">Personalization Tags</a></p>
@@ -85,7 +89,10 @@
               {{ macros.typeIcon(log) }}
             </div>
             <div class="col-sm-11 text-sm-right">
-              {{ log.loggedAt|date('n/j/Y h:i a', app.user.timezone)}} - {{ log.user|default('System') }} <a href="{{ path('communication_edit', {id: log.id }) }}"><i class="fas fa-edit"></i></a>
+              {{ log.loggedAt|date('n/j/Y h:i a', app.user.timezone)}} - {{ log.user|default('System') }}
+              {% if is_granted('ROLE_ADMIN') %}
+              <a href="{{ path('communication_edit', {id: log.id }) }}"><i class="fas fa-edit"></i></a>
+              {% endif %}
             </div>
           </div>
         </div>

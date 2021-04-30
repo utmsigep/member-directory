@@ -44,6 +44,21 @@ class SmsService
         return md5($_ENV['TWILIO_DSN']);
     }
 
+    public function getFromTelephoneNumber(): string
+    {
+        if (!$this->isConfigured()) {
+            return 'Not configured.';
+        }
+        if (preg_match('/from\=(.*)/i', $_ENV['TWILIO_DSN'], $matches)) {
+            return preg_replace(
+                '/.*(\d{3})[^\d]{0,7}(\d{3})[^\d]{0,7}(\d{4}).*/',
+                '($1) $2-$3',
+                $matches[0]
+            );
+        }
+        return 'Unable to parse telephone number.';
+    }
+
     public function sendMemberSms(string $message, Member $member, User $actor): void
     {
         $notification = (new Notification($message, ['sms']));

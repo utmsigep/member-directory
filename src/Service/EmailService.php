@@ -2,6 +2,8 @@
 
 namespace App\Service;
 
+use App\Entity\Member;
+use App\Entity\User;
 use CS_REST_Campaigns;
 use CS_REST_Lists;
 use CS_REST_Subscribers;
@@ -11,8 +13,6 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Header\Headers;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-
-use App\Entity\Member;
 
 class EmailService
 {
@@ -30,7 +30,9 @@ class EmailService
 
     protected $mailer;
 
-    public function __construct(ParameterBagInterface $params, UrlGeneratorInterface $router, EntityManagerInterface $em, MailerInterface $mailer)
+    protected $communicationLogService;
+
+    public function __construct(ParameterBagInterface $params, UrlGeneratorInterface $router, EntityManagerInterface $em, MailerInterface $mailer, CommunicationLogService $communicationLogService)
     {
         $this->params = $params;
         $this->router = $router;
@@ -54,6 +56,7 @@ class EmailService
         );
         $this->em = $em;
         $this->mailer = $mailer;
+        $this->communicationLogService = $communicationLogService;
     }
 
     public function isConfigured(): bool
@@ -271,6 +274,41 @@ class EmailService
         return $output;
     }
 
+    public function sendMemberEmail(array $formData, Member $member, User $actor): void
+    {
+        $headers = new Headers();
+        $headers->addTextHeader('X-Cmail-GroupName', 'Member Message');
+        $headers->addTextHeader('X-MC-Tags', 'Member Message');
+        $message = new TemplatedEmail($headers);
+        $message
+            ->to($member->getPrimaryEmail())
+            ->from($this->params->get('app.email.from'))
+            ->replyTo($formData['reply_to'] ? $formData['reply_to'] : $this->params->get('app.email.to'))
+            ->subject($formData['subject'])
+            ->htmlTemplate('directory/message_email_template.html.twig')
+            ->context([
+                'subject' => $formData['subject'],
+                'body' => $formData['message_body']
+            ])
+        ;
+        if ($formData['send_copy']) {
+            $message->bcc($actor->getEmail());
+        }
+        $this->mailer->send($message);
+        $this->communicationLogService->log(
+            'Email',
+            sprintf(
+                "To: %s  \nSubject: %s  \n---  \n%s",
+                $member->getPrimaryEmail(),
+                $formData['subject'],
+                $formData['message_body']
+            ),
+            $member,
+            $actor,
+            $formData
+        );
+    }
+
     public function sendMemberUpdate(Member $member): void
     {
         $headers = new Headers();
@@ -288,6 +326,11 @@ class EmailService
             $message->replyTo($member->getPrimaryEmail());
         }
         $this->mailer->send($message);
+    }
+
+    public function getFromEmailAddress(): string
+    {
+        return $this->params->get('app.email.from');
     }
 
     /* Private Methods */

@@ -293,7 +293,7 @@ class MemberController extends AbstractController
     /**
      * @Route("/{localIdentifier}/message", name="member_message")
      */
-    public function message(Member $member, Request $request, MailerInterface $mailer, SmsService $smsService, CommunicationLogService $communicationLogService): Response
+    public function message(Member $member, Request $request, MailerInterface $mailer, EmailService $emailService, SmsService $smsService, CommunicationLogService $communicationLogService): Response
     {
         $formEmail = $this->createForm(MemberEmailType::class, null, ['acting_user' => $this->getUser()]);
         $formEmail->handleRequest($request);
@@ -303,38 +303,14 @@ class MemberController extends AbstractController
                 return $this->redirectToRoute('member_show', ['localIdentifier' => $member->getLocalIdentifier()]);
             }
             $formData = $formEmail->getData();
-            $headers = new Headers();
-            $headers->addTextHeader('X-Cmail-GroupName', 'Member Message');
-            $headers->addTextHeader('X-MC-Tags', 'Member Message');
-            $message = new TemplatedEmail($headers);
-            $message
-                ->to($member->getPrimaryEmail())
-                ->from($this->getParameter('app.email.from'))
-                ->replyTo($formData['reply_to'] ? $formData['reply_to'] : $this->getParameter('app.email.to'))
-                ->subject($formData['subject'])
-                ->htmlTemplate('directory/message_email_template.html.twig')
-                ->context([
-                    'subject' => $this->formatMessage($formData['subject'], $member),
-                    'body' => $this->formatMessage($formData['message_body'], $member)
-                ])
-            ;
-            if ($formData['send_copy']) {
-                $message->bcc($this->getUser()->getEmail());
+            $formData['subject'] = $this->formatMessage($formData['subject'], $member);
+            $formData['message_body'] = $this->formatMessage($formData['message_body'], $member);
+            try {
+                $emailService->sendMemberEmail($formData, $member, $this->getUser());
+                $this->addFlash('success', 'Email message sent!');
+            } catch (\Exception $e) {
+                $this->addFlash('danger', $e->getMessage());
             }
-            $mailer->send($message);
-            $communicationLogService->log(
-                'Email',
-                sprintf(
-                    "To: %s  \nSubject: %s  \n---  \n%s",
-                    $member->getPrimaryEmail(),
-                    $this->formatMessage($formData['subject'], $member),
-                    $this->formatMessage($formData['message_body'], $member)
-                ),
-                $member,
-                $this->getUser(),
-                $formData
-            );
-            $this->addFlash('success', 'Message sent!');
         }
 
         $formSMS = $this->createForm(MemberSMSType::class, null, ['acting_user' => $this->getUser()]);
@@ -358,7 +334,9 @@ class MemberController extends AbstractController
             'member' => $member,
             'recentCommunications' => $member->getCommunicationLogs()->slice(0, 10),
             'formEmail' => $formEmail->createView(),
-            'formSMS' => $formSMS->createView()
+            'fromEmailAddress' => $emailService->getFromEmailAddress(),
+            'formSMS' => $formSMS->createView(),
+            'fromTelephoneNumber' => $smsService->getFromTelephoneNumber()
         ]);
     }
 
