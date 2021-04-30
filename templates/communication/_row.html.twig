@@ -1,6 +1,6 @@
 {% import 'communication/_macros.html.twig' as macros %}
 <tr>
-  <td data-order="{{ log.loggedAt|date('c') }}"><a href="{{ path('communication_show', {id: log.id}) }}">{{ log.loggedAt|date('n/j/Y h:i a', app.user.timezone|default('UTC')) }}</a></td>
+  <td data-order="{{ log.loggedAt|date('c') }}"><a href="{{ path('communication_show', {id: log.id}) }}">{{ log.loggedAt|date('n/j/Y g:i a', app.user.timezone|default('UTC')) }}</a></td>
   {% if showUser is defined %}
   <td><a href="{{ path('member_show', {localIdentifier: log.member.localIdentifier}) }}">{{ log.member.displayName }}</a></td>
   {% endif %}

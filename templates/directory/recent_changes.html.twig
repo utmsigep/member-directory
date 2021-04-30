@@ -39,7 +39,7 @@
           {% for member in members %}
           <tr>
             <td class="text-muted small" nowrap>
-              {{ member.updatedAt|date('n/j/Y h:i a') }}
+              {{ member.updatedAt|date('n/j/Y g:i a') }}
             </td>
             <td class="text-center">{{ member.localIdentifier }}</td>
             <td width="32">

@@ -90,7 +90,7 @@
               {{ macros.typeIcon(log) }}
             </div>
             <div class="col-sm-11 text-sm-right">
-              {{ log.loggedAt|date('n/j/Y h:i a', app.user.timezone)}} - {{ log.user|default('System') }}
+              {{ log.loggedAt ? log.loggedAt|date('n/j/Y g:i a', app.user.timezone|default('UTC')) : '' }} - {{ log.user|default('System') }}
               <a href="{{ path('communication_edit', {id: log.id }) }}"><i class="fas fa-edit"></i></a>
             </div>
           </div>

@@ -41,7 +41,7 @@
               <i class="fas fa-times fa-fw text-danger"></i> Disabled</a>
               {% endif %}
             </td>
-            <td>{{ user.lastLogin ? user.lastLogin|date('F j, Y g:i a') : 'Never' }}</td>
+            <td>{{ user.lastLogin ? user.lastLogin|date('n/j/Y g:i a', app.user.timezone|default('UTC')) : 'Never' }}</td>
             <td>
               <a href="{{ path('user_edit', {'id': user.id}) }}"><i class="fas fa-edit fa-fw"></i></a>
             </td>
