@@ -34,7 +34,7 @@ class MemberEmailType extends AbstractType
             ->add('send_copy', CheckboxType::class, [
                 'label' => 'Send copy of message to yourself?',
                 'label_attr' => ['class' => 'small'],
-                'data' => true,
+                'data' => false,
                 'required' => false
             ])
             ->add('submit', SubmitType::class, [

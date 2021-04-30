@@ -18,7 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
- * @IsGranted("ROLE_ADMIN")
+ * @IsGranted("ROLE_DIRECTORY_MANAGER")
  * @Route("/directory/import")
  */
 class ImportController extends AbstractController

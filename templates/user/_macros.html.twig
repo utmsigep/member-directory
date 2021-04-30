@@ -1,10 +1,13 @@
-{% macro user_roles(roles) %}
+{% macro user_roles(user) %}
+{% set roles = get_all_roles(user) %}
 <ul class="list-unstyled">
   {% if 'ROLE_ADMIN' in roles %}
   <li class="list-item"><i class="fas fa-shield-alt text-success"></i> Site Administrator</li>
   {% endif %}
-  <li class="list-item"><i class="fas fa-{% if 'ROLE_ADMIN' in roles or 'ROLE_USER' in roles %}check text-success{% else %}times text-danger{% endif %}"></i> Directory User</li>
-  <li class="list-item"><i class="fas fa-{% if 'ROLE_ADMIN' in roles or 'ROLE_DONATION_MANAGER' in roles %}check text-success{% else %}times text-danger{% endif %}"></i> Donations Manager</li>
-  <li class="list-item"><i class="fas fa-{% if 'ROLE_ADMIN' in roles or 'ROLE_EMAIL_MANAGER' in roles %}check text-success{% else %}times text-danger{% endif %}"></i> Email Manager</li>
+  <li class="list-item"><i class="fas fa-fw fa-{% if 'ROLE_USER' in roles %}check text-success{% else %}times text-danger{% endif %}"></i> Directory User</li>
+  <li class="list-item"><i class="fas fa-fw fa-{% if 'ROLE_DIRECTORY_MANAGER' in roles %}check text-success{% else %}times text-danger{% endif %}"></i> Directory Manager</li>
+  <li class="list-item"><i class="fas fa-fw fa-{% if 'ROLE_DONATION_MANAGER' in roles %}check text-success{% else %}times text-danger{% endif %}"></i> Donations Manager</li>
+  <li class="list-item"><i class="fas fa-fw fa-{% if 'ROLE_COMMUNICATIONS_MANAGER' in roles %}check text-success{% else %}times text-danger{% endif %}"></i> Communications Manager</li>
+  <li class="list-item"><i class="fas fa-fw fa-{% if 'ROLE_EMAIL_MANAGER' in roles %}check text-success{% else %}times text-danger{% endif %}"></i> Email Manager</li>
 </ul>
 {% endmacro %}

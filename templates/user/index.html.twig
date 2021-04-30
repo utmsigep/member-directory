@@ -33,7 +33,7 @@
           <tr>
             <td><a href="{{ path('user_show', {'id': user.id}) }}">{{ user.email }}</a></td>
             <td>{{ user.name }}</td>
-            <td>{{ macros.user_roles(user.roles) }}</td>
+            <td>{{ macros.user_roles(user) }}</td>
             <td>
               {% if user.isTotpAuthenticationEnabled %}
               <i class="fas fa-check fa-fw text-success"></i> Enabled</a>

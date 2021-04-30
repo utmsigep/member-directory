@@ -36,7 +36,7 @@
 <li class="nav-item {{ active_route == 'map' ? 'active' }}"><a class="nav-link" href="{{ path('map')}}"><i class="fas fa-map fa-fw"></i> <span>Member Map</span></a></li>
 <li class="nav-item {{ active_route == 'member_changes' ? 'active' }}"><a class="nav-link" href="{{ path('member_changes')}}"><i class="fas fa-satellite-dish fa-fw"></i> <span>Recent Changes</span></a></li>
 <li class="nav-item {{ active_route == 'export' ? 'active' }}"><a class="nav-link" href="{{ path('export')}}"><i class="fas fa-download fa-fw"></i> <span>Export</span></a></li>
-{% if is_granted('ROLE_ADMIN') %}
+{% if is_granted('ROLE_DIRECTORY_MANAGER') %}
 <li class="nav-item {{ active_route == 'import' ? 'active' }}"><a class="nav-link" href="{{ path('import')}}"><i class="fas fa-upload fa-fw"></i> <span>Import</span></a></li>
 {% endif %}
 {% if is_granted('ROLE_ADMIN') %}

@@ -22,6 +22,7 @@ class User implements UserInterface, TwoFactorInterface
 {
     const USER_ROLES = [
         'Basic User' => 'ROLE_USER',
+        'Directory Manager' => 'ROLE_DIRECTORY_MANAGER',
         'Communications Manager' => 'ROLE_COMMUNICATIONS_MANAGER',
         'Donation Manager' => 'ROLE_DONATION_MANAGER',
         'Email Manager' => 'ROLE_EMAIL_MANAGER',

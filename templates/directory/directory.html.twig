@@ -6,7 +6,7 @@
 {% embed '_page_header.html.twig' %}
 {% block page_header_title %}{{ view_name }}{% endblock %}
 {% block page_header_buttons %}
-{% if is_granted('ROLE_ADMIN') %}
+{% if is_granted('ROLE_DIRECTORY_MANAGER') %}
 <a role="button" href="{{ path('member_new') }}" class="btn btn-sm btn-primary"><i class="fas fa-plus fa-fw"></i> New Member</a>
 {% endif %}
 <a role="button" href="{{ path('export') }}" class="btn btn-sm btn-primary"><i class="fas fa-download fa-fw"></i> Export</a>

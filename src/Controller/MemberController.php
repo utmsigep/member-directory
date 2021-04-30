@@ -33,7 +33,7 @@ class MemberController extends AbstractController
 {
     /**
      * @Route("/new", name="member_new")
-     * @IsGranted("ROLE_ADMIN")
+     * @IsGranted("ROLE_DIRECTORY_MANAGER")
      */
     public function memberNew(Request $request): Response
     {
@@ -67,7 +67,7 @@ class MemberController extends AbstractController
 
     /**
      * @Route("/{localIdentifier}/edit", name="member_edit")
-     * @IsGranted("ROLE_ADMIN")
+     * @IsGranted("ROLE_DIRECTORY_MANAGER")
      */
     public function memberEdit(Member $member, Request $request): Response
     {
@@ -90,7 +90,7 @@ class MemberController extends AbstractController
 
     /**
      * @Route("/{localIdentifier}/delete", name="member_delete")
-     * @IsGranted("ROLE_ADMIN")
+     * @IsGranted("ROLE_DIRECTORY_MANAGER")
      */
     public function memberDelete(Member $member, Request $request): Response
     {
@@ -111,7 +111,7 @@ class MemberController extends AbstractController
 
     /**
      * @Route("/{localIdentifier}/change-log", name="member_change_log")
-     * @IsGranted("ROLE_ADMIN")
+     * @IsGranted("ROLE_DIRECTORY_MANAGER")
      */
     public function changeLog(Member $member): Response
     {

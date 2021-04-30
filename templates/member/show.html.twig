@@ -11,7 +11,7 @@
 {% embed '_page_header.html.twig' %}
 {% block page_header_title %}{{ member.displayName }}{% endblock %}
 {% block page_header_buttons %}
-{% if is_granted('ROLE_ADMIN') %}
+{% if is_granted('ROLE_DIRECTORY_MANAGER') %}
 {% if member.status.isInactive == false and member.isDeceased == false %}
 <a role="button" href="#modalEditLink" data-toggle="modal" class="btn btn-sm btn-secondary"><i class="fas fa-link"></i></a>
 {% endif %}
@@ -110,7 +110,7 @@
   </div>
 <div>
 
-{% if is_granted('ROLE_ADMIN') %}
+{% if is_granted('ROLE_DIRECTORY_MANAGER') %}
 {% include 'directory/_modal_self_edit.html.twig' %}
 {% endif %}
 
