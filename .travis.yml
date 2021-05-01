@@ -46,7 +46,7 @@ install:
 
 script:
   - ./bin/phpunit
-  - sed -i 's/var\/cache\dev/var\/cache\test/gI' phpstan.neon
+  - sed -i 's/cache\/dev/cache\/test/gI' phpstan.neon
   - ./vendor/bin/phpstan analyse --memory-limit 2G
   - ./bin/console lint:yaml config
   - ./bin/console lint:twig templates
