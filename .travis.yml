@@ -41,7 +41,7 @@ install:
   - ./bin/console app:user:add user@example.com -p testing --roles ROLE_USER
   - ./bin/console app:user:add directory.manager@example.com -p testing --roles ROLE_DIRECTORY_MANAGER
   - ./bin/console app:user:add donation.manager@example.com -p testing --roles ROLE_DONATION_MANAGER
-  - ./bin/console app:user:add communication.manager@example.com -p testing --roles ROLE_COMMUNICATION_MANAGER
+  - ./bin/console app:user:add communication.manager@example.com -p testing --roles ROLE_COMMUNICATIONS_MANAGER
   - npm run-script build
 
 script:
