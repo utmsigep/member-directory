@@ -38,6 +38,8 @@ install:
   - ./bin/console doctrine:database:create
   - ./bin/console doctrine:migrations:migrate -n
   - ./bin/console doctrine:fixtures:load -n
+  - ./bin/console app:user:add user@example.com -p testing --roles ROLE_ADMIN
+  - ./bin/console app:user:add admin@example.com -p testing --roles ROLE_USER
   - npm run-script build
 
 script:
