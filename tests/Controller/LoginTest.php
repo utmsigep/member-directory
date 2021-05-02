@@ -10,14 +10,14 @@ class LoginTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('GET', '/');
-        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+        $this->assertResponseRedirects('/login', 302);
     }
 
     public function testViewLoginPage()
     {
         $client = static::createClient();
         $client->request('GET', '/login');
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertResponseIsSuccessful();
     }
 
     public function testSubmitValidLogin()
@@ -25,8 +25,7 @@ class LoginTest extends WebTestCase
         $client = static::createClient();
         $crawler = $client->request('GET', '/login');
         $crawler = $client->submitForm('Sign in', ['email' => 'admin@example.com', 'password' => 'testing']);
-        $this->assertEquals(302, $client->getResponse()->getStatusCode());
-        $this->assertEquals('/directory/', $client->getResponse()->getTargetUrl());
+        $this->assertResponseRedirects('/directory/', 302);
     }
 
     public function testSubmitInvalidLogin()
@@ -34,7 +33,6 @@ class LoginTest extends WebTestCase
         $client = static::createClient();
         $crawler = $client->request('GET', '/login');
         $crawler = $client->submitForm('Sign in', ['email' => 'admin@example.com', 'password' => 'wrongpassword']);
-        $this->assertEquals(302, $client->getResponse()->getStatusCode());
-        $this->assertEquals('/login', $client->getResponse()->getTargetUrl());
+        $this->assertResponseRedirects('/login', 302);
     }
 }
