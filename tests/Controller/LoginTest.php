@@ -17,6 +17,7 @@ class LoginTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('GET', '/login');
+        $this->assertPageTitleSame('Member Directory - Log In');
         $this->assertResponseIsSuccessful();
     }
 
