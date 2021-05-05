@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @IsGranted("ROLE_ADMIN")
- * @Route("/admin/directory_collection")
+ * @Route("/admin/directory-collections")
  */
 class DirectoryCollectionController extends AbstractController
 {
