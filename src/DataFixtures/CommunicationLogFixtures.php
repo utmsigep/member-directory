@@ -12,14 +12,14 @@ class CommunicationLogFixtures extends Fixture implements DependentFixtureInterf
     public function load(ObjectManager $manager)
     {
         $uncleBilly = $this->getReference(MemberFixtures::UNCLE_BILLY);
-        $adminUser = $this->getReference(UserFixtures::ADMIN_USER);
+        $user = $this->getReference(UserFixtures::USER_COMMUNICATIONS_MANAGER);
 
         $communicationLog = new CommunicationLog();
         $communicationLog->setLoggedAt(new \DateTime('November 1, 2016'));
         $communicationLog->setMember($uncleBilly);
         $communicationLog->setSummary('Sent a text inviting Uncle Billy to Conclave.');
         $communicationLog->setType('SMS');
-        $communicationLog->setUser($adminUser);
+        $communicationLog->setUser($user);
         $manager->persist($communicationLog);
 
         $manager->flush();

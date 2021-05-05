@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+APP_ENV=test ./bin/console doctrine:database:drop --force && \
+APP_ENV=test ./bin/console doctrine:database:create && \
+APP_ENV=test ./bin/console doctrine:migrations:migrate -n && \
+APP_ENV=test ./bin/console doctrine:fixtures:load -n && \
+echo "Done!"

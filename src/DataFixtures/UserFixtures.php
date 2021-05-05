@@ -9,7 +9,12 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserFixtures extends Fixture
 {
-    const ADMIN_USER = 'Admin User';
+    const USER_BASIC = 'Basic User';
+    const USER_DIRECTORY_MANAGER = 'Directory Manager';
+    const USER_COMMUNICATIONS_MANAGER = 'Communications Manager';
+    const USER_DONATION_MANAGER = 'Donation Manager';
+    const USER_EMAIL_MANAGER = 'Email Manager';
+    const USER_ADMIN = 'Administrator';
 
     private $passwordEncoder;
 
@@ -21,19 +26,63 @@ class UserFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $user = new User();
-        $user->setName('Admin User');
-        $user->setEmail('admin@example.com');
-        $user->setRoles([
-            'ROLE_ADMIN'
-        ]);
-        $user->setPassword($this->passwordEncoder->encodePassword(
-            $user,
-            'testing'
-        ));
+        $user->setName('Basic User');
+        $user->setEmail('user@example.com');
+        $user->setRoles(['ROLE_USER']);
+        $user->setPassword($this->passwordEncoder->encodePassword($user, 'testing'));
         $user->setTimezone('America/Chicago');
         $manager->persist($user);
         $manager->flush();
+        $this->addReference(self::USER_BASIC, $user);
 
-        $this->addReference(self::ADMIN_USER, $user);
+        $user = new User();
+        $user->setName('Directory Manager');
+        $user->setEmail('directory.manager@example.com');
+        $user->setRoles(['ROLE_DIRECTORY_MANAGER']);
+        $user->setPassword($this->passwordEncoder->encodePassword($user, 'testing'));
+        $user->setTimezone('America/Chicago');
+        $manager->persist($user);
+        $manager->flush();
+        $this->addReference(self::USER_DIRECTORY_MANAGER, $user);
+
+        $user = new User();
+        $user->setName('Communications Manager');
+        $user->setEmail('communications.manager@example.com');
+        $user->setRoles(['ROLE_COMMUNICATIONS_MANAGER']);
+        $user->setPassword($this->passwordEncoder->encodePassword($user, 'testing'));
+        $user->setTimezone('America/Chicago');
+        $manager->persist($user);
+        $manager->flush();
+        $this->addReference(self::USER_COMMUNICATIONS_MANAGER, $user);
+
+        $user = new User();
+        $user->setName('Donation Manager');
+        $user->setEmail('donation.manager@example.com');
+        $user->setRoles(['ROLE_DONATION_MANAGER']);
+        $user->setPassword($this->passwordEncoder->encodePassword($user, 'testing'));
+        $user->setTimezone('America/Chicago');
+        $manager->persist($user);
+        $manager->flush();
+        $this->addReference(self::USER_DONATION_MANAGER, $user);
+
+        $user = new User();
+        $user->setName('Email Manager');
+        $user->setEmail('email.manager@example.com');
+        $user->setRoles(['ROLE_EMAIL_MANAGER']);
+        $user->setPassword($this->passwordEncoder->encodePassword($user, 'testing'));
+        $user->setTimezone('America/Chicago');
+        $manager->persist($user);
+        $manager->flush();
+        $this->addReference(self::USER_EMAIL_MANAGER, $user);
+
+        $user = new User();
+        $user->setName('Admin User');
+        $user->setEmail('admin@example.com');
+        $user->setRoles(['ROLE_ADMIN']);
+        $user->setPassword($this->passwordEncoder->encodePassword($user, 'testing'));
+        $user->setTimezone('America/Chicago');
+        $manager->persist($user);
+        $manager->flush();
+        $this->addReference(self::USER_ADMIN, $user);
     }
 }

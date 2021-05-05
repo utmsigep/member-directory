@@ -12,7 +12,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -21,15 +21,17 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class DonationController extends AbstractController
 {
+    protected $session;
+
     protected $startDate;
 
     protected $endDate;
 
-    public function __construct()
+    public function __construct(SessionInterface $session)
     {
-        $session = new Session();
-        $this->startDate = new \DateTime($session->get('donation_start_date', DonationRepository::DEFAULT_START_DATE));
-        $this->endDate = new \DateTime($session->get('donation_end_date', DonationRepository::DEFAULT_END_DATE));
+        $this->session = $session;
+        $this->startDate = new \DateTime($this->session->get('donation_start_date', DonationRepository::DEFAULT_START_DATE));
+        $this->endDate = new \DateTime($this->session->get('donation_end_date', DonationRepository::DEFAULT_END_DATE));
     }
 
     /**
@@ -191,19 +193,18 @@ class DonationController extends AbstractController
 
     private function handleDateRequest(Request $request)
     {
-        $session = new Session();
         if ($request->query->get('reset')) {
             $this->startDate = new \DateTime(DonationRepository::DEFAULT_START_DATE);
-            $session->set('donation_start_date', $this->startDate->format('Y-m-d'));
+            $this->session->set('donation_start_date', $this->startDate->format('Y-m-d'));
             $this->endDate = new \DateTime(DonationRepository::DEFAULT_END_DATE);
-            $session->set('donation_end_date', $this->endDate->format('Y-m-d'));
+            $this->session->set('donation_end_date', $this->endDate->format('Y-m-d'));
             $this->addFlash('info', 'Reset to default dates.');
             return;
         }
         if ($request->query->get('start_date')) {
             try {
                 $this->startDate = new \DateTime($request->query->get('start_date'));
-                $session->set('donation_start_date', $this->startDate->format('Y-m-d'));
+                $this->session->set('donation_start_date', $this->startDate->format('Y-m-d'));
             } catch (\Exception $e) {
                 $this->addFlash('error', 'Invalid start date provided.');
                 return;
@@ -212,7 +213,7 @@ class DonationController extends AbstractController
         if ($request->query->get('end_date')) {
             try {
                 $this->endDate = new \DateTime($request->query->get('end_date'));
-                $session->set('donation_end_date', $this->endDate->format('Y-m-d'));
+                $this->session->set('donation_end_date', $this->endDate->format('Y-m-d'));
             } catch (\Exception $e) {
                 $this->addFlash('error', 'Invalid end date provided.');
                 return;
