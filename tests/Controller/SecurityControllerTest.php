@@ -4,7 +4,7 @@ namespace App\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class LoginTest extends WebTestCase
+class SecurityControllerTest extends WebTestCase
 {
     public function testLoginRedirect()
     {
