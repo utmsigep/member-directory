@@ -153,9 +153,6 @@
     "jeroendesloovere/vcard": {
         "version": "1.7.2"
     },
-    "khanamiryan/qrcode-detector-decoder": {
-        "version": "1.0.3"
-    },
     "laminas/laminas-code": {
         "version": "3.5.1"
     },
@@ -176,9 +173,6 @@
     },
     "monolog/monolog": {
         "version": "1.24.0"
-    },
-    "myclabs/php-enum": {
-        "version": "1.7.6"
     },
     "nikic/php-parser": {
         "version": "v4.2.1"

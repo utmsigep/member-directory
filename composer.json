@@ -7,7 +7,7 @@
         "beberlei/doctrineextensions": "^1.2",
         "campaignmonitor/createsend-php": "^6.0",
         "cmen/google-charts-bundle": "^3.2",
-        "endroid/qr-code-bundle": "^3.4",
+        "endroid/qr-code-bundle": "^4.0",
         "erusev/parsedown": "^1.7",
         "friendsofsymfony/jsrouting-bundle": "^2.3",
         "jeroendesloovere/vcard": "^1.7",
