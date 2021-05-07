@@ -124,7 +124,7 @@ class MemberController extends AbstractController
     }
 
     /**
-     * @Route("/{localIdentifier}/communication-log", name="member_communication_log")
+     * @Route("/{localIdentifier}/communications", name="member_communication_log")
      * @IsGranted("ROLE_COMMUNICATIONS_MANAGER")
      */
     public function communicationLog(Member $member, Request $request): Response
