@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @IsGranted("ROLE_COMMUNICATIONS_MANAGER")
- * @Route("/communication")
+ * @Route("/communications")
  */
 class CommunicationController extends AbstractController
 {
