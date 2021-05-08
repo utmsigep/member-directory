@@ -1,0 +1,14 @@
+{% extends '@email/default/notification/body.html.twig' %}
+
+{% set importance = '' %}
+{% set action_url = url('app_reset_password', {token: resetToken.token}) %}
+{% set action_text = 'Reset My Password' %}
+{% set exception = false %}
+
+{% block content %}
+
+<p>To reset your password for <strong>{{ config.app_name }}</strong>, please click the button below.</p>
+
+<p>This link will expire in {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.</p>
+
+{% endblock %}

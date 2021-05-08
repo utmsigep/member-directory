@@ -3,12 +3,6 @@
 {% block title %}{{ parent() }} - Server Error!{% endblock %}
 
 {% block body %}
-{% if config.app_logo %}
-<div class="text-center p-5">
-  <img src="{{ config.app_logo }}" class="img-fluid" style="max-height:40vh" />
-</div>
-{% endif %}
-
 <div class="my-5 text-center">
   <h1>Server Error!</h1>
   <p class="lead">Well, that's embarrassing. This page means that something that <em>should</em> have worked ... didn't. Please try again, or reach out to us with details about what might have gone wrong.</p>
