@@ -1,0 +1,9 @@
+{% extends '@email/default/notification/body.html.twig' %}
+
+{% block content %}
+
+<p>To reset your password for <strong>{{ config.app_name }}</strong>, please click the button below.</p>
+
+<p>This link will expire in {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.</p>
+
+{% endblock %}

@@ -20,6 +20,11 @@
       <div class="row">
         <main role="main" class="offset-lg-2 col-lg-8">
           {% include '_alerts.html.twig' %}
+          {% if config.app_logo %}
+          <div class="text-center p-5">
+            <img src="{{ config.app_logo }}" class="img-fluid" style="max-height:40vh" />
+          </div>
+          {% endif %}
           {% block body %}{% endblock %}
         </main>
       </div>

@@ -3,12 +3,6 @@
 {% block title %}{{ parent() }} - Page Not Found!{% endblock %}
 
 {% block body %}
-{% if config.app_logo %}
-<div class="text-center p-5">
-  <img src="{{ config.app_logo }}" class="img-fluid" style="max-height:40vh" />
-</div>
-{% endif %}
-
 <div class="my-5 text-center">
   <h1>Page Not Found!</h1>
   <p class="lead">We're not sure what you were looking for, but it isn't here.</p>
