@@ -1,7 +1,12 @@
 # Member Directory
 
-Member Directory is a [Symfony](https://symfony.com/) 5 project to manage the membership records of a local chapter of a larger, national organization. It has a handful of useful features:
+[![Build Status](https://travis-ci.com/utmsigep/member-directory.svg?branch=master)](https://travis-ci.com/utmsigep/member-directory)
 
-## [Feature Highlights](https://utmsigep.github.io/member-directory)
+Member Directory is a [Symfony](https://symfony.com/) 5 project to manage membership records. It offers automated email service subscription management, donation tracking and integrated communication logging. A suite of user roles allow administrators to delegate tasks to other users.
 
-## [Developer Quick Start](wiki/Developer-Quick-Start)
+![Screenshot](docs/screenshots/directory-collection.png)
+
+### Learn More
+
+- [Feature Highlights](https://utmsigep.github.io/member-directory)
+- [Developer Quick Start](https://github.com/utmsigep/member-directory/wiki/Developer-Quick-Start)
