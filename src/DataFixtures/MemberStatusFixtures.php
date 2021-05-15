@@ -10,6 +10,7 @@ class MemberStatusFixtures extends Fixture
 {
     public const MEMBER = 'Member';
     public const ALUMNUS = 'Alumnus';
+    public const EXPELLED = 'Expelled';
 
     public function load(ObjectManager $manager)
     {
@@ -24,7 +25,15 @@ class MemberStatusFixtures extends Fixture
         $manager->persist($memberStatusAlumnus);
         $manager->flush();
 
+        $memberStatusExpelled = new MemberStatus();
+        $memberStatusExpelled->setCode('EXPELLED');
+        $memberStatusExpelled->setLabel('Expelled');
+        $memberStatusExpelled->setIsInactive(true);
+        $manager->persist($memberStatusExpelled);
+        $manager->flush();
+
         $this->addReference(self::MEMBER, $memberStatusMember);
         $this->addReference(self::ALUMNUS, $memberStatusAlumnus);
+        $this->addReference(self::EXPELLED, $memberStatusExpelled);
     }
 }

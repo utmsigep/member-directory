@@ -49,7 +49,9 @@ $(document).ready(function () {
       },
       formatResult: function (item) {
         return {
-          text: item.displayName
+          text: item.displayName.replace(/[^\w. ]/gi, function (c) {
+            return '&#' + c.charCodeAt(0) + ';';
+          })
         };
       }
   });

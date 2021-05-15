@@ -13,6 +13,7 @@ class DirectoryCollectionFixtures extends Fixture implements DependentFixtureInt
     {
         $memberStatusMember = $this->getReference(MemberStatusFixtures::MEMBER);
         $memberStatusAlumnus = $this->getReference(MemberStatusFixtures::ALUMNUS);
+        $memberStatusExpelled = $this->getReference(MemberStatusFixtures::EXPELLED);
 
         $directoryCollection = new DirectoryCollection();
         $directoryCollection->setLabel($memberStatusMember->getLabel());
@@ -35,6 +36,13 @@ class DirectoryCollectionFixtures extends Fixture implements DependentFixtureInt
         $directoryCollection->addMemberStatus($memberStatusMember);
         $directoryCollection->addMemberStatus($memberStatusAlumnus);
         $directoryCollection->setFilterLocalDoNotContact('include');
+        $manager->persist($directoryCollection);
+
+        $directoryCollection = new DirectoryCollection();
+        $directoryCollection->setLabel('Expelled');
+        $directoryCollection->setIcon('fas fa-thumbs-down');
+        $directoryCollection->setShowMemberStatus(false);
+        $directoryCollection->addMemberStatus($memberStatusExpelled);
         $manager->persist($directoryCollection);
 
         $manager->flush();

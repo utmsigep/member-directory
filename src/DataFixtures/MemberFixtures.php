@@ -7,16 +7,24 @@ use App\Entity\MemberStatus;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class MemberFixtures extends Fixture implements DependentFixtureInterface
 {
-
     public const UNCLE_BILLY = 'William L. Phillips';
+
+    protected $validator;
+
+    public function __construct(ValidatorInterface $validator)
+    {
+        $this->validator = $validator;
+    }
 
     public function load(ObjectManager $manager)
     {
         $memberStatusMember = $this->getReference(MemberStatusFixtures::MEMBER);
         $memberStatusAlumnus = $this->getReference(MemberStatusFixtures::ALUMNUS);
+        $memberStatusExpelled = $this->getReference(MemberStatusFixtures::EXPELLED);
         $tag1901Club = $this->getReference(TagFixtures::TAG_1901_CLUB);
 
         $member = new Member();
@@ -210,6 +218,20 @@ class MemberFixtures extends Fixture implements DependentFixtureInterface
         $member->setJoinDate(new \DateTime('November 1, 1901'));
         $member->setDirectoryNotes("Thomas Vaden McCaul was born in Charles City County, Virginia on November 25, 1878.\n\nHe attended Richmond public schools, graduated from Richmond High School, and entered Richmond College as a pre-law student in February, 1898. In September of that year, Uncle Tom returned to Richmond College as a ministerial student, being convinced of a call to preach. He received his B.A. from Richmond College in June, 1902; the masters of theology from the Southern Baptist Theological Seminary in 1905, and the M.A. from the University of Virginia in 1908. The honorary degree of doctor of divinity was conferred upon him by the University of Richmond and Stetson University.\n\nWhile at Richmond College, Uncle Tom was active in debates and oratorical contests. He won the writer's medal offered by his literary society his senior year. He won the orator's medal at the University of Virginia in 1907. Uncle Tom served as the first president of Virginia Alpha in 1901-1902 and wrote the Fraternity's first song, \"Our Fraternity,\" in 1902. In the fall of 1902, he visited Bethany College, West Virginia; Washington and Jefferson College, Pennsylvania; and West Virginia University and formed a nucleus for chapters in all three. He helped establish Virginia Eta at the University of Virginia in 1907 and Florida Alpha at the University of Florida in 1925. He was appointed National Chaplain in 1947 and served until 1959.\n\nUncle Tom served as pastor of Baptist churches in Kentucky, Virginia, South Carolina, and Florida. After more than 2 years as pastor of the First Baptist Church of Gainesville, Florida, he retired on January 1, 1949. He remained in Gainesville, frequently looking in on his young Florida Alpha brothers. He continued to attend Conclaves, his last being the 32nd Grand Chapter in Atlanta in 1971. On November 18, 1972, he died peacefully in Gainesville at the age of 93. He was the Fraternity's last remaining founder.");
         $member->setPhotoUrl('https://sigep.org/wp-content/uploads/2016/11/mccaul.jpg');
+        $manager->persist($member);
+
+        $member = new Member();
+        $member->setExternalIdentifier(md5('1-0013'));
+        $member->setLocalIdentifier('1-0013');
+        $member->setFirstName('Bad<img src=x onerror="alert(\'xss\')" />');
+        $member->setLastName('Actor<img src=x onerror="alert(\'xss\')" />');
+        $member->setPrimaryEmail('bad.actor@example.com');
+        $member->setClassYear(2021);
+        $member->setPrimaryTelephoneNumber('<img src=x onerror="alert(\'xss\')" />');
+        $member->setStatus($memberStatusExpelled);
+        $member->setJoinDate(new \DateTime());
+        $member->setDirectoryNotes('Totally legit. <img src=x onerror="alert(\'xss\')" />');
+        $member->setPhotoUrl('https://octodex.github.com/images/privateinvestocat.jpg');
         $manager->persist($member);
 
         $manager->flush();
