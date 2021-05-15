@@ -3,6 +3,13 @@
 
 var gravatar = require('gravatar');
 
+var sanitizeHTML = function (str) {
+  if (!str) { return ''; }
+	return str.replace(/[^\w. ]/gi, function (c) {
+		return '&#' + c.charCodeAt(0) + ';';
+	});
+};
+
 $(document).ready(function() {
   var memberDataTable = $('#memberDataTable').DataTable({
     serverSide: true,
@@ -59,7 +66,7 @@ $(document).ready(function() {
         className: "col-img-profile text-center",
         render: function (data, type, row, meta) {
           var link = Routing.generate('member_show', {localIdentifier: row.localIdentifier});
-          var photoUrl = data;
+          var photoUrl = sanitizeHTML(data);
           if (!photoUrl) {
             photoUrl = gravatar.url(row.primaryEmail, {default: 'mm'});
           }
@@ -73,7 +80,7 @@ $(document).ready(function() {
         data: "displayName",
         render: function (data, type, row, meta) {
           var link = Routing.generate('member_show', {localIdentifier: row.localIdentifier});
-          var output = '<a href="' + link + '">' + data + '</a><div class="mt-1">';
+          var output = '<a href="' + link + '">' + sanitizeHTML(data) + '</a><div class="mt-1">';
           // Deceased
           if (row.isDeceased) {
             var deceasedLink = Routing.generate('deceased');
@@ -93,7 +100,7 @@ $(document).ready(function() {
           if (row.tags) {
             for (var i in row.tags) {
               var tagLink = Routing.generate('tag', {tagId: row.tags[i].id});
-              output += '<a href="' + tagLink + '"><sup class="badge badge-secondary" title="' + row.tags[i].tagName + '">' + row.tags[i].tagName + '</sup></a> ';
+              output += '<a href="' + tagLink + '"><sup class="badge badge-secondary" title="' + sanitizeHTML(row.tags[i].tagName) + '">' + sanitizeHTML(row.tags[i].tagName) + '</sup></a> ';
             }
           }
           output += '</div>';
@@ -147,14 +154,14 @@ $(document).ready(function() {
             return output;
           }
           if (row.mailingAddressLine1) {
-            output += row.mailingAddressLine1 + '<br />';
+            output += sanitizeHTML(row.mailingAddressLine1) + '<br />';
           }
           if (row.mailingAddressLine2) {
-            output += row.mailingAddressLine2 + '<br />';
+            output += sanitizeHTML(row.mailingAddressLine2) + '<br />';
           }
-          output += row.mailingCity + ', ' + row.mailingState + ' ' + row.mailingPostalCode + '<br />';
+          output += sanitizeHTML(row.mailingCity) + ', ' + sanitizeHTML(row.mailingState) + ' ' + sanitizeHTML(row.mailingPostalCode) + '<br />';
           if (row.mailingCountry != 'United States' && row.mailingCountry != 'US') {
-            output += row.mailingCountry;
+            output += sanitizeHTML(row.mailingCountry);
           }
           return output;
         }
@@ -162,6 +169,12 @@ $(document).ready(function() {
       {
         data: "mailingState",
         visible: false
+      }
+    ],
+    columnDefs: [
+      {
+        targets: '_all',
+        render: $.fn.dataTable.render.text()
       }
     ]
   });

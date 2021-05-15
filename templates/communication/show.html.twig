@@ -22,7 +22,7 @@
       <dt class="col-sm-2 mb-3">User</dt>
       <dd class="col-sm-10 mb-3">{{ communication_log.user|default('System') }}</dd>
       <dt class="col-sm-2 mb-3">Summary</dt>
-      <dd class="col-sm-10 mb-3">{{ communication_log.summary|markdown_to_html }}</d>
+      <dd class="col-sm-10 mb-3">{{ communication_log.summary|e('html')|markdown_to_html }}</d>
     </dl>
   </div>
 </div>

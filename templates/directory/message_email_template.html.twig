@@ -5,7 +5,7 @@
     <title>{{ subject }}</title>
   </head>
   <body style="font-family:sans-serif; font-size:10pt;">
-    {{ body|markdown_to_html }}
+    {{ body|e('html')|markdown_to_html }}
 
   </body>
 </html>

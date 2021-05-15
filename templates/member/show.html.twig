@@ -81,7 +81,7 @@
               <dl class="row">
                 <dt class="col-sm-3 mb-3">Directory Notes</dt>
                 <dd class="col-sm-9 mb-3">
-                  {{ member.directoryNotes|markdown_to_html }}
+                  {{ member.directoryNotes|e('html')|markdown_to_html }}
                 </dd>
               </dl>
               {% endif %}

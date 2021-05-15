@@ -71,6 +71,7 @@ class MemberController extends AbstractController
      */
     public function memberEdit(Member $member, Request $request): Response
     {
+        $originalMember = clone $member;
         $form = $this->createForm(MemberType::class, $member);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -83,7 +84,7 @@ class MemberController extends AbstractController
             ]));
         }
         return $this->render('member/edit.html.twig', [
-            'member' => $member,
+            'member' => $originalMember,
             'form' => $form->createView()
         ]);
     }
