@@ -295,7 +295,7 @@ class DirectoryController extends AbstractController
             $request->get('radius')
         );
         return $this->json($members, 200, [], [
-            'groups' => ['member_main', 'status_main'],
+            'groups' => ['member_main', 'member_extended', 'status_main', 'tag_main'],
             'circular_reference_handler' => function ($object) {
                 return (string) $object;
             }
@@ -309,7 +309,7 @@ class DirectoryController extends AbstractController
     {
         $members = $memberRepository->findGeocodedAddresses();
         return $this->json($members, 200, [], [
-            'groups' => ['member_main', 'member_extended', 'status_main'],
+            'groups' => ['member_main', 'member_extended', 'status_main', 'tag_main'],
             'circular_reference_handler' => function ($object) {
                 return (string) $object;
             }

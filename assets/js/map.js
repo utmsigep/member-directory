@@ -11,6 +11,13 @@ const routes = require('../js/fos_js_routes.json');
 import Routing from '../../vendor/friendsofsymfony/jsrouting-bundle/Resources/public/js/router.min.js';
 Routing.setRoutingData(routes);
 
+var sanitizeHTML = function (str) {
+  if (!str) { return ''; }
+	return str.replace(/[^\w. ]/gi, function (c) {
+		return '&#' + c.charCodeAt(0) + ';';
+	});
+};
+
 var markerIcon = L.Icon.extend({
   options: {
     iconUrl:       require('../images/marker-icon.svg'),
@@ -67,18 +74,9 @@ var drawMap = function () {
             searchNoResultsFoundContainer.hide();
             searchResultsExport.show();
             $(data).each(function (i, row) {
-              var result = {
-                fullName: row[0].preferredName + ' ' + row[0].lastName,
-                localIdentifier: row[0].localIdentifier,
-                distance: row.distance,
-                classYear: row[0].classYear ? ' (' + row[0].classYear + ')' : '',
-                status: row[0].status.label,
-                link: Routing.generate('member_show', {localIdentifier: row[0].localIdentifier}),
-                photoUrl: row[0].photoUrl,
-                tags: formatTags(row[0])
-              };
+              var item = formatMemberData(row[0]);
               searchResultsContainer.append(L.Util.template(
-                '<div><strong><a href="{link}" target="_blank">{fullName}</a> {classYear}</strong>{tags}<br />{localIdentifier} / {status}</div><hr />', result
+                '<div><div><strong><a href="{link}" target="_blank">{displayName}</a> {classYear}</strong> {tags}</div> {localIdentifier} / {statusLabel}</div><hr />', item
               ));
             });
           }
@@ -103,8 +101,13 @@ var drawMap = function () {
 };
 
 var formatMemberData = function (data) {
-  data.statusLabel = data.status.label;
-  data.mailingAddressLine2 = data.mailingAddressLine2 ? data.mailingAddressLine2 : '';
+  data.displayName = sanitizeHTML(data.displayName);
+  data.statusLabel = sanitizeHTML(data.status.label);
+  data.mailingAddressLine1 = data.mailingAddressLine1 ? sanitizeHTML(data.mailingAddressLine1) : '';
+  data.mailingAddressLine2 = data.mailingAddressLine2 ? sanitizeHTML(data.mailingAddressLine2) : '';
+  data.mailingCity = data.mailingCity ? sanitizeHTML(data.mailingCity) : '';
+  data.mailingState = data.mailingState ? sanitizeHTML(data.mailingState) : '';
+  data.mailingPostalCode = data.mailingPostalCode ? sanitizeHTML(data.mailingPostalCode) : '';
   data.link = Routing.generate('member_show', {localIdentifier: data.localIdentifier});
   data.classYear = data.classYear ? '(' + data.classYear + ')' : '';
   data.tags = formatTags(data);
@@ -113,14 +116,14 @@ var formatMemberData = function (data) {
 
 var formatMemberPopup = function (data) {
   return L.Util.template(
-    '<strong><a href="{link}">{preferredName} {lastName}</a> {classYear}</strong>{tags}<br />{localIdentifier} / {statusLabel}<hr />{mailingAddressLine1} {mailingAddressLine2}<br />{mailingCity}, {mailingState} {mailingPostalCode}',
+    '<div><div><strong><a href="{link}" target="_blank">{displayName}</a> {classYear}</strong> {tags}</div> {localIdentifier} / {statusLabel}<hr />{mailingAddressLine1} {mailingAddressLine2}<br />{mailingCity}, {mailingState} {mailingPostalCode}',
     data
   );
 };
 
 var formatMemberTooltip = function (data) {
   return L.Util.template(
-    '<strong>{preferredName} {lastName} {classYear}</strong>{tags}<br />{localIdentifier} / {statusLabel}',
+    '<div><div><strong>{displayName} {classYear}</strong> {tags}</div> {localIdentifier} / {statusLabel}</div>',
     data
   );
 };
@@ -136,10 +139,16 @@ var formatTags = function (data) {
   if (data.isLocalDoNotContact) {
     tags += '<span class="badge badge-danger mr-1">Do Not Contact</span>';
   }
-  if (tags) {
-    tags = '<br />' + tags;
+  if (data.tags.length > 0) {
+    $(data.tags).each(function (i, tag) {
+      var tagName = sanitizeHTML(tag.tagName);
+      tags += '<span class="badge badge-secondary mr-1">' + tagName + '</span>';
+    });
   }
-  return tags;
+  if (!tags) {
+    return '';
+  }
+  return '<div>' + tags + '</div>';
 };
 
 // Prevent enter press from submitting form
