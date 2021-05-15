@@ -116,7 +116,7 @@ var formatMemberData = function (data) {
 
 var formatMemberPopup = function (data) {
   return L.Util.template(
-    '<div><div><strong><a href="{link}" target="_blank">{displayName}</a> {classYear}</strong> {tags}</div> {localIdentifier} / {statusLabel}<hr />{mailingAddressLine1} {mailingAddressLine2}<br />{mailingCity}, {mailingState} {mailingPostalCode}',
+    '<div><div><strong><a href="{link}" target="_blank">{displayName}</a> {classYear}</strong> {tags}</div> {localIdentifier} / {statusLabel}<hr />{mailingAddressLine1} {mailingAddressLine2}<br />{mailingCity}, {mailingState} {mailingPostalCode}</div>',
     data
   );
 };
