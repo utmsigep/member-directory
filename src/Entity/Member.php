@@ -20,7 +20,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  *   }
  * )
  * @ORM\HasLifecycleCallbacks
- * @UniqueEntity({"localIdentifier","externalIdentifier"})
+ * @UniqueEntity("localIdentifier")
+ * @UniqueEntity("externalIdentifier")
+ * @UniqueEntity("primaryEmail")
  * @Gedmo\Loggable
  */
 class Member
@@ -42,6 +44,12 @@ class Member
     /**
      * @ORM\Column(type="string", nullable=true, length=255, unique=true)
      * @Assert\NotBlank
+     * @Assert\Regex(
+     *     pattern     = "/^[a-z0-9\-\_]+$/i",
+     *     htmlPattern = "[a-zA-Z0-9\-\_]+",
+     *     match       = true,
+     *     message     = "Only alphanumeric characters, dashes and underscores are allowed."
+     * )
      * @Gedmo\Versioned
      * @Groups({"member_main"})
      */
@@ -50,6 +58,12 @@ class Member
     /**
      * @ORM\Column(type="string", nullable=true, length=255, unique=true)
      * @Assert\NotBlank
+     * @Assert\Regex(
+     *     pattern     = "/^[a-z0-9\-\_]+$/i",
+     *     htmlPattern = "[a-zA-Z0-9\-\_]+",
+     *     match       = true,
+     *     message     = "Only alphanumeric characters, dashes and underscores are allowed."
+     * )
      * @Gedmo\Versioned
      * @Groups({"member_extended"})
      */

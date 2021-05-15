@@ -7,7 +7,7 @@
   <td data-order="{{ log.type }}">
     {{ macros.typeIcon(log) }}
   </td>
-  <td>{{ log.summary|u.truncate(200, '...', false)|markdown_to_html }}</td>
+  <td>{{ log.summary|u.truncate(200, '...', false)|e('html')|markdown_to_html }}</td>
   <td>{{ log.user|default('System') }}</td>
   <td><a href="{{ path('communication_edit', {id: log.id }) }}"><i class="fas fa-edit"></i></a></td>
 </tr>
