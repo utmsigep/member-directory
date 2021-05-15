@@ -1,1 +1,5 @@
+site:
+  title: Member Directory
+  tagline: 📖 Membership directory manager with API integrations.
+
 theme: jekyll-theme-cayman
