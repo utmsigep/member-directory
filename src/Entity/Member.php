@@ -112,6 +112,13 @@ class Member
      * @Assert\Type("\DateTimeInterface")
      * @Gedmo\Versioned
      */
+    private $birthDate;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     * @Assert\Type("\DateTimeInterface")
+     * @Gedmo\Versioned
+     */
     private $joinDate;
 
     /**
@@ -385,6 +392,22 @@ class Member
         return $this;
     }
 
+    public function getBirthDate(): ?\DateTimeInterface
+    {
+        return $this->birthDate;
+    }
+
+    public function setBirthDate(?\DateTimeInterface $birthDate): self
+    {
+        if ($this->assertEqualDates($this->birthDate, $birthDate)) {
+            return $this;
+        }
+
+        $this->birthDate = $birthDate;
+
+        return $this;
+    }
+
     public function getJoinDate(): ?\DateTimeInterface
     {
         return $this->joinDate;
@@ -392,6 +415,10 @@ class Member
 
     public function setJoinDate(?\DateTimeInterface $joinDate): self
     {
+        if ($this->assertEqualDates($this->joinDate, $joinDate)) {
+            return $this;
+        }
+
         $this->joinDate = $joinDate;
 
         return $this;
@@ -797,6 +824,21 @@ class Member
     /**
      * Private Methods
      */
+
+     private function assertEqualDates($date1, $date2): bool
+     {
+        // Assert that two \DateTime instances are the same
+        if (
+            $date1
+            && $date2
+            && method_exists($date1, 'format')
+            && method_exists($date2, 'format')
+            && $date1->format('Y-m-d') === $date2->format('Y-m-d')
+        ) {
+            return true;
+        }
+        return false;
+     }
 
     private function formatTelephoneNumber(?string $telephoneNumber): string
     {

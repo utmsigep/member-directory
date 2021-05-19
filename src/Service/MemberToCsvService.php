@@ -18,6 +18,8 @@ class MemberToCsvService
         'lastName',
         'displayName',
         'status',
+        'birthDate',
+        'joinDate',
         'classYear',
         'primaryEmail',
         'primaryTelephoneNumber',
@@ -66,6 +68,12 @@ class MemberToCsvService
             $methodName = sprintf('get%s', ucfirst($column));
             if (is_callable([$member, $methodName])) {
                 switch($column) {
+                    case 'birthDate':
+                        $row[] = ($member->getBirthDate()) ? $member->getBirthDate()->format('Y-m-d') : '';
+                        break;
+                    case 'joinDate':
+                        $row[] = ($member->getJoinDate()) ? $member->getJoinDate()->format('Y-m-d') : '';
+                        break;
                     case 'tags':
                         $row[] = $member->getTagsAsCSV();
                         break;

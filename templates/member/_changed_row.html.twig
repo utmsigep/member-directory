@@ -1,4 +1,4 @@
-{% if change and field == 'joinDate' %}
+{% if change and (field == 'joinDate' or field == 'birthDate') %}
 <code>{{ change|date('Y-m-d') }}</code>
 {% elseif change is not iterable %}
 <code>{{ change }}</code></td>

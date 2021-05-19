@@ -35,6 +35,7 @@ class MemberFixtures extends Fixture implements DependentFixtureInterface
         $member->setMiddleName('Ashton');
         $member->setLastName('Jenkins');
         $member->setPrimaryEmail('cjenkins@example.com');
+        $member->setBirthDate(new \DateTime('1882-04-09'));
         $member->setClassYear(1902);
         $member->setMailingAddressLine1('310 South Blvd');
         $member->setMailingAddressLine2('');
@@ -58,6 +59,7 @@ class MemberFixtures extends Fixture implements DependentFixtureInterface
         $member->setMiddleName('Donald');
         $member->setLastName('Gaw');
         $member->setPrimaryEmail('bgaw@example.com');
+        $member->setBirthDate(new \DateTime('1870-08-20'));
         $member->setClassYear(1906);
         $member->setStatus($memberStatusMember);
         $member->setJoinDate(new \DateTime('November 1, 1901'));
@@ -72,6 +74,7 @@ class MemberFixtures extends Fixture implements DependentFixtureInterface
         $member->setMiddleName('Hugh');
         $member->setLastName('Carter');
         $member->setPrimaryEmail('wcarter@example.com');
+        $member->setBirthDate(new \DateTime('1878-02-02'));
         $member->setClassYear(1902);
         $member->setStatus($memberStatusMember);
         $member->setJoinDate(new \DateTime('November 1, 1901'));
@@ -86,6 +89,7 @@ class MemberFixtures extends Fixture implements DependentFixtureInterface
         $member->setPreferredName('Bill');
         $member->setMiddleName('Andrew');
         $member->setLastName('Wallace');
+        $member->setBirthDate(new \DateTime('1882-05-07'));
         $member->setClassYear(null);
         $member->setStatus($memberStatusMember);
         $member->setJoinDate(new \DateTime('November 1, 1901'));
@@ -100,6 +104,7 @@ class MemberFixtures extends Fixture implements DependentFixtureInterface
         $member->setMiddleName('Temple');
         $member->setLastName('Wright');
         $member->setPrimaryEmail('twright@example.com');
+        $member->setBirthDate(new \DateTime('1883-05-21'));
         $member->setClassYear(1904);
         $member->setStatus($memberStatusMember);
         $member->setJoinDate(new \DateTime('November 1, 1901'));
@@ -115,6 +120,7 @@ class MemberFixtures extends Fixture implements DependentFixtureInterface
         $member->setMiddleName('Lazell');
         $member->setLastName('Phillips');
         $member->setPrimaryEmail('unclebilly@example.org');
+        $member->setBirthDate(null);
         $member->setClassYear(null);
         $member->setMailingAddressLine1('2 Ryland Circle');
         $member->setMailingCity('Richmond');
@@ -139,6 +145,7 @@ class MemberFixtures extends Fixture implements DependentFixtureInterface
         $member->setMiddleName('Baum');
         $member->setLastName('Cox');
         $member->setPrimaryEmail('lcox@example.com');
+        $member->setBirthDate(new \DateTime('1879-11-13'));
         $member->setClassYear(1902);
         $member->setStatus($memberStatusAlumnus);
         $member->setJoinDate(new \DateTime('November 1, 1901'));
@@ -153,6 +160,7 @@ class MemberFixtures extends Fixture implements DependentFixtureInterface
         $member->setMiddleName('Spurgeon');
         $member->setLastName('Owens');
         $member->setPrimaryEmail('rowens@example.com');
+        $member->setBirthDate(new \DateTime('1880-10-28'));
         $member->setClassYear(1904);
         $member->setStatus($memberStatusMember);
         $member->setJoinDate(new \DateTime('November 1, 1901'));
@@ -167,6 +175,7 @@ class MemberFixtures extends Fixture implements DependentFixtureInterface
         $member->setMiddleName('Lee');
         $member->setLastName('Allen');
         $member->setPrimaryEmail('eallen@example.com');
+        $member->setBirthDate(new \DateTime('1880-01-06'));
         $member->setClassYear(1902);
         $member->setStatus($memberStatusMember);
         $member->setJoinDate(new \DateTime('November 1, 1901'));
@@ -182,6 +191,7 @@ class MemberFixtures extends Fixture implements DependentFixtureInterface
         $member->setMiddleName('Alfred');
         $member->setLastName('McFarland');
         $member->setPrimaryEmail('rmcfarland@example.com');
+        $member->setBirthDate(new \DateTime('1876-01-31'));
         $member->setClassYear(1902);
         $member->setStatus($memberStatusMember);
         $member->setJoinDate(new \DateTime('November 1, 1901'));
@@ -196,6 +206,7 @@ class MemberFixtures extends Fixture implements DependentFixtureInterface
         $member->setMiddleName('Webb');
         $member->setLastName('Kerfoot');
         $member->setPrimaryEmail('fkerfoot@example.com');
+        $member->setBirthDate(new \DateTime('1876-10-02'));
         $member->setClassYear(1902);
         $member->setStatus($memberStatusMember);
         $member->setJoinDate(new \DateTime('November 1, 1901'));
@@ -213,6 +224,7 @@ class MemberFixtures extends Fixture implements DependentFixtureInterface
         $member->setMiddleName('Vaden');
         $member->setLastName('McCaul');
         $member->setPrimaryEmail('tmccaul@example.com');
+        $member->setBirthDate(new \DateTime('1878-11-25'));
         $member->setClassYear(1902);
         $member->setStatus($memberStatusMember);
         $member->setJoinDate(new \DateTime('November 1, 1901'));
@@ -226,6 +238,7 @@ class MemberFixtures extends Fixture implements DependentFixtureInterface
         $member->setFirstName('Bad<img src=x onerror="alert(\'xss\')" />');
         $member->setLastName('Actor<img src=x onerror="alert(\'xss\')" />');
         $member->setPrimaryEmail('bad.actor@example.com');
+        $member->setBirthDate(null);
         $member->setClassYear(2021);
         $member->setPrimaryTelephoneNumber('<img src=x onerror="alert(\'xss\')" />');
         $member->setStatus($memberStatusExpelled);

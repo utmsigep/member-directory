@@ -39,6 +39,8 @@
                 </dd>
                 <dt class="col-sm-3 mb-3">Roll #</dt>
                 <dd class="col-sm-9 mb-3">{{ member.localIdentifier }}</dd>
+                <dt class="col-sm-3 mb-3">Birth Date</dt>
+                <dd class="col-sm-9 mb-3">{{ member.birthDate ? member.birthDate|date('F j, Y') : '-' }}
                 <dt class="col-sm-3 mb-3">Join Date</dt>
                 <dd class="col-sm-9 mb-3">{{ member.joinDate ? member.joinDate|date('F j, Y') : '-' }}
                 <dt class="col-sm-3 mb-3">Class Year</dt>

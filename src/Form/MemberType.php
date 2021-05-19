@@ -27,6 +27,10 @@ class MemberType extends AbstractType
             ->add('preferredName')
             ->add('middleName')
             ->add('lastName')
+            ->add('birthDate', DateType::class, [
+                'required' => false,
+                'widget' => 'single_text'
+            ])
             ->add('joinDate', DateType::class, [
                 'required' => false,
                 'widget' => 'single_text'
