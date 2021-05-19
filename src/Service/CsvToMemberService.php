@@ -22,6 +22,7 @@ class CsvToMemberService
     const PREFERRED_NAME_HEADER = 'preferredName';
     const LAST_NAME_HEADER = 'lastName';
     const STATUS_HEADER = 'status';
+    const BIRTH_DATE_HEADER = 'birthDate';
     const JOIN_DATE_HEADER = 'joinDate';
     const CLASS_YEAR_HEADER = 'classYear';
     const DECEASED_HEADER = 'isDeceased';
@@ -129,10 +130,13 @@ class CsvToMemberService
             if (isset($csvRecord[self::LAST_NAME_HEADER])) {
                 $member->setLastName($csvRecord[self::LAST_NAME_HEADER]);
             }
-            if (isset($csvRecord[self::JOIN_DATE_HEADER])) {
+            if (isset($csvRecord[self::BIRTH_DATE_HEADER]) && strtotime($csvRecord[self::BIRTH_DATE_HEADER]) ) {
+                $member->setBirthDate(new \DateTime($csvRecord[self::BIRTH_DATE_HEADER]));
+            }
+            if (isset($csvRecord[self::JOIN_DATE_HEADER]) && strtotime($csvRecord[self::JOIN_DATE_HEADER])) {
                 $member->setJoinDate(new \DateTime($csvRecord[self::JOIN_DATE_HEADER]));
             }
-            if (isset($csvRecord[self::CLASS_YEAR_HEADER])) {
+            if (isset($csvRecord[self::CLASS_YEAR_HEADER]) && $csvRecord[self::CLASS_YEAR_HEADER]) {
                 if ($member->getClassYear() != null || $csvRecord[self::CLASS_YEAR_HEADER] != 0) {
                     $member->setClassYear((int) $csvRecord[self::CLASS_YEAR_HEADER]);
                 }

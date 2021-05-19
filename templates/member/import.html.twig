@@ -119,8 +119,10 @@
     <dl>
       <dt>Class Year</dt>
       <dd>{{ member.classYear }}</dd>
+      <dt>Birth Date</dt>
+      <dd>{{ member.birthDate ? member.birthDate|date('Y-m-d') : '-' }}</dd>
       <dt>Join Date</dt>
-      <dd>{{ member.joinDate|date('Y-m-d') }}</dd>
+      <dd>{{ member.joinDate ? member.joinDate|date('Y-m-d') : '-' }}</dd>
       <dt>Status</dt>
       <dd>{{ member.status }}</dd>
     </dl>

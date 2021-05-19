@@ -57,6 +57,8 @@ class MemberExportType extends AbstractType
                     'Last Name' => 'lastName',
                     'Display Name' => 'displayName',
                     'Status' => 'status',
+                    'Birth Date' => 'birthDate',
+                    'Join Date' => 'joinDate',
                     'Class Year' => 'classYear',
                     'Primary Email' => 'primaryEmail',
                     'Primary Telephone Number' => 'primaryTelephoneNumber',
