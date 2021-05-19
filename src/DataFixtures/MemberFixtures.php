@@ -238,7 +238,7 @@ class MemberFixtures extends Fixture implements DependentFixtureInterface
         $member->setFirstName('Bad<img src=x onerror="alert(\'xss\')" />');
         $member->setLastName('Actor<img src=x onerror="alert(\'xss\')" />');
         $member->setPrimaryEmail('bad.actor@example.com');
-        $member->setBirthDate(new \DateTime(null));
+        $member->setBirthDate(null);
         $member->setClassYear(2021);
         $member->setPrimaryTelephoneNumber('<img src=x onerror="alert(\'xss\')" />');
         $member->setStatus($memberStatusExpelled);
