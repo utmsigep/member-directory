@@ -43,6 +43,11 @@ class MemberControllerTest extends WebTestCase
 
     public function testMessageMemberSendEmail()
     {
+        if (!isset($_ENV['MAILER_DDSN']) || $_ENV['MAILER_DSN'] === 'smtp://localhost') {
+            $this->markTestSkipped('Email not configured.');
+            return;
+        }
+
         $client = static::createClient();
         $userRepository = static::$container->get(UserRepository::class);
         $testUser = $userRepository->findOneByEmail('directory.manager@example.com');
