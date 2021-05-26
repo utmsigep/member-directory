@@ -4,6 +4,7 @@ namespace App\Tests\Controller;
 
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\Mailer\MailerInterface;
 
 class MemberControllerTest extends WebTestCase
 {
@@ -38,6 +39,60 @@ class MemberControllerTest extends WebTestCase
         $this->assertResponseIsSuccessful();
         $this->assertPageTitleSame('Member Directory - Carter Jenkins - Send Message');
         $this->assertSelectorTextContains('span.h4', 'Carter Jenkins');
+    }
+
+    public function testMessageMemberSendEmail()
+    {
+        $client = static::createClient();
+        $userRepository = static::$container->get(UserRepository::class);
+        $testUser = $userRepository->findOneByEmail('directory.manager@example.com');
+        $client->loginUser($testUser);
+
+        $crawler = $client->request('GET', '/directory/member/1-0001/message');
+        $this->assertResponseIsSuccessful();
+        $this->assertPageTitleSame('Member Directory - Carter Jenkins - Send Message');
+        $this->assertSelectorTextContains('span.h4', 'Carter Jenkins');
+
+        $emailForm = $crawler->filter('form[name="member_email"]')->form();
+        $emailForm->setValues([
+            'member_email[subject]' => 'Test Member Message',
+            'member_email[message_body]' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor.'
+        ]);
+
+        $crawler = $client->submit($emailForm);
+        $this->assertResponseIsSuccessful();
+        $this->assertSelectorTextContains('.alert', 'Email message sent!');
+        $this->assertEmailCount(1);
+        $email = $this->getMailerMessage(0);
+        $this->assertEmailHeaderSame($email, 'Subject', 'Test Member Message');
+        $this->assertEmailTextBodyContains($email, 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor.');
+    }
+
+    public function testMessageMemberSendSms()
+    {
+        if (!isset($_ENV['TWILIO_DSN']) || !$_ENV['TWILIO_DSN']) {
+            $this->markTestSkipped('Twilio not configured.');
+            return;
+        }
+
+        $client = static::createClient();
+        $userRepository = static::$container->get(UserRepository::class);
+        $testUser = $userRepository->findOneByEmail('directory.manager@example.com');
+        $client->loginUser($testUser);
+
+        $crawler = $client->request('GET', '/directory/member/1-0001/message');
+        $this->assertResponseIsSuccessful();
+        $this->assertPageTitleSame('Member Directory - Carter Jenkins - Send Message');
+        $this->assertSelectorTextContains('span.h4', 'Carter Jenkins');
+
+        $emailForm = $crawler->filter('form[name="member_sms"]')->form();
+        $emailForm->setValues([
+            'member_sms[message_body]' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor.'
+        ]);
+
+        $crawler = $client->submit($emailForm);
+        $this->assertResponseIsSuccessful();
+        $this->assertSelectorTextContains('.alert', 'SMS message sent!');
     }
 
     public function testShowChangeLog()
