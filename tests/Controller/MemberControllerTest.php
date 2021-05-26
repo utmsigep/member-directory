@@ -54,10 +54,6 @@ class MemberControllerTest extends WebTestCase
         $client->loginUser($testUser);
 
         $crawler = $client->request('GET', '/directory/member/1-0001/message');
-        $this->assertResponseIsSuccessful();
-        $this->assertPageTitleSame('Member Directory - Carter Jenkins - Send Message');
-        $this->assertSelectorTextContains('span.h4', 'Carter Jenkins');
-
         $emailForm = $crawler->filter('form[name="member_email"]')->form();
         $emailForm->setValues([
             'member_email[subject]' => 'Test Member Message',
@@ -81,15 +77,12 @@ class MemberControllerTest extends WebTestCase
         }
 
         $client = static::createClient();
+        $client->enableProfiler();
         $userRepository = static::$container->get(UserRepository::class);
         $testUser = $userRepository->findOneByEmail('directory.manager@example.com');
         $client->loginUser($testUser);
 
         $crawler = $client->request('GET', '/directory/member/1-0001/message');
-        $this->assertResponseIsSuccessful();
-        $this->assertPageTitleSame('Member Directory - Carter Jenkins - Send Message');
-        $this->assertSelectorTextContains('span.h4', 'Carter Jenkins');
-
         $emailForm = $crawler->filter('form[name="member_sms"]')->form();
         $emailForm->setValues([
             'member_sms[message_body]' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor.'
@@ -98,6 +91,12 @@ class MemberControllerTest extends WebTestCase
         $crawler = $client->submit($emailForm);
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('.alert', 'SMS message sent!');
+        if ($profile = $client->getProfile()) {
+            $collector = $profile->getCollector('notifier');
+            $messages = $collector->getEvents()->getMessages();
+            $this->assertEquals('Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor.', $messages[0]->getSubject());
+            $this->assertEquals('(804) 353-1901', $messages[0]->getPhone());
+        }
     }
 
     public function testShowChangeLog()
