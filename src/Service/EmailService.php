@@ -363,6 +363,14 @@ class EmailService
                 'Value' => $member->getClassYear()
             ],
             [
+                'Key' => 'Birth Date',
+                'Value' => $member->getBirthDate()
+            ],
+            [
+                'Key' => 'Join Date',
+                'Value' => $member->getJoinDate()
+            ],
+            [
                 'Key' => 'Local Identifier',
                 'Value' => $member->getLocalIdentifier()
             ],
