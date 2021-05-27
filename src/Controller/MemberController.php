@@ -229,10 +229,14 @@ class MemberController extends AbstractController
             $this->addFlash('danger', 'Email service not configured.');
             return $this->redirectToRoute('member_show', ['localIdentifier' => $member->getLocalIdentifier()]);
         }
-        if ($member->getPrimaryEmail() && $emailService->updateMember($member->getPrimaryEmail(), $member)) {
+        if (!$member->getPrimaryEmail()) {
+            $this->addFlash('danger', 'Email not set for Member.');
+            return $this->redirectToRoute('member_show', ['localIdentifier' => $member->getLocalIdentifier()]);
+        }
+        if ($emailService->updateMember($member->getPrimaryEmail(), $member)) {
             $this->addFlash('success', 'Subscriber record updated!');
         } else {
-            $this->addFlash('danger', 'Unable to update user.');
+            $this->addFlash('danger', 'Unable to update Subscriber record.');
         }
         return $this->redirectToRoute(
             'member_email_subscription',
