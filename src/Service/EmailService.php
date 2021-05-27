@@ -364,11 +364,11 @@ class EmailService
             ],
             [
                 'Key' => 'Birth Date',
-                'Value' => $member->getBirthDate()
+                'Value' => $member->getBirthDate() ? $member->getBirthDate()->format('Y-m-d') : null
             ],
             [
                 'Key' => 'Join Date',
-                'Value' => $member->getJoinDate()
+                'Value' => $member->getJoinDate() ? $member->getJoinDate()->format('Y-m-d') : null
             ],
             [
                 'Key' => 'Local Identifier',
