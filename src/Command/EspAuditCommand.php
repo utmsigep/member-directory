@@ -44,7 +44,7 @@ class EspAuditCommand extends Command
             return Command::FAILURE;
         }
 
-        $members = $this->entityManager->getRepository(Member::class)->findByActiveMemberStatuses();
+        $members = $this->entityManager->getRepository(Member::class)->findActiveEmailable();
 
         foreach ($members as $member) {
             // Exlcude a few cases from report
@@ -52,14 +52,6 @@ class EspAuditCommand extends Command
                 || $member->getIsLocalDoNotContact()
                 || $member->getIsLost()
             ) {
-                continue;
-            }
-
-            if (!$member->getPrimaryEmail()) {
-                // $io->writeln(sprintf(
-                //     '[%s] No email set for %s',
-                //     $member->getDisplayName()
-                // ));
                 continue;
             }
 

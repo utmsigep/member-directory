@@ -52,7 +52,7 @@ class MemberRepository extends ServiceEntityRepository
         return new Paginator($qb->getQuery(), $fetchJoinCollection = true);
     }
 
-    public function findByActiveMemberStatuses($params = [])
+    public function findActiveEmailable($params = [])
     {
         $qb = $this->createQueryBuilder('m')
             ->addSelect('t')
@@ -60,6 +60,8 @@ class MemberRepository extends ServiceEntityRepository
             ->join('m.status', 's')
             ->leftJoin('m.tags', 't')
             ->andWhere('s.isInactive = 0')
+            ->andWhere('m.primaryEmail != \'\'')
+            ->andWhere('m.primaryEmail IS NOT NULL')
         ;
         $this->processParams($qb, $params);
         return new Paginator($qb->getQuery(), $fetchJoinCollection = true);
