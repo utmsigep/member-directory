@@ -4,7 +4,6 @@ namespace App\Tests\Controller;
 
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\Mailer\MailerInterface;
 
 class MemberControllerTest extends WebTestCase
 {
