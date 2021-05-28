@@ -16,11 +16,9 @@ use App\Service\CommunicationLogService;
 use Gedmo\Loggable\Entity\LogEntry;
 use JeroenDesloovere\VCard\VCard;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Header\Headers;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Constraints\Date;
@@ -298,7 +296,7 @@ class MemberController extends AbstractController
     /**
      * @Route("/{localIdentifier}/message", name="member_message")
      */
-    public function message(Member $member, Request $request, MailerInterface $mailer, EmailService $emailService, SmsService $smsService, CommunicationLogService $communicationLogService): Response
+    public function message(Member $member, Request $request, EmailService $emailService, SmsService $smsService, CommunicationLogService $communicationLogService): Response
     {
         $formEmail = $this->createForm(MemberEmailType::class, null, ['acting_user' => $this->getUser()]);
         $formEmail->handleRequest($request);

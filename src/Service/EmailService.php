@@ -11,8 +11,10 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Header\Headers;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use SymfonyCasts\Bundle\ResetPassword\Model\ResetPasswordToken;
 
 class EmailService
 {
@@ -274,6 +276,28 @@ class EmailService
         return $output;
     }
 
+    public function sendPasswordReset(User $user, ResetPasswordToken $resetToken): void
+    {
+        $headers = new Headers();
+        $headers->addTextHeader('X-Cmail-GroupName', 'Password Reset');
+        $headers->addTextHeader('X-MC-Tags', 'Password Reset');
+        $email = (new TemplatedEmail($headers))
+            ->from(new Address($this->params->get('app.email.from'), $this->params->get('app.name')))
+            ->to($user->getEmail())
+            ->subject('Your password reset request')
+            ->htmlTemplate('reset_password/email.html.twig')
+            ->textTemplate('reset_password/email.txt.twig')
+            ->context([
+                'importance' => false,
+                'action_url' => $this->router->generate('app_reset_password', ['token' => $resetToken->getToken()], UrlGeneratorInterface::ABSOLUTE_URL),
+                'action_text' => 'Reset My Password',
+                'exception' => false,
+                'resetToken' => $resetToken
+            ])
+        ;
+        $this->mailer->send($email);
+    }
+
     public function sendMemberEmail(array $formData, Member $member, User $actor): void
     {
         $headers = new Headers();
@@ -282,7 +306,7 @@ class EmailService
         $message = new TemplatedEmail($headers);
         $message
             ->to($member->getPrimaryEmail())
-            ->from($this->params->get('app.email.from'))
+            ->from(new Address($this->params->get('app.email.from'), $this->params->get('app.name')))
             ->replyTo($formData['reply_to'] ? $formData['reply_to'] : $this->params->get('app.email.to'))
             ->subject($formData['subject'])
             ->htmlTemplate('directory/message_email_template.html.twig')

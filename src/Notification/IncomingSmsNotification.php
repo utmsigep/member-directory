@@ -26,6 +26,8 @@ class IncomingSmsNotification extends Notification implements EmailNotificationI
     {
         $message = EmailMessage::fromNotification($this, $recipient);
         // Future version should use ->markAsPublic() and detect the correct derived class
+        $message->getMessage()->getHeaders()->addTextHeader('X-Cmail-GroupName', 'Incoming SMS Notification');
+        $message->getMessage()->getHeaders()->addTextHeader('X-MC-Tags', 'Incoming SMS Notification');
         $message->getMessage()->context($this->options); // @phpstan-ignore-line
         return $message;
     }
