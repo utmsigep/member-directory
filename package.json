@@ -16,7 +16,7 @@
         "bootstrap": "^4.6.0",
         "bootstrap-autocomplete": "^2.3.7",
         "bootstrap-select": "^1.13.18",
-        "core-js": "^3.12.1",
+        "core-js": "^3.13.0",
         "datatables.net": "^1.10.24",
         "datatables.net-bs4": "^1.10.24",
         "datatables.net-buttons": "^1.7.0",
