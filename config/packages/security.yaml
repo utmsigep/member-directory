@@ -1,5 +1,8 @@
 security:
-    encoders:
+    # Will soon replace Guard methods
+    enable_authenticator_manager: false
+
+    password_hashers:
         App\Entity\User:
             algorithm: native
 

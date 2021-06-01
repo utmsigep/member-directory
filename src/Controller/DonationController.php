@@ -12,7 +12,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -27,9 +27,9 @@ class DonationController extends AbstractController
 
     protected $endDate;
 
-    public function __construct(SessionInterface $session)
+    public function __construct(RequestStack $requestStack)
     {
-        $this->session = $session;
+        $this->session = $requestStack->getSession();
         $this->startDate = new \DateTime($this->session->get('donation_start_date', DonationRepository::DEFAULT_START_DATE));
         $this->endDate = new \DateTime($this->session->get('donation_end_date', DonationRepository::DEFAULT_END_DATE));
     }
