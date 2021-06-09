@@ -88,30 +88,36 @@ class SmsService
         if (!$fromTelephone || !$messageBody) {
             throw new \Exception('Invalid payload, must include a `From` and `Body`.');
         }
-        $member = $this->memberRepository->findOneByPrimaryTelephone($fromTelephone);
+        try {
+            $member = $this->memberRepository->findOneByPrimaryTelephone($fromTelephone);
+            $options = [
+                'action_text' => 'Reply',
+                'action_url' => $this->urlGenerator->generate(
+                    'member_message',
+                    ['localIdentifier' => $member->getLocalIdentifier()],
+                    UrlGeneratorInterface::ABSOLUTE_URL
+                )
+            ];
+        } catch (\Exception $e) {
+            $member = null;
+            $options = [];
+        }
         $logEntry = sprintf(
             "From: %s  \nTelephone: %s  \n---  \n%s",
-            $member,
-            $member->getPrimaryTelephoneNumber(),
+            $member ? $member : 'Unknown Member',
+            $fromTelephone,
             $messageBody
         );
-        $this->communicationLogService->log(
-            'Text Message',
-            $logEntry,
-            $member,
-            null,
-            $request->request->all()
-        );
-        $notification = new IncomingSmsNotification($member, [
-            'action_text' => 'Reply',
-            'action_url' => $this->urlGenerator->generate(
-                'member_message',
-                ['localIdentifier' => $member->getLocalIdentifier()],
-                UrlGeneratorInterface::ABSOLUTE_URL
-            ),
-            'importance' => null,
-            'footer_text' => 'Powered by Member Directory'
-        ]);
+        if ($member) {
+            $this->communicationLogService->log(
+                'Text Message',
+                $logEntry,
+                $member,
+                null,
+                $request->request->all()
+            );
+        }
+        $notification = new IncomingSmsNotification($member, $options);
         $notification->content($logEntry);
         $this->notifier->send($notification, ...$this->notifier->getAdminRecipients());
 
