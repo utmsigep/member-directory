@@ -120,14 +120,8 @@
     "egulias/email-validator": {
         "version": "2.1.8"
     },
-    "endroid/installer": {
-        "version": "1.2.3"
-    },
     "endroid/qr-code": {
         "version": "3.9.1"
-    },
-    "endroid/qr-code-bundle": {
-        "version": "3.4.3"
     },
     "erusev/parsedown": {
         "version": "1.7.4"
@@ -153,6 +147,9 @@
     "jeroendesloovere/vcard": {
         "version": "1.7.2"
     },
+    "khanamiryan/qrcode-detector-decoder": {
+        "version": "1.0.5.1"
+    },
     "laminas/laminas-code": {
         "version": "3.5.1"
     },
@@ -161,6 +158,9 @@
     },
     "laminas/laminas-zendframework-bridge": {
         "version": "1.1.1"
+    },
+    "lcobucci/clock": {
+        "version": "2.0.0"
     },
     "lcobucci/jwt": {
         "version": "3.3.3"
@@ -176,6 +176,9 @@
     },
     "myclabs/deep-copy": {
         "version": "1.10.2"
+    },
+    "myclabs/php-enum": {
+        "version": "1.8.0"
     },
     "nikic/php-parser": {
         "version": "v4.2.1"
@@ -260,18 +263,8 @@
     "psr/log": {
         "version": "1.1.0"
     },
-    "scheb/two-factor-bundle": {
-        "version": "3.16",
-        "recipe": {
-            "repo": "github.com/symfony/recipes-contrib",
-            "branch": "master",
-            "version": "3.16",
-            "ref": "b5789cd9710e2ee555bf361079b991068a0f640b"
-        },
-        "files": [
-            "config/packages/scheb_two_factor.yaml",
-            "config/routes/scheb_two_factor.yaml"
-        ]
+    "scheb/2fa": {
+        "version": "v5.10.0"
     },
     "sebastian/cli-parser": {
         "version": "1.0.1"

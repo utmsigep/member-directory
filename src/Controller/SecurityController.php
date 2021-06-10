@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Form\ProfileType;
 use App\Form\TwoFactorVerifyType;
 use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Totp\TotpAuthenticatorInterface;
+use Scheb\TwoFactorBundle\Security\TwoFactor\QrCode\QrCodeGenerator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -14,7 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\Length;
@@ -22,19 +23,6 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 
 class SecurityController extends AbstractController
 {
-    /**
-     * @Route("/login", name="app_login")
-     */
-    public function login(AuthenticationUtils $authenticationUtils): Response
-    {
-        // get the login error if there is one
-        $error = $authenticationUtils->getLastAuthenticationError();
-        // last username entered by the user
-        $lastUsername = $authenticationUtils->getLastUsername();
-
-        return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
-    }
-
     /**
      * @Route("/profile", name="app_profile")
      */
@@ -63,7 +51,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/change-password", name="app_change_password")
      */
-    public function changePassword(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
+    public function changePassword(Request $request, UserPasswordHasherInterface $passwordEncoder): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -94,7 +82,7 @@ class SecurityController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $user->setPassword($passwordEncoder->encodePassword(
+            $user->setPassword($passwordEncoder->hashPassword(
                 $user,
                 $form['plainPassword']->getData()
             ));
@@ -124,7 +112,6 @@ class SecurityController extends AbstractController
         }
 
         $user->setTotpSecret($totpAuthenticatorService->generateSecret());
-        $qrCodeData = $totpAuthenticatorService->getQRContent($user);
 
         $form = $this->createForm(TwoFactorVerifyType::class, $user);
         $form->handleRequest($request);
@@ -142,9 +129,19 @@ class SecurityController extends AbstractController
 
         return $this->render('security/two_factor_setup.html.twig', [
             'form' => $form->createView(),
-            'qr_code' => $qrCodeData,
             'user' => $user
         ]);
+    }
+
+    /**
+     * @Route("/two-factor-qr-code/{totpSecret}", name="app_two_factor_qr_code")
+     */
+    public function renderTotpQrCode($totpSecret, QrCodeGenerator $qrCodeGenerator)
+    {
+        $user = $this->getUser();
+        $user->setTotpSecret($totpSecret);
+        $qrCode = $qrCodeGenerator->getTotpQrCode($user);
+        return new Response($qrCode->writeString(), 200, ['Content-Type' => 'image/png']);
     }
 
     /**
@@ -161,6 +158,31 @@ class SecurityController extends AbstractController
         $entityManager->flush();
         $this->addFlash('success', 'Two-Factor security disabled.');
         return $this->redirectToRoute('app_manage_two_factor');
+    }
+
+    /**
+     * @Route("/login", name="app_login")
+     */
+    public function login(AuthenticationUtils $authenticationUtils): Response
+    {
+        if ($this->getUser()) {
+            return $this->redirectToRoute('home');
+        }
+
+        // get the login error if there is one
+        $error = $authenticationUtils->getLastAuthenticationError();
+        // last username entered by the user
+        $lastUsername = $authenticationUtils->getLastUsername();
+
+        return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
+    }
+
+    /**
+     * @Route("/logout", name="app_logout")
+     */
+    public function logout()
+    {
+        throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
 
 }

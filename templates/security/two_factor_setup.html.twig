@@ -14,7 +14,7 @@
     <ol class="user-steps">
       <li>
         <p>Use the QR code below to add to your authenticator app (e.g. Google Authenticator) on your mobile phone or desktop.</p>
-        <div><img src="{{ qr_code_data_uri(qr_code, 'default', { size: 250 }) }}" /></div>
+        <div><img src="{{ path('app_two_factor_qr_code', {totpSecret: user.totpSecret}) }}" /></div>
         <p><i class="fas fa-info-circle fa-fw"></i> If you need to add it manually, use:<br /> <code>{{ user.totpSecret }}</code></p>
       </li>
       <li>
