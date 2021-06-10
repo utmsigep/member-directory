@@ -1,13 +1,4 @@
-# See the configuration reference at https://github.com/scheb/two-factor-bundle/blob/master/Resources/doc/configuration.md
 scheb_two_factor:
     totp:
         enabled: true
-        server_name: '%env(resolve:APP_NAME)%'
-        issuer: '%env(resolve:APP_NAME)%'
-        parameters:
-            image: '%env(resolve:APP_LOGO)%'
-        template: security/login_two_factor.html.twig  
-
-    security_tokens:
-        - Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken
-        - Symfony\Component\Security\Guard\Token\PostAuthenticationGuardToken
+        template: security/login_two_factor.html.twig

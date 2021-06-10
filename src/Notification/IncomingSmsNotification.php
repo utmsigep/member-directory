@@ -12,7 +12,7 @@ class IncomingSmsNotification extends Notification implements EmailNotificationI
 {
     protected $options = [];
 
-    public function __construct(Member $member = null, $options = [])
+    public function __construct(?Member $member = null, $options = [])
     {
         if ($member) {
             parent::__construct(sprintf('Text Message from %s', $member), ['email']);
@@ -25,10 +25,12 @@ class IncomingSmsNotification extends Notification implements EmailNotificationI
     public function asEmailMessage(EmailRecipientInterface $recipient, string $transport = null): ?EmailMessage
     {
         $message = EmailMessage::fromNotification($this, $recipient);
-        // Future version should use ->markAsPublic() and detect the correct derived class
         $message->getMessage()->getHeaders()->addTextHeader('X-Cmail-GroupName', 'Incoming SMS Notification'); // @phpstan-ignore-line
         $message->getMessage()->getHeaders()->addTextHeader('X-MC-Tags', 'Incoming SMS Notification'); // @phpstan-ignore-line
-        $message->getMessage()->context($this->options); // @phpstan-ignore-line
+        if (isset($this->options['action_text'], $this->options['action_text'])) {
+            $message->getMessage()->action($this->options['action_text'], $this->options['action_url']); // @phpstan-ignore-line
+        }
+        $message->getMessage()->markAsPublic(); // @phpstan-ignore-line
         return $message;
     }
 }

@@ -17,6 +17,18 @@
     "cmen/google-charts-bundle": {
         "version": "3.2.1"
     },
+    "dama/doctrine-test-bundle": {
+        "version": "4.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "4.0",
+            "ref": "56eaa387b5e48ebcc7c95a893b47dfa1ad51449c"
+        },
+        "files": [
+            "config/packages/test/dama_doctrine_test_bundle.yaml"
+        ]
+    },
     "dasprid/enum": {
         "version": "1.0.2"
     },
@@ -120,14 +132,8 @@
     "egulias/email-validator": {
         "version": "2.1.8"
     },
-    "endroid/installer": {
-        "version": "1.2.3"
-    },
     "endroid/qr-code": {
         "version": "3.9.1"
-    },
-    "endroid/qr-code-bundle": {
-        "version": "3.4.3"
     },
     "erusev/parsedown": {
         "version": "1.7.4"
@@ -153,6 +159,9 @@
     "jeroendesloovere/vcard": {
         "version": "1.7.2"
     },
+    "khanamiryan/qrcode-detector-decoder": {
+        "version": "1.0.5.1"
+    },
     "laminas/laminas-code": {
         "version": "3.5.1"
     },
@@ -161,6 +170,9 @@
     },
     "laminas/laminas-zendframework-bridge": {
         "version": "1.1.1"
+    },
+    "lcobucci/clock": {
+        "version": "2.0.0"
     },
     "lcobucci/jwt": {
         "version": "3.3.3"
@@ -174,6 +186,12 @@
     "monolog/monolog": {
         "version": "1.24.0"
     },
+    "myclabs/deep-copy": {
+        "version": "1.10.2"
+    },
+    "myclabs/php-enum": {
+        "version": "1.8.0"
+    },
     "nikic/php-parser": {
         "version": "v4.2.1"
     },
@@ -183,8 +201,29 @@
     "paragonie/constant_time_encoding": {
         "version": "v2.3.0"
     },
+    "phar-io/manifest": {
+        "version": "2.0.1"
+    },
+    "phar-io/version": {
+        "version": "3.1.0"
+    },
     "php": {
         "version": "7.4.13"
+    },
+    "php-webdriver/webdriver": {
+        "version": "1.11.1"
+    },
+    "phpdocumentor/reflection-common": {
+        "version": "2.2.0"
+    },
+    "phpdocumentor/reflection-docblock": {
+        "version": "5.2.2"
+    },
+    "phpdocumentor/type-resolver": {
+        "version": "1.4.0"
+    },
+    "phpspec/prophecy": {
+        "version": "1.13.0"
     },
     "phpstan/extension-installer": {
         "version": "1.0.5"
@@ -198,6 +237,35 @@
     "phpstan/phpstan-symfony": {
         "version": "0.12.28"
     },
+    "phpunit/php-code-coverage": {
+        "version": "9.2.6"
+    },
+    "phpunit/php-file-iterator": {
+        "version": "3.0.5"
+    },
+    "phpunit/php-invoker": {
+        "version": "3.1.1"
+    },
+    "phpunit/php-text-template": {
+        "version": "2.0.4"
+    },
+    "phpunit/php-timer": {
+        "version": "5.0.3"
+    },
+    "phpunit/phpunit": {
+        "version": "9.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "9.3",
+            "ref": "8b7e50ac5f82e6d41bad88344f7e868c02ae1af5"
+        },
+        "files": [
+            ".env.test",
+            "phpunit.xml.dist",
+            "tests/bootstrap.php"
+        ]
+    },
     "psr/cache": {
         "version": "1.0.1"
     },
@@ -210,18 +278,56 @@
     "psr/log": {
         "version": "1.1.0"
     },
-    "scheb/two-factor-bundle": {
-        "version": "3.16",
-        "recipe": {
-            "repo": "github.com/symfony/recipes-contrib",
-            "branch": "master",
-            "version": "3.16",
-            "ref": "b5789cd9710e2ee555bf361079b991068a0f640b"
-        },
-        "files": [
-            "config/packages/scheb_two_factor.yaml",
-            "config/routes/scheb_two_factor.yaml"
-        ]
+    "scheb/2fa": {
+        "version": "v5.10.0"
+    },
+    "sebastian/cli-parser": {
+        "version": "1.0.1"
+    },
+    "sebastian/code-unit": {
+        "version": "1.0.8"
+    },
+    "sebastian/code-unit-reverse-lookup": {
+        "version": "2.0.3"
+    },
+    "sebastian/comparator": {
+        "version": "4.0.6"
+    },
+    "sebastian/complexity": {
+        "version": "2.0.2"
+    },
+    "sebastian/diff": {
+        "version": "4.0.4"
+    },
+    "sebastian/environment": {
+        "version": "5.1.3"
+    },
+    "sebastian/exporter": {
+        "version": "4.0.3"
+    },
+    "sebastian/global-state": {
+        "version": "5.0.2"
+    },
+    "sebastian/lines-of-code": {
+        "version": "1.0.3"
+    },
+    "sebastian/object-enumerator": {
+        "version": "4.0.4"
+    },
+    "sebastian/object-reflector": {
+        "version": "2.0.4"
+    },
+    "sebastian/recursion-context": {
+        "version": "4.0.4"
+    },
+    "sebastian/resource-operations": {
+        "version": "3.0.3"
+    },
+    "sebastian/type": {
+        "version": "2.3.1"
+    },
+    "sebastian/version": {
+        "version": "3.0.2"
     },
     "sensio/framework-extra-bundle": {
         "version": "5.2",
@@ -422,6 +528,18 @@
     "symfony/orm-pack": {
         "version": "v1.0.6"
     },
+    "symfony/panther": {
+        "version": "1.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "1.0",
+            "ref": "93d9baa582d0a755cc9ef81bc38a921d5fa16973"
+        }
+    },
+    "symfony/password-hasher": {
+        "version": "v5.3.0"
+    },
     "symfony/phpunit-bridge": {
         "version": "4.1",
         "recipe": {
@@ -461,6 +579,12 @@
     },
     "symfony/polyfill-php80": {
         "version": "v1.17.1"
+    },
+    "symfony/polyfill-php81": {
+        "version": "v1.23.0"
+    },
+    "symfony/process": {
+        "version": "v5.3.0"
     },
     "symfony/profiler-pack": {
         "version": "v1.0.4"
@@ -642,6 +766,9 @@
     "thecodingmachine/safe": {
         "version": "v1.2.1"
     },
+    "theseer/tokenizer": {
+        "version": "1.2.0"
+    },
     "tijsverkoyen/css-to-inline-styles": {
         "version": "2.2.3"
     },
@@ -671,6 +798,9 @@
     },
     "vinceg/usps-php-api": {
         "version": "1.0.1"
+    },
+    "webmozart/assert": {
+        "version": "1.10.0"
     },
     "willdurand/jsonp-callback-validator": {
         "version": "v1.1.0"

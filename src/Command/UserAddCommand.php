@@ -10,7 +10,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Question\Question;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 use App\Entity\User;
 
@@ -22,7 +22,7 @@ class UserAddCommand extends Command
 
     protected $passwordEncoder;
 
-    public function __construct(EntityManagerInterface $entityManager, UserPasswordEncoderInterface $passwordEncoder)
+    public function __construct(EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordEncoder)
     {
         parent::__construct();
         $this->entityManager = $entityManager;
@@ -80,7 +80,7 @@ class UserAddCommand extends Command
         $user = new User();
         $user->setEmail($email);
         $user->setRoles($roles);
-        $user->setPassword($this->passwordEncoder->encodePassword(
+        $user->setPassword($this->passwordEncoder->hashPassword(
             $user,
             $password
         ));

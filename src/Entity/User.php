@@ -11,6 +11,7 @@ use Scheb\TwoFactorBundle\Model\Totp\TotpConfiguration;
 use Scheb\TwoFactorBundle\Model\Totp\TotpConfigurationInterface;
 use Scheb\TwoFactorBundle\Model\Totp\TwoFactorInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -18,7 +19,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @UniqueEntity("email")
  * @Gedmo\Loggable
  */
-class User implements UserInterface, TwoFactorInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFactorInterface
 {
     const USER_ROLES = [
         'Basic User' => 'ROLE_USER',
@@ -118,6 +119,16 @@ class User implements UserInterface, TwoFactorInterface
      * @see UserInterface
      */
     public function getUsername(): string
+    {
+        return (string) $this->email;
+    }
+
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUserIdentifier(): string
     {
         return (string) $this->email;
     }
