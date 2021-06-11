@@ -24,7 +24,7 @@ class TelephoneWebhookCommand extends Command
     public function __construct(PhoneService $phoneService, UrlGeneratorInterface $urlGenerator)
     {
         parent::__construct();
-        $this->telephoneService = $phoneService;
+        $this->phoneService = $phoneService;
         $this->urlGenerator = $urlGenerator;
     }
 
@@ -39,18 +39,18 @@ class TelephoneWebhookCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        if (!$this->telephoneService->isConfigured()) {
+        if (!$this->phoneService->isConfigured()) {
             $io->error('Phone Service not configured.');
             return Command::FAILURE;
         }
 
         $io->info(sprintf(
             "Your Phone webhook token is:\n\n    %s\n\nYour webhook URL is:\n\n    %s",
-            $this->telephoneService->getWebhookToken(),
+            $this->phoneService->getWebhookToken(),
             $this->urlGenerator->generate(
                 'webhook_phone_service',
                 [
-                    'token' => $this->telephoneService->getWebhookToken()
+                    'token' => $this->phoneService->getWebhookToken()
                 ],
                 UrlGeneratorInterface::ABSOLUTE_URL
             ))
