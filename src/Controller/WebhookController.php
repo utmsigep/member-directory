@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Service\PhoneService;
 use App\Service\SmsService;
 use App\Service\EmailService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,6 +21,29 @@ class WebhookController extends AbstractController
     }
 
     /**
+     * @Route("/webhook/phone-service", name="webhook_phone_service", methods={"POST"})
+     */
+    public function phoneServiceWebhook(Request $request, PhoneService $phoneService): Response
+    {
+        if (!$phoneService->isConfigured()) {
+            return $this->json(['status' => 500, 'title' => 'error', 'details' => 'Phone service not configured.'], 500);
+        }
+        if (!$request->get('token') ||
+            $request->get('token') != $phoneService->getWebhookToken()
+        ) {
+            return $this->json(['status' => 403, 'title' => 'error', 'details' => 'Invalid credentials.'], 403);
+        }
+        try {
+            $response = new Response();
+            $response->headers->set('Content-type', 'text/xml');
+            $response->setContent($phoneService->handleWebhook($request));
+            return $response;
+        } catch (\Exception $e) {
+            return $this->json(['status' => 500, 'title' => 'error', 'details' => $e->getMessage()], 500);
+        }
+    }
+
+    /**
      * @Route("/webhook/sms-service", name="webhook_sms_service", methods={"POST"})
      */
     public function smsServiceWebhook(Request $request, SmsService $smsService): Response
@@ -33,7 +57,6 @@ class WebhookController extends AbstractController
             return $this->json(['status' => 403, 'title' => 'error', 'details' => 'Invalid credentials.'], 403);
         }
         try {
-
             $response = new Response();
             $response->headers->set('Content-type', 'text/xml');
             $response->setContent($smsService->handleWebhook($request));
