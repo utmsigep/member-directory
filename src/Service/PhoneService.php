@@ -79,13 +79,21 @@ class PhoneService
             $options = [];
         }
         $logEntry = sprintf(
-            "From: %s  \nTelephone: %s  \n---  \n%s  \n  \nURL: %s  \nDuration: %s",
+            "From: %s  \nTelephone: %s  \n---  \n%s",
             $member ? $member : 'Unknown Caller',
             $fromTelephone,
-            $messageBody,
-            $recordingUrl,
-            $recordingDuration
+            $messageBody
         );
+        if ($recordingUrl && $recordingDuration) {
+            $logEntry = sprintf(
+                "From: %s  \nTelephone: %s  \n---  \n%s  \n  \nURL: %s  \nDuration: %s",
+                $member ? $member : 'Unknown Caller',
+                $fromTelephone,
+                $messageBody,
+                $recordingUrl,
+                $recordingDuration
+            );
+        }
         if ($member) {
             $this->communicationLogService->log(
                 'Telephone Call',
