@@ -12,10 +12,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class TelephoneWebhookCommand extends Command
+class PhoneWebhookCommand extends Command
 {
-    protected static $defaultName = 'app:tel:webhook';
-    protected static $defaultDescription = 'Get webhook URL and token for Telephone integration.';
+    protected static $defaultName = 'app:phone:webhook';
+    protected static $defaultDescription = 'Get webhook URL and token for Phone integration.';
 
     protected $phoneService;
 

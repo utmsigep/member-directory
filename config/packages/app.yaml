@@ -6,3 +6,5 @@ parameters:
   app.email.to_default: 'user@example.com'
   app.email.from: '%env(string:default:app.email.to_default:APP_EMAIL_FROM)%'
   app.email.from_default: 'user@example.com'
+  app.voicemail_message: '%env(string:default:app.voicemail_message_default:APP_VOICEMAIL_MESSAGE)%'
+  app.voicemail_message_default: 'Please leave a message after the tone.'
