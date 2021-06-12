@@ -111,7 +111,7 @@ class PhoneService
         );
         if ($recordingUrl && $recordingDuration) {
             $logEntry = sprintf(
-                "From: %s  \nTelephone: %s  \n---  \n%s  \n  \nURL: %s  \nDuration: %s",
+                "From: %s  \nTelephone: %s  \n---  \n%s  \n  \nURL: %s  \nDuration: %d seconds",
                 $member ? $member : 'Unknown Caller',
                 $fromTelephone,
                 'Voicemail recorded.',
