@@ -62,11 +62,10 @@ class PhoneService
     public function handleWebhook(Request $request): MessagingResponse
     {
         $fromTelephone = $request->request->get('From', '');
-        $messageBody = $request->request->get('Body', '');
         $recordingUrl = $request->request->get('RecordingUrl', '');
         $recordingDuration = $request->request->get('RecordingDuration', '');
-        if (!$fromTelephone || !$messageBody) {
-            throw new \Exception('Invalid payload, must include a `From` and `Body`.');
+        if (!$fromTelephone) {
+            throw new \Exception('Invalid payload, must include a `From`.');
         }
         try {
             $member = $this->memberRepository->findOneByPrimaryTelephone($fromTelephone);
@@ -82,14 +81,14 @@ class PhoneService
             "From: %s  \nTelephone: %s  \n---  \n%s",
             $member ? $member : 'Unknown Caller',
             $fromTelephone,
-            $messageBody
+            'No voicemail recorded'
         );
         if ($recordingUrl && $recordingDuration) {
             $logEntry = sprintf(
                 "From: %s  \nTelephone: %s  \n---  \n%s  \n  \nURL: %s  \nDuration: %s",
                 $member ? $member : 'Unknown Caller',
                 $fromTelephone,
-                $messageBody,
+                'Voicemail recorded.',
                 $recordingUrl,
                 $recordingDuration
             );
