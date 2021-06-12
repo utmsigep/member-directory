@@ -78,7 +78,10 @@ class PhoneService
 
         // Initial Call
         if (in_array($callStatus, ['queued', 'ringing'])) {
-            $response->say($this->params->get('app.voicemail_message'));
+            $response->say($this->params->get('app.voicemail.message'), [
+                'voice' => $this->params->get('app.voicemail.voice'),
+                'language' => $this->params->get('app.voicemail.language')
+            ]);
             $response->record(['timeout' => 10, 'maxLength' => 300]);
             $response->say('I was unable to record your message.');
             $response->hangup();
