@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+./bin/console doctrine:database:create && \
+./bin/console doctrine:migrations:migrate -n && \
+./bin/console app:user:add && \
+echo "Done!"
