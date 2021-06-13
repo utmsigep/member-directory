@@ -5,9 +5,6 @@ parameters:
     # You should not need to change this value.
     env(DATABASE_URL): ''
 
-    # Special fallback for running on Heroku using JawsDB
-    heroku_mysql_connection: '%env(resolve:JAWSDB_MARIA_URL)%'
-
 doctrine:
     dbal:
         # configure these for your database server
@@ -18,7 +15,7 @@ doctrine:
             charset: utf8mb4
             collate: utf8mb4_unicode_ci
 
-        url: '%env(string:default:heroku_mysql_connection:resolve:DATABASE_URL)%'
+        url: '%env(resolve:DATABASE_URL)%'
     orm:
         auto_generate_proxy_classes: true
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
