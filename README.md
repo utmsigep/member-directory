@@ -4,6 +4,8 @@
 
 Member Directory is a [Symfony](https://symfony.com/) 5 project to manage membership records. It offers automated email service subscription management, donation tracking and integrated communication logging. A suite of user roles allow administrators to delegate tasks to other users.
 
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+
 ![Screenshot](docs/screenshots/directory-collection.png)
 
 ### Learn More
