@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-./bin/console doctrine:database:create && \
+./bin/console doctrine:database:create --if-not-exists && \
 ./bin/console doctrine:migrations:migrate -n && \
 ./bin/console app:user:add && \
 echo "Done!"
