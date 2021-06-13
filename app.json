@@ -32,8 +32,8 @@
       "generator": "secret"
     },
     "DATABASE_URL": {
-      "description": "Database connection information. Copy value from your add-on of choice.",
-      "value": ""
+      "description": "Database connection information.",
+      "value": "JAWSDB_MARIA_URL"
     },
     "APP_NAME": {
       "description": "The name of the application, used at login and in emails.",
@@ -120,7 +120,7 @@
       "url": "heroku/php"
     },
     {
-      "url": "heroku/node"
+      "url": "heroku/nodejs"
     }
   ],
   "environments": {
