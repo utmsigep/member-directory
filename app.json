@@ -31,10 +31,6 @@
       "description": "A secret key for verifying the integrity of signed cookies.",
       "generator": "secret"
     },
-    "DATABASE_URL": {
-      "description": "Database connection information.",
-      "value": "JAWSDB_MARIA_URL"
-    },
     "APP_NAME": {
       "description": "The name of the application, used at login and in emails.",
       "value": "Member Directory",
