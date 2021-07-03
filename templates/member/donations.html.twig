@@ -11,14 +11,14 @@
 
 {% include 'member/_nav.html.twig' %}
 
-{% if donations %}
+{% if donations|length > 0 %}
 <div class="card mb-3 shadow">
   <div class="card-body">
     <div id="donationChart"></div>
   </div>
 </div>
 
-{% include 'donation/_donation_totals.html.twig' %} 
+{% include 'donation/_donation_totals.html.twig' %}
 
 <div class="card shadow">
   <div class="card-body">

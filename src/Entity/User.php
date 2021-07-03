@@ -26,14 +26,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
         'Directory Manager' => 'ROLE_DIRECTORY_MANAGER',
         'Communications Manager' => 'ROLE_COMMUNICATIONS_MANAGER',
         'Donation Manager' => 'ROLE_DONATION_MANAGER',
+        'Event Manager' => 'ROLE_EVENT_MANAGER',
         'Email Manager' => 'ROLE_EMAIL_MANAGER',
         'Site Administrator' => 'ROLE_ADMIN'
     ];
 
-    /**
-     * Hook timestampable behavior
-     * updates createdAt, updatedAt fields
-     */
     use TimestampableEntity;
 
     /**

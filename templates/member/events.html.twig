@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} - {{ member.displayName }} - Events{% endblock %}
+
+{% block body %}
+{% embed '_page_header.html.twig' %}
+{% block page_header_title %}{{ member.displayName }}{% endblock %}
+{% endembed %}
+
+{% include 'member/_badges.html.twig' %}
+
+{% include 'member/_nav.html.twig' %}
+
+{% if events|length > 0 %}
+
+<div class="card shadow">
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-striped" id="eventsTable">
+        <thead>
+          <tr>
+            <th>Event</th>
+            <th>Date</th>
+            <th>Location</th>
+            <th>Attendees</th>
+            <th class="col-edit" data-orderable="false"></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for event in events %}
+          {% include 'event/_row.html.twig' %}
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% else %}
+{% include '_no_records_card.html.twig' with {message: 'No Events matched your criteria.'} %}
+{% endif %}
+
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+{{ encore_entry_script_tags('events') }}
+{% endblock %}

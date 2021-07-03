@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} - {{ event }}{% endblock %}
+
+{% block body %}
+{% embed '_page_header.html.twig' %}
+{% block page_header_title %}{{ event }}{% endblock %}
+{% block page_header_buttons %}
+<a role="button" href="{{ path('event_edit', {id: event.id}) }}" class="btn btn-primary btn-sm"><i class="fas fa-edit fa-fw"></i> Edit</a>
+{% endblock %}
+{% endembed %}
+
+<div class="card mb-3 shadow">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-lg-8">
+        <dl class="row">
+          <dt class="col-sm-3 mb-3">Event Name</dt>
+          <dd class="col-sm-9 mb-3">{{ event.name }}</dd>
+          <dt class="col-sm-3 mb-3">Code</dt>
+          <dd class="col-sm-9 mb-3">{{ event.code }}</dd>
+          <dt class="col-sm-3 mb-3">Event Start</dt>
+          <dd class="col-sm-9 mb-3">{{ event.startAt|date('m/d/Y g:i a', app.user.timezone) }}</dd>
+          <dt class="col-sm-3 mb-3">Location</dt>
+          <dd class="col-sm-9 mb-3">{{ event.location }}</dd>
+        </dl>
+        <hr />
+        <dl class="row">
+          <dt class="col-sm-3 mb-3">Attendees</dt>
+          {% if event.attendees %}
+          <dd class="col-sm-9 mb-3">
+            <ul>
+              {% for member in event.attendees %}
+              <li><a href="{{ path('member_show', {localIdentifier: member.localIdentifier}) }}">{{ member }}</a></li>
+              {% endfor %}
+            </ul>
+            <p><strong>Count:</strong> {{ event.attendees|length|number_format }}</p>
+          </dd>
+          {% else %}
+          <dd class="col-sm-9 mb-3">No attendees.</dd>
+          {% endif %}
+        </dl>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

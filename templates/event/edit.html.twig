@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} - {{ event }}{% endblock %}
+
+{% block body %}
+{% embed '_page_header.html.twig' %}
+{% block page_header_title %}{{ event }}{% endblock %}
+{% block page_header_buttons %}
+{% endblock %}
+{% endembed %}
+
+{{ include('event/_form.html.twig', {'button_label': 'Update'}) }}
+
+{{ include('event/_delete_form.html.twig') }}
+
+{% endblock %}

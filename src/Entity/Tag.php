@@ -15,10 +15,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
  */
 class Tag
 {
-    /**
-     * Hook timestampable behavior
-     * updates createdAt, updatedAt fields
-     */
     use TimestampableEntity;
 
     /**

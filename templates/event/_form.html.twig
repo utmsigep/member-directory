@@ -1,0 +1,33 @@
+{{ form_start(form) }}
+<div class="row">
+  <div class="col-lg-8">
+    <div class="card mb-3 shadow">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-6">
+            {{ form_row(form.name) }}
+          </div>
+          <div class="col-md-6">
+            {{ form_row(form.code) }}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            {{ form_row(form.startAt, {label: 'Event Start'}) }}
+          </div>
+          <div class="col-md-6">
+            {{ form_row(form.location) }}
+          </div>
+        </div>
+        {{ form_row(form.description) }}
+        <hr />
+        {{ form_row(form.attendees, {attr: { class: 'selectpicker', 'data-live-search': true }}) }}
+        {{ form_rest(form) }}
+      </div>
+      <div class="card-footer text-right">
+        <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+      </div>
+    </div>
+  </div>
+</div>
+{{ form_end(form) }}

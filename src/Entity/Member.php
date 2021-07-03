@@ -27,10 +27,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Member
 {
-    /**
-     * Hook timestampable behavior
-     * updates createdAt, updatedAt fields
-     */
     use TimestampableEntity;
 
     /**
@@ -296,11 +292,17 @@ class Member
      */
     private $communicationLogs;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Event::class, mappedBy="attendees")
+     */
+    private $events;
+
     public function __construct()
     {
         $this->tags = new ArrayCollection();
         $this->donations = new ArrayCollection();
         $this->communicationLogs = new ArrayCollection();
+        $this->events = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -806,9 +808,9 @@ class Member
      * Event Listeners
      */
 
-     /**
-      * @ORM\PreFlush
-      */
+    /**
+     * @ORM\PreFlush
+     */
     public function updateFieldsIfBlank()
     {
         // Ensure preferred name is set to first name if left blank
@@ -852,5 +854,32 @@ class Member
     private function formatEmail(?string $email): string
     {
         return trim(mb_strtolower($email));
+    }
+
+    /**
+     * @return Collection|Event[]
+     */
+    public function getEvents(): Collection
+    {
+        return $this->events;
+    }
+
+    public function addEvent(Event $event): self
+    {
+        if (!$this->events->contains($event)) {
+            $this->events[] = $event;
+            $event->addAttendee($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEvent(Event $event): self
+    {
+        if ($this->events->removeElement($event)) {
+            $event->removeAttendee($this);
+        }
+
+        return $this;
     }
 }

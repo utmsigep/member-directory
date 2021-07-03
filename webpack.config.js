@@ -25,6 +25,7 @@ Encore
     .addEntry('directory', './assets/js/directory.js')
     .addEntry('donations', './assets/js/donations.js')
     .addEntry('communications', './assets/js/communications.js')
+    .addEntry('events', './assets/js/events.js')
     .addEntry('member', './assets/js/member.js')
     .addEntry('map', './assets/js/map.js')
 

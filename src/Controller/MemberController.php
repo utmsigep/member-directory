@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\CommunicationLog;
 use App\Entity\Donation;
+use App\Entity\Event;
 use App\Entity\Member;
 use App\Form\MemberCommunicationLogType;
 use App\Form\MemberEmailType;
@@ -166,6 +167,21 @@ class MemberController extends AbstractController
             'donations' => $donations,
             'totals' => $totals,
             'chart_data' => ChartService::buildDonationColumnChartData($donationsByMonth)
+        ]);
+    }
+
+    /**
+     * @Route("/{localIdentifier}/events", name="member_events")
+     * @IsGranted("ROLE_EVENT_MANAGER")
+     */
+    public function events(Member $member): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $events = $member->getEvents();
+
+        return $this->render('member/events.html.twig', [
+            'member' => $member,
+            'events' => $events
         ]);
     }
 
