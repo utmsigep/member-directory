@@ -6,6 +6,7 @@ use App\Repository\EventRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -14,6 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass=EventRepository::class)
  * @UniqueEntity("code")
  * @ORM\HasLifecycleCallbacks
+ * @Gedmo\Loggable
  */
 class Event
 {
@@ -28,27 +30,32 @@ class Event
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Gedmo\Versioned
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(allowNull=true)
+     * @Gedmo\Versioned
      */
     private $code;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Gedmo\Versioned
      */
     private $location;
 
     /**
      * @ORM\Column(type="text")
+     * @Gedmo\Versioned
      */
     private $description;
 
     /**
      * @ORM\Column(type="datetime_immutable")
+     * @Gedmo\Versioned
      */
     private $startAt;
 
