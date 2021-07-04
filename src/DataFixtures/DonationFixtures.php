@@ -14,7 +14,7 @@ class DonationFixtures extends Fixture implements DependentFixtureInterface
         $uncleBilly = $this->getReference(MemberFixtures::UNCLE_BILLY);
 
         $donation = new Donation();
-        $donation->setReceivedAt(new \DateTime('November 1, 2016'));
+        $donation->setReceivedAt(new \DateTimeImmutable('2016-11-01 10:00 EST'));
         $donation->setMember($uncleBilly);
         $donation->setReceiptIdentifier('11011901-001');
         $donation->setCampaign('Zollinger House');
@@ -28,7 +28,7 @@ class DonationFixtures extends Fixture implements DependentFixtureInterface
         $manager->persist($donation);
 
         $donation = new Donation();
-        $donation->setReceivedAt(new \DateTime('November 1, 2017'));
+        $donation->setReceivedAt(new \DateTimeImmutable('2017-11-01 16:00 EST'));
         $donation->setMember($uncleBilly);
         $donation->setReceiptIdentifier('11011901-002');
         $donation->setCampaign('Zollinger House');
@@ -42,7 +42,7 @@ class DonationFixtures extends Fixture implements DependentFixtureInterface
         $manager->persist($donation);
 
         $donation = new Donation();
-        $donation->setReceivedAt(new \DateTime('November 1, 2018'));
+        $donation->setReceivedAt(new \DateTimeImmutable('2018-11-01 14:00 EST'));
         $donation->setMember($uncleBilly);
         $donation->setReceiptIdentifier('11011901-003');
         $donation->setCampaign('Zollinger House');
@@ -56,7 +56,7 @@ class DonationFixtures extends Fixture implements DependentFixtureInterface
         $manager->persist($donation);
 
         $donation = new Donation();
-        $donation->setReceivedAt(new \DateTime('November 1, 2019'));
+        $donation->setReceivedAt(new \DateTimeImmutable('2019-11-01 12:00 EST'));
         $donation->setMember($uncleBilly);
         $donation->setReceiptIdentifier('11011901-004');
         $donation->setCampaign('Zollinger House');
@@ -70,7 +70,7 @@ class DonationFixtures extends Fixture implements DependentFixtureInterface
         $manager->persist($donation);
 
         $donation = new Donation();
-        $donation->setReceivedAt(new \DateTime('November 1, 2019'));
+        $donation->setReceivedAt(new \DateTimeImmutable('2019-11-01 13:00 EST'));
         $donation->setMember($uncleBilly);
         $donation->setReceiptIdentifier('11011901-004');
         $donation->setCampaign('NUTS! Scholarship');
