@@ -15,7 +15,7 @@ class CommunicationLogFixtures extends Fixture implements DependentFixtureInterf
         $user = $this->getReference(UserFixtures::USER_COMMUNICATIONS_MANAGER);
 
         $communicationLog = new CommunicationLog();
-        $communicationLog->setLoggedAt(new \DateTime('November 1, 2016'));
+        $communicationLog->setLoggedAt(new \DateTimeImmutable('2016-11-01 14:00 CDT'));
         $communicationLog->setMember($uncleBilly);
         $communicationLog->setSummary('Sent a text inviting Uncle Billy to Conclave.');
         $communicationLog->setType('SMS');

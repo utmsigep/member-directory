@@ -1,6 +1,6 @@
 <tr>
     <td data-order="{{ event.name|escape('html_attr') }}"><a href="{{ path('event_show', {id: event.id} ) }}">{{ event.name }}</a></td>
-    <td data-order="{{ event.startAt|date('c') }}">{{ event.startAt|date('n/j/Y g:i a') }}</td>
+    <td data-order="{{ event.startAt|date('c') }}">{{ event.startAt|date('n/j/Y g:i a', app.user.timezone) }}</td>
     <td data-order="{{ event.location|escape('html_attr') }}">{{ event.location }}</td>
     <td data-order="{{ event.attendees|length }}">{{ event.attendees|length|number_format }}</td>
     <td>

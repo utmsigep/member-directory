@@ -47,7 +47,7 @@ class Donation
     private $receiptIdentifier;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime_immutable")
      * @Gedmo\Versioned
      */
     private $receivedAt;
@@ -138,7 +138,7 @@ class Donation
 
     public function __construct()
     {
-        $this->receivedAt = new \DateTime();
+        $this->receivedAt = new \DateTimeImmutable();
         $this->currency = 'USD';
     }
 

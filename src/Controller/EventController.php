@@ -33,7 +33,7 @@ class EventController extends AbstractController
     public function new(Request $request): Response
     {
         $event = new Event();
-        $form = $this->createForm(EventType::class, $event);
+        $form = $this->createForm(EventType::class, $event, ['timezone' => $this->getUser()->getTimezone()]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -65,7 +65,7 @@ class EventController extends AbstractController
      */
     public function edit(Request $request, Event $event): Response
     {
-        $form = $this->createForm(EventType::class, $event);
+        $form = $this->createForm(EventType::class, $event, ['timezone' => $this->getUser()->getTimezone()]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

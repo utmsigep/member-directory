@@ -8,10 +8,11 @@ Member Directory is a [Symfony](https://symfony.com/) 5 project to manage the me
 * **Directory Collections** to create easy to browse views of your membership roster
 * **Member messaging** through email or SMS with [Twilio](twilio.com/)
 * **Communication logging** to keep your team in sync
+* **Event attendance tracking** to see engagement at a glance
 * **Mailing address validation** through the USPS
 * **Geolocation and mapping** through Census data in the United States
 * **Record history** for tracking changes to member records
-* **Role-based access** for administrators to view directory or manage it
+* **Role-based access** for various directory features (donations, communications, etc.)
 * **Tagging** of membership records to indicate committees or extra data
 * **Donation tracking** via [Donorbox](https://donorbox.org) import or manual entry
 * **Self-service record updates** via unique, one-time use URLs

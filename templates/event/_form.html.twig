@@ -8,7 +8,7 @@
             {{ form_row(form.name) }}
           </div>
           <div class="col-md-6">
-            {{ form_row(form.code) }}
+            {{ form_row(form.code, {help: 'Unique key for data exchange. Leave blank to auto-generate.'}) }}
           </div>
         </div>
         <div class="row">

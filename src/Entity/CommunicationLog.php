@@ -40,7 +40,7 @@ class CommunicationLog
     private $member;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime_immutable")
      * @Gedmo\Versioned
      */
     private $loggedAt;
@@ -69,7 +69,7 @@ class CommunicationLog
 
     public function __construct()
     {
-        $this->loggedAt = new \DateTime();
+        $this->loggedAt = new \DateTimeImmutable();
     }
 
     public function getId(): ?int

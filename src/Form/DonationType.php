@@ -6,7 +6,7 @@ use App\Entity\Donation;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CurrencyType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -16,9 +16,13 @@ class DonationType extends AbstractType
     {
         $builder
             ->add('receiptIdentifier')
-            ->add('receivedAt', DateType::class, [
-                'required' => false,
-                'widget' => 'single_text',
+            ->add('receivedAt', DateTimeType::class, [
+                'input' => 'datetime_immutable',
+                'date_widget' => 'single_text',
+                'time_widget' => 'single_text',
+                'html5' => true,
+                'model_timezone' => 'UTC',
+                'view_timezone' => $options['timezone']
             ])
             ->add('campaign')
             ->add('description')
@@ -61,6 +65,7 @@ class DonationType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Donation::class,
+            'timezone' => 'UTC'
         ]);
     }
 }

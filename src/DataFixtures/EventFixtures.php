@@ -14,9 +14,8 @@ class EventFixtures extends Fixture implements DependentFixtureInterface
         $uncleBilly = $this->getReference(MemberFixtures::UNCLE_BILLY);
 
         $event = new Event();
-        $event->setStartAt(new \DateTimeImmutable('August 5, 2021'));
+        $event->setStartAt(new \DateTimeImmutable('2021-08-05 19:00 CDT'));
         $event->setName('Alumni Meetup');
-        $event->setCode(md5('8/5/2021: Alumni Meetup'));
         $event->setLocation('Panucci\'s Pizza');
         $event->setDescription('Summer meetup.');
         $event->addAttendee($uncleBilly);

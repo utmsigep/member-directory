@@ -13,6 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass=EventRepository::class)
  * @UniqueEntity("code")
+ * @ORM\HasLifecycleCallbacks
  */
 class Event
 {
@@ -32,7 +33,7 @@ class Event
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank
+     * @Assert\NotBlank(allowNull=true)
      */
     private $code;
 
@@ -159,5 +160,15 @@ class Event
             $this->startAt->format('n/j/Y'),
             $this->name
         );
+    }
+
+    /**
+     * @ORM\PreFlush
+     */
+    public function updateFieldsIfBlank()
+    {
+        if (!$this->code) {
+            $this->code = md5($this);
+        }
     }
 }

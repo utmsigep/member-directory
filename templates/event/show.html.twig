@@ -18,7 +18,7 @@
           <dt class="col-sm-3 mb-3">Event Name</dt>
           <dd class="col-sm-9 mb-3">{{ event.name }}</dd>
           <dt class="col-sm-3 mb-3">Code</dt>
-          <dd class="col-sm-9 mb-3">{{ event.code }}</dd>
+          <dd class="col-sm-9 mb-3"><tt>{{ event.code }}</tt></dd>
           <dt class="col-sm-3 mb-3">Event Start</dt>
           <dd class="col-sm-9 mb-3">{{ event.startAt|date('m/d/Y g:i a', app.user.timezone) }}</dd>
           <dt class="col-sm-3 mb-3">Location</dt>

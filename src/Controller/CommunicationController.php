@@ -82,7 +82,7 @@ class CommunicationController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="communication_delete", methods={"DELETE"})
+     * @Route("/{id}", name="communication_delete", methods={"POST"})
      */
     public function delete(Request $request, CommunicationLog $communicationLog): Response
     {

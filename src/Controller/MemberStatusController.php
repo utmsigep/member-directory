@@ -90,7 +90,7 @@ class MemberStatusController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="member_status_delete", methods={"DELETE"})
+     * @Route("/{id}", name="member_status_delete", methods={"POST"})
      */
     public function memberStatusDelete(Request $request, MemberStatus $memberStatus): Response
     {

@@ -7,6 +7,8 @@ use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class EventType extends AbstractType
@@ -15,12 +17,14 @@ class EventType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('code')
+            ->add('code', null, ['required' => false])
             ->add('startAt', DateTimeType::class, [
-                'required' => false,
                 'input' => 'datetime_immutable',
                 'date_widget' => 'single_text',
-                'time_widget' => 'single_text'
+                'time_widget' => 'single_text',
+                'html5' => true,
+                'model_timezone' => 'UTC',
+                'view_timezone' => $options['timezone']
             ])
             ->add('location')
             ->add('description')
@@ -45,6 +49,7 @@ class EventType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Event::class,
+            'timezone' => 'UTC'
         ]);
     }
 }

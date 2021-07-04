@@ -82,7 +82,7 @@ class DirectoryCollectionController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="directory_collection_delete", methods={"DELETE"})
+     * @Route("/{id}", name="directory_collection_delete", methods={"POST"})
      */
     public function delete(Request $request, DirectoryCollection $directoryCollection): Response
     {

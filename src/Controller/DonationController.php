@@ -94,7 +94,7 @@ class DonationController extends AbstractController
     public function new(Request $request): Response
     {
         $donation = new Donation();
-        $form = $this->createForm(DonationType::class, $donation);
+        $form = $this->createForm(DonationType::class, $donation, ['timezone' => $this->getUser()->getTimezone()]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -161,7 +161,7 @@ class DonationController extends AbstractController
      */
     public function edit(Request $request, Donation $donation): Response
     {
-        $form = $this->createForm(DonationType::class, $donation);
+        $form = $this->createForm(DonationType::class, $donation, ['timezone' => $this->getUser()->getTimezone()]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -177,7 +177,7 @@ class DonationController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="donation_delete", methods={"DELETE"})
+     * @Route("/{id}", name="donation_delete", methods={"POST"})
      */
     public function delete(Request $request, Donation $donation): Response
     {

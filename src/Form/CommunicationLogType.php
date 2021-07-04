@@ -16,6 +16,7 @@ class CommunicationLogType extends AbstractType
         $builder
             ->add('member')
             ->add('loggedAt', DateTimeType::class, [
+                'input' => 'datetime_immutable',
                 'date_widget' => 'single_text',
                 'time_widget' => 'single_text',
                 'html5' => true,
