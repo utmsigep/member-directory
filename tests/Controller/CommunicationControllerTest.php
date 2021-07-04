@@ -14,7 +14,7 @@ class CommunicationControllerTest extends WebTestCase
         $this->assertResponseRedirects('/login', 302);
     }
 
-    public function testIndexWithDonationManagerRole()
+    public function testIndexWithDCommunicationManagerRole()
     {
         $client = static::createClient();
         $userRepository = static::$container->get(UserRepository::class);

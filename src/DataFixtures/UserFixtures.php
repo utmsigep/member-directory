@@ -13,6 +13,7 @@ class UserFixtures extends Fixture
     const USER_DIRECTORY_MANAGER = 'Directory Manager';
     const USER_COMMUNICATIONS_MANAGER = 'Communications Manager';
     const USER_DONATION_MANAGER = 'Donation Manager';
+    const USER_EVENT_MANAGER = 'Event Manager';
     const USER_EMAIL_MANAGER = 'Email Manager';
     const USER_ADMIN = 'Administrator';
 
@@ -74,6 +75,16 @@ class UserFixtures extends Fixture
         $manager->persist($user);
         $manager->flush();
         $this->addReference(self::USER_EMAIL_MANAGER, $user);
+
+        $user = new User();
+        $user->setName('Event Manager');
+        $user->setEmail('event.manager@example.com');
+        $user->setRoles(['ROLE_EVENT_MANAGER']);
+        $user->setPassword($this->passwordEncoder->hashPassword($user, 'testing'));
+        $user->setTimezone('America/Chicago');
+        $manager->persist($user);
+        $manager->flush();
+        $this->addReference(self::USER_EVENT_MANAGER, $user);
 
         $user = new User();
         $user->setName('Admin User');

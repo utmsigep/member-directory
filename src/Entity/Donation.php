@@ -13,10 +13,6 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
  */
 class Donation
 {
-    /**
-     * Hook timestampable behavior
-     * updates createdAt, updatedAt fields
-     */
     use TimestampableEntity;
 
     /**

@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} - New Event{% endblock %}
+
+{% block body %}
+{% embed '_page_header.html.twig' %}
+{% block page_header_title %}New Event{% endblock %}
+{% endembed %}
+
+{{ include('event/_form.html.twig') }}
+
+{% endblock %}

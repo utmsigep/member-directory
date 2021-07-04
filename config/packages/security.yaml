@@ -42,11 +42,12 @@ security:
             # https://symfony.com/doc/current/security/form_login_setup.html
 
     role_hierarchy:
-        ROLE_ADMIN: [ROLE_USER, ROLE_DIRECTORY_MANAGER, ROLE_DONATION_MANAGER, ROLE_EMAIL_MANAGER, ROLE_COMMUNICATIONS_MANAGER]
+        ROLE_ADMIN: [ROLE_USER, ROLE_DIRECTORY_MANAGER, ROLE_DONATION_MANAGER, ROLE_EMAIL_MANAGER, ROLE_COMMUNICATIONS_MANAGER, ROLE_EVENT_MANAGER]
         ROLE_DIRECTORY_MANAGER: [ROLE_USER]
         ROLE_EMAIL_MANAGER: [ROLE_USER]
         ROLE_DONATION_MANAGER: [ROLE_USER]
         ROLE_COMMUNICATIONS_MANAGER: [ROLE_USER]
+        ROLE_EVENT_MANAGER: [ROLE_USER]
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
