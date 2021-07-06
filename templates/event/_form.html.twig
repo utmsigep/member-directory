@@ -20,13 +20,32 @@
           </div>
         </div>
         {{ form_row(form.description) }}
-        <hr />
-        {{ form_row(form.attendees, {attr: { class: 'selectpicker', 'data-live-search': true }}) }}
-        {{ form_rest(form) }}
       </div>
-      <div class="card-footer text-right">
-        <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+    </div>
+    {% if form.vars.value.id %}
+    <div class="card mb-3 shadow">
+      <div class="card-header">Attendees</div>
+      <div class="card-body">
+        <ol class="attendees" data-prototype="{{ form_widget(form.attendees.vars.prototype)|e('html_attr') }}">
+          {% for attendee in form.attendees %}
+          <li>
+            <div class="input-group mb-2">
+            {{ form_errors(attendee) }}
+            {{ form_widget(attendee) }}
+            </div>
+          </li>
+          {% endfor %}
+        </ol>
+        <div class="text-right">
+          <button type="button" class="add_item_link btn btn-sm btn-secondary" data-collection-holder-class="attendees">Add an Attendee</button>
+        </div>
+
       </div>
+    </div>
+    {% endif %}
+    {{ form_rest(form) }}
+    <div class="text-right">
+      <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
     </div>
   </div>
 </div>

@@ -14,3 +14,8 @@
 {{ include('event/_delete_form.html.twig') }}
 
 {% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+{% include 'event/_javascript.html.twig' %}
+{% endblock %}
