@@ -34,7 +34,7 @@ class Tag
 
     /**
      * @ORM\ManyToMany(targetEntity=Member::class, inversedBy="tags")
-     * @ORM\OrderBy({"lastName": "ASC"})
+     * @ORM\OrderBy({"lastName": "ASC", "firstName": "ASC"})
      */
     private $members;
 

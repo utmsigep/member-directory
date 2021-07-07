@@ -11,18 +11,20 @@ use App\Form\MemberEmailType;
 use App\Form\MemberSMSType;
 use App\Form\MemberType;
 use App\Service\ChartService;
+use App\Service\CommunicationLogService;
 use App\Service\EmailService;
 use App\Service\SmsService;
-use App\Service\CommunicationLogService;
+use Doctrine\ORM\EntityRepository;
 use Gedmo\Loggable\Entity\LogEntry;
 use JeroenDesloovere\VCard\VCard;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mime\Header\Headers;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Validator\Constraints\Date;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @IsGranted("ROLE_USER")
@@ -144,7 +146,7 @@ class MemberController extends AbstractController
             return $this->redirectToRoute('member_communication_log', ['localIdentifier' => $member->getLocalIdentifier()]);
         }
 
-        return $this->render('directory/communication_log.html.twig', [
+        return $this->render('member/communications.html.twig', [
             'member' => $member,
             'communicationLogs' => $communicationLogs,
             'form' => $form->createView()
@@ -174,14 +176,42 @@ class MemberController extends AbstractController
      * @Route("/{localIdentifier}/events", name="member_events")
      * @IsGranted("ROLE_EVENT_MANAGER")
      */
-    public function events(Member $member): Response
+    public function events(Member $member, Request $request): Response
     {
         $entityManager = $this->getDoctrine()->getManager();
         $events = $member->getEvents();
+        $form = $this->createFormBuilder()
+            ->add('event', EntityType::class, [
+                'placeholder' => 'Select Event ...',
+                'class' => Event::class,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('e')
+                        ->orderBy('e.startAt', 'DESC');
+                },
+                'required' => true,
+                'constraints' => [
+                    new Assert\NotBlank()
+                ]
+            ])
+            ->getForm()
+        ;
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $event = $form->get('event')->getData();
+            $event->addAttendee($member);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($event);
+            $entityManager->flush();
+            $this->addFlash('success', sprintf('%s updated!', $member));
+            return $this->redirect($this->generateUrl('member_events', [
+                'localIdentifier' => $member->getLocalIdentifier()
+            ]));
+        }
 
         return $this->render('member/events.html.twig', [
             'member' => $member,
-            'events' => $events
+            'events' => $events,
+            'form' => $form->createView()
         ]);
     }
 

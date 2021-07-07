@@ -11,33 +11,50 @@
 
 {% include 'member/_nav.html.twig' %}
 
-{% if events|length > 0 %}
-
-<div class="card shadow">
-  <div class="card-body">
-    <div class="table-responsive">
-      <table class="table table-striped" id="eventsTable">
-        <thead>
-          <tr>
-            <th>Event</th>
-            <th>Started</th>
-            <th>Location</th>
-            <th>Attendees</th>
-            <th class="col-edit" data-orderable="false"></th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for event in events %}
-          {% include 'event/_row.html.twig' %}
-          {% endfor %}
-        </tbody>
-      </table>
+<div class="row">
+  <div class="col-lg-8">
+    {% if events|length > 0 %}
+    <div class="card shadow">
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-striped" id="eventsTable">
+            <thead>
+              <tr>
+                <th>Event</th>
+                <th>Started</th>
+                <th>Location</th>
+                <th>Attendees</th>
+                <th class="col-edit" data-orderable="false"></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for event in events %}
+              {% include 'event/_row.html.twig' %}
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
+    {% else %}
+    {% include '_no_records_card.html.twig' with {message: 'No Events matched your criteria.'} %}
+    {% endif %}
+  </div>
+  <div class="col-lg-4">
+    {{ form_start(form) }}
+    <div class="card shadow">
+      <div class="card-header">Log Event Attendance</div>
+      <div class="card-body">
+        {{ form_row(form.event) }}
+      </div>
+      <div class="card-footer text-right">
+        <button class="btn btn-primary">Add as Attended</button>
+      </div>
+    </div>
+    {{ form_rest(form) }}
+    {{ form_end(form) }}
   </div>
 </div>
-{% else %}
-{% include '_no_records_card.html.twig' with {message: 'No Events matched your criteria.'} %}
-{% endif %}
 
 {% endblock %}
 
