@@ -28,31 +28,32 @@
           </dt>
           {% if event.attendees %}
           <dd class="col-sm-9 mb-3">
-            <table class="table table-sm">
-              <thead>
-                <th>Roll #</th>
-                <th>Name</th>
-                <th>Class</th>
-                <th>Email</th>
-                <th>Phone Number</th>
-              </thead>
-              <tbody>
-                {% for member in event.attendees %}
-                <tr>
-                  <td>{{ member.localIdentifier }}</td>
-                  <td><a href="{{ path('member_show', {localIdentifier: member.localIdentifier}) }}">{{ member.displayName }}</a></td>
-                  <td>{{ member.classYear }}</td>
-                  <td>
-                    {% if member.primaryEmail %}
-                    <a href="mailto:{{ member.primaryEmail }}">{{ member.primaryEmail }}</a>
-                    {% endif %}
-                  </td>
-                  <td>{{ member.primaryTelephoneNumber }}</td>
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-
+            <div class="table-responsive">
+              <table class="table table-sm">
+                <thead>
+                  <th>Roll #</th>
+                  <th>Name</th>
+                  <th>Class</th>
+                  <th>Email</th>
+                  <th>Phone Number</th>
+                </thead>
+                <tbody>
+                  {% for member in event.attendees %}
+                  <tr>
+                    <td>{{ member.localIdentifier }}</td>
+                    <td><a href="{{ path('member_show', {localIdentifier: member.localIdentifier}) }}">{{ member.displayName }}</a></td>
+                    <td>{{ member.classYear }}</td>
+                    <td>
+                      {% if member.primaryEmail %}
+                      <a href="mailto:{{ member.primaryEmail }}">{{ member.primaryEmail }}</a>
+                      {% endif %}
+                    </td>
+                    <td>{{ member.primaryTelephoneNumber }}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
           </dd>
           {% else %}
           <dd class="col-sm-9 mb-3">No attendees.</dd>
