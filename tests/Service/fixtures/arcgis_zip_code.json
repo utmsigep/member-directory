@@ -1,0 +1,1 @@
+{"spatialReference":{"wkid":4326,"latestWkid":4326},"locations":[{"name":"37206, Nashville, Tennessee","extent":{"xmin":-86.803249999999977,"ymin":36.11729000000004,"xmax":-86.689249999999973,"ymax":36.231290000000044},"feature":{"geometry":{"x":-86.746249999999975,"y":36.174290000000042},"attributes":{"Score":100,"Addr_Type":"Postal"}}}]}

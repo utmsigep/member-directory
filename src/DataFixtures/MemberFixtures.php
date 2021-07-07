@@ -43,6 +43,8 @@ class MemberFixtures extends Fixture implements DependentFixtureInterface
         $member->setMailingState('VA');
         $member->setMailingPostalCode('23220-5706');
         $member->setMailingCountry('United States');
+        $member->setMailingLatitude(37.54964400);
+        $member->setMailingLongitude(-77.47736000);
         $member->setPrimaryTelephoneNumber('804-353-1901');
         $member->setStatus($memberStatusMember);
         $member->setJoinDate(new \DateTime('November 1, 1901'));

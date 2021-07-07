@@ -2,9 +2,11 @@
 
 namespace App\Tests\Service;
 
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use App\Service\GeocoderService;
 use App\Entity\Member;
+use App\Service\GeocoderService;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\HttpClient\MockHttpClient;
+use Symfony\Component\HttpClient\Response\MockResponse;
 
 class GeocoderServiceTest extends KernelTestCase
 {
@@ -20,7 +22,23 @@ class GeocoderServiceTest extends KernelTestCase
         // gets the special container that allows fetching private services
         $container = self::$container;
 
+        $mockHttpClient = new MockHttpClient(function ($method, $url) {
+            switch($url) {
+                case 'https://geocoding.geo.census.gov/geocoder/locations/address?street=1100%20Broadway%20&city=Nashville&state=TN&benchmark=Public_AR_Current&format=json':
+                    return new MockResponse(file_get_contents(dirname(__FILE__) . '/fixtures/census_api_known_address.json'));
+                case 'https://geocoding.geo.census.gov/geocoder/locations/address?street=PO%20Box%2060901%20&city=Nashville&state=TN&zip=37206&benchmark=Public_AR_Current&format=json':
+                    return new MockResponse(file_get_contents(dirname(__FILE__) . '/fixtures/census_api_po_box.json'));
+                case 'https://geocoding.geo.census.gov/geocoder/locations/address?street=123%20Any%20Street%20&city=Nashville&state=TN&zip=37206&benchmark=Public_AR_Current&format=json':
+                    return new MockResponse(file_get_contents(dirname(__FILE__) . '/fixtures/census_api_bad_street_address.json'));
+                case 'https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/find/?text=37206&maxLocations=1&f=json&returnGeometry=true':
+                    return new MockResponse(file_get_contents(dirname(__FILE__) . '/fixtures/arcgis_zip_code.json'));
+                default:
+                    throw new \Exception('Did not match known request for ' . $method . ': ' . $url);
+            }
+        });
+
         $this->geocoderService = $container->get(GeocoderService::class);
+        $this->geocoderService->setHttpClient($mockHttpClient);
     }
 
     public function testKnownAddress()

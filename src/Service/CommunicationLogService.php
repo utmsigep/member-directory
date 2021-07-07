@@ -24,7 +24,6 @@ class CommunicationLogService {
         $communicationLog = new CommunicationLog();
         $communicationLog->setMember($member);
         $communicationLog->setUser($actor);
-        $communicationLog->setLoggedAt(new \DateTime());
         $communicationLog->setType(CommunicationLog::COMMUNICATION_TYPES[$type]);
         $communicationLog->setSummary($summary);
         $communicationLog->setPayload($payload);

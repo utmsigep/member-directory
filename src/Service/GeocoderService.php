@@ -20,6 +20,11 @@ class GeocoderService
     const BENCHMARK = 'Public_AR_Current';
     const RETURN_FORMAT = 'json';
 
+    public function setHttpClient($httpClient)
+    {
+        $this->httpClient = $httpClient;
+    }
+
     public function geocodeMemberMailingAddress(Member $member): Member
     {
         $jsonObject = $this->makeCensusRequest([
@@ -89,5 +94,4 @@ class GeocoderService
         ]);
         return json_decode($response->getContent());
     }
-
 }
