@@ -10,6 +10,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class UserFixtures extends Fixture
 {
     const USER_BASIC = 'Basic User';
+    const USER_2FA = '2FA User';
     const USER_DIRECTORY_MANAGER = 'Directory Manager';
     const USER_COMMUNICATIONS_MANAGER = 'Communications Manager';
     const USER_DONATION_MANAGER = 'Donation Manager';
@@ -35,6 +36,17 @@ class UserFixtures extends Fixture
         $manager->persist($user);
         $manager->flush();
         $this->addReference(self::USER_BASIC, $user);
+
+        $user = new User();
+        $user->setName('2FA User');
+        $user->setEmail('user.2fa@example.com');
+        $user->setRoles(['ROLE_USER']);
+        $user->setPassword($this->passwordEncoder->hashPassword($user, 'testing'));
+        $user->setTotpSecret('5GA6GEUJ456QCZ4M75W5VOI5ZAYSXL4LNYHRFVHWKGCMQARGXEEA');
+        $user->setTimezone('America/Chicago');
+        $manager->persist($user);
+        $manager->flush();
+        $this->addReference(self::USER_2FA, $user);
 
         $user = new User();
         $user->setName('Directory Manager');
