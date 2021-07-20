@@ -85,6 +85,9 @@ var drawMap = function () {
 
   // Make initial data call
   $.getJSON(Routing.generate('map_data'), {}, function(data) {
+    if (data.length == 0) {
+      return;
+    }
     $(data).each(function (i, row) {
       var marker = L.marker(L.latLng(row.mailingLatitude, row.mailingLongitude)).setIcon(defaultIcon);
       row = formatMemberData(row);
@@ -95,7 +98,9 @@ var drawMap = function () {
     // Fit map bounds based on markers on screen
     .done(function () {
       var group = new L.featureGroup(memberMarkers);
-      directoryMap.fitBounds(group.getBounds());
+      if (group.getLayers().length > 0) {
+        directoryMap.fitBounds(group.getBounds());
+      }
       $('#mapContainerLoading').hide();
     });
 };
