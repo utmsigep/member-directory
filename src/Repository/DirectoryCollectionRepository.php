@@ -22,6 +22,7 @@ class DirectoryCollectionRepository extends ServiceEntityRepository
     public function getDefaultDirectoryCollection()
     {
         return $this->createQueryBuilder('d')
+            ->orderBy('d.position', 'ASC')
             ->setMaxResults(1)
             ->getQuery()
             ->getSingleResult()
