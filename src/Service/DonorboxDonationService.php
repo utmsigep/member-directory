@@ -140,7 +140,7 @@ class DonorboxDonationService
                 $donation->setReceiptIdentifier($csvRecord[self::RECEIPT_ID_HEADER]);
             }
             if (isset($csvRecord[self::DONATED_AT_HEADER])) {
-                $donation->setReceivedAt(new \DateTime($csvRecord[self::DONATED_AT_HEADER]));
+                $donation->setReceivedAt(new \DateTimeImmutable($csvRecord[self::DONATED_AT_HEADER]));
             }
             if (isset($csvRecord[self::CAMPAIGN_HEADER])) {
                 $donation->setCampaign($csvRecord[self::CAMPAIGN_HEADER]);
