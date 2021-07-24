@@ -9,6 +9,7 @@
         "cmen/google-charts-bundle": "^3.2",
         "erusev/parsedown": "^1.7",
         "friendsofsymfony/jsrouting-bundle": "^2.3",
+        "geocodio/geocodio-library-php": "^1.4",
         "jeroendesloovere/vcard": "^1.7",
         "league/csv": "^9.2",
         "scheb/2fa": "^5.10",
