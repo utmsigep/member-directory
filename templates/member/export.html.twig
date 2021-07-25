@@ -24,7 +24,9 @@
         {{ form_row(form.default_filters) }}
         {{ form_row(form.mailable) }}
         {{ form_row(form.emailable) }}
-        {% if form.statuses is defined %}{{ form_row(form.statuses) }}{% endif %}
+        {% if form.statuses is defined %}
+        {{ form_row(form.statuses, {help: 'Note: If "Apply default filters" is checked, inactive Member Statuses will not be included.'}) }}
+        {% endif %}
         {% if form.tags is defined %}{{ form_row(form.tags) }}{% endif %}
       </div>
       <div class="col-md-6">

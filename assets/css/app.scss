@@ -11,6 +11,9 @@ th.col-img-profile {
 }
 
 /* Inactive */
+input.inactive,
+span.inactive,
+label.inactive,
 div.inactive,
 tr.inactive {
   opacity: 0.7;
@@ -81,11 +84,11 @@ ol.user-steps {
     li.paginate_button.previous {
         display: inline;
     }
- 
+
     li.paginate_button.next {
         display: inline;
     }
- 
+
     li.paginate_button {
         display: none;
     }

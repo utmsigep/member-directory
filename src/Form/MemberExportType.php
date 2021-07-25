@@ -98,7 +98,13 @@ class MemberExportType extends AbstractType
                 'class' => MemberStatus::class,
                 'expanded' => true,
                 'multiple' => true,
-                'required' => false
+                'required' => false,
+                'choice_attr' => function (?MemberStatus $memberStatus) {
+                    if ($memberStatus) {
+                        return $memberStatus->getIsInactive() ? ['class' => 'inactive', 'data-toggle' => 'tooltip', 'title' => 'Inactive Member Status'] : [];
+                    }
+                    return [];
+                }
             ]);
         }
 
