@@ -2,6 +2,9 @@
 /config/deploy.yml
 .whiskey_disk_git_changes
 
+# Artifacts
+build/
+
 ###> symfony/framework-bundle ###
 /.env.local
 /.env.local.php
