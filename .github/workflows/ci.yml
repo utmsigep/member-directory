@@ -3,7 +3,7 @@ name: CI Build and Test
 on: [push, pull_request]
 jobs:
   build:
-    name: Build (PHP ${{ matrix.php-versions }})
+    name: Build and Test (PHP ${{ matrix.php-versions }})
     runs-on: ubuntu-latest
     services:
       mysql:
@@ -69,15 +69,6 @@ jobs:
         env:
           DATABASE_URL: mysql://root:symfony@127.0.0.1:${{ job.services.mysql.ports['3306'] }}/symfony
 
-  test:
-    needs: build
-    name: Test (PHP ${{ matrix.php-versions }})
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        php-versions: ['7.4', '8.0']
-    steps:
       - name: Run Validators
         run: |
           php bin/console lint:yaml config
