@@ -30,7 +30,10 @@ class EventType extends AbstractType
                 'view_timezone' => $options['timezone']
             ])
             ->add('location')
-            ->add('description')
+            ->add('description', null, [
+                'empty_data' => '',
+                'required' => false
+            ])
             ->add('attendees', CollectionType::class, [
                 'label' => false,
                 'entry_type' => EntityType::class,

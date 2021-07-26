@@ -188,6 +188,12 @@ class MemberController extends AbstractController
                     return $er->createQueryBuilder('e')
                         ->orderBy('e.startAt', 'DESC');
                 },
+                'choice_attr' => function (Event $event) use ($member) {
+                    if ($event->getAttendees()->contains($member)) {
+                        return ['disabled' => true];
+                    }
+                    return [];
+                },
                 'required' => true,
                 'constraints' => [
                     new Assert\NotBlank()
