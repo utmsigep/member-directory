@@ -1,9 +1,9 @@
 # GitHub Action for Symfony with MySQL
-name: Testing Symfony with MySQL
+name: CI Build and Test
 on: [push, pull_request]
 jobs:
-  symfony:
-    name: Symfony (PHP ${{ matrix.php-versions }})
+  build:
+    name: Build (PHP ${{ matrix.php-versions }})
     runs-on: ubuntu-latest
     services:
       mysql:
@@ -68,6 +68,10 @@ jobs:
           php bin/console doctrine:fixtures:load -n
         env:
           DATABASE_URL: mysql://root:symfony@127.0.0.1:${{ job.services.mysql.ports['3306'] }}/symfony
+
+    test:
+      name: Test (PHP ${{ matrix.php-versions }})
+      needs: build
 
       - name: Run Validators
         run: |
