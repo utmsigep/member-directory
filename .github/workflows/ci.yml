@@ -79,7 +79,7 @@ jobs:
           DATABASE_URL: mysql://root:symfony@127.0.0.1:${{ job.services.mysql.ports['3306'] }}/symfony
 
       - name: Run PHPUnit
-        run: bin/phpunit --coverage-text
+        run: bin/phpunit --coverage-clover build/coverage-${{ matrix.php-versions }}.xml --log-junit build/phpunit-${{ matrix.php-versions }}.xml
         env:
           DATABASE_URL: mysql://root:symfony@127.0.0.1:${{ job.services.mysql.ports['3306'] }}/symfony
 
@@ -88,3 +88,11 @@ jobs:
           sed -i 's/var\/cache\/dev/var\/cache\/test/gI' phpstan.neon
           sed -i 's/App_KernelDevDebugContainer/App_KernelTestDebugContainer/gI' phpstan.neon
           ./vendor/bin/phpstan analyse --memory-limit 2G
+
+      - name: Upload test result artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-results-${{ matrix.php-versions }}
+          path: build/
+        # Use always() to always run this step to publish test results when there are test failures
+        if: ${{ always() }}
