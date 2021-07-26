@@ -70,8 +70,13 @@ jobs:
           DATABASE_URL: mysql://root:symfony@127.0.0.1:${{ job.services.mysql.ports['3306'] }}/symfony
 
   test:
-    name: Test (PHP ${{ matrix.php-versions }})
     needs: build
+    name: Test (PHP ${{ matrix.php-versions }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php-versions: ['7.4', '8.0']
     steps:
       - name: Run Validators
         run: |
