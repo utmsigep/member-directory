@@ -75,6 +75,9 @@ jobs:
           php bin/console lint:twig templates
           php bin/console lint:xliff translations
           php bin/console doctrine:schema:validate -vvv --no-interaction
+        env:
+          DATABASE_URL: mysql://root:symfony@127.0.0.1:${{ job.services.mysql.ports['3306'] }}/symfony
+
 
       - name: Run PHPStan
         run: |
@@ -84,3 +87,5 @@ jobs:
 
       - name: Run PHPUnit
         run: bin/phpunit --coverage-text
+        env:
+          DATABASE_URL: mysql://root:symfony@127.0.0.1:${{ job.services.mysql.ports['3306'] }}/symfony
