@@ -78,14 +78,13 @@ jobs:
         env:
           DATABASE_URL: mysql://root:symfony@127.0.0.1:${{ job.services.mysql.ports['3306'] }}/symfony
 
+      - name: Run PHPUnit
+        run: bin/phpunit --coverage-text
+        env:
+          DATABASE_URL: mysql://root:symfony@127.0.0.1:${{ job.services.mysql.ports['3306'] }}/symfony
 
       - name: Run PHPStan
         run: |
           sed -i 's/var\/cache\/dev/var\/cache\/test/gI' phpstan.neon
           sed -i 's/App_KernelDevDebugContainer/App_KernelTestDebugContainer/gI' phpstan.neon
           ./vendor/bin/phpstan analyse --memory-limit 2G
-
-      - name: Run PHPUnit
-        run: bin/phpunit --coverage-text
-        env:
-          DATABASE_URL: mysql://root:symfony@127.0.0.1:${{ job.services.mysql.ports['3306'] }}/symfony
