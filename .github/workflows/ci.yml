@@ -50,18 +50,6 @@ jobs:
       - name: Install Composer dependencies
         run: composer install --no-progress --prefer-dist --optimize-autoloader
 
-      - name: Run Migration
-        run: |
-          composer require --dev symfony/orm-pack
-          php bin/console doctrine:schema:update --force || echo "No migrations found or schema update failed"
-          php bin/console doctrine:migrations:migrate -n || echo "No migrations found or migration failed"
-          php bin/console doctrine:fixtures:load -n || echo "No migrations found or fixture load failed"
-        env:
-          DATABASE_URL: mysql://root:symfony@127.0.0.1:${{ job.services.mysql.ports['3306'] }}/symfony
-
-      - name: Run PHPStan
-        run: phpstan --memory-limit=2G
-
       - name: Setup Node
         uses: actions/setup-node@v2
         with:
@@ -73,5 +61,26 @@ jobs:
       - name: Build Webpack
         run: npm run build
 
-      - name: Run tests
+      - name: Run Migration
+        run: |
+          php console doctrine:database:create
+          php bin/console doctrine:migrations:migrate -n
+          php bin/console doctrine:fixtures:load -n
+        env:
+          DATABASE_URL: mysql://root:symfony@127.0.0.1:${{ job.services.mysql.ports['3306'] }}/symfony
+
+      - name: Run PHPStan
+        run: |
+          sed -i 's/var\/cache\/dev/var\/cache\/test/gI' phpstan.neon
+          sed -i 's/App_KernelDevDebugContainer/App_KernelTestDebugContainer/gI' phpstan.neon
+          ./vendor/bin/phpstan analyse --memory-limit 2G
+
+      - name: Run Validators
+        run: |
+          php bin/console lint:yaml config
+          php bin/console lint:twig templates
+          php bin/console lint:xliff translations
+          php bin/console doctrine:schema:validate -vvv --no-interaction
+
+      - name: Run PHPUnit
         run: bin/phpunit --coverage-text
