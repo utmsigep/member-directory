@@ -69,10 +69,10 @@ jobs:
         env:
           DATABASE_URL: mysql://root:symfony@127.0.0.1:${{ job.services.mysql.ports['3306'] }}/symfony
 
-    test:
-      name: Test (PHP ${{ matrix.php-versions }})
-      needs: build
-
+  test:
+    name: Test (PHP ${{ matrix.php-versions }})
+    needs: build
+    steps:
       - name: Run Validators
         run: |
           php bin/console lint:yaml config
