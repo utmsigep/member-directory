@@ -132,21 +132,26 @@ class DonorboxDonationService
             } else {
                 $donation->setMember($member);
             }
-            $donation->setDonorFirstName($csvRecord[self::FIRST_NAME_HEADER]);
-            $donation->setDonorLastName($csvRecord[self::LAST_NAME_HEADER]);
-
-
+            if (!$donation->getMember()) {
+                $donation->setDonorFirstName($csvRecord[self::FIRST_NAME_HEADER]);
+                $donation->setDonorLastName($csvRecord[self::LAST_NAME_HEADER]);
+            }
             if (isset($csvRecord[self::RECEIPT_ID_HEADER])) {
                 $donation->setReceiptIdentifier($csvRecord[self::RECEIPT_ID_HEADER]);
             }
             if (isset($csvRecord[self::DONATED_AT_HEADER])) {
-                $donation->setReceivedAt(new \DateTimeImmutable($csvRecord[self::DONATED_AT_HEADER]));
+                $parsedReceivedAt = new \DateTimeImmutable($csvRecord[self::DONATED_AT_HEADER]);
+                if (!$donation->getReceivedAt() || $donation->getReceivedAt()->format('Y-m-d') !== $parsedReceivedAt->format('Y-m-d')) {
+                    $donation->setReceivedAt($parsedReceivedAt);
+                }
             }
             if (isset($csvRecord[self::CAMPAIGN_HEADER])) {
                 $donation->setCampaign($csvRecord[self::CAMPAIGN_HEADER]);
             }
             if (isset($csvRecord[self::AMOUNT_HEADER])) {
-                $donation->setAmount((float) $csvRecord[self::AMOUNT_HEADER]);
+                if (!$donation->getAmount() || $donation->getAmount() != (float) $csvRecord[self::AMOUNT_HEADER]) {
+                    $donation->setAmount((float) $csvRecord[self::AMOUNT_HEADER]);
+                }
             }
             if (isset($csvRecord[self::AMOUNT_DESCRIPTION_HEADER])) {
                 $donation->setDescription($csvRecord[self::AMOUNT_DESCRIPTION_HEADER]);
@@ -156,14 +161,22 @@ class DonorboxDonationService
             }
             // Roll up the Donorbox platform fee into "Processing Fees" rather than tracking separately
             if (isset($csvRecord[self::TOTAL_FEE_HEADER]) && $csvRecord[self::TOTAL_FEE_HEADER]) {
-                $donation->setProcessingFee((float) $csvRecord[self::TOTAL_FEE_HEADER]);
+                if (!$donation->getProcessingFee() || $donation->getProcessingFee() != (float) $csvRecord[self::TOTAL_FEE_HEADER]) {
+                    $donation->setProcessingFee((float) $csvRecord[self::TOTAL_FEE_HEADER]);
+                }
             } elseif (isset($csvRecord[self::PLATFORM_FEE_HEADER]) && isset($csvRecord[self::PROCESSING_FEE_HEADER]) && $csvRecord[self::PLATFORM_FEE_HEADER]) {
-                $donation->setProcessingFee((float) $csvRecord[self::PROCESSING_FEE_HEADER] + (float) $csvRecord[self::PLATFORM_FEE_HEADER]);
+                if (!$donation->getProcessingFee() || $donation->getProcessingFee() != (float) $csvRecord[self::PROCESSING_FEE_HEADER] + (float) $csvRecord[self::PLATFORM_FEE_HEADER]) {
+                    $donation->setProcessingFee((float) $csvRecord[self::PROCESSING_FEE_HEADER] + (float) $csvRecord[self::PLATFORM_FEE_HEADER]);
+                }
             } elseif (isset($csvRecord[self::PROCESSING_FEE_HEADER])) {
-                $donation->setProcessingFee((float) $csvRecord[self::PROCESSING_FEE_HEADER]);
+                if (!$donation->getProcessingFee() || $donation->getProcessingFee() != (float) $csvRecord[self::PROCESSING_FEE_HEADER]) {
+                    $donation->setProcessingFee((float) $csvRecord[self::PROCESSING_FEE_HEADER]);
+                }
             }
             if (isset($csvRecord[self::NET_AMOUNT_HEADER])) {
-                $donation->setNetAmount((float) $csvRecord[self::NET_AMOUNT_HEADER]);
+                if (!$donation->getNetAmount() || $donation->getNetAmount() != (float) $csvRecord[self::NET_AMOUNT_HEADER]) {
+                    $donation->setNetAmount((float) $csvRecord[self::NET_AMOUNT_HEADER]);
+                }
             }
             if (isset($csvRecord[self::DONOR_COMMENT_HEADER])) {
                 $donation->setDonorComment($csvRecord[self::DONOR_COMMENT_HEADER]);
