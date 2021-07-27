@@ -15,12 +15,84 @@
 
 <div class="card mb-3 shadow">
   <div class="card-body">
-    <dl>
-      <dt>Login Email</dt>
-      <dd>{{ user.email }}</dd>
-      <dt>Roles</dt>
-      <dd>{{ macros.user_roles(user) }}</dd>
+    <dl class="row">
+      <dt class="col-sm-2 mb-3">Login Email</dt>
+      <dd class="col-sm-10 mb-3">{{ user.email }}</dd>
+      <dt class="col-sm-2 mb-3">Roles</dt>
+      <dd class="col-sm-10 mb-3">{{ macros.user_roles(user) }}</dd>
     </dl>
   </div>
 </div>
+
+{% if logs|length > 0 %}
+<div class="card mb-3 shadow">
+  <div class="card-header">Changed Entries (last {{ logs|length|number_format(0, ',') }})</div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Logged At</th>
+            <th>Action</th>
+            <th>Record</th>
+            <th>Version</th>
+            <th>Changed Fields</th>
+            <th class="col-edit">&nbsp;</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for log in logs %}
+          <tr>
+            <td>{{ log.loggedAt|date('n/j/Y h:i a', app.user.timezone|default('UTC')) }}</td>
+            <td><span class="badge badge-secondary">{{ log.action|upper }}</span></td>
+            <td>
+              {{ log.objectClass|replace({'App\\Entity\\': ''}) }} ({{ log.objectId }})
+            </td>
+            <td>{{ log.version }}</td>
+            <td><code>{{ log.data|keys|join(', ') }}</code></td>
+            <td><a data-toggle="collapse" class="btn btn-sm panel-toggle" href="#log-detail-{{ log.id }}"><i class="fas fa-caret-down fa-fw"></i></a></td>
+          </tr>
+          <tr class="bg-light collapse" id="log-detail-{{ log.id }}">
+            <td colspan="99">
+              <label>Changed Data</label>
+              <dl class="row">
+              {% for field,change in log.data %}
+              <dt class="col-sm-3">{{ field }}</dt>
+              <dd class="col-sm-9 mb-3">
+                {% if change.date is defined %}
+                <code>{{ change|date('Y-m-d') }}</code>
+                {% elseif change is null %}
+                <em>Empty value.</em>
+                {% elseif change is not iterable %}
+                <code>{{ change }}</code>
+                {% else %}
+                <ul>
+                  {% for key,value in change %}
+                  <li><code>{{ key }}: {{ value }}</code></li>
+                  {% endfor %}
+                </ul>
+                {% endif %}
+              </dd>
+              {% endfor %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% else %}
+{% include '_no_records_card.html.twig' with {message: 'No Log Entries matched your criteria.'} %}
+{% endif %}
+
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script>
+  $('.panel-toggle').click(function(el){
+      $(el.target).toggleClass('fa-rotate-180');
+  });
+</script>
 {% endblock %}

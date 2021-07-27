@@ -10,6 +10,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="Gedmo\Sortable\Entity\Repository\SortableRepository")
+ * @Gedmo\Loggable
  */
 class DirectoryCollection
 {
@@ -22,11 +23,13 @@ class DirectoryCollection
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Gedmo\Versioned
      */
     private $label;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Gedmo\Versioned
      */
     private $icon = 'fas fa-address-book';
 
@@ -37,38 +40,45 @@ class DirectoryCollection
 
     /**
      * @ORM\Column(type="boolean")
+     * @Gedmo\Versioned
      */
     private $showMemberStatus;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Gedmo\Versioned
      */
     private $groupBy;
 
     /**
      * @Gedmo\Slug(fields={"label"})
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Gedmo\Versioned
      */
     private $slug;
 
     /**
      * @Gedmo\SortablePosition
      * @ORM\Column(type="integer", nullable=true)
+     * @Gedmo\Versioned
      */
     private $position;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Gedmo\Versioned
      */
     private $filterLost;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Gedmo\Versioned
      */
     private $filterLocalDoNotContact;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Gedmo\Versioned
      */
     private $filterDeceased;
 

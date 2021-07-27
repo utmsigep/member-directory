@@ -36,6 +36,7 @@ class CommunicationLog
     /**
      * @ORM\ManyToOne(targetEntity=Member::class, inversedBy="communicationLogs")
      * @ORM\JoinColumn(nullable=false)
+     * @Gedmo\Versioned
      */
     private $member;
 

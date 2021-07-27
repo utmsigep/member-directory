@@ -49,6 +49,7 @@ class MemberStatus
     /**
      * @ORM\Column(type="boolean")
      * @Groups({"status_main"})
+     * @Gedmo\Versioned
      */
     private $isInactive = false;
 
