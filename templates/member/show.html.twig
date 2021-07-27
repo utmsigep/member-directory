@@ -105,7 +105,7 @@
             <li class="list-inline-item"><a href="{{ member.linkedinUrl }}" target="_blank"><i class="fab fa-linkedin fa-2x"></i></a></li>
             {% endif %}
           </ul>
-          <p class="text-muted"><small title="{{ member.updatedAt|date('c') }}"><i class="fas fa-clock"></i> Updated: {{ member.updatedAt|date('F j, Y g:i a') }}</small></p>
+          <p class="text-muted"><small title="{{ member.updatedAt|date('c') }}"><i class="fas fa-clock"></i> Updated: {{ member.updatedAt|date('F j, Y g:i a', app.user.timezone|default('UTC')) }}</small></p>
         </div>
       </div>
     </div>

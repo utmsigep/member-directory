@@ -35,7 +35,7 @@
             </tr>
             <tr>
               <th>Date</th>
-              <td>{{ subscriber.Date|date('c') }}</td>
+              <td>{{ subscriber.Date|date('n/j/Y g:i a', app.user.timezone|default('UTC')) }}</td>
             </tr>
             <tr>
               <th>Status</th>
@@ -98,7 +98,7 @@
                       </tr>
                       <tr>
                         <th>Date</th>
-                        <td>{{ itemAction.Date|date('c') }}</td>
+                        <td>{{ itemAction.Date|date('n/j/Y g:i a', app.user.timezone|default('UTC')) }}</td>
                       </tr>
                       <tr>
                         <th>IP Address</th>
