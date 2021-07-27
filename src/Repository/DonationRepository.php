@@ -28,9 +28,11 @@ class DonationRepository extends ServiceEntityRepository
         $this->endDate = new \DateTime('tomorrow -1 min');
     }
 
-    public function setDateRange(\DateTime $startDate, \DateTime $endDate): DonationRepository
+    public function setDateRange(\DateTime $startDate, \DateTime $endDate, string $timezone = 'UTC'): DonationRepository
     {
+        $startDate->setTimezone(new \DateTimeZone($timezone));
         $this->startDate = $startDate;
+        $endDate->setTimezone(new \DateTimeZone($timezone));
         $this->endDate = $endDate;
         return $this;
     }

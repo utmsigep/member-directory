@@ -153,15 +153,16 @@ class MemberRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
-    public function findRecentUpdates(array $criteria)
+    public function findRecentUpdates(array $criteria, string $timezone = 'UTC')
     {
+        $since = new \DateTime($criteria['since'], new \DateTimeZone($timezone));
         $qb = $this->createQueryBuilder('m')
             ->addSelect('t')
             ->addSelect('s')
             ->join('m.status', 's')
             ->leftJoin('m.tags', 't')
             ->where('m.updatedAt > :since')
-            ->setParameter('since', $criteria['since'])
+            ->setParameter('since', $since)
             ->orderBy('m.updatedAt', 'DESC')
         ;
 

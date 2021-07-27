@@ -235,7 +235,7 @@ class DirectoryController extends AbstractController
 
         $form->handleRequest($request);
         $data = $form->getData();
-        $members = $entityManager->getRepository(Member::class)->findRecentUpdates($data);
+        $members = $entityManager->getRepository(Member::class)->findRecentUpdates($data, $this->getUser()->getTimezone());
 
         return $this->render('directory/recent_changes.html.twig', [
             'members' => $members,

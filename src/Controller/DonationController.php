@@ -40,9 +40,10 @@ class DonationController extends AbstractController
     public function index(DonationRepository $donationRepository, Request $request): Response
     {
         $this->handleDateRequest($request);
-        $donations = $donationRepository->setDateRange($this->startDate, $this->endDate)->findAll();
-        $donationsByMonth = $donationRepository->setDateRange($this->startDate, $this->endDate)->getTotalDonationsByMonth();
-        $totals = $donationRepository->setDateRange($this->startDate, $this->endDate)->getTotalDonations();
+        $timezone = $this->getUser()->getTimezone() ? $this->getUser()->getTimezone() : 'UTC';
+        $donations = $donationRepository->setDateRange($this->startDate, $this->endDate, $timezone)->findAll();
+        $donationsByMonth = $donationRepository->setDateRange($this->startDate, $this->endDate, $timezone)->getTotalDonationsByMonth();
+        $totals = $donationRepository->setDateRange($this->startDate, $this->endDate, $timezone)->getTotalDonations();
 
         return $this->render('donation/index.html.twig', [
             'donations' => $donations,
@@ -59,8 +60,9 @@ class DonationController extends AbstractController
     public function donors(DonationRepository $donationRepository, Request $request): Response
     {
         $this->handleDateRequest($request);
-        $donors = $donationRepository->setDateRange($this->startDate, $this->endDate)->getTotalDonationsByMember();
-        $totals = $donationRepository->setDateRange($this->startDate, $this->endDate)->getTotalDonations();
+        $timezone = $this->getUser()->getTimezone() ? $this->getUser()->getTimezone() : 'UTC';
+        $donors = $donationRepository->setDateRange($this->startDate, $this->endDate, $timezone)->getTotalDonationsByMember();
+        $totals = $donationRepository->setDateRange($this->startDate, $this->endDate, $timezone)->getTotalDonations();
 
         return $this->render('donation/donors.html.twig', [
             'donors' => $donors,
@@ -76,8 +78,9 @@ class DonationController extends AbstractController
     public function campaigns(DonationRepository $donationRepository, Request $request): Response
     {
         $this->handleDateRequest($request);
-        $campaigns = $donationRepository->setDateRange($this->startDate, $this->endDate)->getTotalDonationsByCampaign();
-        $totals = $donationRepository->setDateRange($this->startDate, $this->endDate)->getTotalDonations();
+        $timezone = $this->getUser()->getTimezone() ? $this->getUser()->getTimezone() : 'UTC';
+        $campaigns = $donationRepository->setDateRange($this->startDate, $this->endDate, $timezone)->getTotalDonationsByCampaign();
+        $totals = $donationRepository->setDateRange($this->startDate, $this->endDate, $timezone)->getTotalDonations();
 
         return $this->render('donation/campaigns.html.twig', [
             'campaigns' => $campaigns,
