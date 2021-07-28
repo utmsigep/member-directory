@@ -9,6 +9,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\DonationRepository")
+ * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
  */
 class Donation
@@ -386,5 +387,19 @@ class Donation
             $donorName = sprintf('%s %s', $this->donorFirstName, $this->donorLastName);
         }
         return sprintf('#%s - %s @ %s (%s %s)', $this->receiptIdentifier, $donorName, $this->receivedAt->format('Y-m-d'), $this->amount, $this->currency);
+    }
+
+    /**
+     * @ORM\PreFlush
+     */
+    public function updateFieldsIfBlank()
+    {
+        if ($this->getMember()) {
+            $this->setDonorFirstName($this->getMember()->getFirstName());
+            $this->setDonorLastName($this->getMember()->getLastName());
+        }
+        if (!$this->getMember() && !$this->getDonorFirstName() && !$this->getDonorLastName()) {
+            $this->setIsAnonymous(true);
+        }
     }
 }
