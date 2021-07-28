@@ -107,6 +107,7 @@
         "phpstan/phpstan": "^0.12.52",
         "phpstan/phpstan-doctrine": "^0.12.22",
         "phpstan/phpstan-symfony": "^0.12.28",
+        "psalm/plugin-symfony": "^2.4",
         "symfony/browser-kit": "^5.3",
         "symfony/css-selector": "^5.3",
         "symfony/maker-bundle": "^1.11",

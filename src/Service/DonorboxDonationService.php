@@ -206,12 +206,12 @@ class DonorboxDonationService
             // Validate records
             $errors = $this->validator->validate($donation);
             if (count($errors) > 0) {
-                foreach ($errors->getIterator() as $error) {
+                foreach ($errors as $error) {
                     $this->errors[$i] = sprintf(
                         '[%s| %s = %01.2f] %s %s',
-                        $member->getReceiptIdentifier(),
-                        $member->getMember()->getDisplayName(),
-                        $member->getAmount(),
+                        $donation->getReceiptIdentifier(),
+                        $donation->getMember()->getDisplayName(),
+                        $donation->getAmount(),
                         $error->getPropertyPath(),
                         $error->getMessage()
                     );
