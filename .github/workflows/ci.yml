@@ -89,6 +89,9 @@ jobs:
           sed -i 's/App_KernelDevDebugContainer/App_KernelTestDebugContainer/gI' phpstan.neon
           ./vendor/bin/phpstan analyse --memory-limit 2G
 
+      - name: Psalm – Static Analysis for PHP
+        uses: psalm/psalm-github-actions@1.1.2
+
       - name: Upload test result artifacts
         uses: actions/upload-artifact@v2
         with:
