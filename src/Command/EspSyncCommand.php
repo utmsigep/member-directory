@@ -61,10 +61,10 @@ class EspSyncCommand extends Command
         foreach ($members as $member) {
             $subscription = $this->emailService->getMemberSubscription($member);
             // If not found, attempt to subscribe user
-            if (!$subscription || empty($subscription) || property_exists($subscription, 'Code')) {
+            if (!$subscription || property_exists($subscription, 'Code')) {
                 if (!$member->getIsLocalDoNotContact()) {
-                    $output['subscribed'][] = $member->getDisplayName();
                     $this->emailService->subscribeMember($member);
+                    $output['subscribed'][] = $member->getDisplayName();
                 } else {
                     $output['ignored'][] = $member->getDisplayName();
                 }
