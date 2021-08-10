@@ -13,3 +13,8 @@
 
 {{ include('tag/_delete_form.html.twig') }}
 {% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+{% include '_entity_collection_javascript.html.twig' %}
+{% endblock %}

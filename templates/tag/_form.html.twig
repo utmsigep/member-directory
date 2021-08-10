@@ -2,6 +2,22 @@
 <div class="card mb-3 shadow" style="max-width:40rem">
   <div class="card-body">
     {{ form_row(form.tagName, {label: 'Tag Name'}) }}
+    {% if form.vars.value.id %}
+    {{ form_label(form.members) }}
+    <ol class="entityCollection" data-prototype="{{ form_widget(form.members.vars.prototype)|e('html_attr') }}">
+      {% for member in form.members %}
+      <li>
+        <div class="input-group mb-2">
+        {{ form_errors(member) }}
+        {{ form_widget(member) }}
+        </div>
+      </li>
+      {% endfor %}
+    </ol>
+    <div class="text-right">
+      <button type="button" class="add_item_link btn btn-sm btn-secondary" data-collection-holder-class="entityCollection">Add a Member</button>
+    </div>
+    {% endif %}
   </div>
   <div class="card-footer text-right">
     <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
