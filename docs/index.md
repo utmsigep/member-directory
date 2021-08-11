@@ -47,7 +47,7 @@ Similarly, you can import members from a CSV file to create or update their reco
 
 ![map](screenshots/map.png)
 
-US Census APIs allow you to approximate the mailing addresses of your members. You can also set their GPS coordinates in the backend.
+[Geocodio](https://www.geocod.io/) (optional) and the US Census APIs allow you to approximate the mailing addresses of your members. You can also set their GPS coordinates in the backend.
 
 ---
 
