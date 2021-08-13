@@ -67,6 +67,7 @@ class MemberGeocodeCommand extends Command
             $io->writeln('<options=bold>Postal Code:</>     ' . $member->getMailingPostalCode());
             $io->writeln('');
             $this->geocoderService->geocodeMemberMailingAddress($member);
+            $io->writeln('<options=bold>Source:</>          ' . $this->geocoderService->getSource());
             $io->writeln('<options=bold>Latitude:</>        ' . $member->getMailingLatitude());
             $io->writeln('<options=bold>Longitude:</>       ' . $member->getMailingLongitude());
         } catch (\Exception $e) {

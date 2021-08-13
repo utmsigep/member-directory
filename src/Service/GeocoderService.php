@@ -13,6 +13,7 @@ class GeocoderService
     protected $params;
     protected $logger;
     protected $httpClient;
+    protected $source;
 
     public function __construct(ParameterBagInterface $params, LoggerInterface $logger, HttpClientInterface $httpClient)
     {
@@ -42,6 +43,7 @@ class GeocoderService
         ]);
         if ($jsonObject && property_exists($jsonObject, 'results') && count($jsonObject->results) > 0) {
             $result = $jsonObject->results[0];
+            $this->source = 'geocodio';
             $member->setMailingLatitude($result->location->lat);
             $member->setMailingLongitude($result->location->lng);
             return $member;
@@ -59,6 +61,7 @@ class GeocoderService
         if (property_exists($jsonObject, 'result')) {
             $result = $jsonObject->result;
             if ($result->addressMatches && count($result->addressMatches) > 0) {
+                $this->source = 'census';
                 $member->setMailingLatitude($result->addressMatches[0]->coordinates->y);
                 $member->setMailingLongitude($result->addressMatches[0]->coordinates->x);
                 return $member;
@@ -76,6 +79,7 @@ class GeocoderService
         if (property_exists($jsonObject, 'locations')) {
             $locations = $jsonObject->locations;
             if ($locations[0] && $locations[0]->feature->geometry) {
+                $this->source = 'arcgis';
                 $member->setMailingLatitude($locations[0]->feature->geometry->y);
                 $member->setMailingLongitude($locations[0]->feature->geometry->x);
                 return $member;
@@ -91,6 +95,11 @@ class GeocoderService
             }
         }
         return $member;
+    }
+
+    public function getSource(): ?string
+    {
+        return $this->source;
     }
 
     private function makeGeocodioRequest($parameters = []): ?object
