@@ -31,7 +31,7 @@ class EmailServiceSubscriber
         }
         // If new Member Status is listed as inactive, delete the user user's subscription
         if ($eventArgs->hasChangedField('status') && $member->getStatus()->getIsInactive()) {
-            $this->emailService->deleteMember($member);
+            $this->emailService->deleteMember($member->getPrimaryEmail());
             return;
         }
         // If member is now deceased, unsubscribe
@@ -57,7 +57,10 @@ class EmailServiceSubscriber
             && $eventArgs->getOldValue('primaryEmail')
             && !$eventArgs->getNewValue('primaryEmail')
         ) {
-            $this->emailService->deleteMember($member);
+            $this->emailService->deleteMember(
+                $eventArgs->getOldValue('primaryEmail')
+            );
+            return;
         }
         // If email added to a record, subscribe in ESP
         if ($eventArgs->hasChangedField('primaryEmail')

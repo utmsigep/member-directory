@@ -144,12 +144,12 @@ class EmailService
         return false;
     }
 
-    public function deleteMember(Member $member): bool
+    public function deleteMember(string $existingEmail): bool
     {
-        if (!$member->getPrimaryEmail()) {
+        if (!$existingEmail) {
             return false;
         }
-        $result = $this->subscribersClient->delete($member->getPrimaryEmail());
+        $result = $this->subscribersClient->delete($existingEmail);
         if ($result->was_successful()) {
             return true;
         }
