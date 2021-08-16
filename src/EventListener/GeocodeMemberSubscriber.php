@@ -2,21 +2,24 @@
 
 namespace App\EventListener;
 
-use Doctrine\Common\EventSubscriber;
-use Doctrine\ORM\Event\PreUpdateEventArgs;
-use Doctrine\ORM\Event\LifecycleEventArgs;
-use Doctrine\ORM\Events;
-
-use App\Service\GeocoderService;
 use App\Entity\Member;
+use App\Service\GeocoderService;
+use Doctrine\Common\EventSubscriber;
+use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\ORM\Event\PreUpdateEventArgs;
+use Doctrine\ORM\Events;
+use Psr\Log\LoggerInterface;
 
 class GeocodeMemberSubscriber
 {
     protected $geocoderService;
 
-    public function __construct(GeocoderService $geocoderService)
+    protected $logger;
+
+    public function __construct(GeocoderService $geocoderService, LoggerInterface $logger)
     {
         $this->geocoderService = $geocoderService;
+        $this->logger = $logger;
     }
 
     public function preUpdate(Member $member, PreUpdateEventArgs $eventArgs)
@@ -35,7 +38,7 @@ class GeocodeMemberSubscriber
                 try {
                     $this->geocoderService->geocodeMemberMailingAddress($member);
                 } catch (\Exception $e) {
-                    error_log($e->getMessage());
+                    $this->logger->error($e->getMessage());
                 }
             }
         }
@@ -55,7 +58,7 @@ class GeocodeMemberSubscriber
                 try {
                     $this->geocoderService->geocodeMemberMailingAddress($member);
                 } catch (\Exception $e) {
-                    error_log($e->getMessage());
+                    $this->logger->error($e->getMessage());
                 }
             }
         }

@@ -8,6 +8,7 @@ use CS_REST_Campaigns;
 use CS_REST_Lists;
 use CS_REST_Subscribers;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Mailer\MailerInterface;
@@ -30,11 +31,13 @@ class EmailService
 
     protected $em;
 
+    protected $logger;
+
     protected $mailer;
 
     protected $communicationLogService;
 
-    public function __construct(ParameterBagInterface $params, UrlGeneratorInterface $router, EntityManagerInterface $em, MailerInterface $mailer, CommunicationLogService $communicationLogService)
+    public function __construct(ParameterBagInterface $params, UrlGeneratorInterface $router, EntityManagerInterface $em, LoggerInterface $logger, MailerInterface $mailer, CommunicationLogService $communicationLogService)
     {
         $this->params = $params;
         $this->router = $router;
@@ -57,6 +60,7 @@ class EmailService
             ]
         );
         $this->em = $em;
+        $this->logger = $logger;
         $this->mailer = $mailer;
         $this->communicationLogService = $communicationLogService;
     }
@@ -109,7 +113,7 @@ class EmailService
         if ($result->was_successful()) {
             return true;
         }
-        error_log(json_encode($result->response));
+        $this->logger->error(json_encode($result->response));
         return false;
     }
 
@@ -127,7 +131,7 @@ class EmailService
         if ($result->was_successful()) {
             return true;
         }
-        error_log(json_encode($result->response));
+        $this->logger->error(json_encode($result->response));
         return false;
     }
 
@@ -140,7 +144,7 @@ class EmailService
         if ($result->was_successful()) {
             return true;
         }
-        error_log(json_encode($result->response));
+        $this->logger->error(json_encode($result->response));
         return false;
     }
 
@@ -153,7 +157,7 @@ class EmailService
         if ($result->was_successful()) {
             return true;
         }
-        error_log(json_encode($result->response));
+        $this->logger->error(json_encode($result->response));
         return false;
     }
 
@@ -170,14 +174,14 @@ class EmailService
         if ($result->was_successful()) {
             return $result->response;
         }
-        error_log(json_encode($result->response));
+        $this->logger->error(json_encode($result->response));
         return [];
     }
 
     public function createWebhook(): ?string
     {
         if (!$this->getWebhookToken()) {
-            error_log('No Webhook Token configured.');
+            $this->logger->error('No Webhook Token configured.');
             return null;
         }
 
@@ -195,7 +199,7 @@ class EmailService
         if ($result->was_successful()) {
             return $result->response;
         }
-        error_log(json_encode($result->response));
+        $this->logger->error(json_encode($result->response));
         return null;
     }
 
@@ -205,7 +209,7 @@ class EmailService
         if ($result->was_successful()) {
             return true;
         }
-        error_log(json_encode($result->response));
+        $this->logger->error(json_encode($result->response));
         return false;
     }
 
