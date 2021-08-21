@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "462be2025b379127234c96148aa321c2",
+    "content-hash": "ef60a8dd6e210c5ca89660638deba05f",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -2747,141 +2747,6 @@
             "time": "2021-07-09T11:58:40+00:00"
         },
         {
-            "name": "lcobucci/clock",
-            "version": "2.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/lcobucci/clock.git",
-                "reference": "353d83fe2e6ae95745b16b3d911813df6a05bfb3"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/lcobucci/clock/zipball/353d83fe2e6ae95745b16b3d911813df6a05bfb3",
-                "reference": "353d83fe2e6ae95745b16b3d911813df6a05bfb3",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.4 || ^8.0"
-            },
-            "require-dev": {
-                "infection/infection": "^0.17",
-                "lcobucci/coding-standard": "^6.0",
-                "phpstan/extension-installer": "^1.0",
-                "phpstan/phpstan": "^0.12",
-                "phpstan/phpstan-deprecation-rules": "^0.12",
-                "phpstan/phpstan-phpunit": "^0.12",
-                "phpstan/phpstan-strict-rules": "^0.12",
-                "phpunit/php-code-coverage": "9.1.4",
-                "phpunit/phpunit": "9.3.7"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Lcobucci\\Clock\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Luís Cobucci",
-                    "email": "lcobucci@gmail.com"
-                }
-            ],
-            "description": "Yet another clock abstraction",
-            "support": {
-                "issues": "https://github.com/lcobucci/clock/issues",
-                "source": "https://github.com/lcobucci/clock/tree/2.0.x"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/lcobucci",
-                    "type": "github"
-                },
-                {
-                    "url": "https://www.patreon.com/lcobucci",
-                    "type": "patreon"
-                }
-            ],
-            "time": "2020-08-27T18:56:02+00:00"
-        },
-        {
-            "name": "lcobucci/jwt",
-            "version": "4.1.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/lcobucci/jwt.git",
-                "reference": "71cf170102c8371ccd933fa4df6252086d144de6"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/lcobucci/jwt/zipball/71cf170102c8371ccd933fa4df6252086d144de6",
-                "reference": "71cf170102c8371ccd933fa4df6252086d144de6",
-                "shasum": ""
-            },
-            "require": {
-                "ext-hash": "*",
-                "ext-json": "*",
-                "ext-mbstring": "*",
-                "ext-openssl": "*",
-                "ext-sodium": "*",
-                "lcobucci/clock": "^2.0",
-                "php": "^7.4 || ^8.0"
-            },
-            "require-dev": {
-                "infection/infection": "^0.21",
-                "lcobucci/coding-standard": "^6.0",
-                "mikey179/vfsstream": "^1.6.7",
-                "phpbench/phpbench": "^1.0@alpha",
-                "phpstan/extension-installer": "^1.0",
-                "phpstan/phpstan": "^0.12",
-                "phpstan/phpstan-deprecation-rules": "^0.12",
-                "phpstan/phpstan-phpunit": "^0.12",
-                "phpstan/phpstan-strict-rules": "^0.12",
-                "phpunit/php-invoker": "^3.1",
-                "phpunit/phpunit": "^9.5"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Lcobucci\\JWT\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Luís Cobucci",
-                    "email": "lcobucci@gmail.com",
-                    "role": "Developer"
-                }
-            ],
-            "description": "A simple library to work with JSON Web Token and JSON Web Signature",
-            "keywords": [
-                "JWS",
-                "jwt"
-            ],
-            "support": {
-                "issues": "https://github.com/lcobucci/jwt/issues",
-                "source": "https://github.com/lcobucci/jwt/tree/4.1.4"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/lcobucci",
-                    "type": "github"
-                },
-                {
-                    "url": "https://www.patreon.com/lcobucci",
-                    "type": "patreon"
-                }
-            ],
-            "time": "2021-03-23T23:53:08+00:00"
-        },
-        {
             "name": "league/csv",
             "version": "9.7.1",
             "source": {
@@ -3707,26 +3572,22 @@
             "time": "2019-03-08T08:55:37+00:00"
         },
         {
-            "name": "scheb/2fa",
+            "name": "scheb/2fa-bundle",
             "version": "v5.11.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/scheb/2fa.git",
-                "reference": "57f35c9a6c71342cc7ba824122333d5559e2eab9"
+                "url": "https://github.com/scheb/2fa-bundle.git",
+                "reference": "d049b28ed7afccddd12f11e6e84a1ae22f57d6a1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/scheb/2fa/zipball/57f35c9a6c71342cc7ba824122333d5559e2eab9",
-                "reference": "57f35c9a6c71342cc7ba824122333d5559e2eab9",
+                "url": "https://api.github.com/repos/scheb/2fa-bundle/zipball/d049b28ed7afccddd12f11e6e84a1ae22f57d6a1",
+                "reference": "d049b28ed7afccddd12f11e6e84a1ae22f57d6a1",
                 "shasum": ""
             },
             "require": {
-                "endroid/qr-code": "^3.0",
                 "ext-json": "*",
-                "lcobucci/jwt": "^3.4|^4.0",
-                "paragonie/constant_time_encoding": "^2.2",
                 "php": ">=7.2.5",
-                "spomky-labs/otphp": "^9.1|^10.0",
                 "symfony/config": "^4.4|^5.0",
                 "symfony/dependency-injection": "^4.4|^5.0",
                 "symfony/event-dispatcher": "^4.4|^5.0",
@@ -3740,38 +3601,18 @@
             "conflict": {
                 "scheb/two-factor-bundle": "*"
             },
-            "replace": {
-                "scheb/2fa-backup-code": "^5.0",
-                "scheb/2fa-bundle": "^5.0",
-                "scheb/2fa-email": "^5.0",
-                "scheb/2fa-google-authenticator": "^5.0",
-                "scheb/2fa-qr-code": "^5.0",
-                "scheb/2fa-totp": "^5.0",
-                "scheb/2fa-trusted-device": "^5.0"
-            },
-            "require-dev": {
-                "doctrine/persistence": "^1.3|^2.0",
-                "escapestudios/symfony2-coding-standard": "^3.9",
-                "phpunit/phpunit": "^8.0|^9.0",
-                "squizlabs/php_codesniffer": "^3.5",
-                "swiftmailer/swiftmailer": "^6.0",
-                "symfony/mailer": "^4.4|^5.0",
-                "symfony/polyfill-php80": "^1.15",
-                "symfony/yaml": "^4.4|^5.0",
-                "vimeo/psalm": "^3.17|^4.0"
+            "suggest": {
+                "scheb/2fa-backup-code": "Emergency codes when you have no access to other methods",
+                "scheb/2fa-email": "Send codes by email",
+                "scheb/2fa-google-authenticator": "Google Authenticator support",
+                "scheb/2fa-qr-code": "Generate QR codes for Google Authenticator / TOTP",
+                "scheb/2fa-totp": "Temporary one-time password (TOTP) support (Google Authenticator compatible)",
+                "scheb/2fa-trusted-device": "Trusted devices support"
             },
             "type": "symfony-bundle",
             "autoload": {
                 "psr-4": {
-                    "Scheb\\TwoFactorBundle\\": [
-                        "src/backup-code",
-                        "src/bundle",
-                        "src/email",
-                        "src/google-authenticator",
-                        "src/qr-code",
-                        "src/totp",
-                        "src/trusted-device"
-                    ]
+                    "Scheb\\TwoFactorBundle\\": ""
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -3784,20 +3625,118 @@
                     "email": "me@christianscheb.de"
                 }
             ],
-            "description": "Two-factor authentication for Symfony applications (please use scheb/2fa-bundle to install)",
+            "description": "A generic interface to implement two-factor authentication in Symfony applications",
             "homepage": "https://github.com/scheb/2fa",
             "keywords": [
+                "2fa",
                 "Authentication",
-                "security",
                 "symfony",
                 "two-factor",
                 "two-step"
             ],
             "support": {
-                "issues": "https://github.com/scheb/2fa/issues",
-                "source": "https://github.com/scheb/2fa/tree/v5.11.0"
+                "source": "https://github.com/scheb/2fa-bundle/tree/v5.11.0"
             },
             "time": "2021-08-11T18:30:37+00:00"
+        },
+        {
+            "name": "scheb/2fa-qr-code",
+            "version": "v5.11.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/scheb/2fa-qr-code.git",
+                "reference": "770b93b185ef9b21b59f562f7f7bb17e916304f2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/scheb/2fa-qr-code/zipball/770b93b185ef9b21b59f562f7f7bb17e916304f2",
+                "reference": "770b93b185ef9b21b59f562f7f7bb17e916304f2",
+                "shasum": ""
+            },
+            "require": {
+                "endroid/qr-code": "^3.0",
+                "scheb/2fa-bundle": "self.version"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Scheb\\TwoFactorBundle\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Christian Scheb",
+                    "email": "me@christianscheb.de"
+                }
+            ],
+            "description": "Extends scheb/2fa-bundle with the ability to render QR-codes for Google Authenticator or TOTP",
+            "homepage": "https://github.com/scheb/2fa",
+            "keywords": [
+                "2fa",
+                "Authentication",
+                "qr-code",
+                "symfony",
+                "two-factor",
+                "two-step"
+            ],
+            "support": {
+                "source": "https://github.com/scheb/2fa-qr-code/tree/v5.11.0"
+            },
+            "time": "2021-02-28T12:09:54+00:00"
+        },
+        {
+            "name": "scheb/2fa-totp",
+            "version": "v5.11.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/scheb/2fa-totp.git",
+                "reference": "69ceae4968fa15469fca5e23f72ef2b49378a5f9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/scheb/2fa-totp/zipball/69ceae4968fa15469fca5e23f72ef2b49378a5f9",
+                "reference": "69ceae4968fa15469fca5e23f72ef2b49378a5f9",
+                "shasum": ""
+            },
+            "require": {
+                "paragonie/constant_time_encoding": "^2.2",
+                "scheb/2fa-bundle": "self.version",
+                "spomky-labs/otphp": "^9.1|^10.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Scheb\\TwoFactorBundle\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Christian Scheb",
+                    "email": "me@christianscheb.de"
+                }
+            ],
+            "description": "Extends scheb/2fa-bundle with two-factor authentication using TOTP",
+            "homepage": "https://github.com/scheb/2fa",
+            "keywords": [
+                "2fa",
+                "Authentication",
+                "symfony",
+                "totp",
+                "two-factor",
+                "two-step"
+            ],
+            "support": {
+                "source": "https://github.com/scheb/2fa-totp/tree/v5.11.0"
+            },
+            "time": "2021-02-28T12:09:54+00:00"
         },
         {
             "name": "sensio/framework-extra-bundle",
@@ -14166,5 +14105,5 @@
     "platform-overrides": {
         "php": "7.4.13"
     },
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.1.0"
 }

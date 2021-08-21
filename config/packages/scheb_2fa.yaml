@@ -1,3 +1,4 @@
+# See the configuration reference at https://github.com/scheb/2fa/blob/master/doc/configuration.md
 scheb_two_factor:
     totp:
         enabled: true

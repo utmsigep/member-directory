@@ -198,12 +198,6 @@
     "laminas/laminas-code": {
         "version": "3.5.1"
     },
-    "lcobucci/clock": {
-        "version": "2.0.0"
-    },
-    "lcobucci/jwt": {
-        "version": "3.3.3"
-    },
     "league/csv": {
         "version": "9.2.0"
     },
@@ -326,8 +320,24 @@
     "ralouphie/getallheaders": {
         "version": "3.0.3"
     },
-    "scheb/2fa": {
-        "version": "v5.10.0"
+    "scheb/2fa-bundle": {
+        "version": "5.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "5.0",
+            "ref": "62660e7d21b8b5295c5a6f8ca17dc7099881f267"
+        },
+        "files": [
+            "config/packages/scheb_2fa.yaml",
+            "config/routes/scheb_2fa.yaml"
+        ]
+    },
+    "scheb/2fa-qr-code": {
+        "version": "v5.11.0"
+    },
+    "scheb/2fa-totp": {
+        "version": "v5.11.0"
     },
     "sebastian/cli-parser": {
         "version": "1.0.1"
