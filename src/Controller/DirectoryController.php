@@ -297,10 +297,12 @@ class DirectoryController extends AbstractController
      */
     public function mapSearch(MemberRepository $memberRepository, Request $request)
     {
+        $memberStatuses = $request->get('member_statuses', []);
         $members = $memberRepository->findMembersWithinRadius(
             $request->get('latitude'),
             $request->get('longitude'),
-            $request->get('radius')
+            $request->get('radius'),
+            ['member_statuses' => $memberStatuses]
         );
         return $this->json($members, 200, [], [
             'groups' => ['member_main', 'member_extended', 'status_main', 'tag_main'],

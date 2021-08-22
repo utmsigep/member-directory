@@ -58,18 +58,20 @@ class ExportController extends AbstractController
             throw new BadRequestHttpException('Invalid search parameters.');
         }
 
+        $memberStatuses = $request->get('member_statuses', []);
         $results = $this->getDoctrine()->getRepository(Member::class)->findMembersWithinRadius(
             (float) $request->get('latitude'),
             (float) $request->get('longitude'),
-            (int) $request->get('radius')
+            (int) $request->get('radius'),
+            ['member_statuses' => $memberStatuses]
         );
 
         $members = [];
         foreach ($results as $row) {
-            $members[] = $row[0];
+            $members[] = $row;
         }
 
-        $filename = 'member-export-' . date('Y-m-d') . '.csv';
+        $filename = 'member-export-by-location-' . date('Y-m-d') . '.csv';
         $response = new Response($memberToCsvService->arrayToCsvString(new ArrayCollection($members)));
         $response->headers->set('Content-type', 'text/csv');
         $disposition = $response->headers->makeDisposition(

@@ -126,31 +126,33 @@ class MemberRepository extends ServiceEntityRepository
         return new Paginator($qb->getQuery(), $fetchJoinCollection = true);
     }
 
-    public function findMembersWithinRadius(float $latitude, float $longitude, int $radius)
+    public function findMembersWithinRadius(float $latitude, float $longitude, int $radius, $params=[])
     {
-        $entityManager = $this->getEntityManager();
-        $query = $entityManager->createQuery('SELECT
-                    m, s, t, (
-                      3959 * acos (
-                      cos ( radians(:latitude) )
-                      * cos( radians( m.mailingLatitude ) )
-                      * cos( radians( m.mailingLongitude ) - radians(:longitude) )
-                      + sin ( radians(:latitude) )
-                      * sin( radians( m.mailingLatitude ) )
-                    )
-                ) AS distance
-                FROM App\Entity\Member m JOIN m.status s LEFT JOIN m.tags t
-                WHERE s.isInactive = false
-                    AND m.isDeceased = 0
-                HAVING distance < :radius
-                ORDER BY distance
-            ')
+        $qb = $this->createQueryBuilder('m')
+            ->addSelect('t')
+            ->addSelect('s')
+            ->addSelect('( 3959 * acos (
+                          cos ( radians(:latitude) )
+                          * cos( radians( m.mailingLatitude ) )
+                          * cos( radians( m.mailingLongitude ) - radians(:longitude) )
+                          + sin ( radians(:latitude) )
+                          * sin( radians( m.mailingLatitude ) )
+                        ) ) AS HIDDEN distance')
+            ->join('m.status', 's')
+            ->leftJoin('m.tags', 't')
+            ->having('distance <= :radius')
+            ->andWhere('m.mailingLatitude IS NOT NULL')
+            ->andWhere('m.mailingLatitude != 0')
+            ->andWhere('m.mailingLongitude IS NOT NULL')
+            ->andWhere('m.mailingLongitude != 0')
+            ->andWhere('m.isDeceased = 0')
+            ->andWhere('s.isInactive = 0')
             ->setParameter('latitude', $latitude)
             ->setParameter('longitude', $longitude)
             ->setParameter('radius', $radius)
         ;
-
-        return $query->getResult();
+        $this->processParams($qb, $params);
+        return new Paginator($qb->getQuery(), $fetchJoinCollection = true);
     }
 
     public function findRecentUpdates(array $criteria, ?string $timezone = 'UTC')

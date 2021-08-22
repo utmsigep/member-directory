@@ -33,6 +33,14 @@ var markerIcon = L.Icon.extend({
 var memberMarkers = [];
 var defaultIcon = new markerIcon();
 
+var memberStatuses = (function() {
+  var a = [];
+  $('input[name="map_filter[status][]"]:checked').each(function() {
+    a.push(this.value);
+  });
+  return a;
+});
+
 var drawMap = function () {
   $('#mapContainerLoading').show();
   var directoryMap = L.map('mapContainer').setView([39.828175, -98.5795], 4);
@@ -46,7 +54,7 @@ var drawMap = function () {
   L.control.scale().addTo(directoryMap);
 
   // Search Radius Controls
-  var circle = {};
+  var circle = L.circle();
   var searchResultsContainer = $('#searchResults');
   var searchNoResultsFoundContainer = $('#searchNoResultsFound');
   var searchResultCountContainer = $('#searchResultCount');
@@ -63,8 +71,8 @@ var drawMap = function () {
           fillOpacity: 0.1,
           radius: (radius * 1609.344)
       }).addTo(directoryMap);
-      mapExportButton.attr('href', Routing.generate('export_by_location', {latitude: ev.latlng.lat, longitude: ev.latlng.lng, radius: radius}));
-      $.getJSON(Routing.generate('map_search', {latitude: ev.latlng.lat, longitude: ev.latlng.lng, radius: radius}), {}, function(data) {
+      mapExportButton.attr('href', Routing.generate('export_by_location', {latitude: ev.latlng.lat, longitude: ev.latlng.lng, radius: radius, member_statuses: memberStatuses()}));
+      $.getJSON(Routing.generate('map_search', {latitude: ev.latlng.lat, longitude: ev.latlng.lng, radius: radius, member_statuses: memberStatuses()}), {}, function(data) {
           searchResultsContainer.empty();
           searchNoResultsFoundContainer.show();
           searchResultsExport.hide();
@@ -74,7 +82,8 @@ var drawMap = function () {
             searchNoResultsFoundContainer.hide();
             searchResultsExport.show();
             $(data).each(function (i, row) {
-              var item = formatMemberData(row[0]);
+              console.log(row);
+              var item = formatMemberData(row);
               searchResultsContainer.append(L.Util.template(
                 '<div><div><strong><a href="{link}" target="_blank">{displayName}</a> {classYear}</strong> {tags}</div> {localIdentifier} / {statusLabel}</div><hr />', item
               ));
@@ -84,14 +93,8 @@ var drawMap = function () {
   });
 
   var addMarkers = function () {
-    var memberStatuses = (function() {
-      var a = [];
-      $('input[name="map_filter[status][]"]:checked').each(function() {
-        a.push(this.value);
-      });
-      return a;
-    })();
-    $.getJSON(Routing.generate('map_data'), {member_statuses: memberStatuses}, function(data) {
+    searchResultsExport.hide();
+    $.getJSON(Routing.generate('map_data'), {member_statuses: memberStatuses()}, function(data) {
       if (data.length == 0) {
         return;
       }
@@ -115,7 +118,7 @@ var drawMap = function () {
   // Draw initial markers
   addMarkers();
 
-  // Redraw map on field changes
+  // Change map with filter update
   $('form[name="map_filter"]').on('change', function (form) {
     // Require at least one box to be checked
     if ($('input[name="map_filter[status][]"]:checked').length == 0) {
@@ -125,6 +128,11 @@ var drawMap = function () {
     $(memberMarkers).each(function (i, marker) {
       marker.remove();
     });
+    circle.remove();
+    searchResultsContainer.empty();
+    searchNoResultsFoundContainer.show();
+    searchResultsExport.hide();
+    searchResultCountContainer.html(0);
     addMarkers();
   });
 };
