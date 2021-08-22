@@ -20,7 +20,7 @@ class MapFilterType extends AbstractType
                 'expanded' => true,
                 'query_builder' => function(EntityRepository $er) {
                     return $er->createQueryBuilder('s')
-                        ->addOrderBy('s.isInactive', 'ASC')
+                        ->andWhere('s.isInactive = false')
                         ->addOrderBy('s.label', 'ASC')
                     ;
                 },
