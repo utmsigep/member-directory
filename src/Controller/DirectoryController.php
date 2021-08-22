@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\DirectoryCollection;
 use App\Entity\Member;
 use App\Entity\Tag;
+use App\Form\MapFilterType;
 use App\Repository\DirectoryCollectionRepository;
 use App\Repository\MemberRepository;
 use App\Repository\TagRepository;
@@ -279,9 +280,16 @@ class DirectoryController extends AbstractController
     /**
      * @Route("/map", name="map")
      */
-    public function map()
+    public function map(Request $request)
     {
-        return $this->render('directory/map.html.twig');
+        $form = $this->createForm(MapFilterType::class, null);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $filters = $form->getData();
+        }
+        return $this->render('directory/map.html.twig', [
+            'form' => $form->createView()
+        ]);
     }
 
     /**
@@ -305,9 +313,10 @@ class DirectoryController extends AbstractController
     /**
      * @Route("/map-data", name="map_data", options={"expose" = true})
      */
-    public function mapData(MemberRepository $memberRepository)
+    public function mapData(MemberRepository $memberRepository, Request $request)
     {
-        $members = $memberRepository->findGeocodedAddresses();
+        $memberStatuses = $request->get('member_statuses', []);
+        $members = $memberRepository->findGeocodedAddresses(['member_statuses' => $memberStatuses]);
         return $this->json($members, 200, [], [
             'groups' => ['member_main', 'member_extended', 'status_main', 'tag_main'],
             'circular_reference_handler' => function ($object) {

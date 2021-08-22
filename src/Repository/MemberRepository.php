@@ -259,12 +259,16 @@ class MemberRepository extends ServiceEntityRepository
 
     private function processParams(QueryBuilder $qb, $params = []): QueryBuilder
     {
+        // Filter by Member Status
+        if (isset($params['member_statuses']) && count($params['member_statuses']) > 0) {
+            $qb->andWhere('m.status IN (:memberStatuses)');
+            $qb->setParameter('memberStatuses', $params['member_statuses']);
+        }
         // Pagination
         if (isset($params['limit'], $params['offset'])) {
             $qb->setMaxResults($params['limit']);
             $qb->setFirstResult($params['offset']);
         }
-
         // Sorting
         if (isset($params['sort_by'], $params['sort_direction'])) {
             $qb->orderBy($params['sort_by'], $params['sort_direction']);

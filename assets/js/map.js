@@ -83,26 +83,50 @@ var drawMap = function () {
       });
   });
 
-  // Make initial data call
-  $.getJSON(Routing.generate('map_data'), {}, function(data) {
-    if (data.length == 0) {
-      return;
-    }
-    $(data).each(function (i, row) {
-      var marker = L.marker(L.latLng(row.mailingLatitude, row.mailingLongitude)).setIcon(defaultIcon);
-      row = formatMemberData(row);
-      marker.bindTooltip(formatMemberTooltip(row)).bindPopup(formatMemberPopup(row)).addTo(directoryMap);
-      memberMarkers.push(marker);
-    });
-  })
-    // Fit map bounds based on markers on screen
-    .done(function () {
-      var group = new L.featureGroup(memberMarkers);
-      if (group.getLayers().length > 0) {
-        directoryMap.fitBounds(group.getBounds());
+  var addMarkers = function () {
+    var memberStatuses = (function() {
+      var a = [];
+      $('input[name="map_filter[status][]"]:checked').each(function() {
+        a.push(this.value);
+      });
+      return a;
+    })();
+    $.getJSON(Routing.generate('map_data'), {member_statuses: memberStatuses}, function(data) {
+      if (data.length == 0) {
+        return;
       }
-      $('#mapContainerLoading').hide();
+      $(data).each(function (i, row) {
+        var marker = L.marker(L.latLng(row.mailingLatitude, row.mailingLongitude)).setIcon(defaultIcon);
+        row = formatMemberData(row);
+        marker.bindTooltip(formatMemberTooltip(row)).bindPopup(formatMemberPopup(row)).addTo(directoryMap);
+        memberMarkers.push(marker);
+      });
+    })
+      // Fit map bounds based on markers on screen
+      .done(function () {
+        var group = new L.featureGroup(memberMarkers);
+        if (group.getLayers().length > 0) {
+          directoryMap.fitBounds(group.getBounds());
+        }
+        $('#mapContainerLoading').hide();
+      });
+  };
+
+  // Draw initial markers
+  addMarkers();
+
+  // Redraw map on field changes
+  $('form[name="map_filter"]').on('change', function (form) {
+    // Require at least one box to be checked
+    if ($('input[name="map_filter[status][]"]:checked').length == 0) {
+      $('input[name="map_filter[status][]"]').first().prop('checked', true);
+    }
+    // Clear out previouis markers
+    $(memberMarkers).each(function (i, marker) {
+      marker.remove();
     });
+    addMarkers();
+  });
 };
 
 var formatMemberData = function (data) {
