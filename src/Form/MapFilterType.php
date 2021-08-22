@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\MemberStatus;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -17,6 +18,12 @@ class MapFilterType extends AbstractType
                 'class' => MemberStatus::class,
                 'multiple' => true,
                 'expanded' => true,
+                'query_builder' => function(EntityRepository $er) {
+                    return $er->createQueryBuilder('s')
+                        ->addOrderBy('s.isInactive', 'ASC')
+                        ->addOrderBy('s.label', 'ASC')
+                    ;
+                },
                 'choice_attr' => function ($choice) {
                     return ['checked' => !$choice->getIsInactive()];
                 },
