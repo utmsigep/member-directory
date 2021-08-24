@@ -16,6 +16,8 @@ $(document).ready(function () {
   ];
 
   var donationsTable = $('#donationsTable').DataTable({
+    responsive: true,
+    fixedHeader: true,
     buttons: exportButtons,
     order: [
       [0, 'desc']
@@ -25,6 +27,8 @@ $(document).ready(function () {
   donationsTable.buttons().container().addClass('d-block text-center py-3').appendTo(donationsTable.table().container());
 
   var donorTable = $('#donorTable').DataTable({
+    responsive: true,
+    fixedHeader: true,
     buttons: exportButtons,
     order: [
       [5, 'desc']
@@ -34,6 +38,8 @@ $(document).ready(function () {
   donorTable.buttons().container().addClass('d-block text-center py-3').appendTo(donorTable.table().container());
 
   var campaignTable = $('#campaignTable').DataTable({
+    responsive: true,
+    fixedHeader: true,
     buttons: exportButtons,
     order: [
       [6, 'desc']

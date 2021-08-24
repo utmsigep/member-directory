@@ -12,6 +12,10 @@ var sanitizeHTML = function (str) {
 
 $(document).ready(function() {
   var memberDataTable = $('#memberDataTable').DataTable({
+    responsive: true,
+    fixedHeader: {
+      header: true
+    },
     serverSide: true,
     processing: true,
     ajax: $('#memberDataTable').data('source'),
@@ -178,6 +182,7 @@ $(document).ready(function() {
       }
     ]
   });
+
   if (!$('#memberDataTable').data('show-status')) {
     memberDataTable.column(3).visible(false);
   }
