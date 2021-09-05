@@ -12,13 +12,13 @@
         "build": "encore production --progress"
     },
     "dependencies": {
-        "@symfony/webpack-encore": "^1.6.0",
+        "@symfony/webpack-encore": "^1.6.1",
         "bootstrap": "^4.6.0",
         "bootstrap-autocomplete": "^2.3.7",
         "bootstrap-select": "^1.13.18",
         "core-js": "^3.17.2",
-        "datatables.net": "^1.10.25",
-        "datatables.net-bs4": "^1.10.25",
+        "datatables.net": "^1.11.1",
+        "datatables.net-bs4": "^1.11.1",
         "datatables.net-buttons": "^2.0.0",
         "datatables.net-buttons-bs4": "^2.0.0",
         "datatables.net-fixedheader": "^3.1.9",
