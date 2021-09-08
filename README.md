@@ -1,8 +1,8 @@
 # Member Directory
 
-[![Build Status](https://travis-ci.com/utmsigep/member-directory.svg?branch=master)](https://travis-ci.com/utmsigep/member-directory)
+[![Coding Standards](https://github.com/utmsigep/member-directory/actions/workflows/php-cs-fixer.yml/badge.svg)](https://github.com/utmsigep/member-directory/actions/workflows/php-cs-fixer.yml) [![CI Build and Test](https://github.com/utmsigep/member-directory/actions/workflows/ci.yml/badge.svg)](https://github.com/utmsigep/member-directory/actions/workflows/ci.yml)
 
-Member Directory is a [Symfony](https://symfony.com/) 5 project to manage membership records. It offers automated email service subscription management, donation tracking and integrated communication logging. A suite of user roles allow administrators to delegate tasks to other users.
+Member Directory is a [Symfony](https://symfony.com/) project to manage membership records. It offers automated email service subscription management, donation tracking and integrated communication logging. A suite of user roles allow administrators to delegate tasks to other users.
 
 ![Screenshot](docs/screenshots/directory-collection.png)
 
