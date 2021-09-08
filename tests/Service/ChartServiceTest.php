@@ -9,9 +9,9 @@ class ChartServiceTest extends KernelTestCase
 {
     protected ChartService $chartService;
 
-    public function setup() : void
+    public function setup(): void
     {
-        $this->chartService = new ChartService;
+        $this->chartService = new ChartService();
     }
 
     public function testBuildDonationColumnChartData()
