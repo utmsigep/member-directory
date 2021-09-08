@@ -15,12 +15,12 @@ jobs:
       uses: docker://oskarstark/php-cs-fixer-ga
 
     - name: Create PR for CS fixups
-      uses: peter-evans/create-pull-request
+      uses: peter-evans/create-pull-request@v3
       id: create-pull-request
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         title: Fix coding standards in ${{ github.ref }}
-        branch: php-cs-fixer/${{ github.ref }}
+        branch: coding-standards/${{ github.ref }}
         assignees: ${{ github.actor }}
         labels: php-cs-fixer
         body: Please merge these changes into the ${{ github.ref }} branch to fix coding standard violations.
