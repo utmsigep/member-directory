@@ -164,7 +164,7 @@ class MemberController extends AbstractController
      * @Route("/{localIdentifier}/donations", name="member_donations")
      * @IsGranted("ROLE_DONATION_MANAGER")
      */
-    public function donations(Member $member): Response
+    public function donations(Member $member, ChartService $chartService): Response
     {
         $entityManager = $this->getDoctrine()->getManager();
         $donations = $entityManager->getRepository(Donation::class)->findByMember($member);
@@ -175,7 +175,7 @@ class MemberController extends AbstractController
             'member' => $member,
             'donations' => $donations,
             'totals' => $totals,
-            'chart_data' => ChartService::buildDonationColumnChartData($donationsByMonth),
+            'chart_data' => $chartService->buildDonationColumnChartData($donationsByMonth),
         ]);
     }
 

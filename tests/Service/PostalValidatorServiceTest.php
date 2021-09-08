@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class PostalValidatorServiceTest extends KernelTestCase
 {
-    protected $postalValidatorService;
+    protected PostalValidatorService $postalValidatorService;
 
     public function setUp(): void
     {

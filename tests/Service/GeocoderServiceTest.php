@@ -10,7 +10,7 @@ use Symfony\Component\HttpClient\Response\MockResponse;
 
 class GeocoderServiceTest extends KernelTestCase
 {
-    protected $geocoderService;
+    protected GeocoderService $geocoderService;
 
     public function setUp(): void
     {

@@ -6,7 +6,7 @@ use CMEN\GoogleChartsBundle\GoogleCharts\Charts\Material\ColumnChart;
 
 class ChartService
 {
-    public static function buildDonationColumnChartData($data): ColumnChart
+    public function buildDonationColumnChartData($data): ColumnChart
     {
         $chartTable = [['Date', 'Donation Amount']];
         foreach ($data as $row) {

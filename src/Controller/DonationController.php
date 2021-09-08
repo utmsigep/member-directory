@@ -37,7 +37,7 @@ class DonationController extends AbstractController
     /**
      * @Route("/", name="donation_index", methods={"GET"})
      */
-    public function index(DonationRepository $donationRepository, Request $request): Response
+    public function index(DonationRepository $donationRepository, ChartService $chartService, Request $request): Response
     {
         $this->handleDateRequest($request);
         $timezone = $this->getUser()->getTimezone() ? $this->getUser()->getTimezone() : 'UTC';
@@ -50,7 +50,7 @@ class DonationController extends AbstractController
             'totals' => $totals,
             'start_date' => $this->startDate,
             'end_date' => $this->endDate,
-            'chart_data' => ChartService::buildDonationColumnChartData($donationsByMonth),
+            'chart_data' => $chartService->buildDonationColumnChartData($donationsByMonth),
         ]);
     }
 

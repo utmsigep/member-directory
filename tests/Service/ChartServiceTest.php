@@ -7,6 +7,13 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class ChartServiceTest extends KernelTestCase
 {
+    protected ChartService $chartService;
+
+    public function setup() : void
+    {
+        $this->chartService = new ChartService;
+    }
+
     public function testBuildDonationColumnChartData()
     {
         $data = [
@@ -47,7 +54,7 @@ class ChartServiceTest extends KernelTestCase
                 'currency' => 'usd',
             ],
         ];
-        $output = ChartService::buildDonationColumnChartData($data);
+        $output = $this->chartService->buildDonationColumnChartData($data);
         $this->assertEquals('CMEN\GoogleChartsBundle\GoogleCharts\Charts\Material\ColumnChart', get_class($output));
     }
 }
