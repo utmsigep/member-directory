@@ -21,7 +21,7 @@ jobs:
                     ref: ${{ github.head_ref }}
 
             -   name: Run PHP-CS-Fixer
-                uses: docker://oskarstark/php-cs-fixer-ga:2.16.7
+                uses: docker://oskarstark/php-cs-fixer-ga:3.0.2
 
             -   name: Create PR for CS fixups
                 uses: peter-evans/create-pull-request@9825ae65b1cb54b543b938503728b432a0176d29
@@ -48,4 +48,3 @@ jobs:
             -   name: Fail the workflow when necessary CS fixes were detected
                 run: echo "Failing workflow run because CS violations were detected." && exit 1
                 if: steps.create-pull-request.outputs.pr_number
-
