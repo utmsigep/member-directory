@@ -1,6 +1,6 @@
 {
     "devDependencies": {
-        "webpack-dev-server": "^4.1.0",
+        "webpack-dev-server": "^4.1.1",
         "webpack-notifier": "^1.13.0"
     },
     "license": "MIT",
