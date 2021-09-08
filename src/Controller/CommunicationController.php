@@ -28,7 +28,7 @@ class CommunicationController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="communication_new", methods={"GET","POST"})
+     * @Route("/new", name="communication_new", methods={"GET", "POST"})
      */
     public function new(Request $request): Response
     {
@@ -42,6 +42,7 @@ class CommunicationController extends AbstractController
             $entityManager->persist($communicationLog);
             $entityManager->flush();
             $this->addFlash('success', sprintf('%s created!', $communicationLog));
+
             return $this->redirectToRoute('communication_index');
         }
 
@@ -62,7 +63,7 @@ class CommunicationController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="communication_edit", methods={"GET","POST"})
+     * @Route("/{id}/edit", name="communication_edit", methods={"GET", "POST"})
      */
     public function edit(Request $request, CommunicationLog $communicationLog): Response
     {
@@ -72,6 +73,7 @@ class CommunicationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
             $this->addFlash('success', sprintf('%s updated!', $communicationLog));
+
             return $this->redirectToRoute('communication_index');
         }
 

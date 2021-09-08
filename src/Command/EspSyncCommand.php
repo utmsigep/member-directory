@@ -2,17 +2,14 @@
 
 namespace App\Command;
 
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Console\Helper\ProgressBar;
-
 use App\Entity\Member;
 use App\Service\EmailService;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\ProgressBar;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 class EspSyncCommand extends Command
 {
@@ -42,6 +39,7 @@ class EspSyncCommand extends Command
 
         if (!$this->emailService->isConfigured()) {
             $io->error('Email service not configured.');
+
             return Command::FAILURE;
         }
         $members = $this->entityManager->getRepository(Member::class)->findActiveEmailable();
@@ -56,7 +54,7 @@ class EspSyncCommand extends Command
             'subscribed' => [],
             'unsubscribed' => [],
             'updated' => [],
-            'ignored' => []
+            'ignored' => [],
         ];
         foreach ($members as $member) {
             $subscription = $this->emailService->getMemberSubscription($member);
@@ -68,9 +66,9 @@ class EspSyncCommand extends Command
                 } else {
                     $output['ignored'][] = $member->getDisplayName();
                 }
-            // If is found, check subscription status and update if Active
+                // If is found, check subscription status and update if Active
             } else {
-                if ($subscription->State == 'Active') {
+                if ('Active' == $subscription->State) {
                     if (!$member->getIsLocalDoNotContact()) {
                         $output['updated'][] = $member->getDisplayName();
                         $this->emailService->updateMember($member->getPrimaryEmail(), $member);
@@ -97,6 +95,7 @@ class EspSyncCommand extends Command
         $io->writeln(implode(PHP_EOL, $output['ignored']));
 
         $io->success('Done!');
+
         return Command::SUCCESS;
     }
 }

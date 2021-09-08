@@ -28,7 +28,7 @@ class EventController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="event_new", methods={"GET","POST"})
+     * @Route("/new", name="event_new", methods={"GET", "POST"})
      */
     public function new(Request $request): Response
     {
@@ -61,7 +61,7 @@ class EventController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="event_edit", methods={"GET","POST"})
+     * @Route("/{id}/edit", name="event_edit", methods={"GET", "POST"})
      */
     public function edit(Request $request, Event $event): Response
     {

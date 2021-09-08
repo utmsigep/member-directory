@@ -23,17 +23,17 @@ class GeocoderServiceTest extends KernelTestCase
         $container = self::$container;
 
         $mockHttpClient = new MockHttpClient(function ($method, $url) {
-            switch($url) {
+            switch ($url) {
                 case 'https://geocoding.geo.census.gov/geocoder/locations/address?street=1100%20Broadway%20&city=Nashville&state=TN&benchmark=Public_AR_Current&format=json':
-                    return new MockResponse(file_get_contents(dirname(__FILE__) . '/fixtures/census_api_known_address.json'));
+                    return new MockResponse(file_get_contents(dirname(__FILE__).'/fixtures/census_api_known_address.json'));
                 case 'https://geocoding.geo.census.gov/geocoder/locations/address?street=PO%20Box%2060901%20&city=Nashville&state=TN&zip=37206&benchmark=Public_AR_Current&format=json':
-                    return new MockResponse(file_get_contents(dirname(__FILE__) . '/fixtures/census_api_po_box.json'));
+                    return new MockResponse(file_get_contents(dirname(__FILE__).'/fixtures/census_api_po_box.json'));
                 case 'https://geocoding.geo.census.gov/geocoder/locations/address?street=123%20Any%20Street%20&city=Nashville&state=TN&zip=37206&benchmark=Public_AR_Current&format=json':
-                    return new MockResponse(file_get_contents(dirname(__FILE__) . '/fixtures/census_api_bad_street_address.json'));
+                    return new MockResponse(file_get_contents(dirname(__FILE__).'/fixtures/census_api_bad_street_address.json'));
                 case 'https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/find/?text=37206&maxLocations=1&f=json&returnGeometry=true':
-                    return new MockResponse(file_get_contents(dirname(__FILE__) . '/fixtures/arcgis_zip_code.json'));
+                    return new MockResponse(file_get_contents(dirname(__FILE__).'/fixtures/arcgis_zip_code.json'));
                 default:
-                    throw new \Exception('Did not match known request for ' . $method . ': ' . $url);
+                    throw new \Exception('Did not match known request for '.$method.': '.$url);
             }
         });
 
@@ -80,5 +80,4 @@ class GeocoderServiceTest extends KernelTestCase
         $this->assertGreaterThan(36.1, $output->getMailingLatitude());
         $this->assertLessThan(-86.7, $output->getMailingLongitude());
     }
-
 }

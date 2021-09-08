@@ -7,8 +7,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\MemberStatusRepository")
@@ -20,8 +20,8 @@ class MemberStatus
     use TimestampableEntity;
 
     /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
+     * @ORM\Id
+     * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
     private $id;
@@ -78,9 +78,10 @@ class MemberStatus
     {
         $code = trim($code);
         $code = str_replace(' ', '_', $code);
-        $code = preg_replace("/[^A-Za-z0-9_]/", '', $code);
+        $code = preg_replace('/[^A-Za-z0-9_]/', '', $code);
         $code = mb_strtoupper($code);
         $this->code = $code;
+
         return $this;
     }
 
@@ -130,6 +131,7 @@ class MemberStatus
     public function setIsInactive(bool $isInactive): self
     {
         $this->isInactive = $isInactive;
+
         return $this;
     }
 

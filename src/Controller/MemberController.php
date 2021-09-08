@@ -22,7 +22,6 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mime\Header\Headers;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -46,23 +45,25 @@ class MemberController extends AbstractController
             $entityManager->persist($member);
             $entityManager->flush();
             $this->addFlash('success', sprintf('%s created!', $member));
+
             return $this->redirect($this->generateUrl('member_show', [
-                'localIdentifier' => $member->getLocalIdentifier()
+                'localIdentifier' => $member->getLocalIdentifier(),
             ]));
         }
+
         return $this->render('member/new.html.twig', [
             'member' => $member,
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/{localIdentifier}", name="member_show", options={"expose" = true}))
+     * @Route("/{localIdentifier}", name="member_show", options={"expose": true}))
      */
     public function show(Member $member): Response
     {
         return $this->render('member/show.html.twig', [
-            'member' => $member
+            'member' => $member,
         ]);
     }
 
@@ -80,13 +81,15 @@ class MemberController extends AbstractController
             $entityManager->persist($member);
             $entityManager->flush();
             $this->addFlash('success', sprintf('%s updated!', $member));
+
             return $this->redirect($this->generateUrl('member_show', [
-                'localIdentifier' => $member->getLocalIdentifier()
+                'localIdentifier' => $member->getLocalIdentifier(),
             ]));
         }
+
         return $this->render('member/edit.html.twig', [
             'member' => $originalMember,
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 
@@ -103,11 +106,13 @@ class MemberController extends AbstractController
             $entityManager->remove($member);
             $entityManager->flush();
             $this->addFlash('success', sprintf('%s deleted!', $member));
+
             return $this->redirect($this->generateUrl('home'));
         }
+
         return $this->render('member/delete.html.twig', [
             'member' => $member,
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 
@@ -119,9 +124,10 @@ class MemberController extends AbstractController
     {
         $entityManager = $this->getDoctrine()->getManager();
         $logEntries = $entityManager->getRepository(LogEntry::class)->getLogEntries($member);
+
         return $this->render('directory/change_log.html.twig', [
             'member' => $member,
-            'logEntries' => $logEntries
+            'logEntries' => $logEntries,
         ]);
     }
 
@@ -143,13 +149,14 @@ class MemberController extends AbstractController
             $entityManager->persist($communicationLog);
             $entityManager->flush();
             $this->addFlash('success', sprintf('%s communication logged!', $member));
+
             return $this->redirectToRoute('member_communication_log', ['localIdentifier' => $member->getLocalIdentifier()]);
         }
 
         return $this->render('member/communications.html.twig', [
             'member' => $member,
             'communicationLogs' => $communicationLogs,
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 
@@ -168,7 +175,7 @@ class MemberController extends AbstractController
             'member' => $member,
             'donations' => $donations,
             'totals' => $totals,
-            'chart_data' => ChartService::buildDonationColumnChartData($donationsByMonth)
+            'chart_data' => ChartService::buildDonationColumnChartData($donationsByMonth),
         ]);
     }
 
@@ -192,12 +199,13 @@ class MemberController extends AbstractController
                     if ($event->getAttendees()->contains($member)) {
                         return ['disabled' => true];
                     }
+
                     return [];
                 },
                 'required' => true,
                 'constraints' => [
-                    new Assert\NotBlank()
-                ]
+                    new Assert\NotBlank(),
+                ],
             ])
             ->getForm()
         ;
@@ -209,15 +217,16 @@ class MemberController extends AbstractController
             $entityManager->persist($event);
             $entityManager->flush();
             $this->addFlash('success', sprintf('%s updated!', $member));
+
             return $this->redirect($this->generateUrl('member_events', [
-                'localIdentifier' => $member->getLocalIdentifier()
+                'localIdentifier' => $member->getLocalIdentifier(),
             ]));
         }
 
         return $this->render('member/events.html.twig', [
             'member' => $member,
             'events' => $events,
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 
@@ -229,10 +238,12 @@ class MemberController extends AbstractController
     {
         if (!$emailService->isConfigured()) {
             $this->addFlash('danger', 'Email service not configured.');
+
             return $this->redirectToRoute('member_show', ['localIdentifier' => $member->getLocalIdentifier()]);
         }
         if (!$member->getPrimaryEmail()) {
             $this->addFlash('danger', 'No primary email set for Member.');
+
             return $this->redirectToRoute('member_show', ['localIdentifier' => $member->getLocalIdentifier()]);
         }
         $entityManager = $this->getDoctrine()->getManager();
@@ -242,7 +253,7 @@ class MemberController extends AbstractController
         return $this->render('directory/email_subscription.html.twig', [
             'member' => $member,
             'subscriber' => $subscriber,
-            'subscriberHistory' => $subscriberHistory
+            'subscriberHistory' => $subscriberHistory,
         ]);
     }
 
@@ -254,6 +265,7 @@ class MemberController extends AbstractController
     {
         if (!$emailService->isConfigured()) {
             $this->addFlash('danger', 'Email service not configured.');
+
             return $this->redirectToRoute('member_show', ['localIdentifier' => $member->getLocalIdentifier()]);
         }
         if ($emailService->subscribeMember($member, true)) {
@@ -261,10 +273,11 @@ class MemberController extends AbstractController
         } else {
             $this->addFlash('danger', 'Unable to subscribe user. Is the email address valid?');
         }
+
         return $this->redirectToRoute(
             'member_email_subscription',
             [
-                'localIdentifier' => $member->getLocalIdentifier()
+                'localIdentifier' => $member->getLocalIdentifier(),
             ]
         );
     }
@@ -277,10 +290,12 @@ class MemberController extends AbstractController
     {
         if (!$emailService->isConfigured()) {
             $this->addFlash('danger', 'Email service not configured.');
+
             return $this->redirectToRoute('member_show', ['localIdentifier' => $member->getLocalIdentifier()]);
         }
         if (!$member->getPrimaryEmail()) {
             $this->addFlash('danger', 'Email not set for Member.');
+
             return $this->redirectToRoute('member_show', ['localIdentifier' => $member->getLocalIdentifier()]);
         }
         if ($emailService->updateMember($member->getPrimaryEmail(), $member)) {
@@ -288,10 +303,11 @@ class MemberController extends AbstractController
         } else {
             $this->addFlash('danger', 'Unable to update Subscriber record.');
         }
+
         return $this->redirectToRoute(
             'member_email_subscription',
             [
-                'localIdentifier' => $member->getLocalIdentifier()
+                'localIdentifier' => $member->getLocalIdentifier(),
             ]
         );
     }
@@ -304,6 +320,7 @@ class MemberController extends AbstractController
     {
         if (!$emailService->isConfigured()) {
             $this->addFlash('danger', 'Email service not configured.');
+
             return $this->redirectToRoute('member_show', ['localIdentifier' => $member->getLocalIdentifier()]);
         }
         if ($emailService->unsubscribeMember($member)) {
@@ -311,10 +328,11 @@ class MemberController extends AbstractController
         } else {
             $this->addFlash('danger', 'Unable to unsubscribe user.');
         }
+
         return $this->redirectToRoute(
             'member_email_subscription',
             [
-                'localIdentifier' => $member->getLocalIdentifier()
+                'localIdentifier' => $member->getLocalIdentifier(),
             ]
         );
     }
@@ -355,6 +373,7 @@ class MemberController extends AbstractController
         if ($formEmail->isSubmitted() && $formEmail->isValid()) {
             if (!$member->getPrimaryEmail()) {
                 $this->addFlash('danger', 'No email set for member.');
+
                 return $this->redirectToRoute('member_show', ['localIdentifier' => $member->getLocalIdentifier()]);
             }
             $formData = $formEmail->getData();
@@ -373,6 +392,7 @@ class MemberController extends AbstractController
         if ($formSMS->isSubmitted() && $formSMS->isValid()) {
             if (!$member->getPrimaryTelephoneNumber()) {
                 $this->addFlash('danger', 'No telephone number set for member.');
+
                 return $this->redirectToRoute('member_show', ['localIdentifier' => $member->getLocalIdentifier()]);
             }
             $formData = $formSMS->getData();
@@ -391,7 +411,7 @@ class MemberController extends AbstractController
             'formEmail' => $formEmail->createView(),
             'fromEmailAddress' => $emailService->getFromEmailAddress(),
             'formSMS' => $formSMS->createView(),
-            'fromTelephoneNumber' => $smsService->getFromTelephoneNumber()
+            'fromTelephoneNumber' => $smsService->getFromTelephoneNumber(),
         ]);
     }
 

@@ -21,21 +21,20 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFactorInterface
 {
-    const USER_ROLES = [
+    use TimestampableEntity;
+    public const USER_ROLES = [
         'Basic User' => 'ROLE_USER',
         'Directory Manager' => 'ROLE_DIRECTORY_MANAGER',
         'Communications Manager' => 'ROLE_COMMUNICATIONS_MANAGER',
         'Donation Manager' => 'ROLE_DONATION_MANAGER',
         'Event Manager' => 'ROLE_EVENT_MANAGER',
         'Email Manager' => 'ROLE_EMAIL_MANAGER',
-        'Site Administrator' => 'ROLE_ADMIN'
+        'Site Administrator' => 'ROLE_ADMIN',
     ];
 
-    use TimestampableEntity;
-
     /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
+     * @ORM\Id
+     * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
     private $id;
@@ -184,6 +183,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
     public function setPlainPassword(string $plainPassword): self
     {
         $this->plainPassword = $plainPassword;
+
         return $this;
     }
 
@@ -200,24 +200,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
     public function setTotpSecret(?string $totpSecret): self
     {
         $this->totpSecret = $totpSecret;
+
         return $this;
     }
 
-    public function getLastLogin(): ?\DateTime {
+    public function getLastLogin(): ?\DateTime
+    {
         return $this->lastLogin;
     }
 
-    public function setLastLogin(?\DateTime $lastLogin): self {
+    public function setLastLogin(?\DateTime $lastLogin): self
+    {
         $this->lastLogin = $lastLogin;
 
         return $this;
     }
 
-    public function getName(): ?string {
+    public function getName(): ?string
+    {
         return $this->name;
     }
 
-    public function setName(?string $name): self {
+    public function setName(?string $name): self
+    {
         $this->name = $name;
 
         return $this;
@@ -266,9 +271,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
     }
 
     /**
-     * Model Methods
+     * Model Methods.
      */
-
     public function __toString(): string
     {
         return sprintf('%s (%s)', $this->name, $this->email);

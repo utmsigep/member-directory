@@ -2,47 +2,43 @@
 
 namespace App\Service;
 
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
-use League\Csv\Reader as CsvReader;
-
 use App\Entity\Member;
 use App\Entity\MemberStatus;
-use App\Entity\MemberEmail;
-use App\Entity\MemberAddress;
-use App\Entity\MemberPhoneNumber;
+use Doctrine\ORM\EntityManagerInterface;
+use League\Csv\Reader as CsvReader;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class CsvToMemberService
 {
-    const LOCAL_IDENTIFIER_HEADER = 'localIdentifier';
-    const EXTERNAL_IDENTIFIER_HEADER = 'externalIdentifier';
-    const FIRST_NAME_HEADER = 'firstName';
-    const MIDDLE_NAME_HEADER = 'middleName';
-    const PREFERRED_NAME_HEADER = 'preferredName';
-    const LAST_NAME_HEADER = 'lastName';
-    const STATUS_HEADER = 'status';
-    const BIRTH_DATE_HEADER = 'birthDate';
-    const JOIN_DATE_HEADER = 'joinDate';
-    const CLASS_YEAR_HEADER = 'classYear';
-    const DECEASED_HEADER = 'isDeceased';
-    const EMPLOYER_HEADER = 'employer';
-    const JOB_TITLE_HEADER = 'jobTitle';
-    const OCCUPATION_HEADER = 'occupation';
-    const PRIMARY_EMAIL_HEADER = 'primaryEmail';
-    const PRIMARY_TELEPHONE_NUMBER_HEADER = 'primaryTelephoneNumber';
-    const MAILING_ADDRESS_HEADER = 'mailingAddress';
-    const MAILING_ADDRESS_LINE1_HEADER = 'mailingAddressLine1';
-    const MAILING_ADDRESS_LINE2_HEADER = 'mailingAddressLine2';
-    const MAILING_CITY_HEADER = 'mailingCity';
-    const MAILING_STATE_HEADER = 'mailingState';
-    const MAILING_POSTAL_CODE_HEADER = 'mailingPostalCode';
-    const MAILING_COUNTRY_HEADER = 'mailingCountry';
-    const MAILING_LATITUDE_HEADER = 'mailingLatitude';
-    const MAILING_LONGITUDE_HEADER = 'mailingLongitude';
-    const LOST_HEADER = 'isLost';
-    const LOCAL_DO_NOT_CONTACT_HEADER = 'isLocalDoNotContact';
-    const DIRECTORY_NOTES_HEADER = 'directoryNotes';
+    public const LOCAL_IDENTIFIER_HEADER = 'localIdentifier';
+    public const EXTERNAL_IDENTIFIER_HEADER = 'externalIdentifier';
+    public const FIRST_NAME_HEADER = 'firstName';
+    public const MIDDLE_NAME_HEADER = 'middleName';
+    public const PREFERRED_NAME_HEADER = 'preferredName';
+    public const LAST_NAME_HEADER = 'lastName';
+    public const STATUS_HEADER = 'status';
+    public const BIRTH_DATE_HEADER = 'birthDate';
+    public const JOIN_DATE_HEADER = 'joinDate';
+    public const CLASS_YEAR_HEADER = 'classYear';
+    public const DECEASED_HEADER = 'isDeceased';
+    public const EMPLOYER_HEADER = 'employer';
+    public const JOB_TITLE_HEADER = 'jobTitle';
+    public const OCCUPATION_HEADER = 'occupation';
+    public const PRIMARY_EMAIL_HEADER = 'primaryEmail';
+    public const PRIMARY_TELEPHONE_NUMBER_HEADER = 'primaryTelephoneNumber';
+    public const MAILING_ADDRESS_HEADER = 'mailingAddress';
+    public const MAILING_ADDRESS_LINE1_HEADER = 'mailingAddressLine1';
+    public const MAILING_ADDRESS_LINE2_HEADER = 'mailingAddressLine2';
+    public const MAILING_CITY_HEADER = 'mailingCity';
+    public const MAILING_STATE_HEADER = 'mailingState';
+    public const MAILING_POSTAL_CODE_HEADER = 'mailingPostalCode';
+    public const MAILING_COUNTRY_HEADER = 'mailingCountry';
+    public const MAILING_LATITUDE_HEADER = 'mailingLatitude';
+    public const MAILING_LONGITUDE_HEADER = 'mailingLongitude';
+    public const LOST_HEADER = 'isLost';
+    public const LOCAL_DO_NOT_CONTACT_HEADER = 'isLocalDoNotContact';
+    public const DIRECTORY_NOTES_HEADER = 'directoryNotes';
 
     protected $entityManager;
 
@@ -79,7 +75,7 @@ class CsvToMemberService
         }
 
         // Parse loaded file
-        $csv = CsvReader::createFromPath($file->getPath() . DIRECTORY_SEPARATOR . $file->getFileName(), 'r');
+        $csv = CsvReader::createFromPath($file->getPath().DIRECTORY_SEPARATOR.$file->getFileName(), 'r');
         $csv->setHeaderOffset(0);
 
         $header = $csv->getHeader(); // returns the CSV header record
@@ -98,13 +94,13 @@ class CsvToMemberService
             $localIdentifier = (isset($csvRecord[self::LOCAL_IDENTIFIER_HEADER])) ? $csvRecord[self::LOCAL_IDENTIFIER_HEADER] : null;
             // Find a match record in the database, if exists, by either internal or external identifier
             $member = $this->entityManager->getRepository(Member::class)->findOneBy([
-                'externalIdentifier' => $externalIdentifier
+                'externalIdentifier' => $externalIdentifier,
             ]);
-            if ($member === null) {
+            if (null === $member) {
                 $member = $this->entityManager->getRepository(Member::class)->findOneBy([
-                    'localIdentifier' => $localIdentifier
+                    'localIdentifier' => $localIdentifier,
                 ]);
-                if ($member === null) {
+                if (null === $member) {
                     $member = new Member();
                 }
             }
@@ -123,21 +119,21 @@ class CsvToMemberService
                 $member->setPreferredName($csvRecord[self::PREFERRED_NAME_HEADER]);
             }
             if (isset($csvRecord[self::MIDDLE_NAME_HEADER])) {
-                if ($member->getMiddleName() != null || $csvRecord[self::MIDDLE_NAME_HEADER] != '') {
+                if (null != $member->getMiddleName() || '' != $csvRecord[self::MIDDLE_NAME_HEADER]) {
                     $member->setMiddleName($csvRecord[self::MIDDLE_NAME_HEADER]);
                 }
             }
             if (isset($csvRecord[self::LAST_NAME_HEADER])) {
                 $member->setLastName($csvRecord[self::LAST_NAME_HEADER]);
             }
-            if (isset($csvRecord[self::BIRTH_DATE_HEADER]) && strtotime($csvRecord[self::BIRTH_DATE_HEADER]) ) {
+            if (isset($csvRecord[self::BIRTH_DATE_HEADER]) && strtotime($csvRecord[self::BIRTH_DATE_HEADER])) {
                 $member->setBirthDate(new \DateTime($csvRecord[self::BIRTH_DATE_HEADER]));
             }
             if (isset($csvRecord[self::JOIN_DATE_HEADER]) && strtotime($csvRecord[self::JOIN_DATE_HEADER])) {
                 $member->setJoinDate(new \DateTime($csvRecord[self::JOIN_DATE_HEADER]));
             }
             if (isset($csvRecord[self::CLASS_YEAR_HEADER]) && $csvRecord[self::CLASS_YEAR_HEADER]) {
-                if ($member->getClassYear() != null || $csvRecord[self::CLASS_YEAR_HEADER] != 0) {
+                if (null != $member->getClassYear() || 0 != $csvRecord[self::CLASS_YEAR_HEADER]) {
                     $member->setClassYear((int) $csvRecord[self::CLASS_YEAR_HEADER]);
                 }
             }
@@ -145,17 +141,17 @@ class CsvToMemberService
                 $member->setIsDeceased($this->formatBoolean($csvRecord[self::DECEASED_HEADER]));
             }
             if (isset($csvRecord[self::EMPLOYER_HEADER])) {
-                if ($member->getEmployer() != null || $csvRecord[self::EMPLOYER_HEADER] != '') {
+                if (null != $member->getEmployer() || '' != $csvRecord[self::EMPLOYER_HEADER]) {
                     $member->setEmployer($csvRecord[self::EMPLOYER_HEADER]);
                 }
             }
             if (isset($csvRecord[self::JOB_TITLE_HEADER])) {
-                if ($member->getJobTitle() != null || $csvRecord[self::JOB_TITLE_HEADER] != '') {
+                if (null != $member->getJobTitle() || '' != $csvRecord[self::JOB_TITLE_HEADER]) {
                     $member->setJobTitle($csvRecord[self::JOB_TITLE_HEADER]);
                 }
             }
             if (isset($csvRecord[self::OCCUPATION_HEADER])) {
-                if ($member->getOccupation() != null || $csvRecord[self::OCCUPATION_HEADER] != '') {
+                if (null != $member->getOccupation() || '' != $csvRecord[self::OCCUPATION_HEADER]) {
                     $member->setOccupation($csvRecord[self::OCCUPATION_HEADER]);
                 }
             }
@@ -187,7 +183,7 @@ class CsvToMemberService
             }
             if (isset($csvRecord[self::MAILING_COUNTRY_HEADER]) && $csvRecord[self::MAILING_COUNTRY_HEADER]) {
                 $mailingCountry = $csvRecord[self::MAILING_COUNTRY_HEADER];
-                if ($mailingCountry == 'US') {
+                if ('US' == $mailingCountry) {
                     $mailingCountry = 'United States';
                 }
                 $member->setMailingCountry($mailingCountry);
@@ -250,13 +246,14 @@ class CsvToMemberService
     public function getAllowedHeaders(): array
     {
         $oClass = new \ReflectionClass(__CLASS__);
+
         return array_values($oClass->getConstants());
     }
 
     private function formatBoolean($bool): bool
     {
         if (is_numeric($bool)) {
-            return $bool == '1';
+            return '1' == $bool;
         }
 
         if (is_string($bool)) {
@@ -273,6 +270,7 @@ class CsvToMemberService
                     return false;
             }
         }
+
         return (bool) $bool;
     }
 
@@ -284,5 +282,4 @@ class CsvToMemberService
             $this->memberStatusMap[$memberStatus->getLabel()] = $memberStatus;
         }
     }
-
 }

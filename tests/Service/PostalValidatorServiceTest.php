@@ -2,9 +2,9 @@
 
 namespace App\Tests\Service;
 
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use App\Service\PostalValidatorService;
 use App\Entity\Member;
+use App\Service\PostalValidatorService;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class PostalValidatorServiceTest extends KernelTestCase
 {

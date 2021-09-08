@@ -36,6 +36,5 @@ class ImportControllerTest extends WebTestCase
 
         $client->request('GET', '/directory/import/');
         $this->assertResponseStatusCodeSame(403);
-
     }
 }

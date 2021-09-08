@@ -10,20 +10,20 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=CommunicationLogRepository::class)
- * @UniqueEntity({"member","type","loggedAt"})
+ * @UniqueEntity({"member", "type", "loggedAt"})
  * @Gedmo\Loggable
  */
 class CommunicationLog
 {
     use TimestampableEntity;
 
-    const COMMUNICATION_TYPES = [
+    public const COMMUNICATION_TYPES = [
         'Email' => 'EMAIL',
         'Text Message' => 'SMS',
         'Telephone Call' => 'TELEPHONE',
         'Direct Message' => 'DM',
         'Postal Mail' => 'MAIL',
-        'Other' => 'OTHER'
+        'Other' => 'OTHER',
     ];
 
     /**
@@ -154,6 +154,7 @@ class CommunicationLog
         if ($search) {
             return $search;
         }
+
         return $this->type;
     }
 
@@ -168,5 +169,4 @@ class CommunicationLog
 
         return $this;
     }
-
 }

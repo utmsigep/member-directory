@@ -42,8 +42,9 @@ class MemberControllerTest extends WebTestCase
 
     public function testMessageMemberSendEmail()
     {
-        if (!isset($_ENV['MAILER_DDSN']) || $_ENV['MAILER_DSN'] === 'smtp://localhost') {
+        if (!isset($_ENV['MAILER_DDSN']) || 'smtp://localhost' === $_ENV['MAILER_DSN']) {
             $this->markTestSkipped('Email not configured.');
+
             return;
         }
 
@@ -56,7 +57,7 @@ class MemberControllerTest extends WebTestCase
         $emailForm = $crawler->filter('form[name="member_email"]')->form();
         $emailForm->setValues([
             'member_email[subject]' => 'Test Member Message',
-            'member_email[message_body]' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor.'
+            'member_email[message_body]' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor.',
         ]);
 
         $crawler = $client->submit($emailForm);
@@ -72,6 +73,7 @@ class MemberControllerTest extends WebTestCase
     {
         if (!isset($_ENV['TWILIO_DSN']) || !$_ENV['TWILIO_DSN']) {
             $this->markTestSkipped('Twilio not configured.');
+
             return;
         }
 
@@ -84,7 +86,7 @@ class MemberControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/directory/member/1-0001/message');
         $emailForm = $crawler->filter('form[name="member_sms"]')->form();
         $emailForm->setValues([
-            'member_sms[message_body]' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor.'
+            'member_sms[message_body]' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor.',
         ]);
 
         $crawler = $client->submit($emailForm);

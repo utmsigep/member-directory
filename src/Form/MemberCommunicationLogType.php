@@ -4,8 +4,8 @@ namespace App\Form;
 
 use App\Entity\CommunicationLog;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -20,11 +20,11 @@ class MemberCommunicationLogType extends AbstractType
                 'time_widget' => 'single_text',
                 'html5' => true,
                 'model_timezone' => 'UTC',
-                'view_timezone' => $options['timezone']
+                'view_timezone' => $options['timezone'],
             ])
             ->add('type', ChoiceType::class, [
                 'placeholder' => '-- Select One --',
-                'choices' => CommunicationLog::COMMUNICATION_TYPES
+                'choices' => CommunicationLog::COMMUNICATION_TYPES,
             ])
             ->add('summary')
         ;
@@ -34,7 +34,7 @@ class MemberCommunicationLogType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => CommunicationLog::class,
-            'timezone' => 'UTC'
+            'timezone' => 'UTC',
         ]);
     }
 }

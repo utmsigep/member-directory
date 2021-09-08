@@ -9,12 +9,12 @@ use Doctrine\Migrations\AbstractMigration;
 
 final class Version20200106045144 extends AbstractMigration
 {
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return 'Adds member donations.';
     }
 
-    public function up(Schema $schema) : void
+    public function up(Schema $schema): void
     {
         $donationTable = $schema->createTable('donation');
         $donationTable->addColumn('id', 'integer', ['autoincrement' => true, 'notnull' => true, 'default' => null]);
@@ -43,7 +43,7 @@ final class Version20200106045144 extends AbstractMigration
         $donationTable->addForeignKeyConstraint($memberTable, ['member_id'], ['id'], [], 'FK_31E581A07597D3FE');
     }
 
-    public function down(Schema $schema) : void
+    public function down(Schema $schema): void
     {
         $schema->dropTable('donation');
     }

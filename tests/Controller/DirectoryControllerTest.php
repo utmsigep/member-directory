@@ -65,7 +65,6 @@ class DirectoryControllerTest extends WebTestCase
         $this->assertSelectorTextContains('span.h4', 'Carter Jenkins');
     }
 
-
     public function testLostMembers()
     {
         $client = static::createClient();
@@ -157,5 +156,4 @@ class DirectoryControllerTest extends WebTestCase
         $this->assertEquals(2, count($jsonData));
         $this->assertEquals('MEMBER', $jsonData[0]->status->code);
     }
-
 }

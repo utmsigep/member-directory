@@ -2,9 +2,8 @@
 
 namespace App\Tests\Service;
 
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use App\Service\ChartService;
-use App\Entity\Member;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class ChartServiceTest extends KernelTestCase
 {
@@ -18,7 +17,7 @@ class ChartServiceTest extends KernelTestCase
                 'totalAmount' => 1200.00,
                 'totalProcessingFee' => 13.50,
                 'totalNetAmount' => 1186.50,
-                'currency' => 'usd'
+                'currency' => 'usd',
             ],
             [
                 'aggregatedDate' => '2020-02-01',
@@ -27,7 +26,7 @@ class ChartServiceTest extends KernelTestCase
                 'totalAmount' => 585.00,
                 'totalProcessingFee' => 6.50,
                 'totalNetAmount' => 578.50,
-                'currency' => 'usd'
+                'currency' => 'usd',
             ],
             [
                 'aggregatedDate' => '2020-03-01',
@@ -36,7 +35,7 @@ class ChartServiceTest extends KernelTestCase
                 'totalAmount' => 600.00,
                 'totalProcessingFee' => 6.25,
                 'totalNetAmount' => 593.75,
-                'currency' => 'usd'
+                'currency' => 'usd',
             ],
             [
                 'aggregatedDate' => '2020-04-01',
@@ -45,7 +44,7 @@ class ChartServiceTest extends KernelTestCase
                 'totalAmount' => 685.13,
                 'totalProcessingFee' => 15.13,
                 'totalNetAmount' => 670.00,
-                'currency' => 'usd'
+                'currency' => 'usd',
             ],
         ];
         $output = ChartService::buildDonationColumnChartData($data);

@@ -18,8 +18,8 @@ class Tag
     use TimestampableEntity;
 
     /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
+     * @ORM\Id
+     * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * @Groups({"tag_main"})
      */
@@ -87,7 +87,7 @@ class Tag
     }
 
     /**
-     * Model Methods
+     * Model Methods.
      */
     public function __toString(): string
     {

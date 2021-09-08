@@ -37,18 +37,19 @@ class MemberRepository extends ServiceEntityRepository
 
         if ($directoryCollection->getFilterLost()) {
             $qb->andWhere('m.isLost = :isLost')
-                ->setParameter('isLost', $directoryCollection->getFilterLost() == 'include');
+                ->setParameter('isLost', 'include' == $directoryCollection->getFilterLost());
         }
         if ($directoryCollection->getFilterLocalDoNotContact()) {
             $qb->andWhere('m.isLocalDoNotContact = :isLocalDoNotContact')
-                ->setParameter('isLocalDoNotContact', $directoryCollection->getFilterLocalDoNotContact() == 'include');
+                ->setParameter('isLocalDoNotContact', 'include' == $directoryCollection->getFilterLocalDoNotContact());
         }
         if ($directoryCollection->getFilterDeceased()) {
             $qb->andWhere('m.isDeceased = :isDeceased')
-                ->setParameter('isDeceased', $directoryCollection->getFilterDeceased() == 'include');
+                ->setParameter('isDeceased', 'include' == $directoryCollection->getFilterDeceased());
         }
 
         $this->processParams($qb, $params);
+
         return new Paginator($qb->getQuery(), $fetchJoinCollection = true);
     }
 
@@ -64,6 +65,7 @@ class MemberRepository extends ServiceEntityRepository
             ->andWhere('m.primaryEmail IS NOT NULL')
         ;
         $this->processParams($qb, $params);
+
         return new Paginator($qb->getQuery(), $fetchJoinCollection = true);
     }
 
@@ -77,6 +79,7 @@ class MemberRepository extends ServiceEntityRepository
             ->andWhere('m.isLost = 1')
         ;
         $this->processParams($qb, $params);
+
         return new Paginator($qb->getQuery(), $fetchJoinCollection = true);
     }
 
@@ -90,6 +93,7 @@ class MemberRepository extends ServiceEntityRepository
             ->andWhere('m.isLocalDoNotContact = 1')
         ;
         $this->processParams($qb, $params);
+
         return new Paginator($qb->getQuery(), $fetchJoinCollection = true);
     }
 
@@ -105,6 +109,7 @@ class MemberRepository extends ServiceEntityRepository
             ->addOrderBy('m.firstName', 'ASC')
         ;
         $this->processParams($qb, $params);
+
         return new Paginator($qb->getQuery(), $fetchJoinCollection = true);
     }
 
@@ -123,10 +128,11 @@ class MemberRepository extends ServiceEntityRepository
             ->andWhere('s.isInactive = 0')
         ;
         $this->processParams($qb, $params);
+
         return new Paginator($qb->getQuery(), $fetchJoinCollection = true);
     }
 
-    public function findMembersWithinRadius(float $latitude, float $longitude, int $radius, $params=[])
+    public function findMembersWithinRadius(float $latitude, float $longitude, int $radius, $params = [])
     {
         $qb = $this->createQueryBuilder('m')
             ->addSelect('t')
@@ -152,6 +158,7 @@ class MemberRepository extends ServiceEntityRepository
             ->setParameter('radius', $radius)
         ;
         $this->processParams($qb, $params);
+
         return new Paginator($qb->getQuery(), $fetchJoinCollection = true);
     }
 
@@ -192,6 +199,7 @@ class MemberRepository extends ServiceEntityRepository
             ->setParameter('tags', $tags)
         ;
         $this->processParams($qb, $params);
+
         return new Paginator($qb->getQuery(), $fetchJoinCollection = true);
     }
 
@@ -224,10 +232,11 @@ class MemberRepository extends ServiceEntityRepository
         // Tag Filter
         if (isset($filters['tags']) && $filters['tags']->count()) {
             foreach ($filters['tags'] as $i => $tag) {
-                $qb->innerJoin('m.tags', 't' . $i, Join::WITH, 't' . $i . '.tagName = :tag' . $i);
-                $qb->setParameter('tag' . $i, $tag->getTagName());
+                $qb->innerJoin('m.tags', 't'.$i, Join::WITH, 't'.$i.'.tagName = :tag'.$i);
+                $qb->setParameter('tag'.$i, $tag->getTagName());
             }
         }
+
         return $qb->getQuery()
             ->getResult();
     }
@@ -236,7 +245,7 @@ class MemberRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('m')
             ->addSelect('MATCH (m.firstName, m.preferredName, m.middleName, m.lastName) AGAINST (:searchTerm IN BOOLEAN MODE) AS score')
-            ->setParameter('searchTerm', $searchTerm . '*')
+            ->setParameter('searchTerm', $searchTerm.'*')
             ->having('score > 0')
             ->orderBy('score', 'DESC')
             ->setMaxResults($limit)
@@ -285,5 +294,4 @@ class MemberRepository extends ServiceEntityRepository
 
         return $qb;
     }
-
 }

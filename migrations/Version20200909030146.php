@@ -9,12 +9,12 @@ use Doctrine\Migrations\AbstractMigration;
 
 final class Version20200909030146 extends AbstractMigration
 {
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return 'Add Directory Collections, add inactive flag to Member Status.';
     }
 
-    public function up(Schema $schema) : void
+    public function up(Schema $schema): void
     {
         $directoryCollectionTable = $schema->createTable('directory_collection');
         $directoryCollectionTable->addColumn('id', 'integer', ['autoincrement' => true, 'notnull' => true]);
@@ -46,7 +46,7 @@ final class Version20200909030146 extends AbstractMigration
         $memberTable->dropColumn('is_external_do_not_contact');
     }
 
-    public function down(Schema $schema) : void
+    public function down(Schema $schema): void
     {
         $schema->getTable('directory_collection_member_status')->removeForeignKey('FK_CC64EF66E9D937AC');
         $schema->dropTable('directory_collection');
@@ -55,7 +55,7 @@ final class Version20200909030146 extends AbstractMigration
         $schema->getTable('member_status')->dropColumn('is_inactive');
     }
 
-    public function postUp(Schema $schema) : void
+    public function postUp(Schema $schema): void
     {
         // Forward compatability update
         $this->connection->executeQuery('UPDATE member_status SET is_inactive = 1 WHERE code IN ("RESIGNED", "EXPELLED")');

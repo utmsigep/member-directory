@@ -29,7 +29,7 @@ class DirectoryCollectionController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="directory_collection_new", methods={"GET","POST"})
+     * @Route("/new", name="directory_collection_new", methods={"GET", "POST"})
      */
     public function new(Request $request): Response
     {
@@ -42,6 +42,7 @@ class DirectoryCollectionController extends AbstractController
             $entityManager->persist($directoryCollection);
             $entityManager->flush();
             $this->addFlash('success', sprintf('%s created!', $directoryCollection));
+
             return $this->redirectToRoute('directory_collection_index');
         }
 
@@ -62,7 +63,7 @@ class DirectoryCollectionController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="directory_collection_edit", methods={"GET","POST"})
+     * @Route("/{id}/edit", name="directory_collection_edit", methods={"GET", "POST"})
      */
     public function edit(Request $request, DirectoryCollection $directoryCollection): Response
     {
@@ -72,6 +73,7 @@ class DirectoryCollectionController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
             $this->addFlash('success', sprintf('%s updated!', $directoryCollection));
+
             return $this->redirectToRoute('directory_collection_index');
         }
 
@@ -92,11 +94,12 @@ class DirectoryCollectionController extends AbstractController
             $entityManager->flush();
         }
         $this->addFlash('success', sprintf('%s deleted!', $directoryCollection));
+
         return $this->redirectToRoute('directory_collection_index');
     }
 
     /**
-     * @Route("/{id}/reorder", name="directory_collection_reorder", methods={"POST"}, options={"expose" = true})
+     * @Route("/{id}/reorder", name="directory_collection_reorder", methods={"POST"}, options={"expose": true})
      */
     public function reorder(Request $request, DirectoryCollection $directoryCollection, EntityManagerInterface $em, $id)
     {
@@ -104,12 +107,13 @@ class DirectoryCollectionController extends AbstractController
         $directoryCollection->setPosition($position);
         $em->persist($directoryCollection);
         $em->flush();
+
         return $this->json([
             'status' => 'success',
             'data' => [
                 'id' => $id,
-                'position' => $position
-            ]
+                'position' => $position,
+            ],
         ]);
     }
 }

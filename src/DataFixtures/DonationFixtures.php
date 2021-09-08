@@ -89,7 +89,7 @@ class DonationFixtures extends Fixture implements DependentFixtureInterface
     public function getDependencies()
     {
         return [
-            MemberFixtures::class
+            MemberFixtures::class,
         ];
     }
 }

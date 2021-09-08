@@ -36,6 +36,7 @@ class SmsService
         if (isset($_ENV['TWILIO_DSN']) && $_ENV['TWILIO_DSN']) {
             return true;
         }
+
         return false;
     }
 
@@ -56,6 +57,7 @@ class SmsService
                 $matches[0]
             );
         }
+
         return 'Unable to parse telephone number.';
     }
 
@@ -96,7 +98,7 @@ class SmsService
                     'member_message',
                     ['localIdentifier' => $member->getLocalIdentifier()],
                     UrlGeneratorInterface::ABSOLUTE_URL
-                )
+                ),
             ];
         } catch (\Exception $e) {
             $member = null;
@@ -122,6 +124,7 @@ class SmsService
         $this->notifier->send($notification, ...$this->notifier->getAdminRecipients());
 
         $response = new MessagingResponse();
+
         return $response;
     }
 }

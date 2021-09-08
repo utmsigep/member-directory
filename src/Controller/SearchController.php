@@ -5,8 +5,8 @@ namespace App\Controller;
 use App\Repository\MemberRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @IsGranted("ROLE_USER")
@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 class SearchController extends AbstractController
 {
     /**
-     * @Route("/", name="search", options={"expose" = true})
+     * @Route("/", name="search", options={"expose": true})
      */
     public function index(MemberRepository $memberRepository, Request $request)
     {
@@ -23,13 +23,14 @@ class SearchController extends AbstractController
         if ($request->query->get('q')) {
             $results = $memberRepository->search($request->query->get('q'));
         }
+
         return $this->render('search/index.html.twig', [
-            'results' => $results
+            'results' => $results,
         ]);
     }
 
     /**
-     * @Route("/autocomplete", name="search_autocomplete", options={"expose" = true})
+     * @Route("/autocomplete", name="search_autocomplete", options={"expose": true})
      */
     public function autoComplete(MemberRepository $memberRepository, Request $request)
     {
@@ -39,10 +40,11 @@ class SearchController extends AbstractController
             foreach ($results as $member) {
                 $output[] = [
                     'localIdentifier' => $member[0]->getLocalIdentifier(),
-                    'displayName' => $member[0]->getDisplayName()
+                    'displayName' => $member[0]->getDisplayName(),
                 ];
             }
         }
+
         return $this->json($output);
     }
 }
