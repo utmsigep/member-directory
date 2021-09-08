@@ -22,6 +22,8 @@ class PhoneService
 
     protected $urlGenerator;
 
+    protected $twilioDsn;
+
     public function __construct(ParameterBagInterface $params, NotifierInterface $notifier, CommunicationLogService $communicationLogService, UrlGeneratorInterface $urlGenerator, MemberRepository $memberRepository)
     {
         $this->params = $params;
@@ -29,20 +31,20 @@ class PhoneService
         $this->communicationLogService = $communicationLogService;
         $this->memberRepository = $memberRepository;
         $this->urlGenerator = $urlGenerator;
+        $this->twilioDsn = isset($_ENV['TWILIO_DSN']) ? $_ENV['TWILIO_DSN'] : null;
     }
 
     public function isConfigured(): bool
     {
-        if (isset($_ENV['TWILIO_DSN']) && $_ENV['TWILIO_DSN']) {
+        if ($this->twilioDsn) {
             return true;
         }
-
         return false;
     }
 
     public function getWebhookToken(): string
     {
-        return md5($_ENV['TWILIO_DSN']);
+        return md5($this->twilioDsn);
     }
 
     public function getFromTelephoneNumber(): string
@@ -50,7 +52,7 @@ class PhoneService
         if (!$this->isConfigured()) {
             return 'Not configured.';
         }
-        if (preg_match('/from\=(.*)/i', $_ENV['TWILIO_DSN'], $matches)) {
+        if (preg_match('/from\=(.*)/i', $this->twilioDsn, $matches)) {
             return preg_replace(
                 '/.*(\d{3})[^\d]{0,7}(\d{3})[^\d]{0,7}(\d{4}).*/',
                 '($1) $2-$3',
