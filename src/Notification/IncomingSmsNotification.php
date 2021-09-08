@@ -31,6 +31,7 @@ class IncomingSmsNotification extends Notification implements EmailNotificationI
             $message->getMessage()->action($this->options['action_text'], $this->options['action_url']); // @phpstan-ignore-line
         }
         $message->getMessage()->markAsPublic(); // @phpstan-ignore-line
+
         return $message;
     }
 }

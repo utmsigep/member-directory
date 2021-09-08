@@ -5,6 +5,10 @@
 # Artifacts
 build/
 
+# PHP-CS-Fixer
+/tools/php-cs-fixer/vendor
+.php-cs-fixer.cache
+
 ###> symfony/framework-bundle ###
 /.env.local
 /.env.local.php

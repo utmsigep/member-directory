@@ -2,13 +2,10 @@
 
 namespace App\EventListener;
 
-use Doctrine\Common\EventSubscriber;
-use Doctrine\ORM\Event\PreUpdateEventArgs;
-use Doctrine\ORM\Event\LifecycleEventArgs;
-use Doctrine\ORM\Events;
-
-use App\Service\EmailService;
 use App\Entity\Member;
+use App\Service\EmailService;
+use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\ORM\Event\PreUpdateEventArgs;
 
 class EmailServiceSubscriber
 {
@@ -27,16 +24,19 @@ class EmailServiceSubscriber
         // If set to 'Do Not Contact', unsubscribe the user
         if ($eventArgs->hasChangedField('isLocalDoNotContact') && $member->getIsLocalDoNotContact()) {
             $this->emailService->unsubscribeMember($member);
+
             return;
         }
         // If new Member Status is listed as inactive, delete the user user's subscription
         if ($eventArgs->hasChangedField('status') && $member->getStatus()->getIsInactive()) {
             $this->emailService->deleteMember($member->getPrimaryEmail());
+
             return;
         }
         // If member is now deceased, unsubscribe
         if ($eventArgs->hasChangedField('isDeceased') && $member->getIsDeceased()) {
             $this->emailService->unsubscribeMember($member);
+
             return;
         }
         // If email was previously set and has been changed, update email address in ESP
@@ -50,6 +50,7 @@ class EmailServiceSubscriber
             );
             // Re-subscribe user if old address was on supression list
             $this->emailService->subscribeMember($member, true);
+
             return;
         }
         // If email was removed from record, delete previous record in ESP
@@ -60,6 +61,7 @@ class EmailServiceSubscriber
             $this->emailService->deleteMember(
                 $eventArgs->getOldValue('primaryEmail')
             );
+
             return;
         }
         // If email added to a record, subscribe in ESP
@@ -68,6 +70,7 @@ class EmailServiceSubscriber
             && $eventArgs->getNewValue('primaryEmail')
         ) {
             $this->emailService->subscribeMember($member);
+
             return;
         }
         // Update Member Record in ESP, if email exists

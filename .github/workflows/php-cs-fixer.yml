@@ -1,0 +1,41 @@
+on: [push, pull_request]
+name: Coding Standards
+jobs:
+  open-pr-for-cs-violations:
+    name: PHP-CS-Fixer
+    runs-on: ubuntu-latest
+    if: github.actor != 'dependabot[bot]'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+      with:
+        ref: ${{ github.head_ref }}
+
+    - name: PHP-CS-Fixer
+      uses: docker://oskarstark/php-cs-fixer-ga
+
+    - name: Create PR for CS fixups
+      uses: peter-evans/create-pull-request@v3
+      id: create-pull-request
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        title: Fix coding standards in ${{ github.ref }}
+        branch: coding-standards/${{ github.ref }}
+        assignees: ${{ github.actor }}
+        labels: php-cs-fixer
+        body: Please merge these changes into the ${{ github.ref }} branch to fix coding standard violations.
+        commit-message: Apply php-cs-fixer changes as of ${{ github.sha }}
+
+    - name: Leave a notice in the discussion when fixing code in a Pull Request
+      uses: docker://mpdude/comment-on-pr:v1.2.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      if: steps.create-pull-request.outputs.pr_number # only if PR was created in the previous step
+      continue-on-error: true # continue on failure - necessary when the current branch does not have a pending PR
+      with:
+        msg: |
+          @${{ github.actor }} please apply the coding standard fixes from #${{ steps.create-pull-request.outputs.pr_number }}
+
+    - name: Fail the workflow when necessary CS fixes were detected
+      run: echo "Failing workflow run because CS violations were detected." && exit 1
+      if: steps.create-pull-request.outputs.pr_number

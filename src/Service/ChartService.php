@@ -4,14 +4,15 @@ namespace App\Service;
 
 use CMEN\GoogleChartsBundle\GoogleCharts\Charts\Material\ColumnChart;
 
-class ChartService {
+class ChartService
+{
     public static function buildDonationColumnChartData($data): ColumnChart
     {
         $chartTable = [['Date', 'Donation Amount']];
         foreach ($data as $row) {
             $chartTable[] = [
                 new \DateTime($row['aggregatedDate']),
-                (float) $row['totalAmount']
+                (float) $row['totalAmount'],
             ];
         }
         $chart = new ColumnChart();

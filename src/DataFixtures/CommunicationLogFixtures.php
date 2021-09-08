@@ -29,7 +29,7 @@ class CommunicationLogFixtures extends Fixture implements DependentFixtureInterf
     {
         return [
             UserFixtures::class,
-            MemberFixtures::class
+            MemberFixtures::class,
         ];
     }
 }

@@ -51,7 +51,7 @@ class DirectoryCollectionFixtures extends Fixture implements DependentFixtureInt
     public function getDependencies()
     {
         return [
-            MemberStatusFixtures::class
+            MemberStatusFixtures::class,
         ];
     }
 }

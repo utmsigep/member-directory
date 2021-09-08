@@ -22,7 +22,7 @@ class DonationType extends AbstractType
                 'time_widget' => 'single_text',
                 'html5' => true,
                 'model_timezone' => 'UTC',
-                'view_timezone' => $options['timezone']
+                'view_timezone' => $options['timezone'],
             ])
             ->add('campaign')
             ->add('description')
@@ -30,8 +30,8 @@ class DonationType extends AbstractType
             ->add('currency', CurrencyType::class, [
                 'preferred_choices' => [
                     'USD',
-                    'CAD'
-                ]
+                    'CAD',
+                ],
             ])
             ->add('processingFee')
             ->add('netAmount')
@@ -44,7 +44,7 @@ class DonationType extends AbstractType
             ->add('isRecurring')
             ->add('member', null, [
                 'placeholder' => '',
-                'query_builder' => function(EntityRepository $er) {
+                'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('m')
                         ->join('m.status', 's')
                         ->addOrderBy('s.label', 'ASC')
@@ -52,9 +52,9 @@ class DonationType extends AbstractType
                         ->addOrderBy('m.preferredName', 'ASC')
                     ;
                 },
-                'group_by' => function($choice, $key, $value) {
+                'group_by' => function ($choice, $key, $value) {
                     return $choice->getStatus()->getLabel();
-                }
+                },
             ])
             ->add('donorFirstName')
             ->add('donorLastName')
@@ -65,7 +65,7 @@ class DonationType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Donation::class,
-            'timezone' => 'UTC'
+            'timezone' => 'UTC',
         ]);
     }
 }

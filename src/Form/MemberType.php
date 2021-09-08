@@ -14,7 +14,8 @@ class MemberType extends AbstractType
 {
     private $tagRepository;
 
-    public function __construct(TagRepository $tagRespository) {
+    public function __construct(TagRepository $tagRespository)
+    {
         $this->tagRepository = $tagRespository;
     }
 
@@ -29,11 +30,11 @@ class MemberType extends AbstractType
             ->add('lastName')
             ->add('birthDate', DateType::class, [
                 'required' => false,
-                'widget' => 'single_text'
+                'widget' => 'single_text',
             ])
             ->add('joinDate', DateType::class, [
                 'required' => false,
-                'widget' => 'single_text'
+                'widget' => 'single_text',
             ])
             ->add('classYear')
             ->add('isDeceased')
@@ -48,16 +49,16 @@ class MemberType extends AbstractType
             ->add('mailingLatitude', NumberType::class, [
                 'scale' => 8,
                 'attr' => [
-                    'step' => '0.0000001'
+                    'step' => '0.0000001',
                 ],
-                'html5' => true
+                'html5' => true,
             ])
             ->add('mailingLongitude', NumberType::class, [
                 'scale' => 8,
                 'attr' => [
-                    'step' => '0.0000001'
+                    'step' => '0.0000001',
                 ],
-                'html5' => true
+                'html5' => true,
             ])
             ->add('employer')
             ->add('jobTitle')
@@ -71,8 +72,8 @@ class MemberType extends AbstractType
             ->add('status')
         ;
         if (count($this->tagRepository->findAll())) {
-          $builder->add('tags', null, [
-              'by_reference' => false
+            $builder->add('tags', null, [
+              'by_reference' => false,
           ]);
         }
     }

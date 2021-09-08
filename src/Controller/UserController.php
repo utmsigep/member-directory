@@ -10,8 +10,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @IsGranted("ROLE_ADMIN")
@@ -30,7 +30,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="user_new", methods={"GET","POST"})
+     * @Route("/new", name="user_new", methods={"GET", "POST"})
      */
     public function new(Request $request, UserPasswordHasherInterface $passwordEncoder): Response
     {
@@ -49,6 +49,7 @@ class UserController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
             $this->addFlash('success', sprintf('%s created!', $user));
+
             return $this->redirectToRoute('user_index');
         }
 
@@ -65,14 +66,15 @@ class UserController extends AbstractController
     {
         $logEntryRepository = $this->getDoctrine()->getRepository(LogEntry::class);
         $logs = $logEntryRepository->findBy(['username' => $user->getUsername()], ['loggedAt' => 'DESC'], 1000);
+
         return $this->render('user/show.html.twig', [
             'user' => $user,
-            'logs' => $logs
+            'logs' => $logs,
         ]);
     }
 
     /**
-     * @Route("/{id}/edit", name="user_edit", methods={"GET","POST"})
+     * @Route("/{id}/edit", name="user_edit", methods={"GET", "POST"})
      */
     public function edit(Request $request, User $user, UserPasswordHasherInterface $passwordEncoder): Response
     {
@@ -92,6 +94,7 @@ class UserController extends AbstractController
             $entityManager->flush();
 
             $this->addFlash('success', sprintf('%s updated!', $user));
+
             return $this->redirectToRoute('user_index');
         }
 

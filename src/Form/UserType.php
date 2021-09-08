@@ -11,9 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TimezoneType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Email;
-use Symfony\Component\Validator\Constraints\Length;
 
 class UserType extends AbstractType
 {
@@ -25,14 +23,14 @@ class UserType extends AbstractType
                 'label' => 'Login Email',
                 'constraints' => [
                     new Email([
-                        'message' => 'Must be a valid email address!'
-                    ])
-                ]
+                        'message' => 'Must be a valid email address!',
+                    ]),
+                ],
             ])
             ->add('roles', ChoiceType::class, [
                 'choices' => User::USER_ROLES,
                 'multiple' => true,
-                'expanded' => true
+                'expanded' => true,
             ])
             ->add('plainPassword', RepeatedType::class, [
                 'label' => 'Password',
@@ -41,7 +39,7 @@ class UserType extends AbstractType
                 'invalid_message' => 'The password fields must match.',
                 'options' => ['attr' => ['class' => 'password-field']],
                 'required' => $options['require_password'],
-                'first_options'  => ['label' => 'Password'],
+                'first_options' => ['label' => 'Password'],
                 'second_options' => ['label' => 'Repeat Password'],
             ])
             ->add('timezone', TimezoneType::class, [
@@ -53,8 +51,8 @@ class UserType extends AbstractType
                     'America/Los_Angeles',
                     'America/Anchorage',
                     'America/Adak',
-                    'Pacific/Honolulu'
-                ]
+                    'Pacific/Honolulu',
+                ],
             ])
         ;
     }
@@ -63,7 +61,7 @@ class UserType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
-            'require_password' => true
+            'require_password' => true,
         ]);
     }
 }

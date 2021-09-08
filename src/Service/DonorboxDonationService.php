@@ -2,50 +2,49 @@
 
 namespace App\Service;
 
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
-use League\Csv\Reader as CsvReader;
-
 use App\Entity\Donation;
 use App\Entity\Member;
+use Doctrine\ORM\EntityManagerInterface;
+use League\Csv\Reader as CsvReader;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class DonorboxDonationService
 {
-    const NAME_HEADER = 'Name';
-    const FIRST_NAME_HEADER = 'Donor First Name';
-    const LAST_NAME_HEADER = 'Donor Last Name';
-    const EMAIL_HEADER = 'Donor Email';
-    const MAKE_DONATION_ANONYMOUS_HEADER = 'Make Donation Anonymous';
-    const CAMPAIGN_HEADER = 'Campaign';
-    const AMOUNT_DESCRIPTION_HEADER = 'Amount Description';
-    const AMOUNT_HEADER = 'Amount';
-    const CURRENCY_HEADER = 'Currency';
-    const PROCESSING_FEE_HEADER = 'Processing Fee';
-    const PLATFORM_FEE_HEADER = 'Platform Fee';
-    const TOTAL_FEE_HEADER = 'Total Fee';
-    const NET_AMOUNT_HEADER = 'Net Amount';
-    const FEE_COVERED_HEADER = 'Fee Covered';
-    const DONOR_COMMENT_HEADER = 'Donor Comment';
-    const INTERNAL_NOTES_HEADER = 'Internal Notes';
-    const DONATED_AT_HEADER = 'Donated At';
-    const PHONE_HEADER = 'Phone';
-    const ADDRESS_HEADER = 'Address';
-    const CITY_HEADER = 'City';
-    const STATE_PROVINCE_HEADER = 'State / Province';
-    const POSTAL_CODE_HEADER = 'Postal Code';
-    const COUNTRY_HEADER = 'Country';
-    const EMPLOYER_HEADER = 'Employer';
-    const OCCUPATION_HEADER = 'Occupation';
-    const DESIGNATION_HEADER = 'Designation';
-    const RECEIPT_ID_HEADER = 'Receipt Id';
-    const DONATION_TYPE_HEADER = 'Donation Type';
-    const CARD_TYPE_HEADER = 'Card Type';
-    const LAST_FOUR_HEADER = 'Last4';
-    const STRIPE_CHARGE_ID_HEADER = 'Stripe Charge Id';
-    const PAYPAL_TRANSACTION_ID_HEADER = 'Paypal Transaction Id';
-    const RECURRING_DONATION_HEADER = 'Recurring Donation';
-    const JOIN_MAILING_LIST_HEADER = 'Join Mailing List';
+    public const NAME_HEADER = 'Name';
+    public const FIRST_NAME_HEADER = 'Donor First Name';
+    public const LAST_NAME_HEADER = 'Donor Last Name';
+    public const EMAIL_HEADER = 'Donor Email';
+    public const MAKE_DONATION_ANONYMOUS_HEADER = 'Make Donation Anonymous';
+    public const CAMPAIGN_HEADER = 'Campaign';
+    public const AMOUNT_DESCRIPTION_HEADER = 'Amount Description';
+    public const AMOUNT_HEADER = 'Amount';
+    public const CURRENCY_HEADER = 'Currency';
+    public const PROCESSING_FEE_HEADER = 'Processing Fee';
+    public const PLATFORM_FEE_HEADER = 'Platform Fee';
+    public const TOTAL_FEE_HEADER = 'Total Fee';
+    public const NET_AMOUNT_HEADER = 'Net Amount';
+    public const FEE_COVERED_HEADER = 'Fee Covered';
+    public const DONOR_COMMENT_HEADER = 'Donor Comment';
+    public const INTERNAL_NOTES_HEADER = 'Internal Notes';
+    public const DONATED_AT_HEADER = 'Donated At';
+    public const PHONE_HEADER = 'Phone';
+    public const ADDRESS_HEADER = 'Address';
+    public const CITY_HEADER = 'City';
+    public const STATE_PROVINCE_HEADER = 'State / Province';
+    public const POSTAL_CODE_HEADER = 'Postal Code';
+    public const COUNTRY_HEADER = 'Country';
+    public const EMPLOYER_HEADER = 'Employer';
+    public const OCCUPATION_HEADER = 'Occupation';
+    public const DESIGNATION_HEADER = 'Designation';
+    public const RECEIPT_ID_HEADER = 'Receipt Id';
+    public const DONATION_TYPE_HEADER = 'Donation Type';
+    public const CARD_TYPE_HEADER = 'Card Type';
+    public const LAST_FOUR_HEADER = 'Last4';
+    public const STRIPE_CHARGE_ID_HEADER = 'Stripe Charge Id';
+    public const PAYPAL_TRANSACTION_ID_HEADER = 'Paypal Transaction Id';
+    public const RECURRING_DONATION_HEADER = 'Recurring Donation';
+    public const JOIN_MAILING_LIST_HEADER = 'Join Mailing List';
 
     protected $entityManager;
 
@@ -79,7 +78,7 @@ class DonorboxDonationService
         }
 
         // Parse loaded file
-        $csv = CsvReader::createFromPath($file->getPath() . DIRECTORY_SEPARATOR . $file->getFileName(), 'r');
+        $csv = CsvReader::createFromPath($file->getPath().DIRECTORY_SEPARATOR.$file->getFileName(), 'r');
         $csv->setHeaderOffset(0);
 
         $header = $csv->getHeader(); // returns the CSV header record
@@ -98,9 +97,9 @@ class DonorboxDonationService
             $receiptIdentifier = (isset($csvRecord[self::RECEIPT_ID_HEADER])) ? $csvRecord[self::RECEIPT_ID_HEADER] : null;
             // Find a match record in the database, by Receipt Id
             $donation = $this->entityManager->getRepository(Donation::class)->findOneBy([
-                'receiptIdentifier' => $receiptIdentifier
+                'receiptIdentifier' => $receiptIdentifier,
             ]);
-            if ($donation === null) {
+            if (null === $donation) {
                 $donation = new Donation();
             }
 
@@ -108,22 +107,22 @@ class DonorboxDonationService
             $member = null;
             if (isset($csvRecord[self::EMAIL_HEADER])) {
                 $member = $this->entityManager->getRepository(Member::class)->findOneBy([
-                    'primaryEmail' => $csvRecord[self::EMAIL_HEADER]
+                    'primaryEmail' => $csvRecord[self::EMAIL_HEADER],
                 ]);
             }
-            if ($member === null && isset($csvRecord[self::FIRST_NAME_HEADER]) && isset($csvRecord[self::LAST_NAME_HEADER])) {
+            if (null === $member && isset($csvRecord[self::FIRST_NAME_HEADER]) && isset($csvRecord[self::LAST_NAME_HEADER])) {
                 $member = $this->entityManager->getRepository(Member::class)->findOneBy([
                     'preferredName' => $csvRecord[self::FIRST_NAME_HEADER],
-                    'lastName' => $csvRecord[self::LAST_NAME_HEADER]
+                    'lastName' => $csvRecord[self::LAST_NAME_HEADER],
                 ]);
             }
-            if ($member === null && isset($csvRecord[self::FIRST_NAME_HEADER]) && isset($csvRecord[self::LAST_NAME_HEADER])) {
+            if (null === $member && isset($csvRecord[self::FIRST_NAME_HEADER]) && isset($csvRecord[self::LAST_NAME_HEADER])) {
                 $member = $this->entityManager->getRepository(Member::class)->findOneBy([
                     'firstName' => $csvRecord[self::FIRST_NAME_HEADER],
-                    'lastName' => $csvRecord[self::LAST_NAME_HEADER]
+                    'lastName' => $csvRecord[self::LAST_NAME_HEADER],
                 ]);
             }
-            if ($member === null) {
+            if (null === $member) {
                 $this->errors[] = sprintf(
                     'Warning: Unable to locate Member record using "%s" or "%s"',
                     $csvRecord[self::EMAIL_HEADER],
@@ -226,13 +225,14 @@ class DonorboxDonationService
     public function getAllowedHeaders(): array
     {
         $oClass = new \ReflectionClass(__CLASS__);
+
         return array_values($oClass->getConstants());
     }
 
     private function formatBoolean($bool): bool
     {
         if (is_numeric($bool)) {
-            return $bool == '1';
+            return '1' == $bool;
         }
 
         if (is_string($bool)) {
@@ -249,6 +249,7 @@ class DonorboxDonationService
                     return false;
             }
         }
+
         return (bool) $bool;
     }
 }

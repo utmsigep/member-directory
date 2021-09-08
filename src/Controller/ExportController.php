@@ -2,19 +2,17 @@
 
 namespace App\Controller;
 
-use Gedmo\Loggable\Entity\LogEntry;
+use App\Entity\Member;
+use App\Form\MemberExportType;
+use App\Service\MemberToCsvService;
+use Doctrine\Common\Collections\ArrayCollection;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Doctrine\Common\Collections\ArrayCollection;
-
-use App\Form\MemberExportType;
-use App\Service\MemberToCsvService;
-use App\Entity\Member;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @IsGranted("ROLE_USER")
@@ -33,7 +31,7 @@ class ExportController extends AbstractController
             $filters = $form->getData();
             $members = $this->getDoctrine()->getRepository(Member::class)->findWithExportFilters($filters);
 
-            $filename = 'member-export-' . date('Y-m-d') . '.csv';
+            $filename = 'member-export-'.date('Y-m-d').'.csv';
             $response = new Response($memberToCsvService->arrayToCsvString(new ArrayCollection($members), $filters['columns']));
             $response->headers->set('Content-type', 'text/csv');
             $disposition = $response->headers->makeDisposition(
@@ -41,16 +39,17 @@ class ExportController extends AbstractController
                 $filename
             );
             $response->headers->set('Content-disposition', $disposition);
+
             return $response;
         }
 
         return $this->render('member/export.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/by-location", name="export_by_location", options={"expose" = true})
+     * @Route("/by-location", name="export_by_location", options={"expose": true})
      */
     public function exportByLocation(Request $request, MemberToCsvService $memberToCsvService)
     {
@@ -71,7 +70,7 @@ class ExportController extends AbstractController
             $members[] = $row;
         }
 
-        $filename = 'member-export-by-location-' . date('Y-m-d') . '.csv';
+        $filename = 'member-export-by-location-'.date('Y-m-d').'.csv';
         $response = new Response($memberToCsvService->arrayToCsvString(new ArrayCollection($members)));
         $response->headers->set('Content-type', 'text/csv');
         $disposition = $response->headers->makeDisposition(
@@ -79,6 +78,7 @@ class ExportController extends AbstractController
             $filename
         );
         $response->headers->set('Content-disposition', $disposition);
+
         return $response;
     }
 }

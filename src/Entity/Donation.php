@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
@@ -17,8 +16,8 @@ class Donation
     use TimestampableEntity;
 
     /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
+     * @ORM\Id
+     * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
     private $id;
@@ -377,15 +376,15 @@ class Donation
     }
 
     /**
-     * Model Methods
+     * Model Methods.
      */
-
     public function __toString(): string
     {
         $donorName = (string) $this->member;
         if (!$donorName) {
             $donorName = sprintf('%s %s', $this->donorFirstName, $this->donorLastName);
         }
+
         return sprintf('#%s - %s @ %s (%s %s)', $this->receiptIdentifier, $donorName, $this->receivedAt->format('Y-m-d'), $this->amount, $this->currency);
     }
 

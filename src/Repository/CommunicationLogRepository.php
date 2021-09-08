@@ -2,8 +2,8 @@
 
 namespace App\Repository;
 
-use App\Entity\Member;
 use App\Entity\CommunicationLog;
+use App\Entity\Member;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -27,6 +27,7 @@ class CommunicationLogRepository extends ServiceEntityRepository
             ->setParameter('member', $member)
             ->orderBy('c.loggedAt', 'DESC')
         ;
+
         return $qb->getQuery()
             ->getResult();
     }

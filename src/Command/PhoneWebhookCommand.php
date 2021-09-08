@@ -4,10 +4,7 @@ namespace App\Command;
 
 use App\Service\PhoneService;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Helper\Table;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -41,6 +38,7 @@ class PhoneWebhookCommand extends Command
 
         if (!$this->phoneService->isConfigured()) {
             $io->error('Phone Service not configured.');
+
             return Command::FAILURE;
         }
 
@@ -50,11 +48,12 @@ class PhoneWebhookCommand extends Command
             $this->urlGenerator->generate(
                 'webhook_phone_service',
                 [
-                    'token' => $this->phoneService->getWebhookToken()
+                    'token' => $this->phoneService->getWebhookToken(),
                 ],
                 UrlGeneratorInterface::ABSOLUTE_URL
             ))
         );
+
         return Command::SUCCESS;
     }
 }

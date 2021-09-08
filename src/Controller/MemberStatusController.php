@@ -30,7 +30,7 @@ class MemberStatusController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="member_status_new", methods={"GET","POST"})
+     * @Route("/new", name="member_status_new", methods={"GET", "POST"})
      */
     public function memberStatusNew(Request $request): Response
     {
@@ -50,6 +50,7 @@ class MemberStatusController extends AbstractController
                     $this->addFlash('error', 'Unable to create Directory Collection automatically.');
                 }
             }
+
             return $this->redirectToRoute('member_status_index');
         }
 
@@ -70,7 +71,7 @@ class MemberStatusController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="member_status_edit", methods={"GET","POST"})
+     * @Route("/{id}/edit", name="member_status_edit", methods={"GET", "POST"})
      */
     public function memberStatusEdit(Request $request, MemberStatus $memberStatus): Response
     {
@@ -80,6 +81,7 @@ class MemberStatusController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
             $this->addFlash('success', sprintf('%s updated!', $memberStatus));
+
             return $this->redirectToRoute('member_status_index');
         }
 
@@ -109,7 +111,7 @@ class MemberStatusController extends AbstractController
     }
 
     /**
-     * Private Methods
+     * Private Methods.
      */
     private function createDirectoryCollectionFromMemberStatus(MemberStatus $memberStatus)
     {

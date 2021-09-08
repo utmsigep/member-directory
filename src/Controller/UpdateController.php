@@ -2,18 +2,17 @@
 
 namespace App\Controller;
 
-use App\Service\EmailService;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
-
 use App\Entity\Member;
 use App\Form\MemberUpdateType;
+use App\Service\EmailService;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 class UpdateController extends AbstractController
 {
     /**
-     * Redirect query string links
+     * Redirect query string links.
      *
      * @Route("/update-my-info")
      */
@@ -22,7 +21,7 @@ class UpdateController extends AbstractController
         if ($request->get('externalIdentifier') && $request->get('updateToken')) {
             return $this->redirectToRoute('self_service_update', [
                 'externalIdentifier' => $request->get('externalIdentifier'),
-                'updateToken' => $request->get('updateToken')
+                'updateToken' => $request->get('updateToken'),
             ]);
         } else {
             throw $this->createNotFoundException('Member not found.');
@@ -35,7 +34,7 @@ class UpdateController extends AbstractController
     public function update(Request $request, EmailService $emailService)
     {
         $member = $this->getDoctrine()->getRepository(Member::class)->findOneBy([
-            'externalIdentifier' => $request->get('externalIdentifier')
+            'externalIdentifier' => $request->get('externalIdentifier'),
         ]);
         // If mismatch of updated token, deceased, or in banned statuses, ignore
         if (!$member || $request->get('updateToken') != $member->getUpdateToken()
@@ -55,12 +54,13 @@ class UpdateController extends AbstractController
             $entityManager->persist($member);
             $entityManager->flush();
             $emailService->sendMemberUpdate($member);
+
             return $this->render('update/confirmation.html.twig');
         }
 
         return $this->render('update/form.html.twig', [
             'member' => $member,
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 }

@@ -5,9 +5,7 @@ namespace App\Command;
 use App\Repository\MemberRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
@@ -45,13 +43,14 @@ class RemoveFbImagesCommand extends Command
             $member->setPhotoUrl(null);
             $this->em->persist($member);
 
-            if ($i%50) {
+            if ($i % 50) {
                 $this->em->flush();
             }
             $this->em->flush();
         }
 
         $io->success(sprintf('Done! (%d records updated)', count($result)));
+
         return Command::SUCCESS;
     }
 }

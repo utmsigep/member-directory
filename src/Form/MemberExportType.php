@@ -2,17 +2,15 @@
 
 namespace App\Form;
 
-use App\Entity\Member;
 use App\Entity\MemberStatus;
 use App\Entity\Tag;
 use App\Repository\MemberStatusRepository;
 use App\Repository\TagRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class MemberExportType extends AbstractType
 {
@@ -33,17 +31,17 @@ class MemberExportType extends AbstractType
                 'label' => 'Apply default filters',
                 'required' => false,
                 'data' => true,
-                'help' => 'Excludes: Do Not Contact, Lost, Deceased, Inactive Member Statuses'
+                'help' => 'Excludes: Do Not Contact, Lost, Deceased, Inactive Member Statuses',
             ])
             ->add('mailable', CheckboxType::class, [
                 'label' => 'Mailable',
                 'required' => false,
-                'help' => 'Excludes: Empty Mailing Addresses'
+                'help' => 'Excludes: Empty Mailing Addresses',
             ])
             ->add('emailable', CheckboxType::class, [
                 'label' => 'Emailable',
                 'required' => false,
-                'help' => 'Excludes: Empty Email Address'
+                'help' => 'Excludes: Empty Email Address',
             ])
             ->add('columns', ChoiceType::class, [
                 'expanded' => true,
@@ -76,7 +74,7 @@ class MemberExportType extends AbstractType
                     'Tags' => 'tags',
                     'Is Deceased?' => 'isDeceased',
                     'Is Lost?' => 'isLost',
-                    'Is Do Not Contact?' => 'isLocalDoNotContact'
+                    'Is Do Not Contact?' => 'isLocalDoNotContact',
                 ],
                 'data' => [
                     'displayName',
@@ -88,10 +86,9 @@ class MemberExportType extends AbstractType
                     'mailingAddressLine2',
                     'mailingCity',
                     'mailingState',
-                    'mailingPostalCode'
-                ]
+                    'mailingPostalCode',
+                ],
             ]);
-        ;
 
         if (count($this->memberStatusRepository->findAll())) {
             $builder->add('statuses', EntityType::class, [
@@ -103,8 +100,9 @@ class MemberExportType extends AbstractType
                     if ($memberStatus) {
                         return $memberStatus->getIsInactive() ? ['class' => 'inactive', 'data-toggle' => 'tooltip', 'title' => 'Inactive Member Status'] : [];
                     }
+
                     return [];
-                }
+                },
             ]);
         }
 
@@ -113,7 +111,7 @@ class MemberExportType extends AbstractType
                 'class' => Tag::class,
                 'expanded' => true,
                 'multiple' => true,
-                'required' => false
+                'required' => false,
             ]);
         }
     }

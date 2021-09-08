@@ -9,12 +9,12 @@ use Doctrine\Migrations\AbstractMigration;
 
 final class Version20190429003353 extends AbstractMigration
 {
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return 'Baseline database schema.';
     }
 
-    public function up(Schema $schema) : void
+    public function up(Schema $schema): void
     {
         $userTable = $schema->createTable('user');
         $userTable->addColumn('id', 'integer', ['autoincrement' => true, 'notnull' => true]);
@@ -87,7 +87,7 @@ final class Version20190429003353 extends AbstractMigration
         $memberTable->addForeignKeyConstraint($memberStatusTable, ['status_id'], ['id'], [], 'FK_70E4FA786BF700BD');
     }
 
-    public function down(Schema $schema) : void
+    public function down(Schema $schema): void
     {
         $schema->getTable('member')->removeForeignKey('FK_70E4FA786BF700BD');
 

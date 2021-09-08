@@ -4,10 +4,8 @@ namespace App\EventListener;
 
 use App\Entity\Member;
 use App\Service\GeocoderService;
-use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
-use Doctrine\ORM\Events;
 use Psr\Log\LoggerInterface;
 
 class GeocodeMemberSubscriber
