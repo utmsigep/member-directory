@@ -18,7 +18,7 @@ class MapFilterType extends AbstractType
                 'class' => MemberStatus::class,
                 'multiple' => true,
                 'expanded' => true,
-                'query_builder' => function(EntityRepository $er) {
+                'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('s')
                         ->andWhere('s.isInactive = false')
                         ->addOrderBy('s.label', 'ASC')
@@ -27,9 +27,9 @@ class MapFilterType extends AbstractType
                 'choice_attr' => function ($choice) {
                     return ['checked' => !$choice->getIsInactive()];
                 },
-                'label_attr' => array(
-                    'class' => 'checkbox-inline'
-                )
+                'label_attr' => [
+                    'class' => 'checkbox-inline',
+                ],
             ])
         ;
     }
@@ -37,7 +37,6 @@ class MapFilterType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            //
         ]);
     }
 }

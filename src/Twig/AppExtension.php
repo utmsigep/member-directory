@@ -11,7 +11,6 @@ use App\Service\SmsService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Role\RoleHierarchyInterface;
 use Twig\Extension\AbstractExtension;
-use Twig\TwigFilter;
 use Twig\TwigFunction;
 
 class AppExtension extends AbstractExtension
@@ -59,18 +58,21 @@ class AppExtension extends AbstractExtension
         if (!empty($reachableRoles)) {
             return $reachableRoles;
         }
+
         return [];
     }
 
     public function getDirectoryCollections()
     {
         $directoryCollections = $this->entityManager->getRepository(DirectoryCollection::class)->findBy([], ['position' => 'ASC']);
+
         return $directoryCollections;
     }
 
     public function getTags()
     {
         $tags = $this->entityManager->getRepository(Tag::class)->findBy([], ['tagName' => 'ASC']);
+
         return $tags;
     }
 

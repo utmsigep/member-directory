@@ -28,7 +28,7 @@ class TagController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="tag_new", methods={"GET","POST"})
+     * @Route("/new", name="tag_new", methods={"GET", "POST"})
      */
     public function new(Request $request): Response
     {
@@ -41,6 +41,7 @@ class TagController extends AbstractController
             $entityManager->persist($tag);
             $entityManager->flush();
             $this->addFlash('success', sprintf('%s created!', $tag));
+
             return $this->redirectToRoute('tag_index');
         }
 
@@ -61,7 +62,7 @@ class TagController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="tag_edit", methods={"GET","POST"})
+     * @Route("/{id}/edit", name="tag_edit", methods={"GET", "POST"})
      */
     public function edit(Request $request, Tag $tag): Response
     {
@@ -71,6 +72,7 @@ class TagController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
             $this->addFlash('success', sprintf('%s updated!', $tag));
+
             return $this->redirectToRoute('tag_index');
         }
 

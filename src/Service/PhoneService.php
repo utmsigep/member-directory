@@ -2,15 +2,11 @@
 
 namespace App\Service;
 
-use App\Entity\Member;
-use App\Entity\User;
 use App\Notification\IncomingPhoneNotification;
 use App\Repository\MemberRepository;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Notifier\Notification\Notification;
 use Symfony\Component\Notifier\NotifierInterface;
-use Symfony\Component\Notifier\Recipient\Recipient;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twilio\TwiML\VoiceResponse;
 
@@ -40,6 +36,7 @@ class PhoneService
         if (isset($_ENV['TWILIO_DSN']) && $_ENV['TWILIO_DSN']) {
             return true;
         }
+
         return false;
     }
 
@@ -60,6 +57,7 @@ class PhoneService
                 $matches[0]
             );
         }
+
         return 'Unable to parse telephone number.';
     }
 
@@ -80,11 +78,12 @@ class PhoneService
         if (in_array($callStatus, ['queued', 'ringing'])) {
             $response->say($this->params->get('app.voicemail.message'), [
                 'voice' => $this->params->get('app.voicemail.voice'),
-                'language' => $this->params->get('app.voicemail.language')
+                'language' => $this->params->get('app.voicemail.language'),
             ]);
             $response->record(['timeout' => 10, 'maxLength' => 300]);
             $response->say('I was unable to record your message.');
             $response->hangup();
+
             return $response;
         }
 
@@ -97,7 +96,7 @@ class PhoneService
             $member = $this->memberRepository->findOneByPrimaryTelephone($fromTelephone);
             $options = [
                 'action_text' => 'Return Call',
-                'action_url' => sprintf('tel:%s', $fromTelephone)
+                'action_url' => sprintf('tel:%s', $fromTelephone),
             ];
         } catch (\Exception $e) {
             $member = null;

@@ -2,20 +2,13 @@
 
 namespace App\Controller;
 
-use App\Entity\Member;
-use App\Entity\MemberStatus;
 use App\Form\MemberImportType;
-use App\Form\MemberType;
 use App\Service\CsvToMemberService;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
-use Gedmo\Loggable\Entity\LogEntry;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * @IsGranted("ROLE_DIRECTORY_MANAGER")
@@ -38,6 +31,7 @@ class ImportController extends AbstractController
                 $csvToMemberService->run($form['csv_file']->getData());
             } catch (\Exception $e) {
                 $this->addFlash('error', $e->getMessage());
+
                 return $this->redirectToRoute('import');
             }
             $formData = $form->getData();
@@ -77,7 +71,7 @@ class ImportController extends AbstractController
             'members' => $members,
             'newMembers' => $newMembers,
             'memberChangeSets' => $memberChangeSets,
-            'allowedProperties' => $csvToMemberService->getAllowedHeaders()
+            'allowedProperties' => $csvToMemberService->getAllowedHeaders(),
         ]);
     }
 }

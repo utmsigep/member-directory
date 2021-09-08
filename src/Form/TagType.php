@@ -2,8 +2,8 @@
 
 namespace App\Form;
 
-use App\Entity\Tag;
 use App\Entity\Member;
+use App\Entity\Tag;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -22,7 +22,7 @@ class TagType extends AbstractType
                 'entry_type' => EntityType::class,
                 'entry_options' => [
                     'class' => Member::class,
-                    'query_builder' => function(EntityRepository $er) {
+                    'query_builder' => function (EntityRepository $er) {
                         return $er->createQueryBuilder('m')
                             ->join('m.status', 's')
                             ->addOrderBy('s.label', 'ASC')
@@ -30,14 +30,14 @@ class TagType extends AbstractType
                             ->addOrderBy('m.preferredName', 'ASC')
                         ;
                     },
-                    'group_by' => function($choice, $key, $value) {
+                    'group_by' => function ($choice, $key, $value) {
                         return $choice->getStatus()->getLabel();
                     },
                     'attr' => [
                         'class' => 'selectpicker',
                         'data-live-search' => true,
-                        'title' => 'Search for Member ...'
-                    ]
+                        'title' => 'Search for Member ...',
+                    ],
                 ],
                 'allow_add' => true,
                 'allow_delete' => true,

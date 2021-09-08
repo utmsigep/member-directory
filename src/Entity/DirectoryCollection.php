@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use App\Repository\DirectoryCollectionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -108,8 +107,9 @@ class DirectoryCollection
     {
         // Append 'Solid' style if no icon style set
         if (!preg_match('/^fa[srldb]\s/', $this->icon)) {
-            return 'fas ' . $this->icon;
+            return 'fas '.$this->icon;
         }
+
         return $this->icon;
     }
 
@@ -178,6 +178,7 @@ class DirectoryCollection
     public function setPosition(?int $position): self
     {
         $this->position = $position;
+
         return $this;
     }
 

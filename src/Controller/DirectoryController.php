@@ -11,7 +11,7 @@ use App\Repository\MemberRepository;
 use App\Repository\TagRepository;
 use App\Service\EmailService;
 use App\Service\PostalValidatorService;
-use Doctrine\ORM\NoResultException ;
+use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -29,8 +29,7 @@ use Symfony\Component\Validator\Constraints\Date;
  */
 class DirectoryController extends AbstractController
 {
-
-    const COLUMN_MAP = [
+    public const COLUMN_MAP = [
         'm.localIdentifier',
         null,
         'm.lastName',
@@ -39,7 +38,7 @@ class DirectoryController extends AbstractController
         'm.primaryEmail',
         null,
         'm.primaryTelephoneNumber',
-        null
+        null,
     ];
 
     /**
@@ -49,6 +48,7 @@ class DirectoryController extends AbstractController
     {
         try {
             $records = $directoryCollectionRepository->getDefaultDirectoryCollection();
+
             return $this->redirectToRoute('directory_collection', ['slug' => $records->getSlug()]);
         } catch (NoResultException $e) {
             return $this->render('getting-started.html.twig');
@@ -56,16 +56,16 @@ class DirectoryController extends AbstractController
     }
 
     /**
-     * @Route("/collection/{slug}.{_format}", name="directory_collection", defaults={"_format"="html"}), options={"expose" = true})
+     * @Route("/collection/{slug}.{_format}", name="directory_collection", defaults={"_format": "html"}), options={"expose" = true})
      */
     public function directoryCollectionTableSource(DirectoryCollection $directoryCollection, MemberRepository $memberRepository, Request $request, string $_format): Response
     {
-        if ($_format === 'html') {
+        if ('html' === $_format) {
             return $this->render('directory/directory.html.twig', [
                 'view_name' => $directoryCollection->getLabel(),
                 'group_by' => $directoryCollection->getGroupBy(),
                 'data_source' => $this->generateUrl('directory_collection', ['slug' => $directoryCollection->getSlug(), '_format' => 'json']),
-                'show_status' => $directoryCollection->getShowMemberStatus()
+                'show_status' => $directoryCollection->getShowMemberStatus(),
             ]);
         }
 
@@ -74,7 +74,7 @@ class DirectoryController extends AbstractController
             'offset' => $request->get('start', 0),
             'group_by' => $this->getGroupBy($directoryCollection),
             'sort_by' => $this->getSortBy($request),
-            'sort_direction' => $this->getSortDirection($request)
+            'sort_direction' => $this->getSortDirection($request),
         ]);
         $response = $this->buildDataResponse($members);
 
@@ -82,16 +82,16 @@ class DirectoryController extends AbstractController
             'groups' => ['member_main', 'member_extended', 'status_main', 'tag_main'],
             'circular_reference_handler' => function ($object) {
                 return (string) $object;
-            }
+            },
         ]);
     }
 
     /**
-     * @Route("/lost.{_format}", name="lost", defaults={"_format"="html"}, options={"expose" = true})
+     * @Route("/lost.{_format}", name="lost", defaults={"_format": "html"}, options={"expose": true})
      */
     public function lost(MemberRepository $memberRepository, Request $request, string $_format)
     {
-        if ($_format === 'html') {
+        if ('html' === $_format) {
             return $this->render('directory/directory.html.twig', [
                 'view_name' => 'Lost',
                 'show_status' => true,
@@ -102,7 +102,7 @@ class DirectoryController extends AbstractController
             'limit' => $request->get('length', 100),
             'offset' => $request->get('start', 0),
             'sort_by' => $this->getSortBy($request),
-            'sort_direction' => $this->getSortDirection($request)
+            'sort_direction' => $this->getSortDirection($request),
         ]);
         $response = $this->buildDataResponse($members);
 
@@ -110,16 +110,16 @@ class DirectoryController extends AbstractController
             'groups' => ['member_main', 'member_extended', 'status_main', 'tag_main'],
             'circular_reference_handler' => function ($object) {
                 return (string) $object;
-            }
+            },
         ]);
     }
 
     /**
-     * @Route("/do-not-contact.{_format}", name="do_not_contact", defaults={"_format"="html"}, options={"expose" = true})
+     * @Route("/do-not-contact.{_format}", name="do_not_contact", defaults={"_format": "html"}, options={"expose": true})
      */
     public function doNotContact(MemberRepository $memberRepository, Request $request, string $_format)
     {
-        if ($_format === 'html') {
+        if ('html' === $_format) {
             return $this->render('directory/directory.html.twig', [
                 'view_name' => 'Do Not Contact',
                 'show_status' => true,
@@ -130,7 +130,7 @@ class DirectoryController extends AbstractController
             'limit' => $request->get('length', 100),
             'offset' => $request->get('start', 0),
             'sort_by' => $this->getSortBy($request),
-            'sort_direction' => $this->getSortDirection($request)
+            'sort_direction' => $this->getSortDirection($request),
         ]);
         $response = $this->buildDataResponse($members);
 
@@ -138,16 +138,16 @@ class DirectoryController extends AbstractController
             'groups' => ['member_main', 'member_extended', 'status_main', 'tag_main'],
             'circular_reference_handler' => function ($object) {
                 return (string) $object;
-            }
+            },
         ]);
     }
 
     /**
-     * @Route("/deceased.{_format}", name="deceased", defaults={"_format"="html"}, options={"expose" = true})
+     * @Route("/deceased.{_format}", name="deceased", defaults={"_format": "html"}, options={"expose": true})
      */
     public function deceased(MemberRepository $memberRepository, Request $request, string $_format)
     {
-        if ($_format === 'html') {
+        if ('html' === $_format) {
             return $this->render('directory/directory.html.twig', [
                 'view_name' => 'Deceased',
                 'show_status' => true,
@@ -158,7 +158,7 @@ class DirectoryController extends AbstractController
             'limit' => $request->get('length', 100),
             'offset' => $request->get('start', 0),
             'sort_by' => $this->getSortBy($request),
-            'sort_direction' => $this->getSortDirection($request)
+            'sort_direction' => $this->getSortDirection($request),
         ]);
         $response = $this->buildDataResponse($members);
 
@@ -166,12 +166,12 @@ class DirectoryController extends AbstractController
             'groups' => ['member_main', 'member_extended', 'status_main', 'tag_main'],
             'circular_reference_handler' => function ($object) {
                 return (string) $object;
-            }
+            },
         ]);
     }
 
     /**
-     * @Route("/verify-address-data", name="verify_address_data", options={"expose" = true})
+     * @Route("/verify-address-data", name="verify_address_data", options={"expose": true})
      * @IsGranted("ROLE_DIRECTORY_MANAGER")
      */
     public function validateMemberAddress(Request $request, PostalValidatorService $postalValidatorService): Response
@@ -179,7 +179,7 @@ class DirectoryController extends AbstractController
         if (!$postalValidatorService->isConfigured()) {
             return $this->json([
                 'status' => 'error',
-                'message' => 'Postal validation service not configured'
+                'message' => 'Postal validation service not configured',
             ], 500);
         }
 
@@ -191,7 +191,7 @@ class DirectoryController extends AbstractController
         $member->setMailingPostalCode($request->query->get('mailingPostalCode'));
 
         $cache = new FilesystemAdapter();
-        $cacheKey = 'directory.address_verify_' . md5(json_encode($request->query->all()));
+        $cacheKey = 'directory.address_verify_'.md5(json_encode($request->query->all()));
         $response = $cache->getItem($cacheKey);
         if (!$response->isHit()) {
             $response->set($postalValidatorService->validate($member));
@@ -203,13 +203,13 @@ class DirectoryController extends AbstractController
         if (isset($jsonResponse['AddressValidateResponse']['Address']['Error'])) {
             return $this->json([
                 'status' => 'error',
-                'message' => $jsonResponse['AddressValidateResponse']['Address']['Error']['Description']
+                'message' => $jsonResponse['AddressValidateResponse']['Address']['Error']['Description'],
             ], 500);
         }
 
         return $this->json([
             'status' => 'success',
-            'verify' => $jsonResponse['AddressValidateResponse']['Address']
+            'verify' => $jsonResponse['AddressValidateResponse']['Address'],
         ]);
     }
 
@@ -222,7 +222,7 @@ class DirectoryController extends AbstractController
 
         $form = $this->createFormBuilder([
             'since' => $request->get('since', new \DateTime(date('Y-m-d', strtotime('-30 day')))),
-            'exclude_inactive' => $request->get('exclude_inactive', true)
+            'exclude_inactive' => $request->get('exclude_inactive', true),
         ])
             ->add('since', DateType::class, [
                 'widget' => 'single_text',
@@ -240,12 +240,12 @@ class DirectoryController extends AbstractController
 
         return $this->render('directory/recent_changes.html.twig', [
             'members' => $members,
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/tags/{tagId}.{_format}", name="tag", defaults={"_format"="html"}, options={"expose" = true})
+     * @Route("/tags/{tagId}.{_format}", name="tag", defaults={"_format": "html"}, options={"expose": true})
      */
     public function tag(MemberRepository $memberRepository, TagRepository $tagRepository, Request $request, $_format, $tagId)
     {
@@ -254,7 +254,7 @@ class DirectoryController extends AbstractController
             throw $this->createNotFoundException('Tag not found.');
         }
 
-        if ($_format === 'html') {
+        if ('html' === $_format) {
             return $this->render('directory/directory.html.twig', [
                 'view_name' => $tag->getTagName(),
                 'show_status' => true,
@@ -265,7 +265,7 @@ class DirectoryController extends AbstractController
             'limit' => $request->get('length', 100),
             'offset' => $request->get('start', 0),
             'sort_by' => $this->getSortBy($request),
-            'sort_direction' => $this->getSortDirection($request)
+            'sort_direction' => $this->getSortDirection($request),
         ]);
         $response = $this->buildDataResponse($members);
 
@@ -273,7 +273,7 @@ class DirectoryController extends AbstractController
             'groups' => ['member_main', 'member_extended', 'status_main', 'tag_main'],
             'circular_reference_handler' => function ($object) {
                 return (string) $object;
-            }
+            },
         ]);
     }
 
@@ -287,13 +287,14 @@ class DirectoryController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $filters = $form->getData();
         }
+
         return $this->render('directory/map.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/map-search", name="map_search", options={"expose" = true})
+     * @Route("/map-search", name="map_search", options={"expose": true})
      */
     public function mapSearch(MemberRepository $memberRepository, Request $request)
     {
@@ -304,26 +305,28 @@ class DirectoryController extends AbstractController
             $request->get('radius'),
             ['member_statuses' => $memberStatuses]
         );
+
         return $this->json($members, 200, [], [
             'groups' => ['member_main', 'member_extended', 'status_main', 'tag_main'],
             'circular_reference_handler' => function ($object) {
                 return (string) $object;
-            }
+            },
         ]);
     }
 
     /**
-     * @Route("/map-data", name="map_data", options={"expose" = true})
+     * @Route("/map-data", name="map_data", options={"expose": true})
      */
     public function mapData(MemberRepository $memberRepository, Request $request)
     {
         $memberStatuses = $request->get('member_statuses', []);
         $members = $memberRepository->findGeocodedAddresses(['member_statuses' => $memberStatuses]);
+
         return $this->json($members, 200, [], [
             'groups' => ['member_main', 'member_extended', 'status_main', 'tag_main'],
             'circular_reference_handler' => function ($object) {
                 return (string) $object;
-            }
+            },
         ]);
     }
 
@@ -334,9 +337,11 @@ class DirectoryController extends AbstractController
     {
         if (!$emailService->isConfigured()) {
             $this->addFlash('danger', 'Email service not configured.');
+
             return $this->redirectToRoute('home');
         }
         $campaign = $emailService->getCampaignById($campaignId);
+
         return $this->redirect($campaign->WebVersionURL);
     }
 
@@ -348,15 +353,17 @@ class DirectoryController extends AbstractController
         if (isset($order[0]['column'], self::COLUMN_MAP[(int) $order[0]['column']])) {
             return self::COLUMN_MAP[(int) $order[0]['column']];
         }
+
         return 'm.localIdentifier';
     }
 
     private function getSortDirection(Request $request): string
     {
         $order = $request->get('order');
-        if (isset($order[0]['dir']) && $order[0]['dir'] === 'desc') {
+        if (isset($order[0]['dir']) && 'desc' === $order[0]['dir']) {
             return 'DESC';
         }
+
         return 'ASC';
     }
 
@@ -372,6 +379,7 @@ class DirectoryController extends AbstractController
             case 'mailingPostalCode':
                 return 'm.mailingPostalCode';
         }
+
         return null;
     }
 
@@ -380,8 +388,7 @@ class DirectoryController extends AbstractController
         return [
             'recordsTotal' => count($members),
             'recordsFiltered' => count($members),
-            'data' => $members
+            'data' => $members,
         ];
     }
-
 }

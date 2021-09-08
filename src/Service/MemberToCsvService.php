@@ -2,14 +2,13 @@
 
 namespace App\Service;
 
+use App\Entity\Member;
 use Doctrine\Common\Collections\ArrayCollection;
 use League\Csv\Writer;
 
-use App\Entity\Member;
-
 class MemberToCsvService
 {
-    const ALLOWED_COLUMNS = [
+    public const ALLOWED_COLUMNS = [
         'externalIdentifier',
         'localIdentifier',
         'firstName',
@@ -37,7 +36,7 @@ class MemberToCsvService
         'tags',
         'isDeceased',
         'isLost',
-        'isLocalDoNotContact'
+        'isLocalDoNotContact',
     ];
 
     public function arrayToCsvString(ArrayCollection $members, $columns = []): string
@@ -58,6 +57,7 @@ class MemberToCsvService
         foreach ($members as $member) {
             $csvWriter->insertOne($this->memberToArray($member, $headers));
         }
+
         return $csvWriter->getContent();
     }
 
@@ -67,7 +67,7 @@ class MemberToCsvService
         foreach ($columns as $column) {
             $methodName = sprintf('get%s', ucfirst($column));
             if (is_callable([$member, $methodName])) {
-                switch($column) {
+                switch ($column) {
                     case 'birthDate':
                         $row[] = ($member->getBirthDate()) ? $member->getBirthDate()->format('Y-m-d') : '';
                         break;
@@ -84,6 +84,7 @@ class MemberToCsvService
                 $row[] = '#ERROR';
             }
         }
+
         return $row;
     }
 }

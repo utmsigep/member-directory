@@ -4,10 +4,7 @@ namespace App\Command;
 
 use App\Service\SmsService;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Helper\Table;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -41,6 +38,7 @@ class SmsWebhookCommand extends Command
 
         if (!$this->smsService->isConfigured()) {
             $io->error('SMS Service not configured.');
+
             return Command::FAILURE;
         }
 
@@ -50,11 +48,12 @@ class SmsWebhookCommand extends Command
             $this->urlGenerator->generate(
                 'webhook_sms_service',
                 [
-                    'token' => $this->smsService->getWebhookToken()
+                    'token' => $this->smsService->getWebhookToken(),
                 ],
                 UrlGeneratorInterface::ABSOLUTE_URL
             ))
         );
+
         return Command::SUCCESS;
     }
 }

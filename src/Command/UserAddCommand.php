@@ -2,17 +2,16 @@
 
 namespace App\Command;
 
+use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Question\Question;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-
-use App\Entity\User;
 
 class UserAddCommand extends Command
 {
@@ -52,6 +51,7 @@ class UserAddCommand extends Command
             $valid_roles = array_values(User::USER_ROLES);
             if (!in_array($role, $valid_roles)) {
                 $io->error(sprintf("Invalid role: %s\n\nValid: %s", $role, implode(', ', $valid_roles)));
+
                 return Command::FAILURE;
             }
         }
@@ -61,6 +61,7 @@ class UserAddCommand extends Command
             $email = $helper->ask($input, $output, $question);
             if (!$email) {
                 $io->error('You must provide an email address.');
+
                 return Command::FAILURE;
             }
         }
@@ -81,6 +82,7 @@ class UserAddCommand extends Command
             $password_confirm = $helper->ask($input, $output, $question);
             if (!$password || $password != $password_confirm) {
                 $io->error('Passwords did not match, or were blank.');
+
                 return Command::FAILURE;
             }
         }
@@ -98,13 +100,16 @@ class UserAddCommand extends Command
             $this->entityManager->flush();
         } catch (\Doctrine\DBAL\Exception\UniqueConstraintViolationException $e) {
             $io->error('This user already exists!');
+
             return Command::FAILURE;
         } catch (\Exception $e) {
             $io->error($e->getMessage());
+
             return Command::FAILURE;
         }
 
         $io->success(sprintf('You have added %s to the system as ID %d.', $user->getEmail(), $user->getId()));
+
         return Command::SUCCESS;
     }
 }

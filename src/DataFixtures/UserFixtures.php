@@ -9,14 +9,14 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserFixtures extends Fixture
 {
-    const USER_BASIC = 'Basic User';
-    const USER_2FA = '2FA User';
-    const USER_DIRECTORY_MANAGER = 'Directory Manager';
-    const USER_COMMUNICATIONS_MANAGER = 'Communications Manager';
-    const USER_DONATION_MANAGER = 'Donation Manager';
-    const USER_EVENT_MANAGER = 'Event Manager';
-    const USER_EMAIL_MANAGER = 'Email Manager';
-    const USER_ADMIN = 'Administrator';
+    public const USER_BASIC = 'Basic User';
+    public const USER_2FA = '2FA User';
+    public const USER_DIRECTORY_MANAGER = 'Directory Manager';
+    public const USER_COMMUNICATIONS_MANAGER = 'Communications Manager';
+    public const USER_DONATION_MANAGER = 'Donation Manager';
+    public const USER_EVENT_MANAGER = 'Event Manager';
+    public const USER_EMAIL_MANAGER = 'Email Manager';
+    public const USER_ADMIN = 'Administrator';
 
     private $passwordEncoder;
 

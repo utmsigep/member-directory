@@ -2,16 +2,13 @@
 
 namespace App\Command;
 
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
-
 use App\Entity\Member;
 use App\Service\EmailService;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 class EspAuditCommand extends Command
 {
@@ -41,6 +38,7 @@ class EspAuditCommand extends Command
 
         if (!$this->emailService->isConfigured()) {
             $io->error('Email service not configured.');
+
             return Command::FAILURE;
         }
 

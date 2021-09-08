@@ -9,12 +9,12 @@ use Doctrine\Migrations\AbstractMigration;
 
 final class Version20200509230036 extends AbstractMigration
 {
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return 'Allow other Donation fields to be null.';
     }
 
-    public function up(Schema $schema) : void
+    public function up(Schema $schema): void
     {
         $donationTable = $schema->getTable('donation');
         $donationTable->changeColumn('campaign', ['notnull' => false, 'default' => null]);
@@ -24,7 +24,7 @@ final class Version20200509230036 extends AbstractMigration
         $donationTable->changeColumn('last_four', ['notnull' => false, 'default' => null]);
     }
 
-    public function down(Schema $schema) : void
+    public function down(Schema $schema): void
     {
         $donationTable = $schema->getTable('donation');
         $donationTable->changeColumn('campaign', ['notnull' => true, 'default' => '']);

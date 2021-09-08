@@ -39,14 +39,16 @@ class EspWebhookCommand extends Command
 
         if (!$this->emailService->isConfigured()) {
             $io->error('Email Service not configured.');
+
             return Command::FAILURE;
         }
 
         switch ($input->getArgument('action')) {
             case 'list':
                 $webhooks = $this->emailService->getWebhooks();
-                if (!is_array($webhooks) || count($webhooks) == 0) {
+                if (!is_array($webhooks) || 0 == count($webhooks)) {
                     $io->info('No webhooks configured.');
+
                     return Command::SUCCESS;
                 }
                 $table = new Table($output);
@@ -57,7 +59,7 @@ class EspWebhookCommand extends Command
                         $webhook->Url,
                         implode(', ', $webhook->Events),
                         $webhook->Status,
-                        mb_strtoupper($webhook->PayloadFormat)
+                        mb_strtoupper($webhook->PayloadFormat),
                     ];
                 }
                 $table->setHeaders(['Webhook ID', 'URL', 'Events', 'Status', 'Format']);
@@ -68,6 +70,7 @@ class EspWebhookCommand extends Command
                 $webhook = $this->emailService->createWebhook();
                 if (!$webhook) {
                     $io->error('Unable to create webhook.');
+
                     return Command::FAILURE;
                 }
                 $io->success(sprintf('Created webhook: %s', $webhook));
@@ -76,11 +79,13 @@ class EspWebhookCommand extends Command
                 $webhookId = $input->getOption('webhook-id');
                 if (!$webhookId) {
                     $io->error('You must provide a --webhook-id=somestring');
+
                     return Command::FAILURE;
                 }
                 $result = $this->emailService->deleteWebhook($webhookId);
                 if (!$result) {
                     $io->error(sprintf('Unable to delete webhook: %s', $webhookId));
+
                     return Command::FAILURE;
                 }
                 $io->success(sprintf('Deleted webhook: %s', $webhookId));

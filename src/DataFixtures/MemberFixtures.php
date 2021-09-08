@@ -3,7 +3,6 @@
 namespace App\DataFixtures;
 
 use App\Entity\Member;
-use App\Entity\MemberStatus;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -256,8 +255,7 @@ class MemberFixtures extends Fixture implements DependentFixtureInterface
     {
         return [
             TagFixtures::class,
-            MemberStatusFixtures::class
+            MemberStatusFixtures::class,
         ];
     }
-
 }

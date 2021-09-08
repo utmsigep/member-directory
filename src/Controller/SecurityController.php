@@ -8,16 +8,13 @@ use App\Form\TwoFactorVerifyType;
 use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Totp\TotpAuthenticatorInterface;
 use Scheb\TwoFactorBundle\Security\TwoFactor\QrCode\QrCodeGenerator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
@@ -44,7 +41,7 @@ class SecurityController extends AbstractController
         }
 
         return $this->render('security/profile.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 
@@ -62,18 +59,18 @@ class SecurityController extends AbstractController
                 'mapped' => false,
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Choose a password!'
+                        'message' => 'Choose a password!',
                     ]),
                     new Length([
                         'min' => 5,
-                        'minMessage' => 'Come on, you can think of a password longer than that!'
-                    ])
+                        'minMessage' => 'Come on, you can think of a password longer than that!',
+                    ]),
                 ],
                 'type' => PasswordType::class,
                 'invalid_message' => 'The password fields must match.',
                 'options' => ['attr' => ['class' => 'password-field']],
                 'required' => true,
-                'first_options'  => ['label' => 'Password'],
+                'first_options' => ['label' => 'Password'],
                 'second_options' => ['label' => 'Repeat Password'],
             ])
             ->getForm()
@@ -95,7 +92,7 @@ class SecurityController extends AbstractController
         }
 
         return $this->render('security/change_password.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 
@@ -121,6 +118,7 @@ class SecurityController extends AbstractController
                 $entityManager->persist($user);
                 $entityManager->flush();
                 $this->addFlash('success', 'Two-Factor Security setup complete!');
+
                 return $this->redirectToRoute('app_manage_two_factor');
             } else {
                 $this->addFlash('error', 'Your code did not match. Please try again.');
@@ -129,7 +127,7 @@ class SecurityController extends AbstractController
 
         return $this->render('security/two_factor_setup.html.twig', [
             'form' => $form->createView(),
-            'user' => $user
+            'user' => $user,
         ]);
     }
 
@@ -141,6 +139,7 @@ class SecurityController extends AbstractController
         $user = $this->getUser();
         $user->setTotpSecret($totpSecret);
         $qrCode = $qrCodeGenerator->getTotpQrCode($user);
+
         return new Response($qrCode->writeString(), 200, ['Content-Type' => 'image/png']);
     }
 
@@ -157,6 +156,7 @@ class SecurityController extends AbstractController
         $entityManager->persist($user);
         $entityManager->flush();
         $this->addFlash('success', 'Two-Factor security disabled.');
+
         return $this->redirectToRoute('app_manage_two_factor');
     }
 
@@ -184,5 +184,4 @@ class SecurityController extends AbstractController
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
-
 }

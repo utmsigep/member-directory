@@ -44,19 +44,19 @@ class EmailService
         $this->subscribersClient = new CS_REST_Subscribers(
             $params->get('campaign_monitor.default_list_id'),
             [
-                'api_key' => $params->get('campaign_monitor.api_key')
+                'api_key' => $params->get('campaign_monitor.api_key'),
             ]
         );
         $this->campaignsClient = new CS_REST_Campaigns(
             $params->get('campaign_monitor.default_list_id'),
             [
-                'api_key' => $params->get('campaign_monitor.api_key')
+                'api_key' => $params->get('campaign_monitor.api_key'),
             ]
         );
         $this->listsClient = new CS_REST_Lists(
             $params->get('campaign_monitor.default_list_id'),
             [
-                'api_key' => $params->get('campaign_monitor.api_key')
+                'api_key' => $params->get('campaign_monitor.api_key'),
             ]
         );
         $this->em = $em;
@@ -74,6 +74,7 @@ class EmailService
         ) {
             return true;
         }
+
         return false;
     }
 
@@ -83,6 +84,7 @@ class EmailService
             return [];
         }
         $result = $this->subscribersClient->get($member->getPrimaryEmail(), true);
+
         return $result->response;
     }
 
@@ -92,6 +94,7 @@ class EmailService
             return [];
         }
         $result = $this->subscribersClient->get_history($member->getPrimaryEmail());
+
         return $result->response;
     }
 
@@ -108,12 +111,13 @@ class EmailService
             'Name' => $member->getDisplayName(),
             'CustomFields' => $this->buildCustomFieldArray($member),
             'ConsentToTrack' => 'yes',
-            'Resubscribe' => $resubscribe
+            'Resubscribe' => $resubscribe,
         ]);
         if ($result->was_successful()) {
             return true;
         }
         $this->logger->error(json_encode($result->response));
+
         return false;
     }
 
@@ -126,12 +130,13 @@ class EmailService
             'EmailAddress' => $member->getPrimaryEmail(),
             'Name' => $member->getDisplayName(),
             'CustomFields' => $this->buildCustomFieldArray($member),
-            'ConsentToTrack' => 'yes'
+            'ConsentToTrack' => 'yes',
         ]);
         if ($result->was_successful()) {
             return true;
         }
         $this->logger->error(json_encode($result->response));
+
         return false;
     }
 
@@ -145,6 +150,7 @@ class EmailService
             return true;
         }
         $this->logger->error(json_encode($result->response));
+
         return false;
     }
 
@@ -158,6 +164,7 @@ class EmailService
             return true;
         }
         $this->logger->error(json_encode($result->response));
+
         return false;
     }
 
@@ -165,6 +172,7 @@ class EmailService
     {
         $this->campaignsClient->set_campaign_id($campaignId);
         $result = $this->campaignsClient->get_summary();
+
         return $result->response;
     }
 
@@ -175,6 +183,7 @@ class EmailService
             return $result->response;
         }
         $this->logger->error(json_encode($result->response));
+
         return [];
     }
 
@@ -182,24 +191,26 @@ class EmailService
     {
         if (!$this->getWebhookToken()) {
             $this->logger->error('No Webhook Token configured.');
+
             return null;
         }
 
-        $result = $this->listsClient->create_webhook(array(
-            'Events' => array(CS_REST_LIST_WEBHOOK_SUBSCRIBE, CS_REST_LIST_WEBHOOK_DEACTIVATE, CS_REST_LIST_WEBHOOK_UPDATE),
+        $result = $this->listsClient->create_webhook([
+            'Events' => [CS_REST_LIST_WEBHOOK_SUBSCRIBE, CS_REST_LIST_WEBHOOK_DEACTIVATE, CS_REST_LIST_WEBHOOK_UPDATE],
             'Url' => $this->router->generate(
                 'webhook_email_service',
                 [
-                    'token' => $this->getWebhookToken()
+                    'token' => $this->getWebhookToken(),
                 ],
                 UrlGeneratorInterface::ABSOLUTE_URL
             ),
-            'PayloadFormat' => CS_REST_WEBHOOK_FORMAT_JSON
-        ));
+            'PayloadFormat' => CS_REST_WEBHOOK_FORMAT_JSON,
+        ]);
         if ($result->was_successful()) {
             return $result->response;
         }
         $this->logger->error(json_encode($result->response));
+
         return null;
     }
 
@@ -210,6 +221,7 @@ class EmailService
             return true;
         }
         $this->logger->error(json_encode($result->response));
+
         return false;
     }
 
@@ -227,10 +239,10 @@ class EmailService
         $memberRepository = $this->em->getRepository(Member::class);
         $output = [];
         foreach ($content->Events as $event) {
-            switch($event->Type) {
+            switch ($event->Type) {
                 case 'Update':
                     $member = $memberRepository->findOneBy([
-                        'primaryEmail' => $event->OldEmailAddress
+                        'primaryEmail' => $event->OldEmailAddress,
                     ]);
                     if (!$member) {
                         $output[] = [
@@ -238,7 +250,7 @@ class EmailService
                                 'Unable to locate member with %s',
                                 $event->OldEmailAddress
                             ),
-                            'payload' => $event
+                            'payload' => $event,
                         ];
                         break;
                     }
@@ -252,7 +264,7 @@ class EmailService
                                 $member,
                                 $event->EmailAddress
                             ),
-                            'payload' => $event
+                            'payload' => $event,
                         ];
                         break;
                     }
@@ -267,16 +279,17 @@ class EmailService
                             $event->OldEmailAddress,
                             $event->EmailAddress
                         ),
-                        'payload' => $event
+                        'payload' => $event,
                     ];
                     break;
                 default:
                     $output[] = [
                         'result' => 'No action taken.',
-                        'payload' => $event
+                        'payload' => $event,
                     ];
             }
         }
+
         return $output;
     }
 
@@ -296,7 +309,7 @@ class EmailService
                 'action_url' => $this->router->generate('app_reset_password', ['token' => $resetToken->getToken()], UrlGeneratorInterface::ABSOLUTE_URL),
                 'action_text' => 'Reset My Password',
                 'exception' => false,
-                'resetToken' => $resetToken
+                'resetToken' => $resetToken,
             ])
         ;
         $this->mailer->send($email);
@@ -316,7 +329,7 @@ class EmailService
             ->htmlTemplate('directory/message_email_template.html.twig')
             ->context([
                 'subject' => $formData['subject'],
-                'body' => $formData['message_body']
+                'body' => $formData['message_body'],
             ])
         ;
         if ($formData['send_copy']) {
@@ -368,100 +381,100 @@ class EmailService
         return [
             [
                 'Key' => 'Member Status',
-                'Value' => $member->getStatus()->getLabel()
+                'Value' => $member->getStatus()->getLabel(),
             ],
             [
                 'Key' => 'First Name',
-                'Value' => $member->getFirstName()
+                'Value' => $member->getFirstName(),
             ],
             [
                 'Key' => 'Preferred Name',
-                'Value' => $member->getPreferredName()
+                'Value' => $member->getPreferredName(),
             ],
             [
                 'Key' => 'Middle Name',
-                'Value' => $member->getMiddleName()
+                'Value' => $member->getMiddleName(),
             ],
             [
                 'Key' => 'Last Name',
-                'Value' => $member->getLastName()
+                'Value' => $member->getLastName(),
             ],
             [
                 'Key' => 'Class Year',
-                'Value' => $member->getClassYear()
+                'Value' => $member->getClassYear(),
             ],
             [
                 'Key' => 'Birth Date',
-                'Value' => $member->getBirthDate() ? $member->getBirthDate()->format('Y-m-d') : null
+                'Value' => $member->getBirthDate() ? $member->getBirthDate()->format('Y-m-d') : null,
             ],
             [
                 'Key' => 'Join Date',
-                'Value' => $member->getJoinDate() ? $member->getJoinDate()->format('Y-m-d') : null
+                'Value' => $member->getJoinDate() ? $member->getJoinDate()->format('Y-m-d') : null,
             ],
             [
                 'Key' => 'Local Identifier',
-                'Value' => $member->getLocalIdentifier()
+                'Value' => $member->getLocalIdentifier(),
             ],
             [
                 'Key' => 'External Identifier',
-                'Value' => $member->getExternalIdentifier()
+                'Value' => $member->getExternalIdentifier(),
             ],
             [
                 'Key' => 'Primary Telephone Number',
-                'Value' => $member->getPrimaryTelephoneNumber()
+                'Value' => $member->getPrimaryTelephoneNumber(),
             ],
             [
                 'Key' => 'Mailing Address Line 1',
-                'Value' => $member->getMailingAddressLine1()
+                'Value' => $member->getMailingAddressLine1(),
             ],
             [
                 'Key' => 'Mailing Address Line 2',
-                'Value' => $member->getMailingAddressLine2()
+                'Value' => $member->getMailingAddressLine2(),
             ],
             [
                 'Key' => 'Mailing City',
-                'Value' => $member->getMailingCity()
+                'Value' => $member->getMailingCity(),
             ],
             [
                 'Key' => 'Mailing State',
-                'Value' => $member->getMailingState()
+                'Value' => $member->getMailingState(),
             ],
             [
                 'Key' => 'Mailing Postal Code',
-                'Value' => $member->getMailingPostalCode()
+                'Value' => $member->getMailingPostalCode(),
             ],
             [
                 'Key' => 'Mailing Country',
-                'Value' => $member->getMailingCountry()
+                'Value' => $member->getMailingCountry(),
             ],
             [
                 'Key' => 'Employer',
-                'Value' => $member->getEmployer()
+                'Value' => $member->getEmployer(),
             ],
             [
                 'Key' => 'Job Title',
-                'Value' => $member->getJobTitle()
+                'Value' => $member->getJobTitle(),
             ],
             [
                 'Key' => 'Occupation',
-                'Value' => $member->getOccupation()
+                'Value' => $member->getOccupation(),
             ],
             [
                 'Key' => 'LinkedIn Profile',
-                'Value' => $member->getLinkedinUrl()
+                'Value' => $member->getLinkedinUrl(),
             ],
             [
                 'Key' => 'Facebook Profile',
-                'Value' => $member->getFacebookUrl()
+                'Value' => $member->getFacebookUrl(),
             ],
             [
                 'Key' => 'Tags',
-                'Value' => $member->getTagsAsCSV()
+                'Value' => $member->getTagsAsCSV(),
             ],
             [
                 'Key' => 'Update Token',
-                'Value' => $member->getUpdateToken()
-            ]
+                'Value' => $member->getUpdateToken(),
+            ],
         ];
     }
 }

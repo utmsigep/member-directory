@@ -2,11 +2,10 @@
 
 namespace App\Service;
 
+use App\Entity\Member;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use USPS\Address;
 use USPS\AddressVerify;
-
-use App\Entity\Member;
 
 class PostalValidatorService
 {
@@ -22,6 +21,7 @@ class PostalValidatorService
         if ($this->params->get('usps.username')) {
             return true;
         }
+
         return false;
     }
 

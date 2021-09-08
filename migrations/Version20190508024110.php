@@ -9,12 +9,12 @@ use Doctrine\Migrations\AbstractMigration;
 
 final class Version20190508024110 extends AbstractMigration
 {
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return 'Adds member tagging.';
     }
 
-    public function up(Schema $schema) : void
+    public function up(Schema $schema): void
     {
         $tagTable = $schema->createTable('tag');
         $tagTable->addColumn('id', 'integer', ['autoincrement' => true, 'notnull' => true, 'default' => null]);
@@ -36,7 +36,7 @@ final class Version20190508024110 extends AbstractMigration
         $tagMemberTable->addForeignKeyConstraint($memberTable, ['member_id'], ['id'], ['onDelete' => 'CASCADE'], 'FK_99A5B3547597D3FE');
     }
 
-    public function down(Schema $schema) : void
+    public function down(Schema $schema): void
     {
         $schema->getTable('tag_member')->removeForeignKey('FK_99A5B354BAD26311');
         $schema->dropTable('tag');

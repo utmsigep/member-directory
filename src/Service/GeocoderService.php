@@ -22,10 +22,10 @@ class GeocoderService
         $this->httpClient = $httpClient;
     }
 
-    const CENSUS_BASE_URL = 'https://geocoding.geo.census.gov/geocoder/locations/address';
-    const ARCGIS_BASE_URL = 'https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/find/';
-    const BENCHMARK = 'Public_AR_Current';
-    const RETURN_FORMAT = 'json';
+    public const CENSUS_BASE_URL = 'https://geocoding.geo.census.gov/geocoder/locations/address';
+    public const ARCGIS_BASE_URL = 'https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/find/';
+    public const BENCHMARK = 'Public_AR_Current';
+    public const RETURN_FORMAT = 'json';
 
     public function setHttpClient($httpClient)
     {
@@ -39,13 +39,14 @@ class GeocoderService
             'city' => $member->getMailingCity(),
             'state' => $member->getMailingState(),
             'postal_code' => $member->getMailingPostalCode(),
-            'country' => $member->getMailingCountry()
+            'country' => $member->getMailingCountry(),
         ]);
         if ($jsonObject && property_exists($jsonObject, 'results') && count($jsonObject->results) > 0) {
             $result = $jsonObject->results[0];
             $this->source = 'geocodio';
             $member->setMailingLatitude($result->location->lat);
             $member->setMailingLongitude($result->location->lng);
+
             return $member;
         }
 
@@ -56,7 +57,7 @@ class GeocoderService
             'state' => $member->getMailingState(),
             'zip' => $member->getMailingPostalCode(),
             'benchmark' => self::BENCHMARK,
-            'format' => self::RETURN_FORMAT
+            'format' => self::RETURN_FORMAT,
         ]);
         if (property_exists($jsonObject, 'result')) {
             $result = $jsonObject->result;
@@ -64,6 +65,7 @@ class GeocoderService
                 $this->source = 'census';
                 $member->setMailingLatitude($result->addressMatches[0]->coordinates->y);
                 $member->setMailingLongitude($result->addressMatches[0]->coordinates->x);
+
                 return $member;
             }
         }
@@ -74,7 +76,7 @@ class GeocoderService
             'text' => $member->getMailingPostalCode(),
             'maxLocations' => 1,
             'f' => 'json',
-            'returnGeometry' => 'true'
+            'returnGeometry' => 'true',
         ]);
         if (property_exists($jsonObject, 'locations')) {
             $locations = $jsonObject->locations;
@@ -82,6 +84,7 @@ class GeocoderService
                 $this->source = 'arcgis';
                 $member->setMailingLatitude($locations[0]->feature->geometry->y);
                 $member->setMailingLongitude($locations[0]->feature->geometry->x);
+
                 return $member;
             }
         }
@@ -94,6 +97,7 @@ class GeocoderService
                 throw new \Exception(join('|', $errors));
             }
         }
+
         return $member;
     }
 
@@ -111,6 +115,7 @@ class GeocoderService
         $geocoder->setApiKey($this->params->get('geocodio.api_key'));
         $response = $geocoder->geocode($parameters, [], 1);
         $this->logger->debug(json_encode($response));
+
         return $response;
     }
 
@@ -120,9 +125,10 @@ class GeocoderService
             'query' => $parameters,
             'headers' => [
                 'Accept' => 'application/json',
-            ]
+            ],
         ]);
         $this->logger->debug($response->getContent());
+
         return json_decode($response->getContent());
     }
 
@@ -132,9 +138,10 @@ class GeocoderService
             'query' => $parameters,
             'headers' => [
                 'Accept' => 'application/json',
-            ]
+            ],
         ]);
         $this->logger->debug($response->getContent());
+
         return json_decode($response->getContent());
     }
 }

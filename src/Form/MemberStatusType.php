@@ -26,11 +26,10 @@ class MemberStatusType extends AbstractType
             if (!$memberStatus || null === $memberStatus->getId()) {
                 $form->add('createDirectoryCollection', CheckboxType::class, [
                     'data' => true,
-                    'mapped' => false
+                    'mapped' => false,
                 ]);
             }
         });
-
     }
 
     public function configureOptions(OptionsResolver $resolver)

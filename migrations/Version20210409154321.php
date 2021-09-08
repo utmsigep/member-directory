@@ -9,12 +9,12 @@ use Doctrine\Migrations\AbstractMigration;
 
 final class Version20210409154321 extends AbstractMigration
 {
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return 'Add Communication';
     }
 
-    public function up(Schema $schema) : void
+    public function up(Schema $schema): void
     {
         $communicationLogTable = $schema->createTable('communication_log');
         $communicationLogTable->addColumn('id', 'integer', ['autoincrement' => true, 'notnull' => true]);
@@ -35,7 +35,7 @@ final class Version20210409154321 extends AbstractMigration
         $communicationLogTable->addForeignKeyConstraint($userTable, ['user_id'], ['id'], [], 'FK_ED416163A76ED395');
     }
 
-    public function down(Schema $schema) : void
+    public function down(Schema $schema): void
     {
         $schema->dropTable('communication_log');
     }

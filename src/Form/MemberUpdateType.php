@@ -14,48 +14,48 @@ class MemberUpdateType extends AbstractType
     {
         $builder
             ->add('classYear', null, [
-                'label' => 'Class Year'
+                'label' => 'Class Year',
             ])
             ->add('mailingAddressLine1', null, [
-                'label' => 'Mailing Address'
+                'label' => 'Mailing Address',
             ])
             ->add('mailingAddressLine2', null, [
-                'label' => false
+                'label' => false,
             ])
             ->add('mailingCity', null, [
-                'label' => 'City'
+                'label' => 'City',
             ])
             ->add('mailingState', null, [
-                'label' => 'State'
+                'label' => 'State',
             ])
             ->add('mailingPostalCode', null, [
-                'label' => 'Postal Code'
+                'label' => 'Postal Code',
             ])
             ->add('primaryEmail', null, [
                 'label' => 'Primary Email Address',
                 'attr' => [
-                    'placeholder' => 'user@example.com'
-                ]
+                    'placeholder' => 'user@example.com',
+                ],
             ])
             ->add('primaryTelephoneNumber', null, [
                 'label' => 'Primary Telephone Number',
                 'attr' => [
-                    'placeholder' => '(xxx) xxx-xxxx'
-                ]
+                    'placeholder' => '(xxx) xxx-xxxx',
+                ],
             ])
             ->add('employer')
             ->add('jobTitle', null, [
-                'label' => 'Job Title'
+                'label' => 'Job Title',
             ])
             ->add('occupation', null, [
-                'label' => 'Occupation/Industry'
+                'label' => 'Occupation/Industry',
             ])
             ->add('linkedinUrl', UrlType::class, [
                 'label' => 'LinkedIn URL',
                 'attr' => [
-                    'placeholder' => 'e.g. https://www.linkedin.com/in/williamhgates/'
+                    'placeholder' => 'e.g. https://www.linkedin.com/in/williamhgates/',
                 ],
-                'required' => false
+                'required' => false,
             ])
         ;
     }

@@ -14,10 +14,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\MemberRepository")
  * @ORM\Table(indexes={
- *   @ORM\Index(
- *     columns={"first_name", "preferred_name", "middle_name", "last_name"},
+ *     @ORM\Index(
+ *         columns={"first_name", "preferred_name", "middle_name", "last_name"},
  *     flags={"fulltext"})
- *   }
+ * }
  * )
  * @ORM\HasLifecycleCallbacks
  * @UniqueEntity("localIdentifier")
@@ -30,8 +30,8 @@ class Member
     use TimestampableEntity;
 
     /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
+     * @ORM\Id
+     * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * @Groups({"member_main"})
      */
@@ -41,10 +41,10 @@ class Member
      * @ORM\Column(type="string", nullable=true, length=255, unique=true)
      * @Assert\NotBlank
      * @Assert\Regex(
-     *     pattern     = "/^[a-z0-9\-\_]+$/i",
-     *     htmlPattern = "[a-zA-Z0-9\-\_]+",
-     *     match       = true,
-     *     message     = "Only alphanumeric characters, dashes and underscores are allowed."
+     *     pattern="/^[a-z0-9\-\_]+$/i",
+     *     htmlPattern="[a-zA-Z0-9\-\_]+",
+     *     match=true,
+     *     message="Only alphanumeric characters, dashes and underscores are allowed."
      * )
      * @Gedmo\Versioned
      * @Groups({"member_main"})
@@ -55,10 +55,10 @@ class Member
      * @ORM\Column(type="string", nullable=true, length=255, unique=true)
      * @Assert\NotBlank
      * @Assert\Regex(
-     *     pattern     = "/^[a-z0-9\-\_]+$/i",
-     *     htmlPattern = "[a-zA-Z0-9\-\_]+",
-     *     match       = true,
-     *     message     = "Only alphanumeric characters, dashes and underscores are allowed."
+     *     pattern="/^[a-z0-9\-\_]+$/i",
+     *     htmlPattern="[a-zA-Z0-9\-\_]+",
+     *     match=true,
+     *     message="Only alphanumeric characters, dashes and underscores are allowed."
      * )
      * @Gedmo\Versioned
      * @Groups({"member_extended"})
@@ -226,9 +226,9 @@ class Member
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Gedmo\Versioned
      * @Assert\Regex(
-     *   pattern     = "/^https?\:\/\/(www\.)?facebook.com\/(.*)$/i",
-     *   htmlPattern = "https?://(www.)?facebook.com/.+",
-     *   message     = "Please provide a Facebook URL"
+     *     pattern="/^https?\:\/\/(www\.)?facebook.com\/(.*)$/i",
+     *     htmlPattern="https?://(www.)?facebook.com/.+",
+     *     message="Please provide a Facebook URL"
      * )
      * @Groups({"member_main"})
      */
@@ -238,9 +238,9 @@ class Member
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Gedmo\Versioned
      * @Assert\Regex(
-     *   pattern     = "/^https?\:\/\/(www\.)?linkedin.com\/(.*)$/i",
-     *   htmlPattern = "https?://(www.)?linkedin.com/.+",
-     *   message     = "Please provide a LinkedIn URL"
+     *     pattern="/^https?\:\/\/(www\.)?linkedin.com\/(.*)$/i",
+     *     htmlPattern="https?://(www.)?linkedin.com/.+",
+     *     message="Please provide a LinkedIn URL"
      * )
      * @Groups({"member_main"})
      */
@@ -288,7 +288,7 @@ class Member
 
     /**
      * @ORM\OneToMany(targetEntity=CommunicationLog::class, mappedBy="member", orphanRemoval=true)
-     * @ORM\OrderBy({"loggedAt" = "DESC"})
+     * @ORM\OrderBy({"loggedAt": "DESC"})
      */
     private $communicationLogs;
 
@@ -770,9 +770,8 @@ class Member
     }
 
     /**
-     * Model Methods
+     * Model Methods.
      */
-
     public function __toString(): string
     {
         return sprintf('%s, %s (%s)', $this->lastName, $this->preferredName, $this->localIdentifier);
@@ -783,7 +782,7 @@ class Member
      */
     public function getDisplayName(): string
     {
-        return $this->preferredName . ' ' . $this->lastName;
+        return $this->preferredName.' '.$this->lastName;
     }
 
     public function getTagsAsCSV(): string
@@ -792,6 +791,7 @@ class Member
         foreach ($this->tags as $tag) {
             $output[] = $tag->getTagName();
         }
+
         return join(',', $output);
     }
 
@@ -800,12 +800,12 @@ class Member
         return sha1(json_encode([
             $this->id,
             $this->externalIdentifier,
-            $this->updatedAt
+            $this->updatedAt,
         ]));
     }
 
     /**
-     * Event Listeners
+     * Event Listeners.
      */
 
     /**
@@ -824,11 +824,10 @@ class Member
     }
 
     /**
-     * Private Methods
+     * Private Methods.
      */
-
-     private function assertEqualDates($date1, $date2): bool
-     {
+    private function assertEqualDates($date1, $date2): bool
+    {
         // Assert that two \DateTime instances are the same
         if (
             $date1
@@ -839,8 +838,9 @@ class Member
         ) {
             return true;
         }
+
         return false;
-     }
+    }
 
     private function formatTelephoneNumber(?string $telephoneNumber): string
     {

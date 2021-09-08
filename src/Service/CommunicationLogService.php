@@ -2,13 +2,13 @@
 
 namespace App\Service;
 
-use App\Entity\User;
-use App\Entity\Member;
 use App\Entity\CommunicationLog;
+use App\Entity\Member;
+use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 
-class CommunicationLogService {
-
+class CommunicationLogService
+{
     protected $entityManager;
 
     public function __construct(EntityManagerInterface $entityManager)

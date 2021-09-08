@@ -6,15 +6,12 @@ use App\Entity\User;
 use App\Form\ChangePasswordFormType;
 use App\Form\ResetPasswordRequestFormType;
 use App\Service\EmailService;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mime\Address;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Routing\Annotation\Route;
 use SymfonyCasts\Bundle\ResetPassword\Controller\ResetPasswordControllerTrait;
 use SymfonyCasts\Bundle\ResetPassword\Exception\ResetPasswordExceptionInterface;
 use SymfonyCasts\Bundle\ResetPassword\ResetPasswordHelperInterface;
@@ -48,6 +45,7 @@ class ResetPasswordController extends AbstractController
                 $emailService
             );
         }
+
         return $this->render('reset_password/request.html.twig', [
             'requestForm' => $form->createView(),
         ]);
@@ -63,6 +61,7 @@ class ResetPasswordController extends AbstractController
         if (null === ($resetToken = $this->getTokenObjectFromSession())) {
             return $this->redirectToRoute('app_forgot_password_request');
         }
+
         return $this->render('reset_password/check_email.html.twig', [
             'resetToken' => $resetToken,
         ]);
@@ -77,6 +76,7 @@ class ResetPasswordController extends AbstractController
     {
         if ($token) {
             $this->storeTokenInSession($token);
+
             return $this->redirectToRoute('app_reset_password');
         }
 
@@ -108,6 +108,7 @@ class ResetPasswordController extends AbstractController
             $user->setPassword($encodedPassword);
             $this->getDoctrine()->getManager()->flush();
             $this->cleanSessionAfterReset();
+
             return $this->redirectToRoute('home');
         }
 
@@ -131,6 +132,7 @@ class ResetPasswordController extends AbstractController
         }
         $emailService->sendPasswordReset($user, $resetToken);
         $this->setTokenObjectInSession($resetToken);
+
         return $this->redirectToRoute('app_check_email');
     }
 }

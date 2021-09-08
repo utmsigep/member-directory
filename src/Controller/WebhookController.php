@@ -2,9 +2,9 @@
 
 namespace App\Controller;
 
+use App\Service\EmailService;
 use App\Service\PhoneService;
 use App\Service\SmsService;
-use App\Service\EmailService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -37,6 +37,7 @@ class WebhookController extends AbstractController
             $response = new Response();
             $response->headers->set('Content-type', 'text/xml');
             $response->setContent($phoneService->handleWebhook($request));
+
             return $response;
         } catch (\Exception $e) {
             return $this->json(['status' => 500, 'title' => 'error', 'details' => $e->getMessage()], 500);
@@ -60,6 +61,7 @@ class WebhookController extends AbstractController
             $response = new Response();
             $response->headers->set('Content-type', 'text/xml');
             $response->setContent($smsService->handleWebhook($request));
+
             return $response;
         } catch (\Exception $e) {
             return $this->json(['status' => 500, 'title' => 'error', 'details' => $e->getMessage()], 500);
@@ -81,11 +83,10 @@ class WebhookController extends AbstractController
         }
         try {
             $output = $emailService->processWebhookBody($request->getContent());
+
             return $this->json(['status' => 200, 'title' => 'success', 'details' => 'Processed webhook.', 'extra' => $output]);
         } catch (\Exception $e) {
             return $this->json(['status' => 500, 'title' => 'error', 'message' => $e->getMessage()], 500);
         }
     }
-
-
 }
