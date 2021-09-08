@@ -1,0 +1,15 @@
+on: [push, pull_request]
+name: Coding Standards
+jobs:
+  open-pr-for-cs-violations:
+    name: PHP-CS-Fixer
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+
+    - name: PHP-CS-Fixer
+      uses: docker://oskarstark/php-cs-fixer-ga
