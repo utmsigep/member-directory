@@ -39,6 +39,7 @@ class PhoneService
         if ($this->twilioDsn) {
             return true;
         }
+
         return false;
     }
 

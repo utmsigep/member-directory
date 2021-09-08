@@ -39,6 +39,7 @@ class SmsService
         if ($this->twilioDsn) {
             return true;
         }
+
         return false;
     }
 
