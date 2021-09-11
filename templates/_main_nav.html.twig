@@ -37,6 +37,7 @@
 <li class="nav-item {{ active_route == 'communication_index' ? 'active' }}"><a class="nav-link" href="{{ path('communication_index')}}"><i class="fas fa-bullhorn fa-fw"></i> <span>Communications</span></a></li>
 {% endif %}
 <li class="nav-item {{ active_route == 'map' ? 'active' }}"><a class="nav-link" href="{{ path('map')}}"><i class="fas fa-map fa-fw"></i> <span>Member Map</span></a></li>
+<li class="nav-item {{ active_route == 'birthdays' ? 'active' }}"><a class="nav-link" href="{{ path('birthdays')}}"><i class="fas fa-birthday-cake fa-fw"></i> <span>Birthdays</span></a></li>
 <li class="nav-item {{ active_route == 'member_changes' ? 'active' }}"><a class="nav-link" href="{{ path('member_changes')}}"><i class="fas fa-satellite-dish fa-fw"></i> <span>Recent Changes</span></a></li>
 <li class="nav-item {{ active_route == 'export' ? 'active' }}"><a class="nav-link" href="{{ path('export')}}"><i class="fas fa-download fa-fw"></i> <span>Export</span></a></li>
 {% if is_granted('ROLE_DIRECTORY_MANAGER') %}
