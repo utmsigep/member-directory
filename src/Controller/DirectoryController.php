@@ -21,7 +21,6 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Validator\Constraints\Date;
 
 /**
  * @IsGranted("ROLE_USER")
@@ -343,6 +342,16 @@ class DirectoryController extends AbstractController
         $campaign = $emailService->getCampaignById($campaignId);
 
         return $this->redirect($campaign->WebVersionURL);
+    }
+
+    /**
+     * @Route("/birthdays", name="birthdays")
+     */
+    public function birthdays(MemberRepository $memberRepository): Response
+    {
+        return $this->render('directory/birthdays.html.twig', [
+            'birthdays' => $memberRepository->findBirthdays(),
+        ]);
     }
 
     /* Private Methods */

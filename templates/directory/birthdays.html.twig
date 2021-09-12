@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} - Birthdays{% endblock %}
+
+{% block body %}
+{% embed '_page_header.html.twig' %}
+{% block page_header_title %}Birthdays <sup><span class="badge badge-secondary">Beta</span></sup>{% endblock %}
+{% endembed %}
+
+<div>
+  {% set lastMonth = null %}
+  {% for i, row in birthdays %}
+  {% set member = row[0] %}
+  {% if lastMonth != row.bdMonth %}
+  {% if lastMonth != null %}
+  </dl>
+  {% endif %}
+  <h3 class="border-bottom mb-3">{{ member.birthDate|date('F') }}</h3>
+  <dl class="row">
+    {% endif %}
+    <dt class="col-md-1 text-sm-left text-md-right">
+      <span class="h1">{{ row.bdDay }}</span>
+    </dt>
+    <dd class="col-md-5">
+      <div class="card mb-3 shadow">
+        <div class="card-body">
+          <a href="{{ path('member_show', {localIdentifier: member.localIdentifier }) }}">{{ member.displayName }}</a> ({{member.status.label}})
+          {% include 'member/_badges.html.twig' %}
+        </div>
+      </div>
+    </dd>
+    {% set lastMonth = row.bdMonth %}
+  {% else %}
+  <div class="col-md-12">
+    {% include '_no_records_card.html.twig' with {message: 'No Member birthdays matched your criteria.'} %}
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock %}
