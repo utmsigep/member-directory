@@ -6,12 +6,14 @@
     {{ donation.receivedAt|date('n/j/Y') }}
     {% endif %}
   </td>
+  {% if hideDonor is not defined or hideDonor == false %}
   {% if donation.isAnonymous %}
   <td data-order="Donor, Anonymous"><i class="fas fa-user-secret"></i> Anonymous Donor</td>
   {% elseif donation.member is null %}
   <td data-order="{{ donation.donorLastName|escape('html_attr') }}, {{ donation.donorFirstName|escape('html_attr') }}">{{ donation.donorFirstName }} {{donation.donorLastName }}</td>
   {% else %}
   <td data-order="{{ donation.member.lastName|escape('html_attr') }}, {{ donation.member.preferredName|escape('html_attr') }}"><a href="{{ path('member_donations', {localIdentifier: donation.member.localIdentifier}) }}">{{ donation.member.displayName }}</a></td>
+  {% endif %}
   {% endif %}
   <td>{{ donation.campaign }}</td>
   <td>{{ donation.description }}{% if donation.donorComment %} <span title="{{ donation.donorComment|escape('html_attr') }}" data-toggle="tooltip"><i class="far fa-sticky-note"></i></span>{% endif %}</td>

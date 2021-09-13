@@ -13,25 +13,23 @@
 {% if communication_logs %}
 <div class="card mb-3 shadow">
   <div class="card-body">
-    <div class="table-responsive">
-      <table id="communicationsTable" class="table table-striped mb-0">
-        <thead>
-          <tr>
-            <th>Logged At</th>
-            <th>Member</th>
-            <th>Type</th>
-            <th class="w-50" data-orderable="false">Summary</th>
-            <th>User</th>
-            <th class="col-edit" data-orderable="false"></th>
-          </tr>
-        </thead>
-        <tbody>
-        {% for log in communication_logs %}
-        {% include 'communication/_row.html.twig' with {showUser: true} %}
-        {% endfor %}
-        </tbody>
-      </table>
-    </div>
+    <table id="communicationsTable" class="table w-100 mb-0">
+      <thead>
+        <tr>
+          <th>Logged At</th>
+          <th>Member</th>
+          <th>Type</th>
+          <th data-orderable="false">Summary</th>
+          <th>User</th>
+          <th class="col-edit" data-orderable="false"></th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for log in communication_logs %}
+      {% include 'communication/_row.html.twig' with {showUser: true} %}
+      {% endfor %}
+      </tbody>
+    </table>
   </div>
 </div>
 {% else %}

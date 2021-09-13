@@ -15,37 +15,35 @@
 {% if donors %}
 <div class="card mb-3 shadow">
   <div class="card-body">
-    <div class="table-responsive">
-      <table class="table table-striped" id="donorTable">
-        <thead>
-          <tr>
-            <th>Donor</th>
-            <th>Latest Donation</th>
-            <th>Donations</th>
-            <th>Amount</th>
-            <th>Fees</th>
-            <th>Net Amount</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for donor in donors %}
-          <tr>
-            {% if donor.isAnonymous %}
-            <td data-order="Donor, Anonymous"><i class="fas fa-user-secret"></i> Anonymous Donor</td>
-            {% else %}
-            <td data-order="{{ donor.lastName|escape('html_attr') }}, {{ donor.preferredName|escape('html_attr') }}"><a href="{{ path('member_donations', {localIdentifier: donor.localIdentifier}) }}">{{ donor.preferredName }} {{ donor.lastName }}</a></td>
-            {% endif %}
-            <td data-order="{{ donor.latestDonation|date('Y-m-d') }}">{{ donor.latestDonation|date('n/j/Y') }}</td>
-            <td data-order="{{ donor.totalDonations }}" class="text-right">{{ donor.totalDonations|number_format }}</td>
-            <td data-order="{{ donor.totalAmount }}" class="text-right">{{ donor.totalAmount|format_currency(donor.currency) }}</td>
-            <td data-order="{{ donor.totalProcessingFee }}" class="text-right">{{ donor.totalProcessingFee|format_currency(donor.currency) }}</td>
-            <td data-order="{{ donor.totalNetAmount }}" class="text-right font-weight-bold">{{ donor.totalNetAmount|format_currency(donor.currency) }}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-        <caption><small><i class="fas fa-info-circle fa-fw"></i> <strong>Note:</strong> This table only includes total donations by Members. Anonymous or unassociated donations are excluded.</small.</caption>
-      </table>
-    </div>
+    <table class="table w-100" id="donorTable">
+      <thead>
+        <tr>
+          <th>Donor</th>
+          <th>Latest Donation</th>
+          <th>Donations</th>
+          <th>Amount</th>
+          <th>Fees</th>
+          <th>Net Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for donor in donors %}
+        <tr>
+          {% if donor.isAnonymous %}
+          <td data-order="Donor, Anonymous"><i class="fas fa-user-secret"></i> Anonymous Donor</td>
+          {% else %}
+          <td data-order="{{ donor.lastName|escape('html_attr') }}, {{ donor.preferredName|escape('html_attr') }}"><a href="{{ path('member_donations', {localIdentifier: donor.localIdentifier}) }}">{{ donor.preferredName }} {{ donor.lastName }}</a></td>
+          {% endif %}
+          <td data-order="{{ donor.latestDonation|date('Y-m-d') }}">{{ donor.latestDonation|date('n/j/Y') }}</td>
+          <td data-order="{{ donor.totalDonations }}" class="text-right">{{ donor.totalDonations|number_format }}</td>
+          <td data-order="{{ donor.totalAmount }}" class="text-right">{{ donor.totalAmount|format_currency(donor.currency) }}</td>
+          <td data-order="{{ donor.totalProcessingFee }}" class="text-right">{{ donor.totalProcessingFee|format_currency(donor.currency) }}</td>
+          <td data-order="{{ donor.totalNetAmount }}" class="text-right font-weight-bold">{{ donor.totalNetAmount|format_currency(donor.currency) }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+      <caption><small><i class="fas fa-info-circle fa-fw"></i> <strong>Note:</strong> This table only includes total donations by Members. Anonymous or unassociated donations are excluded.</small.</caption>
+    </table>
   </div>
 </div>
 {% else %}

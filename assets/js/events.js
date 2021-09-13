@@ -2,8 +2,14 @@
 /* globals Routing, $ */
 
 $(document).ready(function() {
-  var communicationsTable = $('#eventsTable').DataTable({
-    responsive: true,
+  var eventsTable = $('#eventsTable').DataTable({
+    responsive: {
+        details: {
+            display: $.fn.dataTable.Responsive.display.childRowImmediate,
+            type: 'none',
+            target: ''
+        }
+    },
     fixedHeader: true,
     order: [
       [1, 'desc']

@@ -22,28 +22,25 @@
 
 <div class="card shadow">
   <div class="card-body">
-    <div class="table-responsive">
-      <table class="table table-striped" id="donationsTable">
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Donor</th>
-            <th>Campaign</th>
-            <th>Description</th>
-            <th>Amount</th>
-            <th>Fees</th>
-            <th>Net Amount</th>
-            <th>Recurring?</th>
-            <th class="col-edit" data-orderable="false"></td>
-          </tr>
-        </thead>
-        <tbody>
-          {% for donation in donations %}
-          {% include 'donation/_donation_row.html.twig' %}
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
+    <table class="table w-100" id="donationsTable">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Campaign</th>
+          <th>Description</th>
+          <th>Amount</th>
+          <th>Fees</th>
+          <th>Net Amount</th>
+          <th>Recurring?</th>
+          <th class="col-edit" data-orderable="false"></td>
+        </tr>
+      </thead>
+      <tbody>
+        {% for donation in donations %}
+        {% include 'donation/_donation_row.html.twig' with {hideDonor: true} %}
+        {% endfor %}
+      </tbody>
+    </table>
   </div>
 </div>
 {% else %}

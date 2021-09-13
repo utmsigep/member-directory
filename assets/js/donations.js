@@ -16,7 +16,13 @@ $(document).ready(function () {
   ];
 
   var donationsTable = $('#donationsTable').DataTable({
-    responsive: true,
+    responsive: {
+        details: {
+            display: $.fn.dataTable.Responsive.display.childRowImmediate,
+            type: 'none',
+            target: ''
+        }
+    },
     fixedHeader: true,
     buttons: exportButtons,
     order: [
@@ -27,7 +33,13 @@ $(document).ready(function () {
   donationsTable.buttons().container().addClass('d-block text-center py-3').appendTo(donationsTable.table().container());
 
   var donorTable = $('#donorTable').DataTable({
-    responsive: true,
+    responsive: {
+        details: {
+            display: $.fn.dataTable.Responsive.display.childRowImmediate,
+            type: 'none',
+            target: ''
+        }
+    },
     fixedHeader: true,
     buttons: exportButtons,
     order: [
@@ -38,7 +50,13 @@ $(document).ready(function () {
   donorTable.buttons().container().addClass('d-block text-center py-3').appendTo(donorTable.table().container());
 
   var campaignTable = $('#campaignTable').DataTable({
-    responsive: true,
+    responsive: {
+        details: {
+            display: $.fn.dataTable.Responsive.display.childRowImmediate,
+            type: 'none',
+            target: ''
+        }
+    },
     fixedHeader: true,
     buttons: exportButtons,
     order: [

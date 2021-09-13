@@ -23,6 +23,13 @@ tr.inactive {
    }
 }
 
+/* DataTables */
+tr.child {
+  td {
+    background-color: #f8f9fc;
+  }
+}
+
 /* Map */
 #mapElements {
   position: relative;

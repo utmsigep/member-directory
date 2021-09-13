@@ -13,24 +13,22 @@
 {% if events %}
 <div class="card mb-3 shadow">
   <div class="card-body">
-    <div class="table-responsive">
-      <table class="table table-striped" id="eventsTable">
-        <thead>
-          <tr>
-            <th>Event</th>
-            <th>Started</th>
-            <th>Location</th>
-            <th>Attendees</th>
-            <th class="col-edit" data-orderable="false"></th>
-          </tr>
-        </thead>
-        <tbody>
-        {% for event in events %}
-          {% include 'event/_row.html.twig' %}
-        {% endfor %}
-        </tbody>
-      </table>
-    </div>
+    <table class="table w-100" id="eventsTable">
+      <thead>
+        <tr>
+          <th>Event</th>
+          <th>Started</th>
+          <th>Location</th>
+          <th>Attendees</th>
+          <th class="col-edit" data-orderable="false"></th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for event in events %}
+        {% include 'event/_row.html.twig' %}
+      {% endfor %}
+      </tbody>
+    </table>
   </div>
 </div>
 {% else %}

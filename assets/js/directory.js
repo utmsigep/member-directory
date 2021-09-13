@@ -12,7 +12,13 @@ var sanitizeHTML = function (str) {
 
 $(document).ready(function() {
   var memberDataTable = $('#memberDataTable').DataTable({
-    responsive: true,
+    responsive: {
+        details: {
+            display: $.fn.dataTable.Responsive.display.childRowImmediate,
+            type: 'none',
+            target: ''
+        }
+    },
     fixedHeader: {
       header: true
     },
