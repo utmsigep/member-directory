@@ -32,7 +32,7 @@ $(document).ready(function() {
     pageLength: 25,
     searching: false,
     createdRow: function (row, data, dataIndex) {
-      if (data.status.isInactive == true) {
+      if (data.status.isInactive === true) {
         $(row).addClass('inactive');
       }
     },

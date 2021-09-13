@@ -82,7 +82,6 @@ var drawMap = function () {
             searchNoResultsFoundContainer.hide();
             searchResultsExport.show();
             $(data).each(function (i, row) {
-              console.log(row);
               var item = formatMemberData(row);
               searchResultsContainer.append(L.Util.template(
                 '<div><div><strong><a href="{link}" target="_blank">{displayName}</a> {classYear}</strong> {tags}</div> {localIdentifier} / {statusLabel}</div><hr />', item
@@ -95,7 +94,7 @@ var drawMap = function () {
   var addMarkers = function () {
     searchResultsExport.hide();
     $.getJSON(Routing.generate('map_data'), {member_statuses: memberStatuses()}, function(data) {
-      if (data.length == 0) {
+      if (data.length === 0) {
         return;
       }
       $(data).each(function (i, row) {
@@ -121,7 +120,7 @@ var drawMap = function () {
   // Change map with filter update
   $('form[name="map_filter"]').on('change', function (form) {
     // Require at least one box to be checked
-    if ($('input[name="map_filter[status][]"]:checked').length == 0) {
+    if ($('input[name="map_filter[status][]"]:checked').length === 0) {
       $('input[name="map_filter[status][]"]').first().prop('checked', true);
     }
     // Clear out previouis markers
