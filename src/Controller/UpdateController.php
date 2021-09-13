@@ -23,9 +23,7 @@ class UpdateController extends AbstractController
                 'externalIdentifier' => $request->get('externalIdentifier'),
                 'updateToken' => $request->get('updateToken'),
             ]);
-        } else {
-            throw $this->createNotFoundException('Member not found.');
-        }
+        throw $this->createNotFoundException('Member not found.');
     }
 
     /**

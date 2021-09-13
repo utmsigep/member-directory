@@ -120,9 +120,8 @@ class SecurityController extends AbstractController
                 $this->addFlash('success', 'Two-Factor Security setup complete!');
 
                 return $this->redirectToRoute('app_manage_two_factor');
-            } else {
-                $this->addFlash('error', 'Your code did not match. Please try again.');
             }
+            $this->addFlash('error', 'Your code did not match. Please try again.');
         }
 
         return $this->render('security/two_factor_setup.html.twig', [
