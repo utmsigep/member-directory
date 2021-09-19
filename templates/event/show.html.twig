@@ -6,6 +6,7 @@
 {% embed '_page_header.html.twig' %}
 {% block page_header_title %}{{ event }}{% endblock %}
 {% block page_header_buttons %}
+<a role="button" href="{{ path('event_ical', {id: event.id}) }}" class="btn btn-secondary btn-sm"><i class="fas fa-calendar-day fa-fw"></i> iCalendar</a>
 <a role="button" href="{{ path('event_edit', {id: event.id}) }}" class="btn btn-primary btn-sm"><i class="fas fa-edit fa-fw"></i> Edit</a>
 {% endblock %}
 {% endembed %}
@@ -17,6 +18,8 @@
         <dl class="row">
           <dt class="col-sm-3 mb-3">Event Name</dt>
           <dd class="col-sm-9 mb-3">{{ event.name }}</dd>
+          <dt class="col-sm-3 mb-3">Description</dt>
+          <dd class="col-sm-9 mb-3">{{ event.description|markdown_to_html }}</dd>
           <dt class="col-sm-3 mb-3">Code</dt>
           <dd class="col-sm-9 mb-3"><tt>{{ event.code }}</tt></dd>
           <dt class="col-sm-3 mb-3">Event Start</dt>

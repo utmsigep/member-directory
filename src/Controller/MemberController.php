@@ -16,10 +16,11 @@ use App\Service\EmailService;
 use App\Service\SmsService;
 use Doctrine\ORM\EntityRepository;
 use Gedmo\Loggable\Entity\LogEntry;
-use JeroenDesloovere\VCard\VCard;
+use Sabre\VObject\Component\VCard;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -343,24 +344,39 @@ class MemberController extends AbstractController
     public function generateVCard(Member $member): Response
     {
         // Create the VCard
-        $vcard = new VCard();
-        $vcard->addName($member->getLastName(), $member->getPreferredName());
-        $vcard->addJobtitle($member->getJobTitle());
-        $vcard->addCompany($member->getEmployer());
-        $vcard->addEmail($member->getPrimaryEmail(), 'PREF;HOME');
-        $vcard->addPhoneNumber($member->getPrimaryTelephoneNumber(), 'PREF;HOME;VOICE');
-        $vcard->addAddress(
-            '',
-            $member->getMailingAddressLine2(),
-            $member->getMailingAddressLine1(),
-            $member->getMailingCity(),
-            $member->getMailingState(),
-            $member->getMailingPostalCode(),
-            $member->getMailingCountry(),
-            'HOME;POSTAL'
+        $vcard = new VCard([
+            'FN' => $member->getDisplayName(),
+            'N' => [$member->getLastName(), $member->getPreferredName()],
+            'TITLE' => $member->getJobTitle(),
+            'ORG' => $member->getEmployer(),
+        ]);
+        $vcard->add('TEL', $member->getPrimaryTelephoneNumber(), ['pref' => 1, 'type' => 'voice']);
+        $vcard->add('EMAIL', $member->getPrimaryEmail(), ['pref' => 1]);
+        $vcard->add(
+            'ADR', [
+                '',
+                $member->getMailingAddressLine1(),
+                $member->getMailingAddressLine2(),
+                $member->getMailingCity(),
+                $member->getMailingState(),
+                $member->getMailingPostalCode(),
+                $member->getMailingCountry(),
+            ],
+            [
+                'pref' => 1,
+                'type' => 'postal',
+            ]
+        );
+        $vcard->validate(\Sabre\VObject\Node::REPAIR);
+        $contentDisposition = HeaderUtils::makeDisposition(
+            HeaderUtils::DISPOSITION_ATTACHMENT,
+            sprintf('%s.vcf', $member->getDisplayName())
         );
 
-        return new Response($vcard->getOutput(), 200, $vcard->getHeaders(true));
+        return new Response($vcard->serialize(), 200, [
+            'Content-type' => 'text/x-vcard; charset=utf-8',
+            'Content-disposition' => $contentDisposition,
+        ]);
     }
 
     /**

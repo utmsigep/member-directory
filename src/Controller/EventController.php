@@ -5,8 +5,10 @@ namespace App\Controller;
 use App\Entity\Event;
 use App\Form\EventType;
 use App\Repository\EventRepository;
+use Sabre\VObject\Component\VCalendar;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -57,6 +59,31 @@ class EventController extends AbstractController
     {
         return $this->render('event/show.html.twig', [
             'event' => $event,
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/ical", name="event_ical", methods={"GET"})
+     */
+    public function ical(Event $event): Response
+    {
+        $ical = new VCalendar([
+            'VEVENT' => [
+                'SUMMARY' => $event->getName(),
+                'DESCRIPTION' => $event->getDescription(),
+                'DTSTART' => $event->getstartAt(),
+                'DTEND' => $event->getStartAt()->add(new \DateInterval('PT3H')),
+            ],
+        ]);
+        $ical->validate(\Sabre\VObject\Node::REPAIR);
+        $contentDisposition = HeaderUtils::makeDisposition(
+            HeaderUtils::DISPOSITION_ATTACHMENT,
+            sprintf('%s.ics', $event->getName())
+        );
+
+        return new Response($ical->serialize(), 200, [
+            'Content-type' => 'text/calendar; charset=utf-8',
+            'Content-disposition' => $contentDisposition,
         ]);
     }
 

@@ -189,9 +189,6 @@
     "guzzlehttp/psr7": {
         "version": "2.0.0"
     },
-    "jeroendesloovere/vcard": {
-        "version": "1.7.2"
-    },
     "khanamiryan/qrcode-detector-decoder": {
         "version": "1.0.5.1"
     },
@@ -319,6 +316,15 @@
     },
     "ralouphie/getallheaders": {
         "version": "3.0.3"
+    },
+    "sabre/uri": {
+        "version": "2.2.1"
+    },
+    "sabre/vobject": {
+        "version": "4.3.5"
+    },
+    "sabre/xml": {
+        "version": "2.2.3"
     },
     "scheb/2fa-bundle": {
         "version": "5.0",

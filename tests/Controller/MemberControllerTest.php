@@ -124,7 +124,7 @@ class MemberControllerTest extends WebTestCase
         $this->assertResponseStatusCodeSame(403);
     }
 
-    public function testShowVcard()
+    public function testGenerateVcard()
     {
         $client = static::createClient();
         $userRepository = static::$container->get(UserRepository::class);

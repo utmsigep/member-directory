@@ -89,4 +89,15 @@ class EventControllerTest extends WebTestCase
         $this->assertPageTitleSame('Member Directory - New Event');
         $this->assertSelectorTextContains('span.h4', 'New Event');
     }
+
+    public function testIcal()
+    {
+        $client = static::createClient();
+        $userRepository = static::$container->get(UserRepository::class);
+        $testUser = $userRepository->findOneByEmail('event.manager@example.com');
+        $client->loginUser($testUser);
+
+        $client->request('GET', '/events/1/ical');
+        $this->assertResponseIsSuccessful();
+    }
 }
