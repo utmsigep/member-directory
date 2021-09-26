@@ -81,7 +81,7 @@ jobs:
       - name: Run PHPUnit
         run: bin/phpunit --coverage-clover build/coverage-${{ matrix.php-versions }}.xml --log-junit build/phpunit-${{ matrix.php-versions }}.xml
         env:
-          DATABASE_URL: mysql://root:symfony@127.0.0.1:${{ job.services.mysql.ports['3306'] }}/symfony_test
+          DATABASE_URL: mysql://root:symfony@127.0.0.1:${{ job.services.mysql.ports['3306'] }}/symfony
 
       - name: Run PHPStan
         run: |
