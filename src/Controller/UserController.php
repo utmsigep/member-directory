@@ -122,6 +122,7 @@ class UserController extends AbstractController
                 (string) $user
             ));
         }
+
         return $this->redirectToRoute('user_show', ['id' => $user->getId()]);
     }
 
