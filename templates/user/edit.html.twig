@@ -9,6 +9,23 @@
 
 {% include 'admin/_nav.html.twig' %}
 
+{% if user.isTotpAuthenticationEnabled %}
+<form method="post" action="{{ path('user_disable_two_factor', {id: user.id}) }}">
+<div class="card mb-3 shadow border-danger text-danger">
+  <div class="card-header">
+    <i class="fas fa-exclamation-triangle"></i> Two-Factor Security Enabled
+  </div>
+  <div class="card-body">
+    Take extra precautions to confirm that the request is authentic before disabling this protection.
+  </div>
+  <div class="card-footer text-right">
+    <input type="hidden" name="_token" value="{{ csrf_token('disableTwoFactor' ~ user.id) }}" />
+    <button class="btn btn-danger">Disable Two-Factor Security</button>
+  </div>
+</div>
+</form>
+{% endif %}
+
 {{ include('user/_form.html.twig', {'button_label': 'Update'}) }}
 
 {{ include('user/_delete_form.html.twig') }}

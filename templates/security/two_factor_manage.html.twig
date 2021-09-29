@@ -14,7 +14,10 @@
     </p>
   </div>
   <div class="card-footer text-right">
-    <a href="{{ path('app_disable_two_factor') }}" class="btn btn-delete btn-danger">Deactivate Two-Factor Security</a>
+    <form method="post" action="{{ path('app_disable_two_factor') }}">
+      <input type="hidden" name="_token" value="{{ csrf_token('disableTwoFactor' ~ app.user.id) }}" />
+      <button class="btn btn-delete btn-danger">Deactivate Two-Factor Security</button>
+    </form>
   </div>
 </div>
 {% endblock %}

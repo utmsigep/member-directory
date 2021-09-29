@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
 use Gedmo\Loggable\Entity\LogEntry;
+use Psr\Log\LoggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -102,6 +103,26 @@ class UserController extends AbstractController
             'user' => $user,
             'form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/{id}/disable-2fa", name="user_disable_two_factor", methods={"POST"})
+     */
+    public function disableTwoFactor(Request $request, User $user, LoggerInterface $logger): Response
+    {
+        if ($this->isCsrfTokenValid('disableTwoFactor'.$user->getId(), $request->request->get('_token'))) {
+            $user->setTotpSecret(null);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($user);
+            $entityManager->flush();
+            $this->addFlash('success', 'Two-Factor Security disabled.');
+            $logger->info(sprintf(
+                '[SECURITY] %s disabled Two-Factor Security on %s',
+                (string) $this->getUser(),
+                (string) $user
+            ));
+        }
+        return $this->redirectToRoute('user_show', ['id' => $user->getId()]);
     }
 
     /**

@@ -143,18 +143,20 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/disable-two-factor", name="app_disable_two_factor")
+     * @Route("/disable-two-factor", name="app_disable_two_factor", methods={"POST"})
      */
     public function disableTwoFactor(Request $request, TotpAuthenticatorInterface $totpAuthenticatorService)
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         $user = $this->getUser();
-        $user->setTotpSecret(null);
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->persist($user);
-        $entityManager->flush();
-        $this->addFlash('success', 'Two-Factor security disabled.');
+        if ($this->isCsrfTokenValid('disableTwoFactor'.$user->getId(), $request->request->get('_token'))) {
+            $user->setTotpSecret(null);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($user);
+            $entityManager->flush();
+            $this->addFlash('success', 'Two-Factor Security disabled.');
+        }
 
         return $this->redirectToRoute('app_manage_two_factor');
     }
