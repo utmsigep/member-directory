@@ -1,5 +1,15 @@
-on: [push, pull_request]
 name: Coding Standards
+on:
+  push:
+    branches: [master]
+    paths-ignore:
+      - 'README.md'
+      - 'docs/**'
+  pull_request:
+    branches: [master]
+    paths-ignore:
+      - 'README.md'
+      - 'docs/**'
 jobs:
   open-pr-for-cs-violations:
     name: PHP-CS-Fixer

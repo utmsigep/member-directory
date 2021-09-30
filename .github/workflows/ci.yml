@@ -1,6 +1,16 @@
 # GitHub Action for Symfony with MySQL
 name: CI Build and Test
-on: [push, pull_request]
+on:
+  push:
+    branches: [master]
+    paths-ignore:
+      - 'README.md'
+      - 'docs/**'
+  pull_request:
+    branches: [master]
+    paths-ignore:
+      - 'README.md'
+      - 'docs/**'
 jobs:
   build:
     name: Build and Test (PHP ${{ matrix.php-versions }})
