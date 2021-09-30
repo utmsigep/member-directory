@@ -1,6 +1,6 @@
 {
     "devDependencies": {
-        "webpack-dev-server": "^4.2.1",
+        "webpack-dev-server": "^4.3.0",
         "webpack-notifier": "^1.13.0"
     },
     "license": "MIT",
@@ -16,7 +16,7 @@
         "bootstrap": "^4.6.0",
         "bootstrap-autocomplete": "^2.3.7",
         "bootstrap-select": "^1.13.18",
-        "core-js": "^3.18.0",
+        "core-js": "^3.18.1",
         "datatables.net": "^1.11.3",
         "datatables.net-bs4": "^1.11.3",
         "datatables.net-buttons": "^2.0.1",
