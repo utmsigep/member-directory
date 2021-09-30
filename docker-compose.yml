@@ -1,0 +1,17 @@
+version: '2'
+services:
+  database:
+    environment:
+      MYSQL_DATABASE: member_directory
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+    image: mysql:5.7
+    ports: [3306]
+    volumes:
+      - member-directory-mysql-data:/var/lib/mysql
+
+  mailer:
+    image: 'schickling/mailcatcher'
+    ports: [1025, 1080]
+
+volumes:
+  member-directory-mysql-data:
