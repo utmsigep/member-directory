@@ -16,7 +16,11 @@
 {% if member.primaryEmail or member.primaryTelephoneNumber %}
 <div class="row">
   <div class="col-lg-7">
-
+    {% if member.status.isInactive %}
+    <div class="alert alert-warning">
+      <i class="fas fa-exclamation-triangle"></i> <strong>Warning:</strong> Member has an inactive Member Status ({{ member.status }}).
+    </div>
+    {% endif %}
     <ul class="nav nav-pills mb-3">
       <li class="nav-item mr-2">
         <a class="nav-link form_button {% if not member.primaryEmail %}disabled{% endif %}" href="#email_form"><i class="fas fa-at fa-fw"></i> Send Email</a>
