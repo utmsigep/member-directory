@@ -1,7 +1,7 @@
 {
     "devDependencies": {
         "webpack-dev-server": "^4.3.1",
-        "webpack-notifier": "^1.14.0"
+        "webpack-notifier": "^1.14.1"
     },
     "license": "MIT",
     "private": true,
@@ -16,7 +16,7 @@
         "bootstrap": "^4.6.0",
         "bootstrap-autocomplete": "^2.3.7",
         "bootstrap-select": "^1.13.18",
-        "core-js": "^3.18.2",
+        "core-js": "^3.18.3",
         "datatables.net": "^1.11.3",
         "datatables.net-bs4": "^1.11.3",
         "datatables.net-buttons": "^2.0.1",
@@ -32,8 +32,8 @@
         "leaflet-defaulticon-compatibility": "^0.1.1",
         "moment": "^2.29.1",
         "popper.js": "^1.16.1",
-        "sass": "^1.42.1",
-        "sass-loader": "^12.1.0",
+        "sass": "^1.43.2",
+        "sass-loader": "^12.2.0",
         "startbootstrap-sb-admin-2": "^4.1.4",
         "tablednd": "^1.0.5",
         "underscore": "^1.13.1"
