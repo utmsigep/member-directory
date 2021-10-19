@@ -23,28 +23,26 @@
 
 <div class="card mb-3 shadow">
   <div class="card-body">
-    <div class="table-responsive">
-      <table class="table" id="donationsTable">
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Donor</th>
-            <th>Campaign</th>
-            <th>Description</th>
-            <th>Amount</th>
-            <th>Fees</th>
-            <th>Net Amount</th>
-            <th>Recurring?</th>
-            <th class="col-edit" data-orderable="false"></th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for donation in donations %}
-          {% include 'donation/_donation_row.html.twig' %}
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
+    <table class="table" id="donationsTable">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Donor</th>
+          <th>Campaign</th>
+          <th>Description</th>
+          <th>Amount</th>
+          <th>Fees</th>
+          <th>Net Amount</th>
+          <th>Recurring?</th>
+          <th class="col-edit" data-orderable="false"></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for donation in donations %}
+        {% include 'donation/_donation_row.html.twig' %}
+        {% endfor %}
+      </tbody>
+    </table>
   </div>
 </div>
 {% else %}
