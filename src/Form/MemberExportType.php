@@ -6,6 +6,7 @@ use App\Entity\MemberStatus;
 use App\Entity\Tag;
 use App\Repository\MemberStatusRepository;
 use App\Repository\TagRepository;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -112,6 +113,10 @@ class MemberExportType extends AbstractType
                 'expanded' => true,
                 'multiple' => true,
                 'required' => false,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('t')
+                        ->orderBy('t.tagName', 'ASC');
+                },
             ]);
         }
     }
