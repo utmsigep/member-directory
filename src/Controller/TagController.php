@@ -23,7 +23,7 @@ class TagController extends AbstractController
     public function index(TagRepository $tagRepository): Response
     {
         return $this->render('tag/index.html.twig', [
-            'tags' => $tagRepository->findAll(),
+            'tags' => $tagRepository->findBy([], ['tagName' => 'ASC']),
         ]);
     }
 

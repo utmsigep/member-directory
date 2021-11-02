@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Member;
 use App\Repository\TagRepository;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -74,6 +75,10 @@ class MemberType extends AbstractType
         if (count($this->tagRepository->findAll())) {
             $builder->add('tags', null, [
               'by_reference' => false,
+              'query_builder' => function (EntityRepository $er) {
+                  return $er->createQueryBuilder('t')
+                      ->orderBy('t.tagName', 'ASC');
+              },
           ]);
         }
     }
