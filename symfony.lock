@@ -195,6 +195,12 @@
     "laminas/laminas-code": {
         "version": "3.5.1"
     },
+    "lcobucci/clock": {
+        "version": "2.0.0"
+    },
+    "lcobucci/jwt": {
+        "version": "4.1.5"
+    },
     "league/csv": {
         "version": "9.2.0"
     },
@@ -344,6 +350,9 @@
     },
     "scheb/2fa-totp": {
         "version": "v5.11.0"
+    },
+    "scheb/2fa-trusted-device": {
+        "version": "v5.13.0"
     },
     "sebastian/cli-parser": {
         "version": "1.0.1"
