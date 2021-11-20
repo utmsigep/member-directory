@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
-use App\Repository\MemberRepository;
 use App\Form\MemberExportType;
+use App\Repository\MemberRepository;
 use App\Service\MemberToCsvService;
 use Doctrine\Common\Collections\ArrayCollection;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
