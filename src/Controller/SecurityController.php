@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\ProfileType;
 use App\Form\TwoFactorVerifyType;
+use Doctrine\ORM\EntityManagerInterface;
 use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Totp\TotpAuthenticatorInterface;
 use Scheb\TwoFactorBundle\Security\TwoFactor\QrCode\QrCodeGenerator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,7 +24,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/profile", name="app_profile")
      */
-    public function profile(Request $request): Response
+    public function profile(Request $request, EntityManagerInterface $entityManager): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -32,7 +33,6 @@ class SecurityController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
             $this->addFlash('success', 'Profile updated!');
@@ -48,7 +48,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/change-password", name="app_change_password")
      */
-    public function changePassword(Request $request, UserPasswordHasherInterface $passwordEncoder): Response
+    public function changePassword(Request $request, UserPasswordHasherInterface $passwordEncoder, EntityManagerInterface $entityManager): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -83,7 +83,6 @@ class SecurityController extends AbstractController
                 $user,
                 $form['plainPassword']->getData()
             ));
-            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
             $this->addFlash('success', 'Password updated!');
@@ -99,7 +98,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/manage-two-factor", name="app_manage_two_factor")
      */
-    public function manageTwoFactor(Request $request, TotpAuthenticatorInterface $totpAuthenticatorService)
+    public function manageTwoFactor(Request $request, TotpAuthenticatorInterface $totpAuthenticatorService, EntityManagerInterface $entityManager)
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
@@ -114,7 +113,6 @@ class SecurityController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             if ($totpAuthenticatorService->checkCode($user, $form['two_factor_confirm']->getData())) {
-                $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($user);
                 $entityManager->flush();
                 $this->addFlash('success', 'Two-Factor Security setup complete!');
@@ -145,14 +143,13 @@ class SecurityController extends AbstractController
     /**
      * @Route("/disable-two-factor", name="app_disable_two_factor", methods={"POST"})
      */
-    public function disableTwoFactor(Request $request, TotpAuthenticatorInterface $totpAuthenticatorService)
+    public function disableTwoFactor(Request $request, TotpAuthenticatorInterface $totpAuthenticatorService, EntityManagerInterface $entityManager)
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         $user = $this->getUser();
         if ($this->isCsrfTokenValid('disableTwoFactor'.$user->getId(), $request->request->get('_token'))) {
             $user->setTotpSecret(null);
-            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
             $this->addFlash('success', 'Two-Factor Security disabled.');

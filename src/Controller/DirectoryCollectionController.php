@@ -31,14 +31,13 @@ class DirectoryCollectionController extends AbstractController
     /**
      * @Route("/new", name="directory_collection_new", methods={"GET", "POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $directoryCollection = new DirectoryCollection();
         $form = $this->createForm(DirectoryCollectionType::class, $directoryCollection);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($directoryCollection);
             $entityManager->flush();
             $this->addFlash('success', sprintf('%s created!', $directoryCollection));
@@ -65,13 +64,13 @@ class DirectoryCollectionController extends AbstractController
     /**
      * @Route("/{id}/edit", name="directory_collection_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, DirectoryCollection $directoryCollection): Response
+    public function edit(Request $request, DirectoryCollection $directoryCollection, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(DirectoryCollectionType::class, $directoryCollection);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $entityManager->flush();
             $this->addFlash('success', sprintf('%s updated!', $directoryCollection));
 
             return $this->redirectToRoute('directory_collection_index');
@@ -86,10 +85,9 @@ class DirectoryCollectionController extends AbstractController
     /**
      * @Route("/{id}", name="directory_collection_delete", methods={"POST"})
      */
-    public function delete(Request $request, DirectoryCollection $directoryCollection): Response
+    public function delete(Request $request, DirectoryCollection $directoryCollection, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$directoryCollection->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($directoryCollection);
             $entityManager->flush();
         }
@@ -101,12 +99,12 @@ class DirectoryCollectionController extends AbstractController
     /**
      * @Route("/{id}/reorder", name="directory_collection_reorder", methods={"POST"}, options={"expose": true})
      */
-    public function reorder(Request $request, DirectoryCollection $directoryCollection, EntityManagerInterface $em, $id)
+    public function reorder(Request $request, DirectoryCollection $directoryCollection, EntityManagerInterface $entityManager, $id)
     {
         $position = (int) $request->request->get('position');
         $directoryCollection->setPosition($position);
-        $em->persist($directoryCollection);
-        $em->flush();
+        $entityManager->persist($directoryCollection);
+        $entityManager->flush();
 
         return $this->json([
             'status' => 'success',

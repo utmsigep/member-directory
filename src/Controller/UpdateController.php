@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Member;
 use App\Form\MemberUpdateType;
+use App\Repository\MemberRepository;
 use App\Service\EmailService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -30,12 +32,12 @@ class UpdateController extends AbstractController
     /**
      * @Route("/update-my-info/{externalIdentifier}/{updateToken}", name="self_service_update")
      */
-    public function update(Request $request, EmailService $emailService)
+    public function update(Request $request, EmailService $emailService, MemberRepository $memberRepository, EntityManagerInterface $entityManager)
     {
-        $member = $this->getDoctrine()->getRepository(Member::class)->findOneBy([
+        $member = $memberRepository->findOneBy([
             'externalIdentifier' => $request->get('externalIdentifier'),
         ]);
-        // If mismatch of updated token, deceased, or in banned statuses, ignore
+        // If mismatch of updated token, deceased, or in inactive statuses, ignore
         if (!$member || $request->get('updateToken') != $member->getUpdateToken()
             || $member->getIsDeceased()
             || $member->getStatus()->getIsInactive()
@@ -49,7 +51,6 @@ class UpdateController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             // If form is submitted, member is no longer "lost"
             $member->setIsLost(false);
-            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($member);
             $entityManager->flush();
             $emailService->sendMemberUpdate($member);

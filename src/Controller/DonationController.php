@@ -8,6 +8,7 @@ use App\Form\DonationType;
 use App\Repository\DonationRepository;
 use App\Service\ChartService;
 use App\Service\DonorboxDonationService;
+use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -93,14 +94,13 @@ class DonationController extends AbstractController
     /**
      * @Route("/new", name="donation_new", methods={"GET", "POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $donation = new Donation();
         $form = $this->createForm(DonationType::class, $donation, ['timezone' => $this->getUser()->getTimezone()]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($donation);
             $entityManager->flush();
             $this->addFlash('success', sprintf('%s created!', $donation));
@@ -117,9 +117,8 @@ class DonationController extends AbstractController
     /**
      * @Route("/donorbox-import", name="donorbox_import")
      */
-    public function donorboxImport(Request $request, DonorboxDonationService $donorboxDonationService)
+    public function donorboxImport(Request $request, DonorboxDonationService $donorboxDonationService, EntityManagerInterface $entityManager)
     {
-        $entityManager = $this->getDoctrine()->getManager();
         $form = $this->createForm(DonationImportType::class, null);
         $form->handleRequest($request);
         $donations = [];
@@ -162,13 +161,13 @@ class DonationController extends AbstractController
     /**
      * @Route("/{id}/edit", name="donation_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Donation $donation): Response
+    public function edit(Request $request, Donation $donation, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(DonationType::class, $donation, ['timezone' => $this->getUser()->getTimezone()]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $entityManager->flush();
             $this->addFlash('success', sprintf('%s updated!', $donation));
 
             return $this->redirectToRoute('donation_index');
@@ -183,10 +182,9 @@ class DonationController extends AbstractController
     /**
      * @Route("/{id}", name="donation_delete", methods={"POST"})
      */
-    public function delete(Request $request, Donation $donation): Response
+    public function delete(Request $request, Donation $donation, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$donation->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($donation);
             $entityManager->flush();
             $this->addFlash('success', sprintf('%s deleted!', $donation));
