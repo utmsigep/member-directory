@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Donation;
+use App\Entity\Member;
 use App\Form\DonationImportType;
 use App\Form\DonationType;
 use App\Repository\DonationRepository;
@@ -97,6 +98,10 @@ class DonationController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $donation = new Donation();
+        if ($request->query->get('member')) {
+            $member = $entityManager->getRepository(Member::class)->findOneBy(['localIdentifier' => $request->query->get('member')]);
+            $donation->setMember($member);
+        }
         $form = $this->createForm(DonationType::class, $donation, ['timezone' => $this->getUser()->getTimezone()]);
         $form->handleRequest($request);
 

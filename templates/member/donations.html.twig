@@ -5,6 +5,9 @@
 {% block body %}
 {% embed '_page_header.html.twig' %}
 {% block page_header_title %}{{ member.displayName }}{% endblock %}
+{% block page_header_buttons %}
+<a role="button" href="{{ path('donation_new', {member: member.localIdentifier}) }}" class="btn btn-sm btn-primary"><i class="fas fa-plus fa-fw"></i> New Donation</a>
+{% endblock %}
 {% endembed %}
 
 {% include 'member/_badges.html.twig' %}
