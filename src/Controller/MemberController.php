@@ -14,6 +14,7 @@ use App\Service\ChartService;
 use App\Service\CommunicationLogService;
 use App\Service\EmailService;
 use App\Service\SmsService;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Gedmo\Loggable\Entity\LogEntry;
 use Sabre\VObject\Component\VCard;
@@ -36,13 +37,12 @@ class MemberController extends AbstractController
      * @Route("/new", name="member_new")
      * @IsGranted("ROLE_DIRECTORY_MANAGER")
      */
-    public function memberNew(Request $request): Response
+    public function memberNew(Request $request, EntityManagerInterface $entityManager): Response
     {
         $member = new Member();
         $form = $this->createForm(MemberType::class, $member);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($member);
             $entityManager->flush();
             $this->addFlash('success', sprintf('%s created!', $member));
@@ -72,13 +72,12 @@ class MemberController extends AbstractController
      * @Route("/{localIdentifier}/edit", name="member_edit")
      * @IsGranted("ROLE_DIRECTORY_MANAGER")
      */
-    public function memberEdit(Member $member, Request $request): Response
+    public function memberEdit(Member $member, Request $request, EntityManagerInterface $entityManager): Response
     {
         $originalMember = clone $member;
         $form = $this->createForm(MemberType::class, $member);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($member);
             $entityManager->flush();
             $this->addFlash('success', sprintf('%s updated!', $member));
@@ -98,12 +97,11 @@ class MemberController extends AbstractController
      * @Route("/{localIdentifier}/delete", name="member_delete")
      * @IsGranted("ROLE_DIRECTORY_MANAGER")
      */
-    public function memberDelete(Member $member, Request $request): Response
+    public function memberDelete(Member $member, Request $request, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createFormBuilder($member)->getForm();
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($member);
             $entityManager->flush();
             $this->addFlash('success', sprintf('%s deleted!', $member));
@@ -121,9 +119,8 @@ class MemberController extends AbstractController
      * @Route("/{localIdentifier}/change-log", name="member_change_log")
      * @IsGranted("ROLE_DIRECTORY_MANAGER")
      */
-    public function changeLog(Member $member): Response
+    public function changeLog(Member $member, EntityManagerInterface $entityManager): Response
     {
-        $entityManager = $this->getDoctrine()->getManager();
         $logEntries = $entityManager->getRepository(LogEntry::class)->getLogEntries($member);
 
         return $this->render('directory/change_log.html.twig', [
@@ -136,9 +133,8 @@ class MemberController extends AbstractController
      * @Route("/{localIdentifier}/communications", name="member_communication_log")
      * @IsGranted("ROLE_COMMUNICATIONS_MANAGER")
      */
-    public function communicationLog(Member $member, Request $request): Response
+    public function communicationLog(Member $member, Request $request, EntityManagerInterface $entityManager): Response
     {
-        $entityManager = $this->getDoctrine()->getManager();
         $communicationLogs = $entityManager->getRepository(CommunicationLog::class)->getCommunicationLogsByMember($member);
         $communicationLog = new CommunicationLog();
         $form = $this->createForm(MemberCommunicationLogType::class, $communicationLog, ['timezone' => $this->getUser()->getTimezone()]);
@@ -146,7 +142,6 @@ class MemberController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $communicationLog->setMember($member);
             $communicationLog->setUser($this->getUser());
-            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($communicationLog);
             $entityManager->flush();
             $this->addFlash('success', sprintf('%s communication logged!', $member));
@@ -165,9 +160,8 @@ class MemberController extends AbstractController
      * @Route("/{localIdentifier}/donations", name="member_donations")
      * @IsGranted("ROLE_DONATION_MANAGER")
      */
-    public function donations(Member $member, ChartService $chartService): Response
+    public function donations(Member $member, ChartService $chartService, EntityManagerInterface $entityManager): Response
     {
-        $entityManager = $this->getDoctrine()->getManager();
         $donations = $entityManager->getRepository(Donation::class)->findByMember($member);
         $donationsByMonth = $entityManager->getRepository(Donation::class)->getTotalDonationsByMonthForMember($member);
         $totals = $entityManager->getRepository(Donation::class)->getTotalDonationsForMember($member);
@@ -184,9 +178,8 @@ class MemberController extends AbstractController
      * @Route("/{localIdentifier}/events", name="member_events")
      * @IsGranted("ROLE_EVENT_MANAGER")
      */
-    public function events(Member $member, Request $request): Response
+    public function events(Member $member, Request $request, EntityManagerInterface $entityManager): Response
     {
-        $entityManager = $this->getDoctrine()->getManager();
         $events = $member->getEvents();
         $form = $this->createFormBuilder()
             ->add('event', EntityType::class, [
@@ -214,7 +207,6 @@ class MemberController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $event = $form->get('event')->getData();
             $event->addAttendee($member);
-            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($event);
             $entityManager->flush();
             $this->addFlash('success', sprintf('%s updated!', $member));
@@ -235,7 +227,7 @@ class MemberController extends AbstractController
      * @Route("/{localIdentifier}/email-subscription", name="member_email_subscription")
      * @IsGranted("ROLE_EMAIL_MANAGER")
      */
-    public function emailSubscription(Member $member, EmailService $emailService): Response
+    public function emailSubscription(Member $member, EmailService $emailService, EntityManagerInterface $entityManager): Response
     {
         if (!$emailService->isConfigured()) {
             $this->addFlash('danger', 'Email service not configured.');
@@ -247,7 +239,6 @@ class MemberController extends AbstractController
 
             return $this->redirectToRoute('member_show', ['localIdentifier' => $member->getLocalIdentifier()]);
         }
-        $entityManager = $this->getDoctrine()->getManager();
         $subscriber = $emailService->getMemberSubscription($member);
         $subscriberHistory = $emailService->getMemberSubscriptionHistory($member);
 
@@ -353,7 +344,8 @@ class MemberController extends AbstractController
         $vcard->add('TEL', $member->getPrimaryTelephoneNumber(), ['pref' => 1, 'type' => 'voice']);
         $vcard->add('EMAIL', $member->getPrimaryEmail(), ['pref' => 1]);
         $vcard->add(
-            'ADR', [
+            'ADR',
+            [
                 '',
                 $member->getMailingAddressLine1(),
                 $member->getMailingAddressLine2(),

@@ -11,6 +11,7 @@ use App\Repository\MemberRepository;
 use App\Repository\TagRepository;
 use App\Service\EmailService;
 use App\Service\PostalValidatorService;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -215,10 +216,8 @@ class DirectoryController extends AbstractController
     /**
      * @Route("/recent-changes", name="member_changes")
      */
-    public function recentChanges(Request $request)
+    public function recentChanges(Request $request, EntityManagerInterface $entityManager)
     {
-        $entityManager = $this->getDoctrine()->getManager();
-
         $form = $this->createFormBuilder([
             'since' => $request->get('since', new \DateTime(date('Y-m-d', strtotime('-30 day')))),
             'exclude_inactive' => $request->get('exclude_inactive', true),

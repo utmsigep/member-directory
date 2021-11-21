@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\CommunicationLog;
 use App\Form\CommunicationLogType;
 use App\Repository\CommunicationLogRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,7 +31,7 @@ class CommunicationController extends AbstractController
     /**
      * @Route("/new", name="communication_new", methods={"GET", "POST"})
      */
-    public function new(Request $request): Response
+    public function new(EntityManagerInterface $entityManager, Request $request): Response
     {
         $communicationLog = new CommunicationLog();
         $form = $this->createForm(CommunicationLogType::class, $communicationLog, ['timezone' => $this->getUser()->getTimezone()]);
@@ -38,7 +39,6 @@ class CommunicationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $communicationLog->setUser($this->getUser());
-            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($communicationLog);
             $entityManager->flush();
             $this->addFlash('success', sprintf('%s created!', $communicationLog));
@@ -65,13 +65,13 @@ class CommunicationController extends AbstractController
     /**
      * @Route("/{id}/edit", name="communication_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, CommunicationLog $communicationLog): Response
+    public function edit(Request $request, CommunicationLog $communicationLog, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(CommunicationLogType::class, $communicationLog, ['timezone' => $this->getUser()->getTimezone()]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $entityManager->flush();
             $this->addFlash('success', sprintf('%s updated!', $communicationLog));
 
             return $this->redirectToRoute('communication_index');
@@ -86,11 +86,10 @@ class CommunicationController extends AbstractController
     /**
      * @Route("/{id}", name="communication_delete", methods={"POST"})
      */
-    public function delete(Request $request, CommunicationLog $communicationLog): Response
+    public function delete(Request $request, CommunicationLog $communicationLog, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$communicationLog->getId(), $request->request->get('_token'))) {
             $flashMessage = sprintf('%s deleted!', $communicationLog);
-            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($communicationLog);
             $entityManager->flush();
             $this->addFlash('success', $flashMessage);

@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\Member;
 use App\Form\MemberExportType;
+use App\Repository\MemberRepository;
 use App\Service\MemberToCsvService;
 use Doctrine\Common\Collections\ArrayCollection;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -23,13 +23,13 @@ class ExportController extends AbstractController
     /**
      * @Route("/", name="export")
      */
-    public function export(Request $request, MemberToCsvService $memberToCsvService)
+    public function export(Request $request, MemberToCsvService $memberToCsvService, MemberRepository $memberRepository)
     {
         $form = $this->createForm(MemberExportType::class, null);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $filters = $form->getData();
-            $members = $this->getDoctrine()->getRepository(Member::class)->findWithExportFilters($filters);
+            $members = $memberRepository->findWithExportFilters($filters);
 
             $filename = 'member-export-'.date('Y-m-d').'.csv';
             $response = new Response($memberToCsvService->arrayToCsvString(new ArrayCollection($members), $filters['columns']));
@@ -51,14 +51,14 @@ class ExportController extends AbstractController
     /**
      * @Route("/by-location", name="export_by_location", options={"expose": true})
      */
-    public function exportByLocation(Request $request, MemberToCsvService $memberToCsvService)
+    public function exportByLocation(Request $request, MemberToCsvService $memberToCsvService, MemberRepository $memberRepository)
     {
         if (!$request->get('latitude') || !$request->get('longitude') || !$request->get('radius')) {
             throw new BadRequestHttpException('Invalid search parameters.');
         }
 
         $memberStatuses = $request->get('member_statuses', []);
-        $results = $this->getDoctrine()->getRepository(Member::class)->findMembersWithinRadius(
+        $results = $memberRepository->findMembersWithinRadius(
             (float) $request->get('latitude'),
             (float) $request->get('longitude'),
             (int) $request->get('radius'),

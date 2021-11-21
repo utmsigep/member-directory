@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Tag;
 use App\Form\TagType;
 use App\Repository\TagRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,14 +31,13 @@ class TagController extends AbstractController
     /**
      * @Route("/new", name="tag_new", methods={"GET", "POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $tag = new Tag();
         $form = $this->createForm(TagType::class, $tag);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($tag);
             $entityManager->flush();
             $this->addFlash('success', sprintf('%s created!', $tag));
@@ -64,13 +64,13 @@ class TagController extends AbstractController
     /**
      * @Route("/{id}/edit", name="tag_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Tag $tag): Response
+    public function edit(Request $request, Tag $tag, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(TagType::class, $tag);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $entityManager->flush();
             $this->addFlash('success', sprintf('%s updated!', $tag));
 
             return $this->redirectToRoute('tag_index');
@@ -85,10 +85,9 @@ class TagController extends AbstractController
     /**
      * @Route("/{id}", name="tag_delete", methods={"POST"})
      */
-    public function delete(Request $request, Tag $tag): Response
+    public function delete(Request $request, Tag $tag, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$tag->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($tag);
             $entityManager->flush();
             $this->addFlash('success', sprintf('%s deleted!', $tag));

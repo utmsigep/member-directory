@@ -7,6 +7,7 @@ use App\Entity\MemberStatus;
 use App\Form\MemberStatusType;
 use App\Repository\MemberStatusRepository;
 use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
+use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,19 +33,24 @@ class MemberStatusController extends AbstractController
     /**
      * @Route("/new", name="member_status_new", methods={"GET", "POST"})
      */
-    public function memberStatusNew(Request $request): Response
+    public function memberStatusNew(Request $request, EntityManagerInterface $entityManager): Response
     {
         $memberStatus = new MemberStatus();
         $form = $this->createForm(MemberStatusType::class, $memberStatus);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($memberStatus);
             $entityManager->flush();
             if ($form['createDirectoryCollection']->getData()) {
                 try {
-                    $this->createDirectoryCollectionFromMemberStatus($memberStatus);
+                    $directoryCollection = new DirectoryCollection();
+                    $directoryCollection->setLabel($memberStatus->getLabel());
+                    $directoryCollection->setIcon('fa-user');
+                    $directoryCollection->setShowMemberStatus(false);
+                    $directoryCollection->addMemberStatus($memberStatus);
+                    $entityManager->persist($directoryCollection);
+                    $entityManager->flush();
                     $this->addFlash('success', sprintf('%s created!', $memberStatus));
                 } catch (\Exception $e) {
                     $this->addFlash('error', 'Unable to create Directory Collection automatically.');
@@ -73,13 +79,13 @@ class MemberStatusController extends AbstractController
     /**
      * @Route("/{id}/edit", name="member_status_edit", methods={"GET", "POST"})
      */
-    public function memberStatusEdit(Request $request, MemberStatus $memberStatus): Response
+    public function memberStatusEdit(Request $request, MemberStatus $memberStatus, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(MemberStatusType::class, $memberStatus);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $entityManager->flush();
             $this->addFlash('success', sprintf('%s updated!', $memberStatus));
 
             return $this->redirectToRoute('member_status_index');
@@ -94,11 +100,10 @@ class MemberStatusController extends AbstractController
     /**
      * @Route("/{id}", name="member_status_delete", methods={"POST"})
      */
-    public function memberStatusDelete(Request $request, MemberStatus $memberStatus): Response
+    public function memberStatusDelete(Request $request, MemberStatus $memberStatus, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$memberStatus->getId(), $request->request->get('_token'))) {
             try {
-                $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->remove($memberStatus);
                 $entityManager->flush();
                 $this->addFlash('success', sprintf('%s deleted!', $memberStatus));
@@ -108,20 +113,5 @@ class MemberStatusController extends AbstractController
         }
 
         return $this->redirectToRoute('member_status_index');
-    }
-
-    /**
-     * Private Methods.
-     */
-    private function createDirectoryCollectionFromMemberStatus(MemberStatus $memberStatus)
-    {
-        $entityManager = $this->getDoctrine()->getManager();
-        $directoryCollection = new DirectoryCollection();
-        $directoryCollection->setLabel($memberStatus->getLabel());
-        $directoryCollection->setIcon('fa-user');
-        $directoryCollection->setShowMemberStatus(false);
-        $directoryCollection->addMemberStatus($memberStatus);
-        $entityManager->persist($directoryCollection);
-        $entityManager->flush();
     }
 }

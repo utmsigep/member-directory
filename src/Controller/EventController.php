@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Event;
 use App\Form\EventType;
 use App\Repository\EventRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Sabre\VObject\Component\VCalendar;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -32,14 +33,13 @@ class EventController extends AbstractController
     /**
      * @Route("/new", name="event_new", methods={"GET", "POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $event = new Event();
         $form = $this->createForm(EventType::class, $event, ['timezone' => $this->getUser()->getTimezone()]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($event);
             $entityManager->flush();
 
@@ -90,13 +90,13 @@ class EventController extends AbstractController
     /**
      * @Route("/{id}/edit", name="event_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Event $event): Response
+    public function edit(Request $request, Event $event, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(EventType::class, $event, ['timezone' => $this->getUser()->getTimezone()]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $entityManager->flush();
 
             return $this->redirectToRoute('event_index');
         }
@@ -110,10 +110,9 @@ class EventController extends AbstractController
     /**
      * @Route("/{id}", name="event_delete", methods={"POST"})
      */
-    public function delete(Request $request, Event $event): Response
+    public function delete(Request $request, Event $event, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$event->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($event);
             $entityManager->flush();
         }

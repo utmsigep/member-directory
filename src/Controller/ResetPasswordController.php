@@ -2,10 +2,11 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
 use App\Form\ChangePasswordFormType;
 use App\Form\ResetPasswordRequestFormType;
+use App\Repository\UserRepository;
 use App\Service\EmailService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,11 +24,13 @@ class ResetPasswordController extends AbstractController
 {
     use ResetPasswordControllerTrait;
 
+    private $userRepository;
     private $resetPasswordHelper;
 
-    public function __construct(ResetPasswordHelperInterface $resetPasswordHelper)
+    public function __construct(ResetPasswordHelperInterface $resetPasswordHelper, UserRepository $userRepository)
     {
         $this->resetPasswordHelper = $resetPasswordHelper;
+        $this->userRepository = $userRepository;
     }
 
     /**
@@ -72,7 +75,7 @@ class ResetPasswordController extends AbstractController
      *
      * @Route("/reset/{token}", name="app_reset_password")
      */
-    public function reset(Request $request, UserPasswordHasherInterface $passwordEncoder, string $token = null): Response
+    public function reset(Request $request, UserPasswordHasherInterface $passwordEncoder, EntityManagerInterface $entityManager, string $token = null): Response
     {
         if ($token) {
             $this->storeTokenInSession($token);
@@ -106,7 +109,7 @@ class ResetPasswordController extends AbstractController
                 $form->get('plainPassword')->getData()
             );
             $user->setPassword($encodedPassword);
-            $this->getDoctrine()->getManager()->flush();
+            $entityManager->flush();
             $this->cleanSessionAfterReset();
 
             return $this->redirectToRoute('home');
@@ -119,7 +122,7 @@ class ResetPasswordController extends AbstractController
 
     private function processSendingPasswordResetEmail(string $emailFormData, EmailService $emailService): RedirectResponse
     {
-        $user = $this->getDoctrine()->getRepository(User::class)->findOneBy([
+        $user = $this->userRepository->findOneBy([
             'email' => $emailFormData,
         ]);
         if (!$user) {
