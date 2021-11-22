@@ -76,7 +76,7 @@ class MemberToCsvService
                         $row[] = ($member->getJoinDate()) ? $member->getJoinDate()->format('Y-m-d') : '';
                         break;
                     case 'updatedAt':
-                        $row[] = ($member->getUpdatedAt()) ? $member->getUpdatedAt()->format('Y-m-d h:i:s') : '';
+                        $row[] = $member->getUpdatedAt()->format('Y-m-d h:i:s');
                         break;
                     case 'tags':
                         $row[] = $member->getTagsAsCSV();
