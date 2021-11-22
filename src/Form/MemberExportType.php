@@ -76,6 +76,7 @@ class MemberExportType extends AbstractType
                     'Is Deceased?' => 'isDeceased',
                     'Is Lost?' => 'isLost',
                     'Is Do Not Contact?' => 'isLocalDoNotContact',
+                    'Last Updated' => 'updatedAt',
                 ],
                 'data' => [
                     'displayName',

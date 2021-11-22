@@ -37,6 +37,7 @@ class MemberToCsvService
         'isDeceased',
         'isLost',
         'isLocalDoNotContact',
+        'updatedAt',
     ];
 
     public function arrayToCsvString(ArrayCollection $members, $columns = []): string
@@ -48,9 +49,9 @@ class MemberToCsvService
 
         $csvWriter = Writer::createFromString();
         $headers = [];
-        foreach ($columns as $column) {
-            if (in_array($column, self::ALLOWED_COLUMNS)) {
-                $headers[] = $column;
+        foreach (self::ALLOWED_COLUMNS as $allowedColumn) {
+            if (in_array($allowedColumn, $columns)) {
+                $headers[] = $allowedColumn;
             }
         }
         $csvWriter->insertOne($headers);
@@ -73,6 +74,9 @@ class MemberToCsvService
                         break;
                     case 'joinDate':
                         $row[] = ($member->getJoinDate()) ? $member->getJoinDate()->format('Y-m-d') : '';
+                        break;
+                    case 'updatedAt':
+                        $row[] = ($member->getUpdatedAt()) ? $member->getUpdatedAt()->format('Y-m-d h:i:s') : '';
                         break;
                     case 'tags':
                         $row[] = $member->getTagsAsCSV();
