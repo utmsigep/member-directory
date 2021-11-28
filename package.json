@@ -1,6 +1,6 @@
 {
     "devDependencies": {
-        "webpack-dev-server": "^4.5.0",
+        "webpack-dev-server": "^4.6.0",
         "webpack-notifier": "^1.14.1"
     },
     "license": "MIT",
@@ -32,7 +32,7 @@
         "leaflet-defaulticon-compatibility": "^0.1.1",
         "moment": "^2.29.1",
         "popper.js": "^1.16.1",
-        "sass": "^1.43.4",
+        "sass": "^1.43.5",
         "sass-loader": "^12.3.0",
         "startbootstrap-sb-admin-2": "^4.1.4",
         "tablednd": "^1.0.5",
