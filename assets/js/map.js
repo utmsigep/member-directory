@@ -100,7 +100,9 @@ var drawMap = function () {
       $(data).each(function (i, row) {
         var marker = L.marker(L.latLng(row.mailingLatitude, row.mailingLongitude)).setIcon(defaultIcon);
         row = formatMemberData(row);
-        marker.bindTooltip(formatMemberTooltip(row)).bindPopup(formatMemberPopup(row)).addTo(directoryMap);
+        if (!L.Browser.mobile) {
+          marker.bindTooltip(formatMemberTooltip(row)).bindPopup(formatMemberPopup(row)).addTo(directoryMap);
+        }
         memberMarkers.push(marker);
       });
     })
