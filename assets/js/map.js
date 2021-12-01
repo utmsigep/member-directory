@@ -101,8 +101,9 @@ var drawMap = function () {
         var marker = L.marker(L.latLng(row.mailingLatitude, row.mailingLongitude)).setIcon(defaultIcon);
         row = formatMemberData(row);
         if (!L.Browser.mobile) {
-          marker.bindTooltip(formatMemberTooltip(row)).bindPopup(formatMemberPopup(row)).addTo(directoryMap);
+          marker.bindTooltip(formatMemberTooltip(row))
         }
+        marker.bindPopup(formatMemberPopup(row)).addTo(directoryMap);
         memberMarkers.push(marker);
       });
     })
