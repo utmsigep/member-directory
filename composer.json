@@ -8,9 +8,9 @@
         "campaignmonitor/createsend-php": "^6.0",
         "cmen/google-charts-bundle": "^3.2",
         "composer/package-versions-deprecated": "1.11.99.3",
-        "doctrine/doctrine-bundle": "^2.4",
-        "doctrine/doctrine-migrations-bundle": "^3.1",
-        "doctrine/orm": "^2.9",
+        "doctrine/doctrine-bundle": "^2.5",
+        "doctrine/doctrine-migrations-bundle": "^3.2",
+        "doctrine/orm": "^2.10",
         "erusev/parsedown": "^1.7",
         "friendsofsymfony/jsrouting-bundle": "^2.3",
         "geocodio/geocodio-library-php": "^1.4",
@@ -106,8 +106,8 @@
         }
     },
     "require-dev": {
-        "dama/doctrine-test-bundle": "^6.6",
-        "doctrine/doctrine-fixtures-bundle": "^3.1",
+        "dama/doctrine-test-bundle": "^6.7",
+        "doctrine/doctrine-fixtures-bundle": "^3.4",
         "phpstan/extension-installer": "^1.0",
         "phpstan/phpstan": "^0.12.52",
         "phpstan/phpstan-doctrine": "^0.12.22",

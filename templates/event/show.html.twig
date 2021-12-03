@@ -42,7 +42,7 @@
                 </thead>
                 <tbody>
                   {% for member in event.attendees %}
-                  <tr>
+                  <tr class="{% if member.status.isInactive %}inactive{% endif %}">
                     <td>{{ member.localIdentifier }}</td>
                     <td><a href="{{ path('member_show', {localIdentifier: member.localIdentifier}) }}">{{ member.displayName }}</a></td>
                     <td>{{ member.classYear }}</td>

@@ -38,7 +38,7 @@ class DonationRepository extends ServiceEntityRepository
         return $this;
     }
 
-    public function findAll()
+    public function findAll(): array
     {
         return $this->createQueryBuilder('d')
             ->addSelect('m')
