@@ -15,7 +15,7 @@
         "friendsofsymfony/jsrouting-bundle": "^2.3",
         "geocodio/geocodio-library-php": "^1.4",
         "league/csv": "^9.2",
-        "sabre/vobject": "^4.3",
+        "sabre/vobject": "^4.4",
         "scheb/2fa-bundle": "^5.11",
         "scheb/2fa-qr-code": "^5.11",
         "scheb/2fa-totp": "^5.11",
