@@ -28,7 +28,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ['7.4', '8.0']
+        php-versions: ['7.4', '8.0', '8.1']
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -92,6 +92,9 @@ jobs:
         run: bin/phpunit --coverage-clover build/coverage-${{ matrix.php-versions }}.xml --log-junit build/phpunit-${{ matrix.php-versions }}.xml
         env:
           DATABASE_URL: mysql://root:symfony@127.0.0.1:${{ job.services.mysql.ports['3306'] }}/symfony
+          USPS_USERNAME: ${{ secrets.USPS_USERNAME }}
+          USPS_PASSWORD: ${{ secrets.USPS_PASSWORD }}
+          TWILIO_DSN: ${{ secrets.TWILIO_DSN }}
 
       - name: Run PHPStan
         run: |
