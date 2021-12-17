@@ -42,7 +42,7 @@ jobs:
           coverage: xdebug #optional
 
       - name: Start mysql service
-        run: sudo /etc/init.d/mysql start
+        run: sudo systemctl start mysql.service
 
       - name: Get composer cache directory
         id: composer-cache
