@@ -1,0 +1,25 @@
+<?php
+
+/**
+ * Resolves issue here PHPStan does not
+ * detect the correct return type of
+ * `getUser`.
+ */
+
+namespace Symfony\Bundle\FrameworkBundle\Controller {
+    class AbstractController
+    {
+        /**
+         * @return \App\Entity\User|null
+         */
+        protected function getUser()
+        {
+        }
+    }
+}
+
+namespace App\Entity {
+    class User // yes, the User class must be present in the stubs too
+    {
+    }
+}

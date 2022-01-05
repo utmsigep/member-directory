@@ -187,6 +187,13 @@ class DirectoryCollection
         return $this->slug;
     }
 
+    public function setSlug(?string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
     public function getFilterLost(): ?string
     {
         return $this->filterLost;
