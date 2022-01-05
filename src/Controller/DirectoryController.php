@@ -191,20 +191,28 @@ class DirectoryController extends AbstractController
         $member->setMailingPostalCode($request->query->get('mailingPostalCode'));
 
         $cache = new FilesystemAdapter();
-        $cacheKey = 'directory.address_verify_'.md5(json_encode($request->query->all()));
-        $response = $cache->getItem($cacheKey);
-        if (!$response->isHit()) {
-            $response->set($postalValidatorService->validate($member));
-            $cache->save($response);
+        $cacheKey = 'directory.usps_address_verify_'.md5(json_encode($request->query->all()));
+        $item = $cache->getItem($cacheKey);
+        if (!$item->isHit()) {
+            $item->set($postalValidatorService->validate($member));
+            $item->expiresAfter(300);
+            $cache->save($item);
         }
 
-        $jsonResponse = $response->get();
+        $jsonResponse = $item->get();
 
         if (isset($jsonResponse['AddressValidateResponse']['Address']['Error'])) {
             return $this->json([
                 'status' => 'error',
                 'message' => $jsonResponse['AddressValidateResponse']['Address']['Error']['Description'],
             ], 500);
+        }
+
+        if (!isset($jsonResponse['AddressValidateResponse']['Address'])) {
+            return $this->json([
+                'status' => 'error',
+                'message' => 'Invalid response from API.',
+            ]);
         }
 
         return $this->json([
