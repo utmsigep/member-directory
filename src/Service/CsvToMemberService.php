@@ -78,31 +78,32 @@ class CsvToMemberService
         $csv = CsvReader::createFromPath($file->getPath().DIRECTORY_SEPARATOR.$file->getFileName(), 'r');
         $csv->setHeaderOffset(0);
 
-        $header = $csv->getHeader(); // returns the CSV header record
-        $csvRecords = $csv->getRecords(); //returns all the CSV records as an Iterator object
-
-        // Inspect headers for required fields
-        if (!in_array(self::LOCAL_IDENTIFIER_HEADER, $header) &&
-            !in_array(self::EXTERNAL_IDENTIFIER_HEADER, $header)
-        ) {
-            throw new \Exception('File must have a localIdentifier or externalIdentifier set.');
-        }
-
         // Main import loop
-        foreach ($csvRecords as $i => $csvRecord) {
+        foreach ($csv->getRecords() as $i => $csvRecord) {
             $externalIdentifier = (isset($csvRecord[self::EXTERNAL_IDENTIFIER_HEADER])) ? $csvRecord[self::EXTERNAL_IDENTIFIER_HEADER] : null;
             $localIdentifier = (isset($csvRecord[self::LOCAL_IDENTIFIER_HEADER])) ? $csvRecord[self::LOCAL_IDENTIFIER_HEADER] : null;
-            // Find a match record in the database, if exists, by either internal or external identifier
+            $firstName = (isset($csvRecord[self::FIRST_NAME_HEADER])) ? $csvRecord[self::FIRST_NAME_HEADER] : null;
+            $lastName = (isset($csvRecord[self::LAST_NAME_HEADER])) ? $csvRecord[self::LAST_NAME_HEADER] : null;
+
             $member = $this->entityManager->getRepository(Member::class)->findOneBy([
                 'externalIdentifier' => $externalIdentifier,
             ]);
+
             if (null === $member) {
                 $member = $this->entityManager->getRepository(Member::class)->findOneBy([
                     'localIdentifier' => $localIdentifier,
                 ]);
-                if (null === $member) {
-                    $member = new Member();
-                }
+            }
+
+            if (null === $member) {
+                $member = $this->entityManager->getRepository(Member::class)->findOneBy([
+                    'firstName' => $firstName,
+                    'lastName' => $lastName,
+                ]);
+            }
+
+            if (null === $member) {
+                $member = new Member();
             }
 
             // Populate fields if set
