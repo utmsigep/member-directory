@@ -36,6 +36,7 @@ class ImportController extends AbstractController
             }
             $formData = $form->getData();
             $dryRun = (bool) $formData['dry_run'];
+            $createNew = (bool) $formData['create_new'];
             foreach ($csvToMemberService->getMembers() as $member) {
                 if ($member->getId() > 0) {
                     $members[] = $member;
@@ -49,7 +50,7 @@ class ImportController extends AbstractController
                         }
                     }
                     $memberChangeSets[$member->getId()] = $changes;
-                } else {
+                } elseif ($createNew) {
                     $newMembers[] = $member;
                 }
                 $entityManager->persist($member);

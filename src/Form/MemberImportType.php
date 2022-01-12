@@ -29,6 +29,12 @@ class MemberImportType extends AbstractType
                     ]),
                 ],
             ])
+            ->add('create_new', CheckboxType::class, [
+                'label' => 'Create New Records',
+                'help' => 'Unmatched records are created when checked',
+                'data' => true,
+                'required' => false,
+            ])
             ->add('dry_run', CheckboxType::class, [
                 'label' => 'Dry-run',
                 'help' => 'Does not save or create records when checked.',
