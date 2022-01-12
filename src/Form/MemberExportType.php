@@ -50,10 +50,12 @@ class MemberExportType extends AbstractType
                 'choices' => [
                     'External Identifier' => 'externalIdentifier',
                     'Local Identifier' => 'localIdentifier',
+                    'Prefix' => 'prefix',
                     'First Name' => 'firstName',
                     'Preferred Name' => 'preferredName',
                     'Middle Name' => 'middleName',
                     'Last Name' => 'lastName',
+                    'Suffix' => 'suffix',
                     'Display Name' => 'displayName',
                     'Status' => 'status',
                     'Birth Date' => 'birthDate',

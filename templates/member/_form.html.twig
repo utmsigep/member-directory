@@ -13,16 +13,104 @@
       <div class="card mb-3 shadow">
         <div class="card-header">Basics</div>
         <div class="card-body">
+          {{ form_row(form.prefix, {label: 'Prefix', attr: {list: 'prefix_choices'}}) }}
+          <datalist id="prefix_choices">
+            <option>Mr.</option>
+            <option>Mrs.</option>
+            <option>Ms.</option>
+            <option>Miss</option>
+            <option>Dr.</option>
+            <option>Prof.</option>
+            <option>Rev.</option>
+            <option>1st. Lt.</option>
+            <option>2nd. Lt.</option>
+            <option>Adm.</option>
+            <option>Amb.</option>
+            <option>Brig. Gen.</option>
+            <option>Capt.</option>
+            <option>Cdr.</option>
+            <option>Col.</option>
+            <option>Cpl.</option>
+            <option>Gen.</option>
+            <option>Hon.</option>
+            <option>Lt.</option>
+            <option>Lt. Cdr.</option>
+            <option>Lt. Col.</option>
+            <option>Maj. Gen.</option>
+            <option>Maj.</option>
+            <option>SGM</option>
+            <option>Sgt.</option>
+            <option>Sister</option>
+	        </datalist>
           {{ form_row(form.firstName, {label: 'First Name'}) }}
           {{ form_row(form.preferredName, {label: 'Preferred Name'}) }}
           {{ form_row(form.middleName, {label: 'Middle Name'}) }}
           {{ form_row(form.lastName, {label: 'Last Name'}) }}
+          {{ form_row(form.suffix, {label: 'Suffix', attr: {list: 'suffix_choices'}}) }}
+          <datalist id="suffix_choices">
+            <option>A.C.S.W.</option>
+            <option>A.I.A.</option>
+            <option>A.S.I.D.</option>
+            <option>Attorney at Law</option>
+            <option>Doctor or Audiology</option>
+            <option>B.S.N.</option>
+            <option>C.C.M.</option>
+            <option>C.F.A.</option>
+            <option>C.F.P.</option>
+            <option>C.F.R.E.</option>
+            <option>CGFM</option>
+            <option>Ch.E.</option>
+            <option>ChFC</option>
+            <option>C.L.U.</option>
+            <option>C.M.A.</option>
+            <option>C.M.S.W.</option>
+            <option>C.M.T.</option>
+            <option>C.P.A.</option>
+            <option>Certified Payroll Professional</option>
+            <option>C.P.S.</option>
+            <option>C.T.</option>
+            <option>D.Ph.</option>
+            <option>D.D.S.</option>
+            <option>D.M.D.</option>
+            <option>D.N.P.</option>
+            <option>D.O.</option>
+            <option>D.V.M.</option>
+            <option>Ed.D.</option>
+            <option>Ensign</option>
+            <option>Esq.</option>
+            <option>F.A.C.P.</option>
+            <option>F.A.C.S.</option>
+            <option>J.D.</option>
+            <option>L.C.S.W.</option>
+            <option>L.M.T.</option>
+            <option>L.P.N.</option>
+            <option>M.B.A.</option>
+            <option>M.D.</option>
+            <option>M.S.N.</option>
+            <option>M.S.N., R.N.</option>
+            <option>M.S.S.W.</option>
+            <option>M.S.W.</option>
+            <option>M.T.</option>
+            <option>Doctor of Optometry</option>
+            <option>P.E.</option>
+            <option>PharmD</option>
+            <option>Ph.D.</option>
+            <option>P.T.</option>
+            <option>R.D.</option>
+            <option>R.N.</option>
+            <option>US Army</option>
+            <option>US Army (Retired)</option>
+            <option>USAF</option>
+            <option>USAF (Retired)</option>
+            <option>USMC</option>
+            <option>USMC (Retired)</option>
+            <option>USN</option>
+            <option>USN (Retired)</option>
+          </datalist>
           {{ form_row(form.birthDate, {label: 'Birth Date'}) }}
           <hr />
           {{ form_row(form.primaryEmail, {label: 'Primary Email'}) }}
           {{ form_row(form.primaryTelephoneNumber, {label: 'Primary Telephone Number'}) }}
-          <hr />
-          {{ form_row(form.photoUrl, {label: 'Photo URL'}) }}
         </div>
       </div>
     </div>
@@ -51,6 +139,8 @@
         <div class="card-body">
           {{ form_row(form.linkedinUrl, {label: 'LinkedIn URL', attr: {placeholder: 'e.g. https://www.linkedin.com/in/williamhgates'}}) }}
           {{ form_row(form.facebookUrl, {label: 'Facebook URL', attr: {placeholder: 'e.g. https://www.facebook.com/zuck'}}) }}
+          <hr />
+          {{ form_row(form.photoUrl, {label: 'Photo URL'}) }}
         </div>
       </div>
     </div>

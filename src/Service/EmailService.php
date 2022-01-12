@@ -384,6 +384,10 @@ class EmailService
                 'Value' => $member->getStatus()->getLabel(),
             ],
             [
+                'Key' => 'Prefix',
+                'Value' => $member->getPrefix(),
+            ],
+            [
                 'Key' => 'First Name',
                 'Value' => $member->getFirstName(),
             ],
@@ -398,6 +402,10 @@ class EmailService
             [
                 'Key' => 'Last Name',
                 'Value' => $member->getLastName(),
+            ],
+            [
+                'Key' => 'Suffix',
+                'Value' => $member->getSuffix(),
             ],
             [
                 'Key' => 'Class Year',

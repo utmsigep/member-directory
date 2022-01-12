@@ -11,10 +11,12 @@ class MemberToCsvService
     public const ALLOWED_COLUMNS = [
         'externalIdentifier',
         'localIdentifier',
+        'prefix',
         'firstName',
         'preferredName',
         'middleName',
         'lastName',
+        'suffix',
         'displayName',
         'status',
         'birthDate',

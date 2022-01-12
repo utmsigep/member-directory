@@ -13,10 +13,12 @@ class CsvToMemberService
 {
     public const LOCAL_IDENTIFIER_HEADER = 'localIdentifier';
     public const EXTERNAL_IDENTIFIER_HEADER = 'externalIdentifier';
+    public const PREFIX_HEADER = 'prefix';
     public const FIRST_NAME_HEADER = 'firstName';
     public const MIDDLE_NAME_HEADER = 'middleName';
     public const PREFERRED_NAME_HEADER = 'preferredName';
     public const LAST_NAME_HEADER = 'lastName';
+    public const SUFFIX_HEADER = 'suffix';
     public const STATUS_HEADER = 'status';
     public const BIRTH_DATE_HEADER = 'birthDate';
     public const JOIN_DATE_HEADER = 'joinDate';
@@ -113,6 +115,9 @@ class CsvToMemberService
             if (isset($csvRecord[self::LOCAL_IDENTIFIER_HEADER])) {
                 $member->setLocalIdentifier($csvRecord[self::LOCAL_IDENTIFIER_HEADER]);
             }
+            if (isset($csvRecord[self::PREFIX_HEADER])) {
+                $member->setPrefix($csvRecord[self::PREFIX_HEADER]);
+            }
             if (isset($csvRecord[self::FIRST_NAME_HEADER])) {
                 $member->setFirstName($csvRecord[self::FIRST_NAME_HEADER]);
             }
@@ -126,6 +131,9 @@ class CsvToMemberService
             }
             if (isset($csvRecord[self::LAST_NAME_HEADER])) {
                 $member->setLastName($csvRecord[self::LAST_NAME_HEADER]);
+            }
+            if (isset($csvRecord[self::SUFFIX_HEADER])) {
+                $member->setPrefix($csvRecord[self::SUFFIX_HEADER]);
             }
             if (isset($csvRecord[self::BIRTH_DATE_HEADER]) && strtotime($csvRecord[self::BIRTH_DATE_HEADER])) {
                 $member->setBirthDate(new \DateTime($csvRecord[self::BIRTH_DATE_HEADER]));

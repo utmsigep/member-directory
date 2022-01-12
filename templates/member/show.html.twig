@@ -35,7 +35,7 @@
                 <dd class="col-sm-9 mb-3">{{ member.status.label }}</dd>
                 <dt class="col-sm-3 mb-3">Full Name</dt>
                 <dd class="col-sm-9 mb-3">
-                  {{ member.firstName }} {{ member.middleName }} {{ member.lastName }}
+                  {{ member.prefix}} {{ member.firstName }} {{ member.middleName }} {{ member.lastName }}{% if member.suffix %}, {{ member.suffix }}{% endif %}
                 </dd>
                 <dt class="col-sm-3 mb-3">Roll #</dt>
                 <dd class="col-sm-9 mb-3">{{ member.localIdentifier }}</dd>
