@@ -25,10 +25,12 @@ class MemberType extends AbstractType
         $builder
             ->add('localIdentifier')
             ->add('externalIdentifier')
+            ->add('prefix')
             ->add('firstName')
             ->add('preferredName')
             ->add('middleName')
             ->add('lastName')
+            ->add('suffix')
             ->add('birthDate', DateType::class, [
                 'required' => false,
                 'widget' => 'single_text',

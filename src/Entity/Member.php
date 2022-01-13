@@ -75,6 +75,13 @@ class Member
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Gedmo\Versioned
+     * @Groups({"member_main"})
+     */
+    private $prefix;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\NotBlank
      * @Gedmo\Versioned
      * @Groups({"member_main"})
@@ -102,6 +109,13 @@ class Member
      * @Groups({"member_main"})
      */
     private $lastName;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Gedmo\Versioned
+     * @Groups({"member_main"})
+     */
+    private $suffix;
 
     /**
      * @ORM\Column(type="date", nullable=true)
@@ -346,6 +360,18 @@ class Member
         return $this;
     }
 
+    public function getPrefix(): ?string
+    {
+        return $this->prefix;
+    }
+
+    public function setPrefix(?string $prefix): self
+    {
+        $this->prefix = $prefix;
+
+        return $this;
+    }
+
     public function getFirstName(): ?string
     {
         return $this->firstName;
@@ -390,6 +416,18 @@ class Member
     public function setLastName(?string $lastName): self
     {
         $this->lastName = $lastName;
+
+        return $this;
+    }
+
+    public function getSuffix(): ?string
+    {
+        return $this->suffix;
+    }
+
+    public function setSuffix(?string $suffix): self
+    {
+        $this->suffix = $suffix;
 
         return $this;
     }
