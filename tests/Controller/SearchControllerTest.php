@@ -39,7 +39,7 @@ class SearchControllerTest extends WebTestCase
         $this->assertResponseIsSuccessful();
         $this->assertPageTitleSame('Member Directory - Carter');
         $this->assertSelectorTextContains('span.h4', 'Search Results');
-        $this->assertSelectorTextContains('div.card-body > a', 'Carter Jenkins');
+        $this->assertSelectorTextContains('div.card-body > a', 'Carter Jenkens');
     }
 
     public function testEmptyAutoComplete()
@@ -67,6 +67,6 @@ class SearchControllerTest extends WebTestCase
         $jsonData = json_decode($client->getResponse()->getContent());
         $this->assertEquals(2, count($jsonData));
         $this->assertEquals('1-0001', $jsonData[0]->localIdentifier);
-        $this->assertEquals('Carter Jenkins', $jsonData[0]->displayName);
+        $this->assertEquals('Carter Jenkens', $jsonData[0]->displayName);
     }
 }

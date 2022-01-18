@@ -61,8 +61,8 @@ class DirectoryControllerTest extends WebTestCase
 
         $client->request('GET', '/directory/member/1-0001');
         $this->assertResponseIsSuccessful();
-        $this->assertPageTitleSame('Member Directory - Carter Jenkins');
-        $this->assertSelectorTextContains('span.h4', 'Carter Jenkins');
+        $this->assertPageTitleSame('Member Directory - Carter Jenkens');
+        $this->assertSelectorTextContains('span.h4', 'Carter Jenkens');
     }
 
     public function testLostMembers()

@@ -29,11 +29,12 @@ class MemberFixtures extends Fixture implements DependentFixtureInterface
         $member = new Member();
         $member->setExternalIdentifier(md5('1-0001'));
         $member->setLocalIdentifier('1-0001');
+        $member->setPrefix('Rev.');
         $member->setFirstName('Carter');
         $member->setPreferredName('Carter');
         $member->setMiddleName('Ashton');
-        $member->setLastName('Jenkins');
-        $member->setPrimaryEmail('cjenkins@example.com');
+        $member->setLastName('Jenkens');
+        $member->setPrimaryEmail('cjenkens@example.com');
         $member->setBirthDate(new \DateTime('1882-04-09'));
         $member->setClassYear(1902);
         $member->setMailingAddressLine1('310 South Blvd');
@@ -55,6 +56,7 @@ class MemberFixtures extends Fixture implements DependentFixtureInterface
         $member = new Member();
         $member->setExternalIdentifier(md5('1-0002'));
         $member->setLocalIdentifier('1-0002');
+        $member->setPrefix('Rev.');
         $member->setFirstName('Benjamin');
         $member->setPreferredName('Ben');
         $member->setMiddleName('Donald');
@@ -70,6 +72,7 @@ class MemberFixtures extends Fixture implements DependentFixtureInterface
         $member = new Member();
         $member->setExternalIdentifier(md5('1-0003'));
         $member->setLocalIdentifier('1-0003');
+        $member->setPrefix('Rev.');
         $member->setFirstName('William');
         $member->setPreferredName('Will');
         $member->setMiddleName('Hugh');
@@ -86,6 +89,7 @@ class MemberFixtures extends Fixture implements DependentFixtureInterface
         $member = new Member();
         $member->setExternalIdentifier(md5('1-0004'));
         $member->setLocalIdentifier('1-0004');
+        $member->setPrefix('Dr.');
         $member->setFirstName('William');
         $member->setPreferredName('Bill');
         $member->setMiddleName('Andrew');
@@ -100,6 +104,7 @@ class MemberFixtures extends Fixture implements DependentFixtureInterface
         $member = new Member();
         $member->setExternalIdentifier(md5('1-0005'));
         $member->setLocalIdentifier('1-0005');
+        $member->setPrefix('Mr.');
         $member->setFirstName('Thomas');
         $member->setPreferredName('Those');
         $member->setMiddleName('Temple');
@@ -116,6 +121,7 @@ class MemberFixtures extends Fixture implements DependentFixtureInterface
         $member = new Member();
         $member->setExternalIdentifier(md5('1-0006'));
         $member->setLocalIdentifier('1-0006');
+        $member->setPrefix('Mr.');
         $member->setFirstName('William');
         $member->setPreferredName('Billy');
         $member->setMiddleName('Lazell');
@@ -141,6 +147,7 @@ class MemberFixtures extends Fixture implements DependentFixtureInterface
         $member = new Member();
         $member->setExternalIdentifier(md5('1-0007'));
         $member->setLocalIdentifier('1-0007');
+        $member->setPrefix('Mr.');
         $member->setFirstName('Lucian');
         $member->setPreferredName('Lucian');
         $member->setMiddleName('Baum');
@@ -156,6 +163,7 @@ class MemberFixtures extends Fixture implements DependentFixtureInterface
         $member = new Member();
         $member->setExternalIdentifier(md5('1-0008'));
         $member->setLocalIdentifier('1-0008');
+        $member->setPrefix('Rev.');
         $member->setFirstName('Richard');
         $member->setPreferredName('Richard');
         $member->setMiddleName('Spurgeon');
@@ -171,6 +179,7 @@ class MemberFixtures extends Fixture implements DependentFixtureInterface
         $member = new Member();
         $member->setExternalIdentifier(md5('1-0009'));
         $member->setLocalIdentifier('1-0009');
+        $member->setPrefix('Hon.');
         $member->setFirstName('Edgar');
         $member->setPreferredName('Edgar');
         $member->setMiddleName('Lee');
@@ -187,6 +196,7 @@ class MemberFixtures extends Fixture implements DependentFixtureInterface
         $member = new Member();
         $member->setExternalIdentifier(md5('1-0010'));
         $member->setLocalIdentifier('1-0010');
+        $member->setPrefix('Dr.');
         $member->setFirstName('Robert');
         $member->setPreferredName('Bob');
         $member->setMiddleName('Alfred');
@@ -202,6 +212,7 @@ class MemberFixtures extends Fixture implements DependentFixtureInterface
         $member = new Member();
         $member->setExternalIdentifier(md5('1-0011'));
         $member->setLocalIdentifier('1-0011');
+        $member->setPrefix('Revv.');
         $member->setFirstName('Frank');
         $member->setPreferredName('Frank');
         $member->setMiddleName('Webb');
@@ -220,6 +231,7 @@ class MemberFixtures extends Fixture implements DependentFixtureInterface
         $member = new Member();
         $member->setExternalIdentifier(md5('1-0012'));
         $member->setLocalIdentifier('1-0012');
+        $member->setPrefix('Dr.');
         $member->setFirstName('Thomas');
         $member->setPreferredName('Tom');
         $member->setMiddleName('Vaden');
