@@ -32,7 +32,7 @@
         "leaflet-defaulticon-compatibility": "^0.1.1",
         "moment": "^2.29.1",
         "popper.js": "^1.16.1",
-        "sass": "^1.49.0",
+        "sass": "^1.49.4",
         "sass-loader": "^12.4.0",
         "startbootstrap-sb-admin-2": "^4.1.4",
         "tablednd": "^1.0.5",
