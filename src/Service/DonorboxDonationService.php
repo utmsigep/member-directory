@@ -234,6 +234,7 @@ class DonorboxDonationService
         if (!$string) {
             return 0.0;
         }
+
         return (float) preg_replace("/[^0-9\.]/", '', $string);
     }
 
