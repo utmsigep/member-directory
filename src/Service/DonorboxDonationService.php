@@ -148,8 +148,8 @@ class DonorboxDonationService
                 $donation->setCampaign($csvRecord[self::CAMPAIGN_HEADER]);
             }
             if (isset($csvRecord[self::AMOUNT_HEADER])) {
-                if (!$donation->getAmount() || $donation->getAmount() != (float) $csvRecord[self::AMOUNT_HEADER]) {
-                    $donation->setAmount((float) $csvRecord[self::AMOUNT_HEADER]);
+                if (!$donation->getAmount() || $donation->getAmount() != $this->formatCurrency($csvRecord[self::AMOUNT_HEADER])) {
+                    $donation->setAmount($this->formatCurrency($csvRecord[self::AMOUNT_HEADER]));
                 }
             }
             if (isset($csvRecord[self::AMOUNT_DESCRIPTION_HEADER])) {
@@ -160,21 +160,21 @@ class DonorboxDonationService
             }
             // Roll up the Donorbox platform fee into "Processing Fees" rather than tracking separately
             if (isset($csvRecord[self::TOTAL_FEE_HEADER]) && $csvRecord[self::TOTAL_FEE_HEADER]) {
-                if (!$donation->getProcessingFee() || $donation->getProcessingFee() != (float) $csvRecord[self::TOTAL_FEE_HEADER]) {
-                    $donation->setProcessingFee((float) $csvRecord[self::TOTAL_FEE_HEADER]);
+                if (!$donation->getProcessingFee() || $donation->getProcessingFee() != $this->formatCurrency($csvRecord[self::TOTAL_FEE_HEADER])) {
+                    $donation->setProcessingFee($this->formatCurrency($csvRecord[self::TOTAL_FEE_HEADER]));
                 }
             } elseif (isset($csvRecord[self::PLATFORM_FEE_HEADER]) && isset($csvRecord[self::PROCESSING_FEE_HEADER]) && $csvRecord[self::PLATFORM_FEE_HEADER]) {
-                if (!$donation->getProcessingFee() || $donation->getProcessingFee() != (float) $csvRecord[self::PROCESSING_FEE_HEADER] + (float) $csvRecord[self::PLATFORM_FEE_HEADER]) {
-                    $donation->setProcessingFee((float) $csvRecord[self::PROCESSING_FEE_HEADER] + (float) $csvRecord[self::PLATFORM_FEE_HEADER]);
+                if (!$donation->getProcessingFee() || $donation->getProcessingFee() != $this->formatCurrency($csvRecord[self::PROCESSING_FEE_HEADER]) + $this->formatCurrency($csvRecord[self::PLATFORM_FEE_HEADER])) {
+                    $donation->setProcessingFee($this->formatCurrency($csvRecord[self::PROCESSING_FEE_HEADER]) + $this->formatCurrency($csvRecord[self::PLATFORM_FEE_HEADER]));
                 }
             } elseif (isset($csvRecord[self::PROCESSING_FEE_HEADER])) {
-                if (!$donation->getProcessingFee() || $donation->getProcessingFee() != (float) $csvRecord[self::PROCESSING_FEE_HEADER]) {
-                    $donation->setProcessingFee((float) $csvRecord[self::PROCESSING_FEE_HEADER]);
+                if (!$donation->getProcessingFee() || $donation->getProcessingFee() != $this->formatCurrency($csvRecord[self::PROCESSING_FEE_HEADER])) {
+                    $donation->setProcessingFee($this->formatCurrency($csvRecord[self::PROCESSING_FEE_HEADER]));
                 }
             }
             if (isset($csvRecord[self::NET_AMOUNT_HEADER])) {
-                if (!$donation->getNetAmount() || $donation->getNetAmount() != (float) $csvRecord[self::NET_AMOUNT_HEADER]) {
-                    $donation->setNetAmount((float) $csvRecord[self::NET_AMOUNT_HEADER]);
+                if (!$donation->getNetAmount() || $donation->getNetAmount() != $this->formatCurrency($csvRecord[self::NET_AMOUNT_HEADER])) {
+                    $donation->setNetAmount($this->formatCurrency($csvRecord[self::NET_AMOUNT_HEADER]));
                 }
             }
             if (isset($csvRecord[self::DONOR_COMMENT_HEADER])) {
@@ -227,6 +227,14 @@ class DonorboxDonationService
         $oClass = new \ReflectionClass(__CLASS__);
 
         return array_values($oClass->getConstants());
+    }
+
+    private function formatCurrency($string): float
+    {
+        if (!$string) {
+            return 0.0;
+        }
+        return (float) preg_replace("/[^0-9\.]/", '', $string);
     }
 
     private function formatBoolean($bool): bool
