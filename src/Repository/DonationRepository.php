@@ -24,15 +24,15 @@ class DonationRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Donation::class);
-        $this->startDate = new \DateTime('-5 years midnight');
-        $this->endDate = new \DateTime('tomorrow -1 min');
+        $this->startDate = (new \DateTime(self::DEFAULT_START_DATE))->setTime(0, 0, 0);
+        $this->endDate = (new \DateTime(self::DEFAULT_END_DATE))->setTime(23, 59, 59);
     }
 
-    public function setDateRange(\DateTime $startDate, \DateTime $endDate, string $timezone = 'UTC'): DonationRepository
+    public function setDateRange(\DateTime $startDate, \DateTime $endDate): DonationRepository
     {
-        $startDate->setTimezone(new \DateTimeZone($timezone));
+        $startDate->setTime(0, 0, 0);
         $this->startDate = $startDate;
-        $endDate->setTimezone(new \DateTimeZone($timezone));
+        $endDate->setTime(23, 59, 59);
         $this->endDate = $endDate;
 
         return $this;
@@ -48,7 +48,7 @@ class DonationRepository extends ServiceEntityRepository
             ->andWhere('d.receivedAt >= :startDate')
             ->andWhere('d.receivedAt <= :endDate')
             ->setParameter('startDate', $this->startDate)
-            ->setParameter('endDate', $this->endDate->setTime(23, 59, 59))
+            ->setParameter('endDate', $this->endDate)
             ->orderBy('d.receivedAt', 'DESC')
             ->getQuery()
             ->getResult();
@@ -66,7 +66,7 @@ class DonationRepository extends ServiceEntityRepository
             ->andWhere('d.receivedAt <= :endDate')
             ->setParameter('member', $member)
             ->setParameter('startDate', $this->startDate)
-            ->setParameter('endDate', $this->endDate->setTime(23, 59, 59))
+            ->setParameter('endDate', $this->endDate)
             ->orderBy('d.receivedAt', 'DESC')
             ->getQuery()
             ->getResult();
@@ -80,7 +80,7 @@ class DonationRepository extends ServiceEntityRepository
             ->andWhere('d.receivedAt >= :startDate')
             ->andWhere('d.receivedAt <= :endDate')
             ->setParameter('startDate', $this->startDate)
-            ->setParameter('endDate', $this->endDate->setTime(23, 59, 59))
+            ->setParameter('endDate', $this->endDate)
             ->getQuery()
             ->getResult();
     }
@@ -93,7 +93,7 @@ class DonationRepository extends ServiceEntityRepository
             ->andWhere('d.receivedAt >= :startDate')
             ->andWhere('d.receivedAt <= :endDate')
             ->setParameter('startDate', $this->startDate)
-            ->setParameter('endDate', $this->endDate->setTime(23, 59, 59))
+            ->setParameter('endDate', $this->endDate)
             ->groupBy('d.currency', 'd.member', 'd.isAnonymous')
             ->orderBy('m.lastName', 'ASC')
             ->getQuery()
@@ -108,7 +108,7 @@ class DonationRepository extends ServiceEntityRepository
             ->andWhere('d.receivedAt >= :startDate')
             ->andWhere('d.receivedAt <= :endDate')
             ->setParameter('startDate', $this->startDate)
-            ->setParameter('endDate', $this->endDate->setTime(23, 59, 59))
+            ->setParameter('endDate', $this->endDate)
             ->orderBy('latestDonation', 'DESC')
             ->getQuery()
             ->getResult();
@@ -121,7 +121,7 @@ class DonationRepository extends ServiceEntityRepository
             ->andWhere('d.receivedAt >= :startDate')
             ->andWhere('d.receivedAt <= :endDate')
             ->setParameter('startDate', $this->startDate)
-            ->setParameter('endDate', $this->endDate->setTime(23, 59, 59))
+            ->setParameter('endDate', $this->endDate)
             ->groupBy('d.currency', 'aggregatedDate')
             ->orderBy('aggregatedDate', 'ASC')
             ->getQuery()
@@ -138,7 +138,7 @@ class DonationRepository extends ServiceEntityRepository
             ->andWhere('d.receivedAt <= :endDate')
             ->setParameter('member', $member)
             ->setParameter('startDate', $this->startDate)
-            ->setParameter('endDate', $this->endDate->setTime(23, 59, 59))
+            ->setParameter('endDate', $this->endDate)
             ->groupBy('d.currency')
             ->getQuery()
             ->getResult();
@@ -156,7 +156,7 @@ class DonationRepository extends ServiceEntityRepository
             ->andWhere('d.receivedAt <= :endDate')
             ->setParameter('member', $member)
             ->setParameter('startDate', $this->startDate)
-            ->setParameter('endDate', $this->endDate->setTime(23, 59, 59))
+            ->setParameter('endDate', $this->endDate)
             ->getQuery()
             ->getResult();
     }
