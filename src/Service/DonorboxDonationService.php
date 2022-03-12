@@ -82,7 +82,7 @@ class DonorboxDonationService
         $csv->setHeaderOffset(0);
 
         $header = $csv->getHeader(); // returns the CSV header record
-        $csvRecords = $csv->getRecords(); //returns all the CSV records as an Iterator object
+        $csvRecords = $csv->getRecords(); // returns all the CSV records as an Iterator object
 
         // Inspect headers for required fields
         if (!in_array(self::EMAIL_HEADER, $header) ||
