@@ -842,6 +842,24 @@ class Member
         ]));
     }
 
+    public function formatMemberMessage(string $content): string
+    {
+        $content = preg_replace('/\[FirstName\]/i', $this->getFirstName(), $content);
+        $content = preg_replace('/\[MiddleName\]/i', $this->getMiddleName(), $content);
+        $content = preg_replace('/\[PreferredName\]/i', $this->getPreferredName(), $content);
+        $content = preg_replace('/\[LastName\]/i', $this->getLastName(), $content);
+        $content = preg_replace('/\[MailingAddressLine1\]/i', $this->getMailingAddressLine1(), $content);
+        $content = preg_replace('/\[MailingAddressLine2\]/i', $this->getMailingAddressLine2(), $content);
+        $content = preg_replace('/\[MailingCity\]/i', $this->getMailingCity(), $content);
+        $content = preg_replace('/\[MailingState\]/i', $this->getMailingState(), $content);
+        $content = preg_replace('/\[MailingPostalCode\]/i', $this->getMailingPostalCode(), $content);
+        $content = preg_replace('/\[MailingCountry\]/i', $this->getMailingCountry(), $content);
+        $content = preg_replace('/\[PrimaryEmail\]/i', $this->getPrimaryEmail(), $content);
+        $content = preg_replace('/\[PrimaryTelephoneNumber\]/i', $this->getPrimaryTelephoneNumber(), $content);
+
+        return $content;
+    }
+
     /**
      * Event Listeners.
      */

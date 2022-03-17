@@ -323,7 +323,7 @@ class EmailService
         $message = new TemplatedEmail($headers);
         $message
             ->to($member->getPrimaryEmail())
-            ->from(new Address($this->params->get('app.email.from'), $this->params->get('app.name')))
+            ->from(new Address($this->params->get('app.email.from'), $actor->getName()))
             ->replyTo($formData['reply_to'] ? $formData['reply_to'] : $this->params->get('app.email.to'))
             ->subject($formData['subject'])
             ->htmlTemplate('directory/message_email_template.html.twig')

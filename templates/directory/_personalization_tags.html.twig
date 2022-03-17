@@ -1,22 +1,50 @@
-<dl class="row">
-  <dt class="p-1 col-lg-6 text-nowrap"><code>[FirstName]</code></dd>
-  <dd class="p-1 col-lg-6">{{ member.firstName }}</dd>
-  <dt class="p-1 col-lg-6 text-nowrap"><code>[PreferredName]</code></dd>
-  <dd class="p-1 col-lg-6">{{ member.preferredName }}</dd>
-  <dt class="p-1 col-lg-6 text-nowrap"><code>[LastName]</code></dd>
-  <dd class="p-1 col-lg-6">{{ member.lastName }}</dd>
-  <dt class="p-1 col-lg-6 text-nowrap"><code>[MailingAddressLine1]</code></dd>
-  <dd class="p-1 col-lg-6">{{ member.mailingAddressLine1 }}</dd>
-  <dt class="p-1 col-lg-6 text-nowrap"><code>[MailingAddressLine2]</code></dd>
-  <dd class="p-1 col-lg-6">{{ member.mailingAddressLine2 }}</dd>
-  <dt class="p-1 col-lg-6 text-nowrap"><code>[MailingCity]</code></dd>
-  <dd class="p-1 col-lg-6">{{ member.mailingCity }}</dd>
-  <dt class="p-1 col-lg-6 text-nowrap"><code>[MailingState]</code></dd>
-  <dd class="p-1 col-lg-6">{{ member.mailingState }}</dd>
-  <dt class="p-1 col-lg-6 text-nowrap"><code>[MailingPostalCode]</code></dd>
-  <dd class="p-1 col-lg-6">{{ member.mailingPostalCode }}</dd>
-  <dt class="p-1 col-lg-6 text-nowrap"><code>[PrimaryEmail]</code></dd>
-  <dd class="p-1 col-lg-6">{{ member.primaryEmail }}</dd>
-  <dt class="p-1 col-lg-6 text-nowrap"><code>[PrimaryTelephoneNumber]</code></dd>
-  <dd class="p-1 col-lg-6">{{ member.primaryTelephoneNumber }}</dd>
-</dl>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Tag</th>
+      {% if member is defined %}<th>Value</th>{% endif %}
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class=" text-nowrap"><code>[FirstName]</code></td>
+      {% if member is defined %}<td class="">{{ member.firstName }}</td>{% endif %}
+    </tr>
+    <tr>
+      <td class=" text-nowrap"><code>[PreferredName]</code></td>
+      {% if member is defined %}<td class="">{{ member.preferredName }}</td>{% endif %}
+    </tr>
+    <tr>
+      <td class=" text-nowrap"><code>[LastName]</code></td>
+      {% if member is defined %}<td class="">{{ member.lastName }}</td>{% endif %}
+    </tr>
+    <tr>
+      <td class=" text-nowrap"><code>[MailingAddressLine1]</code></td>
+      {% if member is defined %}<td class="">{{ member.mailingAddressLine1 }}</td>{% endif %}
+    </tr>
+    <tr>
+      <td class=" text-nowrap"><code>[MailingAddressLine2]</code></td>
+      {% if member is defined %}<td class="">{{ member.mailingAddressLine2 }}</td>{% endif %}
+    </tr>
+    <tr>
+      <td class=" text-nowrap"><code>[MailingCity]</code></td>
+      {% if member is defined %}<td class="">{{ member.mailingCity }}</td>{% endif %}
+    </tr>
+    <tr>
+      <td class=" text-nowrap"><code>[MailingState]</code></td>
+      {% if member is defined %}<td class="">{{ member.mailingState }}</td>{% endif %}
+    </tr>
+    <tr>
+      <td class=" text-nowrap"><code>[MailingPostalCode]</code></td>
+      {% if member is defined %}<td class="">{{ member.mailingPostalCode }}</td>{% endif %}
+    </tr>
+    <tr>
+      <td class=" text-nowrap"><code>[PrimaryEmail]</code></td>
+      {% if member is defined %}<td class="">{{ member.primaryEmail }}</td>{% endif %}
+    </tr>
+    <tr>
+      <td class=" text-nowrap"><code>[PrimaryTelephoneNumber]</code></td>
+      {% if member is defined %}<td class="">{{ member.primaryTelephoneNumber }}</td>{% endif %}
+    </tr>
+  </tbody>
+</table>
