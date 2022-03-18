@@ -51,6 +51,7 @@ class MemberEmailType extends AbstractType
                     'query_builder' => function (EntityRepository $er) {
                         return $er->createQueryBuilder('m')
                             ->join('m.status', 's')
+                            ->where('s.isInactive = 0')
                             ->addOrderBy('s.label', 'ASC')
                             ->addOrderBy('m.lastName', 'ASC')
                             ->addOrderBy('m.preferredName', 'ASC')
