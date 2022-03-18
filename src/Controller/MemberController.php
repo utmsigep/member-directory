@@ -376,7 +376,7 @@ class MemberController extends AbstractController
      */
     public function message(Member $member, Request $request, EmailService $emailService, SmsService $smsService, CommunicationLogService $communicationLogService): Response
     {
-        $formEmail = $this->createForm(MemberEmailType::class, null, ['acting_user' => $this->getUser()]);
+        $formEmail = $this->createForm(MemberEmailType::class, null, ['member' => $member, 'acting_user' => $this->getUser()]);
         $formEmail->handleRequest($request);
         if ($formEmail->isSubmitted() && $formEmail->isValid()) {
             if (!$member->getPrimaryEmail()) {
@@ -385,8 +385,8 @@ class MemberController extends AbstractController
                 return $this->redirectToRoute('member_show', ['localIdentifier' => $member->getLocalIdentifier()]);
             }
             $formData = $formEmail->getData();
-            $formData['subject'] = $this->formatMessage($formData['subject'], $member);
-            $formData['message_body'] = $this->formatMessage($formData['message_body'], $member);
+            $formData['subject'] = $member->formatMemberMessage($formData['subject']);
+            $formData['message_body'] = $member->formatMemberMessage($formData['message_body']);
             try {
                 $emailService->sendMemberEmail($formData, $member, $this->getUser());
                 $this->addFlash('success', 'Email message sent!');
@@ -404,7 +404,7 @@ class MemberController extends AbstractController
                 return $this->redirectToRoute('member_show', ['localIdentifier' => $member->getLocalIdentifier()]);
             }
             $formData = $formSMS->getData();
-            $message = $this->formatMessage($formData['message_body'], $member);
+            $message = $member->formatMemberMessage($formData['message_body']);
             try {
                 $smsService->sendMemberSms($message, $member, $this->getUser());
                 $this->addFlash('success', 'SMS message sent!');
@@ -421,25 +421,5 @@ class MemberController extends AbstractController
             'formSMS' => $formSMS->createView(),
             'fromTelephoneNumber' => $smsService->getFromTelephoneNumber(),
         ]);
-    }
-
-    /* Private Methods */
-
-    private function formatMessage($content, Member $member): string
-    {
-        $content = preg_replace('/\[FirstName\]/i', $member->getFirstName(), $content);
-        $content = preg_replace('/\[MiddleName\]/i', $member->getMiddleName(), $content);
-        $content = preg_replace('/\[PreferredName\]/i', $member->getPreferredName(), $content);
-        $content = preg_replace('/\[LastName\]/i', $member->getLastName(), $content);
-        $content = preg_replace('/\[MailingAddressLine1\]/i', $member->getMailingAddressLine1(), $content);
-        $content = preg_replace('/\[MailingAddressLine2\]/i', $member->getMailingAddressLine2(), $content);
-        $content = preg_replace('/\[MailingCity\]/i', $member->getMailingCity(), $content);
-        $content = preg_replace('/\[MailingState\]/i', $member->getMailingState(), $content);
-        $content = preg_replace('/\[MailingPostalCode\]/i', $member->getMailingPostalCode(), $content);
-        $content = preg_replace('/\[MailingCountry\]/i', $member->getMailingCountry(), $content);
-        $content = preg_replace('/\[PrimaryEmail\]/i', $member->getPrimaryEmail(), $content);
-        $content = preg_replace('/\[PrimaryTelephoneNumber\]/i', $member->getPrimaryTelephoneNumber(), $content);
-
-        return $content;
     }
 }

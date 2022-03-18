@@ -115,22 +115,7 @@
 {% include '_no_records_card.html.twig' with {message: 'Member must have either an Email or Telephone number to receive messages.'} %}
 {% endif %}
 
-
-<div class="modal fade" id="personalizationTagsModal" tabindex="-1" role="dialog" aria-labelledby="personalizationTagsModalTitle" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="personalizationTagsModalTitle">Personalization Tags</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        {% include 'directory/_personalization_tags.html.twig' %}
-      </div>
-    </div>
-  </div>
-</div>
+{% include 'directory/_personalization_tags_modal.html.twig' %}
 {% endblock %}
 
 {% block javascripts %}

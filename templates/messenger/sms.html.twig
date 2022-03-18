@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% import 'communication/_macros.html.twig' as macros %}
+
+{% block title %}{{ parent() }} - Messenger - SMS{% endblock %}
+
+{% block body %}
+{% embed '_page_header.html.twig' with {beta: true} %}
+{% block page_header_title %}Send Bulk SMS{% endblock %}
+{% endembed %}
+
+{% include 'messenger/_nav.html.twig' %}
+
+<div class="row">
+  <div class="col-lg-7">
+    <div id="sms_form" class="message_form">
+      {{ form_start(formSMS) }}
+      <div class="card mb-3 shadow">
+        <div class="card-body">
+          <dl class="row">
+            <dt class="col-2">To</dt>
+            <dd class="col-10">
+              <ul class="entityCollection list-unstyled" data-prototype="{{ form_widget(formSMS.recipients.vars.prototype)|e('html_attr') }}">
+                {% for recipient in formSMS.recipients %}
+                <li>
+                  <div class="input-group mb-2">
+                  {{ form_errors(recipient) }}
+                  {{ form_widget(recipient) }}
+                  </div>
+                </li>
+                {% endfor %}
+              </ul>
+              <div class="text-right">
+                <button type="button" class="add_item_link btn btn-sm btn-secondary" data-collection-holder-class="entityCollection">Add a Recipient</button>
+              </div>
+            </dd>
+            <dt class="col-2">From</dt>
+            <dd class="col-10">{{ fromTelephoneNumber }}</dd>
+          </dl>
+          {{ form_row(formSMS.message_body) }}
+          <p class="text-right small"><a href="#" data-toggle="modal" data-target="#personalizationTagsModal">Personalization Tags</a></p>
+        </div>
+      </div>
+      <div class="text-right mb-3">
+        {{ form_widget(formSMS.submit) }}
+      </div>
+      {{ form_rest(formSMS) }}
+      {{ form_end(formSMS) }}
+    </div>
+  </div>
+</div>
+
+{% include 'directory/_personalization_tags_modal.html.twig' %}
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+{% include '_entity_collection_javascript.html.twig' %}
+{% endblock %}

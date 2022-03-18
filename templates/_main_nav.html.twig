@@ -34,6 +34,7 @@
 <li class="nav-item {{ active_route == 'event_index' ? 'active' }}"><a class="nav-link" href="{{ path('event_index')}}"><i class="fas fa-calendar-check fa-fw"></i> <span>Events</span></a></li>
 {% endif %}
 {% if is_granted('ROLE_COMMUNICATIONS_MANAGER') %}
+<li class="nav-item {{ (active_route == 'messenger_email' or active_route == 'messenger_sms') ? 'active' }}"><a class="nav-link" href="{{ path('messenger_email')}}"><i class="fas fa-comments fa-fw"></i> <span>Messenger</span></a></li>
 <li class="nav-item {{ active_route == 'communication_index' ? 'active' }}"><a class="nav-link" href="{{ path('communication_index')}}"><i class="fas fa-bullhorn fa-fw"></i> <span>Communications</span></a></li>
 {% endif %}
 <li class="nav-item {{ active_route == 'map' ? 'active' }}"><a class="nav-link" href="{{ path('map')}}"><i class="fas fa-map fa-fw"></i> <span>Member Map</span></a></li>

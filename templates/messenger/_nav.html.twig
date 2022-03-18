@@ -1,0 +1,7 @@
+{% set current_route = app.request.get('_route') %}
+<ul class="nav nav-tabs mb-3">
+  <li class="nav-item"><a class="nav-link {{ current_route == 'messenger_email' ? 'active' }}" href="{{ path('messenger_email') }}"><i class="fas fa-envelope"></i> Bulk Email</a></li>
+  {% if is_sms_service_configured() %}
+  <li class="nav-item"><a class="nav-link {{ current_route == 'messenger_sms' ? 'active' }}" href="{{ path('messenger_sms') }}"><i class="fas fa-sms"></i> Bulk SMS</a></li>
+  {% endif %}
+</ul>
