@@ -20,19 +20,7 @@
           <dl class="row">
             <dt class="col-2">To</dt>
             <dd class="col-10">
-              <ul class="entityCollection list-unstyled" data-prototype="{{ form_widget(formSMS.recipients.vars.prototype)|e('html_attr') }}">
-                {% for recipient in formSMS.recipients %}
-                <li>
-                  <div class="input-group mb-2">
-                  {{ form_errors(recipient) }}
-                  {{ form_widget(recipient) }}
-                  </div>
-                </li>
-                {% endfor %}
-              </ul>
-              <div class="text-right">
-                <button type="button" class="add_item_link btn btn-sm btn-secondary" data-collection-holder-class="entityCollection">Add a Recipient</button>
-              </div>
+              {{ form_row(formSMS.recipients) }}
             </dd>
             <dt class="col-2">From</dt>
             <dd class="col-10">{{ fromTelephoneNumber }}</dd>
@@ -51,9 +39,4 @@
 </div>
 
 {% include 'directory/_personalization_tags_modal.html.twig' %}
-{% endblock %}
-
-{% block javascripts %}
-{{ parent() }}
-{% include '_entity_collection_javascript.html.twig' %}
 {% endblock %}

@@ -37,7 +37,7 @@ class MessengerController extends AbstractController
         if ($formEmail->isSubmitted() && $formEmail->isValid()) {
             $formData = $formEmail->getData();
             $originalFormData = $formData;
-            foreach (array_unique($formData['recipients']) as $member) {
+            foreach ($formData['recipients'] as $member) {
                 if (!$member->getPrimaryEmail()) {
                     $this->addFlash('danger', sprintf('No email set for %s', $member));
                     continue;
@@ -73,7 +73,7 @@ class MessengerController extends AbstractController
         $formSMS->handleRequest($request);
         if ($formSMS->isSubmitted() && $formSMS->isValid()) {
             $formData = $formSMS->getData();
-            foreach (array_unique($formData['recipients']) as $member) {
+            foreach ($formData['recipients'] as $member) {
                 if (!$member->getPrimaryTelephoneNumber()) {
                     $this->addFlash('danger', sprintf('No phone number set for %s', $member));
                     continue;
