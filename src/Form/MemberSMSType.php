@@ -45,7 +45,7 @@ class MemberSMSType extends AbstractType
                 'attr' => [
                     'class' => 'selectpicker',
                     'data-live-search' => true,
-                    'title' => 'Search for Member ...',
+                    'title' => 'Search for Member(s) ...',
                 ],
                 'multiple' => true,
             ]);
