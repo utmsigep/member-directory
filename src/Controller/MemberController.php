@@ -10,6 +10,7 @@ use App\Form\MemberCommunicationLogType;
 use App\Form\MemberEmailType;
 use App\Form\MemberSMSType;
 use App\Form\MemberType;
+use App\Repository\DonationRepository;
 use App\Service\ChartService;
 use App\Service\CommunicationLogService;
 use App\Service\EmailService;
@@ -160,11 +161,12 @@ class MemberController extends AbstractController
      * @Route("/{localIdentifier}/donations", name="member_donations")
      * @IsGranted("ROLE_DONATION_MANAGER")
      */
-    public function donations(Member $member, ChartService $chartService, EntityManagerInterface $entityManager): Response
+    public function donations(Member $member, DonationRepository $donationRepository, ChartService $chartService, EntityManagerInterface $entityManager): Response
     {
-        $donations = $entityManager->getRepository(Donation::class)->findByMember($member);
-        $donationsByMonth = $entityManager->getRepository(Donation::class)->getTotalDonationsByMonthForMember($member);
-        $totals = $entityManager->getRepository(Donation::class)->getTotalDonationsForMember($member);
+        $donationRepository->setDateRange((new \DateTime())->setTimestamp(0), new \DateTime());
+        $donations = $donationRepository->findByMember($member);
+        $donationsByMonth = $donationRepository->getTotalDonationsByMonthForMember($member);
+        $totals = $donationRepository->getTotalDonationsForMember($member);
 
         return $this->render('member/donations.html.twig', [
             'member' => $member,
