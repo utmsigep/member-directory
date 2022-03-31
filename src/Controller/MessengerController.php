@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Member;
 use App\Form\MemberEmailType;
 use App\Form\MemberSMSType;
 use App\Service\CommunicationLogService;
@@ -32,7 +33,12 @@ class MessengerController extends AbstractController
      */
     public function email(Request $request, EmailService $emailService, CommunicationLogService $communicationLogService): Response
     {
-        $formEmail = $this->createForm(MemberEmailType::class, null, ['acting_user' => $this->getUser()]);
+        $queryRecipients = $this->buildRecipientsFromRequest($request);
+
+        $formEmail = $this->createForm(MemberEmailType::class, null, [
+            'acting_user' => $this->getUser(),
+            'recipients' => $queryRecipients,
+        ]);
         $formEmail->handleRequest($request);
         if ($formEmail->isSubmitted() && $formEmail->isValid()) {
             $formData = $formEmail->getData();
@@ -69,7 +75,12 @@ class MessengerController extends AbstractController
      */
     public function sms(Request $request, SmsService $smsService, CommunicationLogService $communicationLogService): Response
     {
-        $formSMS = $this->createForm(MemberSMSType::class, null, ['acting_user' => $this->getUser()]);
+        $queryRecipients = $this->buildRecipientsFromRequest($request);
+
+        $formSMS = $this->createForm(MemberSMSType::class, null, [
+            'acting_user' => $this->getUser(),
+            'recipients' => $queryRecipients,
+        ]);
         $formSMS->handleRequest($request);
         if ($formSMS->isSubmitted() && $formSMS->isValid()) {
             $formData = $formSMS->getData();
@@ -97,4 +108,18 @@ class MessengerController extends AbstractController
             'fromTelephoneNumber' => $smsService->getFromTelephoneNumber(),
         ]);
     }
+
+    private function buildRecipientsFromRequest(Request $request): array
+    {
+        $queryRecipients = [];
+
+        // List of identifiers
+        if (is_array($request->query->get('recipients'))) {
+            $memberRepository = $this->getDoctrine()->getRepository(Member::class);
+            $queryRecipients = $memberRepository->findByLocalIdentifiers($request->query->get('recipients'));
+        }
+
+        return $queryRecipients;
+    }
+
 }

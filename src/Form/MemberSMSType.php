@@ -48,6 +48,7 @@ class MemberSMSType extends AbstractType
                     'title' => 'Search for Member(s) ...',
                 ],
                 'multiple' => true,
+                'data' => $options['recipients'],
             ]);
         }
     }
@@ -57,6 +58,7 @@ class MemberSMSType extends AbstractType
         $resolver->setDefaults([
             'member' => null,
             'acting_user' => null,
+            'recipients' => [],
         ]);
     }
 }
