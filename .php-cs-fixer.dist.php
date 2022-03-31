@@ -5,6 +5,7 @@
  * you can change this configuration by importing this file.
  */
 $config = new PhpCsFixer\Config();
+
 return $config
     ->setRules([
         '@DoctrineAnnotation' => true,
@@ -14,7 +15,7 @@ return $config
         '@Symfony' => true,
     ])
     ->setFinder(PhpCsFixer\Finder::create()
-        ->exclude(['vendor', 'cache'])
+        ->exclude(['vendor', 'cache', 'node_modules'])
         ->in(__DIR__)
     )
 ;

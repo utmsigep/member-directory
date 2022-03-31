@@ -397,7 +397,7 @@ class MemberController extends AbstractController
             }
         }
 
-        $formSMS = $this->createForm(MemberSMSType::class, null, ['acting_user' => $this->getUser()]);
+        $formSMS = $this->createForm(MemberSMSType::class, null, ['member' => $member, 'acting_user' => $this->getUser()]);
         $formSMS->handleRequest($request);
         if ($formSMS->isSubmitted() && $formSMS->isValid()) {
             if (!$member->getPrimaryTelephoneNumber()) {

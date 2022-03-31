@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Event;
 use App\Entity\Member;
+use App\Entity\Tag;
 use App\Form\MemberEmailType;
 use App\Form\MemberSMSType;
 use App\Service\CommunicationLogService;
@@ -119,7 +121,22 @@ class MessengerController extends AbstractController
             $queryRecipients = $memberRepository->findByLocalIdentifiers($request->query->get('recipients'));
         }
 
+        // Event attendees
+        if ($request->query->get('event_id')) {
+            $event = $this->getDoctrine()->getRepository(Event::class)->find($request->query->get('event_id'));
+            if ($event) {
+                $queryRecipients = $event->getAttendees()->toArray();
+            }
+        }
+
+        // Tagged Members
+        if ($request->query->get('tag_id')) {
+            $tag = $this->getDoctrine()->getRepository(Tag::class)->find($request->query->get('tag_id'));
+            if ($tag) {
+                $queryRecipients = $tag->getMembers()->toArray();
+            }
+        }
+
         return $queryRecipients;
     }
-
 }

@@ -265,6 +265,10 @@ class DirectoryController extends AbstractController
                 'view_name' => $tag->getTagName(),
                 'show_status' => true,
                 'data_source' => $this->generateUrl('tag', ['tagId' => $tagId, '_format' => 'json']),
+                'messenger' => [
+                    'key' => 'tag_id',
+                    'value' => $tag->getId(),
+                ],
             ]);
         }
         $members = $memberRepository->findByTags([$tag], [

@@ -6,6 +6,17 @@
 {% embed '_page_header.html.twig' %}
 {% block page_header_title %}{{ view_name }}{% endblock %}
 {% block page_header_buttons %}
+{% if messenger is defined and is_granted('ROLE_COMMUNICATIONS_MANAGER') %}
+<button type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+  <i class="fas fa-comments fa-fw"></i> Messenger
+</button>
+<div class="dropdown-menu">
+  <a class="dropdown-item" href="{{ path('messenger_email', {(messenger.key) : messenger.value}) }}"><i class="fas fa-envelope fa-fw"></i> Send Email</a>
+  {% if is_sms_service_configured() %}
+  <a class="dropdown-item" href="{{ path('messenger_sms', {(messenger.key) : messenger.value}) }}"><i class="fas fa-sms fa-fw"></i> Send SMS</a>
+  {% endif %}
+</div>
+{% endif %}
 {% if is_granted('ROLE_DIRECTORY_MANAGER') %}
 <a role="button" href="{{ path('member_new') }}" class="btn btn-sm btn-primary"><i class="fas fa-plus fa-fw"></i> New Member</a>
 {% endif %}
