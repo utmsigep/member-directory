@@ -63,6 +63,7 @@ class MemberEmailType extends AbstractType
                     'title' => 'Search for Member(s) ...',
                 ],
                 'multiple' => true,
+                'data' => $options['recipients'],
             ]);
         }
     }
@@ -72,6 +73,7 @@ class MemberEmailType extends AbstractType
         $resolver->setDefaults([
             'member' => null,
             'acting_user' => null,
+            'recipients' => [],
         ]);
     }
 }

@@ -292,6 +292,16 @@ class MemberRepository extends ServiceEntityRepository
         return new Paginator($qb->getQuery(), $fetchJoinCollection = true);
     }
 
+    public function findByLocalIdentifiers(array $localIdentifiers)
+    {
+        return $this->createQueryBuilder('m')
+            ->where('m.localIdentifier IN (:localIdentifiers)')
+            ->setParameter('localIdentifiers', $localIdentifiers)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     private function processParams(QueryBuilder $qb, $params = []): QueryBuilder
     {
         // Filter by Member Status
