@@ -114,23 +114,24 @@ class MessengerController extends AbstractController
     private function buildRecipientsFromRequest(Request $request): array
     {
         $queryRecipients = [];
+        $queryParameters = $request->query->all();
 
         // List of identifiers
-        if ($request->query->get('recipients')) {
+        if (isset($queryParameters['recipients']) && is_array($queryParameters['recipients'])) {
             $memberRepository = $this->getDoctrine()->getRepository(Member::class);
-            $queryRecipients = $memberRepository->findByLocalIdentifiers($request->query->get('recipients'));
+            $queryRecipients = $memberRepository->findByLocalIdentifiers($queryParameters['recipients']);
         }
 
         // Event attendees
-        if ($request->query->get('event_id')) {
-            $event = $this->getDoctrine()->getRepository(Event::class)->find($request->query->get('event_id'));
+        if (isset($queryParameters['event_id']) && is_numeric($queryParameters['event_id'])) {
+            $event = $this->getDoctrine()->getRepository(Event::class)->find($queryParameters['event_id']);
             if ($event) {
                 $queryRecipients = $event->getAttendees()->toArray();
             }
         }
 
         // Tagged Members
-        if ($request->query->get('tag_id')) {
+        if (isset($queryParameters['tag_id']) && is_numeric($queryParameters['tag_id'])) {
             $tag = $this->getDoctrine()->getRepository(Tag::class)->find($request->query->get('tag_id'));
             if ($tag) {
                 $queryRecipients = $tag->getMembers()->toArray();
