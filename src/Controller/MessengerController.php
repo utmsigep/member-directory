@@ -116,7 +116,7 @@ class MessengerController extends AbstractController
         $queryRecipients = [];
 
         // List of identifiers
-        if (is_array($request->query->get('recipients'))) {
+        if ($request->query->get('recipients')) {
             $memberRepository = $this->getDoctrine()->getRepository(Member::class);
             $queryRecipients = $memberRepository->findByLocalIdentifiers($request->query->get('recipients'));
         }
