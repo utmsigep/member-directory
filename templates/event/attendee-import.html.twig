@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} - {{event}} - Attendee Import{% endblock %}
+
+{% block body %}
+{% embed '_page_header.html.twig' %}
+{% block page_header_title %}{{event}} Attendee Import{% endblock %}
+{% endembed %}
+
+{{ form_start(form) }}
+<div class="card mb-3 shadow">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-6">
+        {{ form_row(form.csv_file) }}
+      </div>
+      <div class="offset-md-1 col-md-5">
+        <h6>Accepted Column Headings</h6>
+        <small><tt>{{ allowedProperties|join(', ') }}</tt></small>
+      </div>
+    </div>
+  </div>
+  <div class="card-footer text-right">
+    <button class="btn btn-primary">{{ button_label|default('Import') }}</button>
+  </div>
+</div>
+{{ form_rest(form) }}
+{{ form_end(form) }}
+
+{% endblock %}
