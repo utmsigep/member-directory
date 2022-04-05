@@ -7,17 +7,35 @@
 {% block page_header_title %}{{ event }}{% endblock %}
 {% block page_header_buttons %}
 {% if is_granted('ROLE_COMMUNICATIONS_MANAGER') %}
-<button type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-  <i class="fas fa-comments fa-fw"></i> Messenger
-</button>
-<div class="dropdown-menu">
-  <a class="dropdown-item" href="{{ path('messenger_email', {event_id: event.id}) }}"><i class="fas fa-envelope fa-fw"></i> Send Email</a>
-  {% if is_sms_service_configured() %}
-  <a class="dropdown-item" href="{{ path('messenger_sms', {event_id: event.id}) }}"><i class="fas fa-sms fa-fw"></i> Send SMS</a>
-  {% endif %}
+<div class="btn-group">
+  <button type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+    <i class="fas fa-comments fa-fw"></i> Messenger
+  </button>
+  <div class="dropdown-menu">
+    <a class="dropdown-item" href="{{ path('messenger_email', {event_id: event.id}) }}"><i class="fas fa-envelope fa-fw"></i> Send Email</a>
+    {% if is_sms_service_configured() %}
+    <a class="dropdown-item" href="{{ path('messenger_sms', {event_id: event.id}) }}"><i class="fas fa-sms fa-fw"></i> Send SMS</a>
+    {% endif %}
+  </div>
 </div>
 {% endif %}
-<a role="button" href="{{ path('event_ical', {id: event.id}) }}" class="btn btn-secondary btn-sm"><i class="fas fa-calendar-day fa-fw"></i> iCalendar</a>
+<div class="btn-group">
+  <button type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+    <i class="fas fa-download fa-fw"></i> Export
+  </button>
+  <div class="dropdown-menu">
+    <a class="dropdown-item" href="{{ path('event_attendee_export', {id: event.id}) }}"><i class="fas fa-users fa-fw"></i> Attendee List</a>
+    <a class="dropdown-item" href="{{ path('event_ical', {id: event.id}) }}"><i class="fas fa-calendar-day fa-fw"></i> iCalendar</a>
+  </div>
+</div>
+<div class="btn-group">
+  <button type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+    <i class="fas fa-upload fa-fw"></i> Import
+  </button>
+  <div class="dropdown-menu">
+    <a class="dropdown-item" href="{{ path('event_attendee_import', {id: event.id}) }}"><i class="fas fa-users fa-fw"></i> Attendee List</a>
+  </div>
+</div>
 <a role="button" href="{{ path('event_edit', {id: event.id}) }}" class="btn btn-primary btn-sm"><i class="fas fa-edit fa-fw"></i> Edit</a>
 {% endblock %}
 {% endembed %}

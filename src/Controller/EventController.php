@@ -3,8 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Event;
+use App\Form\EventAttendeeImportType;
 use App\Form\EventType;
 use App\Repository\EventRepository;
+use App\Service\CsvToMemberService;
+use App\Service\MemberToCsvService;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Sabre\VObject\Component\VCalendar;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -12,6 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -84,6 +89,64 @@ class EventController extends AbstractController
         return new Response($ical->serialize(), 200, [
             'Content-type' => 'text/calendar; charset=utf-8',
             'Content-disposition' => $contentDisposition,
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/attendee-export", name="event_attendee_export", methods={"GET"})
+     */
+    public function attendeeExport(Event $event, MemberToCSVService $memberToCsvService): Response
+    {
+        $members = $event->getAttendees();
+        $filename = $event->getCode().'.csv';
+        $response = new Response($memberToCsvService->arrayToCsvString(new ArrayCollection($members->toArray())));
+        $response->headers->set('Content-type', 'text/csv');
+        $disposition = $response->headers->makeDisposition(
+            ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+            $filename
+        );
+        $response->headers->set('Content-disposition', $disposition);
+
+        return $response;
+    }
+
+    /**
+     * @Route("/{id}/attendee-import", name="event_attendee_import", methods={"GET", "POST"})
+     */
+    public function attendeeImport(Event $event, Request $request, EntityManagerInterface $entityManager, CsvToMemberService $csvToMemberService): Response
+    {
+        $form = $this->createForm(EventAttendeeImportType::class, null);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $csvToMemberService->run($form['csv_file']->getData());
+            } catch (\Exception $e) {
+                $this->addFlash('error', $e->getMessage());
+
+                return $this->redirectToRoute('event_attendee_import', ['id' => $event->getId()]);
+            }
+            $formData = $form->getData();
+            foreach ($csvToMemberService->getMembers() as $member) {
+                if ($member->getId() > 0) {
+                    $event->addAttendee($member);
+                }
+            }
+            $entityManager->persist($event);
+            $entityManager->flush();
+
+            foreach ($csvToMemberService->getErrors() as $error) {
+                $this->addFlash('error', $error);
+            }
+
+            $this->addFlash('success', 'Import complete!');
+
+            return $this->redirectToRoute('event_show', ['id' => $event->getId()]);
+        }
+
+        return $this->render('event/attendee-import.html.twig', [
+            'form' => $form->createView(),
+            'event' => $event,
+            'allowedProperties' => $csvToMemberService->getAllowedHeaders(),
         ]);
     }
 
