@@ -30,7 +30,7 @@
         "jquery": "^3.6.0",
         "leaflet": "^1.7.1",
         "leaflet-defaulticon-compatibility": "^0.1.1",
-        "moment": "^2.29.1",
+        "moment": "^2.29.2",
         "popper.js": "^1.16.1",
         "sass": "^1.49.10",
         "sass-loader": "^12.6.0",
