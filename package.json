@@ -13,7 +13,6 @@
     },
     "dependencies": {
         "@symfony/webpack-encore": "^1.8.2",
-        "bootstrap": "^4.6.1",
         "bootstrap-autocomplete": "^2.3.7",
         "bootstrap-select": "^1.13.18",
         "core-js": "^3.22.0",
