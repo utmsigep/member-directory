@@ -4,8 +4,8 @@
 const $ = require('jquery');
 global.$ = global.jQuery = $;
 require('popper.js');
-require('bootstrap');
-require('bootstrap-select');
+require('startbootstrap-sb-admin-2/vendor/bootstrap/js/bootstrap.js');
+require('select2');
 require('bootstrap-autocomplete');
 require('startbootstrap-sb-admin-2/js/sb-admin-2.js');
 require('datatables.net');
@@ -27,9 +27,9 @@ import Routing from '../../vendor/friendsofsymfony/jsrouting-bundle/Resources/pu
 Routing.setRoutingData(routes);
 
 // CSS
-require('bootstrap/dist/css/bootstrap.css');
 require('startbootstrap-sb-admin-2/scss/sb-admin-2.scss');
-require('bootstrap-select/dist/css/bootstrap-select.css');
+require('select2/dist/css/select2.css');
+require('@ttskch/select2-bootstrap4-theme/dist/select2-bootstrap4.css');
 require('datatables.net-bs4/css/dataTables.bootstrap4.css');
 require('datatables.net-fixedheader-bs4/css/fixedHeader.bootstrap4.css');
 require('datatables.net-responsive-bs4/css/responsive.bootstrap4.css');
@@ -37,10 +37,17 @@ require('@fortawesome/fontawesome-free/css/all.css');
 require('../css/app.scss');
 
 // Tooltips
-$('[data-toggle="tooltip"]').tooltip();
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip();
+})
 
 // Bootstrap SelectPicker
-$('.selectpicker').selectpicker();
+$(function () {
+  $('.selectpicker[multiple]').select2({});
+  $('.selectpicker').not('[multiple]').select2({
+    theme: 'bootstrap4',
+  });
+})
 
 // Hide sidebar on mobile
 if ($(window).width() < 768) {

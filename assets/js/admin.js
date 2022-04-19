@@ -10,7 +10,7 @@ $('directory_collection_icon').ready(function () {
 
   // Build new form field
   inputGroupContainer.children().last().after(iconDropdown);
-  iconDropdown.addClass('form-control');
+  iconDropdown.addClass('form-control').select2({theme: 'bootstrap4'});
   $(iconOptions).each(function (i, icon) {
     iconDropdown.append('<option value="fas fa-' + icon.value + '">' + icon.label + '</option>');
   });
