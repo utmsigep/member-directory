@@ -4,37 +4,49 @@
 
 {% block body %}
 {% embed '_page_header.html.twig' %}
-{% block page_header_title %}Birthdays <sup><span class="badge badge-secondary">Beta</span></sup>{% endblock %}
+{% block page_header_title %}Birthdays{% endblock %}
 {% endembed %}
 
-<div>
-  {% set lastMonth = null %}
-  {% for i, row in birthdays %}
-  {% set member = row[0] %}
-  {% if lastMonth != row.bdMonth %}
-  {% if lastMonth != null %}
-  </dl>
-  {% endif %}
-  <h3 class="border-bottom mb-3">{{ member.birthDate|date('F') }}</h3>
-  <dl class="row">
-    {% endif %}
-    <dt class="col-md-1 text-sm-left text-md-right">
-      <span class="h1">{{ row.bdDay }}</span>
-    </dt>
-    <dd class="col-md-5">
-      <div class="card mb-3 shadow">
-        <div class="card-body">
-          <a href="{{ path('member_show', {localIdentifier: member.localIdentifier }) }}">{{ member.displayName }}</a> ({{member.status.label}})
-          {% include 'member/_badges.html.twig' %}
-        </div>
-      </div>
-    </dd>
-    {% set lastMonth = row.bdMonth %}
-  {% else %}
-  <div class="col-md-12">
-    {% include '_no_records_card.html.twig' with {message: 'No Member birthdays matched your criteria.'} %}
+{% set months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'] %}
+{% for month in range(1, 12) %}
+{% if birthdayMap[month] is defined %}
+<div class="card shadow mb-3">
+  <div class="card-header h3">{{ months[month-1] }}
   </div>
-  {% endfor %}
+  <div class="card-body">
+    <table class="table table-sm birthdayTable">
+      <thead>
+        <tr>
+          <th style="width:50px;">Day</th>
+          <th>Roll #</th>
+          <th>Name</th>
+          <th>Class Year</th>
+          <th>Birth Date</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for day in birthdayMap[month] %}
+      {% for member in day %}
+      <tr>
+        <td>{{ member.birthDate|date('j') }}</td>
+        <td>{{ member.localIdentifier }}</td>
+        <td data-order="{{ member }}"><a href="{{ path('member_show', {localIdentifier: member.localIdentifier }) }}">{{ member.displayName }}</a></td>
+        <td>{{ member.classYear }}</td>
+        <td data-order="{{ member.birthDate|date('Y-m-d') }}">{{ member.birthDate|date('n/j/Y') }}</td>
+        <td>{{ member.status }}</td>
+      </tr>
+      {% endfor %}
+      {% endfor %}
+    </table>
+  </div>
 </div>
+{% endif %}
+{% endfor %}
 
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+{{ encore_entry_script_tags('directory') }}
 {% endblock %}

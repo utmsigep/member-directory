@@ -360,8 +360,18 @@ class DirectoryController extends AbstractController
      */
     public function birthdays(MemberRepository $memberRepository): Response
     {
+        $birthdays = $memberRepository->findBirthdays();
+        $birthdayMap = [];
+        foreach ($birthdays as $birthday) {
+            $member = $birthday[0];
+            $month = $birthday['bdMonth'];
+            $day = $birthday['bdDay'];
+            $birthdayMap[$month][$day][] = $member;
+        }
+
         return $this->render('directory/birthdays.html.twig', [
-            'birthdays' => $memberRepository->findBirthdays(),
+            'birthdays' => $birthdays,
+            'birthdayMap' => $birthdayMap,
         ]);
     }
 
