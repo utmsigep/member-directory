@@ -1,6 +1,6 @@
 {
     "devDependencies": {
-        "webpack-dev-server": "^4.8.1",
+        "webpack-dev-server": "^4.9.0",
         "webpack-notifier": "^1.15.0"
     },
     "license": "MIT",
@@ -12,10 +12,10 @@
         "build": "encore production --progress"
     },
     "dependencies": {
-        "@symfony/webpack-encore": "^1.8.2",
+        "@symfony/webpack-encore": "^2.0.0",
         "@ttskch/select2-bootstrap4-theme": "^1.5.2",
         "bootstrap-autocomplete": "^2.3.7",
-        "core-js": "^3.22.0",
+        "core-js": "^3.22.4",
         "datatables.net": "^1.11.5",
         "datatables.net-bs4": "^1.11.5",
         "datatables.net-buttons": "^2.2.2",
@@ -30,11 +30,11 @@
         "leaflet-defaulticon-compatibility": "^0.1.1",
         "moment": "^2.29.3",
         "popper.js": "^1.16.1",
-        "sass": "^1.50.1",
+        "sass": "^1.51.0",
         "sass-loader": "^12.6.0",
         "select2": "^4.1.0-rc.0",
         "startbootstrap-sb-admin-2": "^4.1.4",
         "tablednd": "^1.0.5",
-        "underscore": "^1.13.2"
+        "underscore": "^1.13.3"
     }
 }
