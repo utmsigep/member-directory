@@ -12,7 +12,7 @@
         "build": "encore production --progress"
     },
     "dependencies": {
-        "@symfony/webpack-encore": "^2.0.0",
+        "@symfony/webpack-encore": "^2.1.0",
         "@ttskch/select2-bootstrap4-theme": "^1.5.2",
         "bootstrap-autocomplete": "^2.3.7",
         "core-js": "^3.22.4",
