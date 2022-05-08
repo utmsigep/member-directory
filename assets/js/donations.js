@@ -17,7 +17,7 @@ $(document).ready(function () {
     }
   ];
 
-  var donationsTable = $('#donationsTable').DataTable({
+  $('#donationsTable').DataTable({
     responsive: {
         details: {
             display: $.fn.dataTable.Responsive.display.childRowImmediate,
@@ -37,7 +37,7 @@ $(document).ready(function () {
     pageLength: 50
   });
 
-  var donorTable = $('#donorTable').DataTable({
+  $('#donorTable').DataTable({
     responsive: {
         details: {
             display: $.fn.dataTable.Responsive.display.childRowImmediate,
@@ -47,14 +47,17 @@ $(document).ready(function () {
     },
     fixedHeader: true,
     buttons: exportButtons,
+    dom: "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+      "<'row'<'col-sm-12'tr>>" +
+      "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>" +
+      "<'d-block text-center py-3'B>",
     order: [
       [5, 'desc']
     ],
     pageLength: 50
   });
-  donorTable.buttons().container().addClass('d-block text-center py-3').appendTo(donorTable.table().container());
 
-  var campaignTable = $('#campaignTable').DataTable({
+  $('#campaignTable').DataTable({
     responsive: {
         details: {
             display: $.fn.dataTable.Responsive.display.childRowImmediate,
@@ -64,12 +67,15 @@ $(document).ready(function () {
     },
     fixedHeader: true,
     buttons: exportButtons,
+    dom: "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+      "<'row'<'col-sm-12'tr>>" +
+      "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>" +
+      "<'d-block text-center py-3'B>",
     order: [
       [6, 'desc']
     ],
     pageLength: 50
   });
-  campaignTable.buttons().container().addClass('d-block text-center py-3').appendTo(campaignTable.table().container());
 
   // Date Range Form
   var startDateField = $('#start_date');
