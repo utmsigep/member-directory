@@ -69,6 +69,8 @@ class MemberExportType extends AbstractType
                     'Mailing State' => 'mailingState',
                     'Mailing Postal Code' => 'mailingPostalCode',
                     'Mailing Country' => 'mailingCountry',
+                    'Mailing Latitude' => 'mailingLatitude',
+                    'Mailing Longitude' => 'mailingLongitude',
                     'Employer' => 'employer',
                     'Job Title' => 'jobTitle',
                     'Occupation' => 'occupation',

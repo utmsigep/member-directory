@@ -36,26 +36,24 @@ require('datatables.net-responsive-bs4/css/responsive.bootstrap4.css');
 require('@fortawesome/fontawesome-free/css/all.css');
 require('../css/app.scss');
 
-// Tooltips
+// Wait for document load
 $(function () {
-  $('[data-toggle="tooltip"]').tooltip();
-})
 
-// Bootstrap SelectPicker
-$(function () {
+  // Tooltips
+  $('[data-toggle="tooltip"]').tooltip();
+
+  // Bootstrap SelectPicker
   $('.selectpicker[multiple]').select2({});
   $('.selectpicker').not('[multiple]').select2({
     theme: 'bootstrap4',
   });
-})
 
-// Hide sidebar on mobile
-if ($(window).width() < 768) {
-  $('#sidebarToggleTop').trigger('click');
-}
+  // Hide sidebar on mobile
+  if ($(window).width() < 768) {
+    $('#sidebarToggleTop').trigger('click');
+  }
 
-// Search field autocomplete
-$(document).ready(function () {
+  // Search field autocomplete
   $('.member-search-autocomplete').autoComplete({
       resolverSettings: {
           url: Routing.generate('search_autocomplete')
@@ -71,21 +69,39 @@ $(document).ready(function () {
   $('.member-search-autocomplete').on('autocomplete.select', function(evt, item) {
     window.location.href = Routing.generate('member_show', {localIdentifier: item.localIdentifier});
   });
-});
 
-// File uploads
-$('.custom-file-input').on('change', function(event) {
-    var inputFile = event.currentTarget;
-    $(inputFile).parent()
-      .find('.custom-file-label')
-      .html(inputFile.files[0].name);
-});
+  // File uploads
+  $('.custom-file-input').on('change', function(event) {
+      var inputFile = event.currentTarget;
+      $(inputFile).parent()
+        .find('.custom-file-label')
+        .html(inputFile.files[0].name);
+  });
 
-// Show privacy warning once per day
-if (typeof localStorage != undefined) {
-  var privacyWarning = localStorage.getItem('privacyWarning') || 0;
-  if (parseInt(privacyWarning, 10) < Date.now() - (1000 * 60 * 60 * 24)) {
-    $('#modalConfidential').modal('show');
-    localStorage.setItem('privacyWarning', Date.now());
+  // Toggle a long list of related checkboxes
+  $('.column-check-toggle').on('click', function (event) {
+    event.preventDefault();
+    var allString = $(event.target).data('all-string');
+    var noneString = $(event.target).data('none-string');
+    var targets = $(event.target).data('targets');
+    var status = $(event.target).data('status') == true;
+    $('input[name="' + targets + '"]').prop('checked', status);
+    if (status) {
+      $(event.target).html('Select ' + noneString);
+      $(event.target).data('status', false);
+    } else {
+      $(event.target).html('Select ' + allString);
+      $(event.target).data('status', true);
+    }
+  });
+
+  // Show privacy warning once per day
+  if (typeof localStorage != undefined) {
+    var privacyWarning = localStorage.getItem('privacyWarning') || 0;
+    if (parseInt(privacyWarning, 10) < Date.now() - (1000 * 60 * 60 * 24)) {
+      $('#modalConfidential').modal('show');
+      localStorage.setItem('privacyWarning', Date.now());
+    }
   }
-}
+
+});

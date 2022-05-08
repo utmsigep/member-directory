@@ -30,7 +30,8 @@
         {% if form.tags is defined %}{{ form_row(form.tags) }}{% endif %}
       </div>
       <div class="col-md-6">
-        {{ form_row(form.columns) }}
+        <label>Columns <a href="#" class="btn btn-sm btn-link ml-5 column-check-toggle" data-targets="member_export[columns][]" data-status="1" data-all-string="All" data-none-string="None">Select All</a></label>
+        {{ form_widget(form.columns) }}
       </div>
     </div>
   </div>
@@ -40,8 +41,4 @@
 </div>
 {{ form_rest(form) }}
 {{ form_end(form) }}
-{% endblock %}
-
-{% block javascripts %}
-{{ parent() }}
 {% endblock %}

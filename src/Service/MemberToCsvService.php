@@ -30,6 +30,8 @@ class MemberToCsvService
         'mailingState',
         'mailingPostalCode',
         'mailingCountry',
+        'mailingLatitude',
+        'mailingLongitude',
         'employer',
         'jobTitle',
         'occupation',
