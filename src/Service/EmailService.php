@@ -204,7 +204,7 @@ class EmailService
                 ],
                 UrlGeneratorInterface::ABSOLUTE_URL
             ),
-            'PayloadFormat' => CS_REST_WEBHOOK_FORMAT_JSON,
+            'PayloadFormat' => 'json',
         ]);
         if ($result->was_successful()) {
             return $result->response;
