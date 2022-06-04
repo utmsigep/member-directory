@@ -14,6 +14,7 @@
         "erusev/parsedown": "^1.7",
         "friendsofsymfony/jsrouting-bundle": "^2.3",
         "gedmo/doctrine-extensions": "^3.6",
+        "genyaa/usps-php-api": "^1.1",
         "geocodio/geocodio-library-php": "^1.4",
         "league/csv": "^9.2",
         "sabre/vobject": "^4.4",
@@ -56,8 +57,7 @@
         "twig/intl-extra": "^3.0",
         "twig/markdown-extra": "^3.0",
         "twig/string-extra": "^3.3",
-        "twilio/sdk": "^6.21",
-        "vinceg/usps-php-api": "^1.1"
+        "twilio/sdk": "^6.21"
     },
     "config": {
         "platform": {
