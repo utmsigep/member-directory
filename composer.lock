@@ -3292,16 +3292,16 @@
         },
         {
             "name": "paragonie/constant_time_encoding",
-            "version": "v2.6.2",
+            "version": "v2.6.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/constant_time_encoding.git",
-                "reference": "c1b1d82d109846ba58a4664dc5480c69ad2fc097"
+                "reference": "58c3f47f650c94ec05a151692652a868995d2938"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/constant_time_encoding/zipball/c1b1d82d109846ba58a4664dc5480c69ad2fc097",
-                "reference": "c1b1d82d109846ba58a4664dc5480c69ad2fc097",
+                "url": "https://api.github.com/repos/paragonie/constant_time_encoding/zipball/58c3f47f650c94ec05a151692652a868995d2938",
+                "reference": "58c3f47f650c94ec05a151692652a868995d2938",
                 "shasum": ""
             },
             "require": {
@@ -3355,7 +3355,7 @@
                 "issues": "https://github.com/paragonie/constant_time_encoding/issues",
                 "source": "https://github.com/paragonie/constant_time_encoding"
             },
-            "time": "2022-06-13T05:29:16+00:00"
+            "time": "2022-06-14T06:56:20+00:00"
         },
         {
             "name": "php-webdriver/webdriver",
@@ -5987,16 +5987,16 @@
         },
         {
             "name": "symfony/flex",
-            "version": "v1.19.1",
+            "version": "v1.19.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/flex.git",
-                "reference": "9c612796a68de4196fff4bc159db5071aa62d428"
+                "reference": "d1a692369be53445af6e391170b509d7f5d026cf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/flex/zipball/9c612796a68de4196fff4bc159db5071aa62d428",
-                "reference": "9c612796a68de4196fff4bc159db5071aa62d428",
+                "url": "https://api.github.com/repos/symfony/flex/zipball/d1a692369be53445af6e391170b509d7f5d026cf",
+                "reference": "d1a692369be53445af6e391170b509d7f5d026cf",
                 "shasum": ""
             },
             "require": {
@@ -6032,7 +6032,7 @@
             "description": "Composer plugin for Symfony",
             "support": {
                 "issues": "https://github.com/symfony/flex/issues",
-                "source": "https://github.com/symfony/flex/tree/v1.19.1"
+                "source": "https://github.com/symfony/flex/tree/v1.19.2"
             },
             "funding": [
                 {
@@ -6048,7 +6048,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-06-06T15:14:39+00:00"
+            "time": "2022-06-14T21:13:39+00:00"
         },
         {
             "name": "symfony/form",
@@ -10973,16 +10973,16 @@
         },
         {
             "name": "twilio/sdk",
-            "version": "6.37.2",
+            "version": "6.37.3",
             "source": {
                 "type": "git",
                 "url": "git@github.com:twilio/twilio-php.git",
-                "reference": "1c30c4407ba0a45a9b4460ee0bf81494dfef5c6b"
+                "reference": "91f1d939596ba8976b4be09ea634a1bab3a4cb7f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twilio/twilio-php/zipball/1c30c4407ba0a45a9b4460ee0bf81494dfef5c6b",
-                "reference": "1c30c4407ba0a45a9b4460ee0bf81494dfef5c6b",
+                "url": "https://api.github.com/repos/twilio/twilio-php/zipball/91f1d939596ba8976b4be09ea634a1bab3a4cb7f",
+                "reference": "91f1d939596ba8976b4be09ea634a1bab3a4cb7f",
                 "shasum": ""
             },
             "require": {
@@ -11018,7 +11018,7 @@
                 "sms",
                 "twilio"
             ],
-            "time": "2022-06-01T19:08:55+00:00"
+            "time": "2022-06-15T21:41:33+00:00"
         },
         {
             "name": "willdurand/jsonp-callback-validator",
@@ -11798,16 +11798,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.7.13",
+            "version": "1.7.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "86ffc063bfd8f264c9eba568e84b0225a6090d09"
+                "reference": "e6f145f196a59c7ca91ea926c87ef3d936c4305f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/86ffc063bfd8f264c9eba568e84b0225a6090d09",
-                "reference": "86ffc063bfd8f264c9eba568e84b0225a6090d09",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/e6f145f196a59c7ca91ea926c87ef3d936c4305f",
+                "reference": "e6f145f196a59c7ca91ea926c87ef3d936c4305f",
                 "shasum": ""
             },
             "require": {
@@ -11833,7 +11833,7 @@
             "description": "PHPStan - PHP Static Analysis Tool",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan/issues",
-                "source": "https://github.com/phpstan/phpstan/tree/1.7.13"
+                "source": "https://github.com/phpstan/phpstan/tree/1.7.14"
             },
             "funding": [
                 {
@@ -11853,7 +11853,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-06-13T15:15:39+00:00"
+            "time": "2022-06-14T13:09:35+00:00"
         },
         {
             "name": "phpstan/phpstan-doctrine",

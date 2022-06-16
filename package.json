@@ -15,7 +15,7 @@
         "@symfony/webpack-encore": "^2.1.0",
         "@ttskch/select2-bootstrap4-theme": "^1.5.2",
         "bootstrap-autocomplete": "^2.3.7",
-        "core-js": "^3.23.0",
+        "core-js": "^3.23.1",
         "datatables.net": "^1.12.1",
         "datatables.net-bs4": "^1.12.1",
         "datatables.net-buttons": "^2.2.3",
