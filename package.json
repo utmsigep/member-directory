@@ -12,10 +12,10 @@
         "build": "encore production --progress"
     },
     "dependencies": {
-        "@symfony/webpack-encore": "^2.1.0",
+        "@symfony/webpack-encore": "^3.0.0",
         "@ttskch/select2-bootstrap4-theme": "^1.5.2",
         "bootstrap-autocomplete": "^2.3.7",
-        "core-js": "^3.23.3",
+        "core-js": "^3.23.5",
         "datatables.net": "^1.12.1",
         "datatables.net-bs4": "^1.12.1",
         "datatables.net-buttons": "^2.2.3",
@@ -30,7 +30,7 @@
         "leaflet-defaulticon-compatibility": "^0.1.1",
         "moment": "^2.29.4",
         "popper.js": "^1.16.1",
-        "sass": "^1.53.0",
+        "sass": "^1.54.0",
         "sass-loader": "^13.0.2",
         "select2": "^4.1.0-rc.0",
         "startbootstrap-sb-admin-2": "^4.1.4",
