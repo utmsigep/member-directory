@@ -362,7 +362,7 @@ class EmailService
             ->subject(sprintf('Member Record Update: %s', $member->getDisplayName()))
             ->htmlTemplate('update/email_update.html.twig')
             ->context(['member' => $member])
-            ;
+        ;
         if ($member->getPrimaryEmail()) {
             $message->replyTo($member->getPrimaryEmail());
         }
