@@ -74,7 +74,7 @@ class SecurityController extends AbstractController
                 'second_options' => ['label' => 'Repeat Password'],
             ])
             ->getForm()
-            ;
+        ;
 
         $form->handleRequest($request);
 

@@ -238,7 +238,7 @@ class DirectoryController extends AbstractController
                 'required' => false,
             ])
             ->getForm()
-            ;
+        ;
 
         $form->handleRequest($request);
         $data = $form->getData();
