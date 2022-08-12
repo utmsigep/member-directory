@@ -8,6 +8,6 @@ production:
   domain: "deploy_user@yourserver.example.com"
   deploy_to: "/path/to/member-directory"
   repository: "git@github.com:/utmsigep/member-directory.git"
-  branch: "master"
+  branch: "main"
   post_deploy_script: "config/post_deploy.sh"
-  
+
