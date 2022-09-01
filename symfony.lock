@@ -213,18 +213,6 @@
     "php-webdriver/webdriver": {
         "version": "1.11.1"
     },
-    "phpdocumentor/reflection-common": {
-        "version": "2.2.0"
-    },
-    "phpdocumentor/reflection-docblock": {
-        "version": "5.2.2"
-    },
-    "phpdocumentor/type-resolver": {
-        "version": "1.4.0"
-    },
-    "phpspec/prophecy": {
-        "version": "1.13.0"
-    },
     "phpstan/extension-installer": {
         "version": "1.0.5"
     },
@@ -838,9 +826,6 @@
     },
     "twilio/sdk": {
         "version": "6.21.0"
-    },
-    "webmozart/assert": {
-        "version": "1.10.0"
     },
     "willdurand/jsonp-callback-validator": {
         "version": "v1.1.0"
