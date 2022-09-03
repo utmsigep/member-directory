@@ -24,7 +24,7 @@ class EventControllerTest extends WebTestCase
         $client->request('GET', '/events/');
         $this->assertResponseIsSuccessful();
         $this->assertPageTitleSame('Member Directory - Events');
-        $this->assertSelectorTextContains('span.h4', 'Events');
+        $this->assertSelectorTextContains('span.display-6', 'Events');
     }
 
     public function testIndexWithAdminRole()
@@ -37,7 +37,7 @@ class EventControllerTest extends WebTestCase
         $client->request('GET', '/events/');
         $this->assertResponseIsSuccessful();
         $this->assertPageTitleSame('Member Directory - Events');
-        $this->assertSelectorTextContains('span.h4', 'Events');
+        $this->assertSelectorTextContains('span.display-6', 'Events');
     }
 
     public function testDenyWithUserRole()
@@ -61,7 +61,7 @@ class EventControllerTest extends WebTestCase
         $client->request('GET', '/events/1');
         $this->assertResponseIsSuccessful();
         $this->assertPageTitleSame('Member Directory - 8/5/2021: Alumni Meetup');
-        $this->assertSelectorTextContains('span.h4', '8/5/2021: Alumni Meetup');
+        $this->assertSelectorTextContains('span.display-6', '8/5/2021: Alumni Meetup');
     }
 
     public function testEditEvent()
@@ -74,7 +74,7 @@ class EventControllerTest extends WebTestCase
         $client->request('GET', '/events/1/edit');
         $this->assertResponseIsSuccessful();
         $this->assertPageTitleSame('Member Directory - 8/5/2021: Alumni Meetup');
-        $this->assertSelectorTextContains('span.h4', '8/5/2021: Alumni Meetup');
+        $this->assertSelectorTextContains('span.display-6', '8/5/2021: Alumni Meetup');
     }
 
     public function testNewEvent()
@@ -87,7 +87,7 @@ class EventControllerTest extends WebTestCase
         $client->request('GET', '/events/new');
         $this->assertResponseIsSuccessful();
         $this->assertPageTitleSame('Member Directory - New Event');
-        $this->assertSelectorTextContains('span.h4', 'New Event');
+        $this->assertSelectorTextContains('span.display-6', 'New Event');
     }
 
     public function testIcal()

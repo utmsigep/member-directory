@@ -8,10 +8,10 @@
 {% block page_header_buttons %}
 {{ form_start(form, {attr: {id: 'filter-form', class: 'form-inline'}}) }}
 <div class="d-flex d-wrap align-items-center">
-  <div class="col">
+  <div class="me-2">
     {{ form_widget(form.since) }}
   </div>
-  <div class="col">
+  <div class="">
     {{ form_row(form.exclude_inactive) }}
   </div>
 </div>

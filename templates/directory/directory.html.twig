@@ -7,7 +7,7 @@
 {% block page_header_title %}{{ view_name }}{% endblock %}
 {% block page_header_buttons %}
 {% if messenger is defined and is_granted('ROLE_COMMUNICATIONS_MANAGER') %}
-<button type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+<button type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
   <i class="fas fa-comments fa-fw"></i> Messenger
 </button>
 <div class="dropdown-menu">

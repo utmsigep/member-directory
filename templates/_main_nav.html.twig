@@ -11,14 +11,14 @@
 {% if get_tags()|length > 0 %}
 <hr class="sidebar-divider my-1"/>
 <li class="nav-item {{ active_route == 'tag' ? 'active' }}">
-  <a class="nav-link {{ active_route != 'tag' ? 'collapsed' }}" href="#" data-toggle="collapse" data-target="#collapseTags" aria-expanded="true" aria-controls="collapseTags">
+  <a class="nav-link {{ active_route != 'tag' ? 'collapsed' }}" href="#" data-bs-toggle="collapse" data-bs-target="#collapseTags" aria-expanded="true" aria-controls="collapseTags">
     <i class="fas fa-fw fa-tags"></i>
     <span id="headingTags">Tags</span>
   </a>
-  <div id="collapseTags" class="collapse {{ active_route == 'tag' ? 'show' }}" aria-labelledby="headingTags" data-parent="#accordionSidebar">
-    <div class="bg-white py-2 collapse-inner rounded">
+  <div id="collapseTags" class="collapse {{ active_route == 'tag' ? 'show' }}" aria-labelledby="headingTags" data-bs-parent="#accordionSidebar">
+    <div class="py-2 ps-3 collapse-inner small">
       {% for _tag in get_tags() %}
-      <a class="collapse-item text-truncate" href="{{ path('tag', {tagId: _tag.id})}}"><i class="fas fa-tag fa-fw"></i> <span title="{{ _tag.tagName|escape('html_attr') }}">{{ _tag.tagName }}</span></a>
+      <a class="collapse-item text-truncate nav-link" href="{{ path('tag', {tagId: _tag.id})}}"><span title="{{ _tag.tagName|escape('html_attr') }}">{{ _tag.tagName }}</span></a>
       {% else %}
       <div class="p-2">No tags configured.</div>
       {% endfor %}

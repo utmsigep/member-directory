@@ -24,7 +24,7 @@ class CommunicationControllerTest extends WebTestCase
         $client->request('GET', '/communications/');
         $this->assertResponseIsSuccessful();
         $this->assertPageTitleSame('Member Directory - Communications');
-        $this->assertSelectorTextContains('span.h4', 'Communications');
+        $this->assertSelectorTextContains('span.display-6', 'Communications');
     }
 
     public function testIndexWithAdminRole()
@@ -37,7 +37,7 @@ class CommunicationControllerTest extends WebTestCase
         $client->request('GET', '/communications/');
         $this->assertResponseIsSuccessful();
         $this->assertPageTitleSame('Member Directory - Communications');
-        $this->assertSelectorTextContains('span.h4', 'Communications');
+        $this->assertSelectorTextContains('span.display-6', 'Communications');
     }
 
     public function testDenyWithUserRole()
@@ -61,7 +61,7 @@ class CommunicationControllerTest extends WebTestCase
         $client->request('GET', '/communications/1');
         $this->assertResponseIsSuccessful();
         $this->assertPageTitleSame('Member Directory - Communications Log #1 for Phillips, Billy (1-0006)');
-        $this->assertSelectorTextContains('span.h4', 'Communications Log #1 for Phillips, Billy (1-0006)');
+        $this->assertSelectorTextContains('span.display-6', 'Communications Log #1 for Phillips, Billy (1-0006)');
     }
 
     public function testEditCommunication()
@@ -74,7 +74,7 @@ class CommunicationControllerTest extends WebTestCase
         $client->request('GET', '/communications/1/edit');
         $this->assertResponseIsSuccessful();
         $this->assertPageTitleSame('Member Directory - Communications Log #1 for Phillips, Billy (1-0006)');
-        $this->assertSelectorTextContains('span.h4', 'Communications Log #1 for Phillips, Billy (1-0006)');
+        $this->assertSelectorTextContains('span.display-6', 'Communications Log #1 for Phillips, Billy (1-0006)');
     }
 
     public function testNewCommunication()
@@ -87,6 +87,6 @@ class CommunicationControllerTest extends WebTestCase
         $client->request('GET', '/communications/new');
         $this->assertResponseIsSuccessful();
         $this->assertPageTitleSame('Member Directory - New Communication');
-        $this->assertSelectorTextContains('span.h4', 'New Communication');
+        $this->assertSelectorTextContains('span.display-6', 'New Communication');
     }
 }

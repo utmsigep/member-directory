@@ -24,7 +24,7 @@ class MemberControllerTest extends WebTestCase
         $client->request('GET', '/directory/member/1-0001');
         $this->assertResponseIsSuccessful();
         $this->assertPageTitleSame('Member Directory - Carter Jenkens');
-        $this->assertSelectorTextContains('span.h4', 'Carter Jenkens');
+        $this->assertSelectorTextContains('span.display-6', 'Carter Jenkens');
     }
 
     public function testMessageMember()
@@ -37,7 +37,7 @@ class MemberControllerTest extends WebTestCase
         $client->request('GET', '/directory/member/1-0001/message');
         $this->assertResponseIsSuccessful();
         $this->assertPageTitleSame('Member Directory - Carter Jenkens - Send Message');
-        $this->assertSelectorTextContains('span.h4', 'Carter Jenkens');
+        $this->assertSelectorTextContains('span.display-6', 'Carter Jenkens');
     }
 
     public function testMessageMemberSendEmail()
@@ -110,7 +110,7 @@ class MemberControllerTest extends WebTestCase
         $client->request('GET', '/directory/member/1-0001/change-log');
         $this->assertResponseIsSuccessful();
         $this->assertPageTitleSame('Member Directory - Carter Jenkens - Change Log');
-        $this->assertSelectorTextContains('span.h4', 'Carter Jenkens');
+        $this->assertSelectorTextContains('span.display-6', 'Carter Jenkens');
     }
 
     public function testShowChangeLogWithoutRole()
@@ -145,7 +145,7 @@ class MemberControllerTest extends WebTestCase
         $client->request('GET', '/directory/member/1-0001/donations');
         $this->assertResponseIsSuccessful();
         $this->assertPageTitleSame('Member Directory - Carter Jenkens - Donations');
-        $this->assertSelectorTextContains('span.h4', 'Carter Jenkens');
+        $this->assertSelectorTextContains('span.display-6', 'Carter Jenkens');
     }
 
     public function testShowMemberDonationsWithoutRole()
@@ -169,7 +169,7 @@ class MemberControllerTest extends WebTestCase
         $client->request('GET', '/directory/member/1-0001/communications');
         $this->assertResponseIsSuccessful();
         $this->assertPageTitleSame('Member Directory - Carter Jenkens - Communications');
-        $this->assertSelectorTextContains('span.h4', 'Carter Jenkens');
+        $this->assertSelectorTextContains('span.display-6', 'Carter Jenkens');
     }
 
     public function testShowMemberCommunicationsWithoutRole()
@@ -193,7 +193,7 @@ class MemberControllerTest extends WebTestCase
         $client->request('GET', '/directory/member/1-0001/edit');
         $this->assertResponseIsSuccessful();
         $this->assertPageTitleSame('Member Directory - Carter Jenkens');
-        $this->assertSelectorTextContains('span.h4', 'Carter Jenkens');
+        $this->assertSelectorTextContains('span.display-6', 'Carter Jenkens');
     }
 
     public function testEditMemberWithoutRole()
@@ -217,7 +217,7 @@ class MemberControllerTest extends WebTestCase
         $client->request('GET', '/directory/member/new');
         $this->assertResponseIsSuccessful();
         $this->assertPageTitleSame('Member Directory - New Member');
-        $this->assertSelectorTextContains('span.h4', 'New Member');
+        $this->assertSelectorTextContains('span.display-6', 'New Member');
     }
 
     public function testNewMemberWithoutRole()

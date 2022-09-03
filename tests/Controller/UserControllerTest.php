@@ -24,7 +24,7 @@ class UserControllerTest extends WebTestCase
         $client->request('GET', '/admin/users/');
         $this->assertResponseIsSuccessful();
         $this->assertPageTitleSame('Member Directory - Users');
-        $this->assertSelectorTextContains('span.h4', 'Users');
+        $this->assertSelectorTextContains('span.display-6', 'Users');
     }
 
     public function testShowWithAdminRole()
@@ -37,7 +37,7 @@ class UserControllerTest extends WebTestCase
         $client->request('GET', '/admin/users/1');
         $this->assertResponseIsSuccessful();
         $this->assertPageTitleSame('Member Directory - Basic User (user@example.com)');
-        $this->assertSelectorTextContains('span.h4', 'Basic User (user@example.com)');
+        $this->assertSelectorTextContains('span.display-6', 'Basic User (user@example.com)');
     }
 
     public function testEditWithAdminRole()
@@ -50,7 +50,7 @@ class UserControllerTest extends WebTestCase
         $client->request('GET', '/admin/users/1/edit');
         $this->assertResponseIsSuccessful();
         $this->assertPageTitleSame('Member Directory - Basic User (user@example.com)');
-        $this->assertSelectorTextContains('span.h4', 'Basic User (user@example.com)');
+        $this->assertSelectorTextContains('span.display-6', 'Basic User (user@example.com)');
     }
 
     public function testNewWithAdminRole()
@@ -63,7 +63,7 @@ class UserControllerTest extends WebTestCase
         $client->request('GET', '/admin/users/new');
         $this->assertResponseIsSuccessful();
         $this->assertPageTitleSame('Member Directory - New User');
-        $this->assertSelectorTextContains('span.h4', 'New User');
+        $this->assertSelectorTextContains('span.display-6', 'New User');
     }
 
     public function testDenyWithUserRole()

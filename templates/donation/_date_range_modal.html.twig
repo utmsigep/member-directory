@@ -3,9 +3,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="dateRangeModalLabel">Select a Date Range</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <form method="get" id="dateRangeForm">
@@ -32,10 +30,10 @@
             <li class="list-inline-item"><a href="#thirtyDays">Last 30 Days</a></li>
           </ul>
           <div class="row">
-            <div class="col-md-6 text-center text-md-left">
+            <div class="col-md-6 text-center text-md-start">
               <a href="?reset=1" class="btn"><i class="fas fa-recycle fa-fw"></i> Reset to Defaults</a>
             </div>
-            <div class="col-md-6 text-center text-md-right">
+            <div class="col-md-6 text-center text-md-end">
               <input class="btn btn-primary" type="submit" value="Update" />
             </div>
           </div>

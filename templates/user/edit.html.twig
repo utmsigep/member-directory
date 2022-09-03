@@ -18,7 +18,7 @@
   <div class="card-body">
     Take extra precautions to confirm that the request is authentic before disabling this protection.
   </div>
-  <div class="card-footer text-right">
+  <div class="card-footer text-end">
     <input type="hidden" name="_token" value="{{ csrf_token('disableTwoFactor' ~ user.id) }}" />
     <button class="btn btn-danger">Disable Two-Factor Security</button>
   </div>

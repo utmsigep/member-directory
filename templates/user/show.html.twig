@@ -50,7 +50,7 @@
             </td>
             <td>{{ log.version }}</td>
             <td><code>{{ log.data|keys|join(', ') }}</code></td>
-            <td><a data-toggle="collapse" class="btn btn-sm panel-toggle" href="#log-detail-{{ log.id }}"><i class="fas fa-caret-down fa-fw"></i></a></td>
+            <td><a data-bs-toggle="collapse" class="btn btn-sm panel-toggle" href="#log-detail-{{ log.id }}"><i class="fas fa-caret-down fa-fw"></i></a></td>
           </tr>
           <tr class="bg-light collapse" id="log-detail-{{ log.id }}">
             <td colspan="99">

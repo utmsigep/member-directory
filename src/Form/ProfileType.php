@@ -35,6 +35,9 @@ class ProfileType extends AbstractType
                     'America/Adak',
                     'Pacific/Honolulu',
                 ],
+                'attr' => [
+                    'class' => 'selectpicker',
+                ],
             ])
         ;
     }

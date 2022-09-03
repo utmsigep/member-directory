@@ -35,10 +35,10 @@
           <td data-order="{{ donor.lastName|escape('html_attr') }}, {{ donor.preferredName|escape('html_attr') }}"><a href="{{ path('member_donations', {localIdentifier: donor.localIdentifier}) }}">{{ donor.preferredName }} {{ donor.lastName }}</a></td>
           {% endif %}
           <td data-order="{{ donor.latestDonation|date('Y-m-d') }}">{{ donor.latestDonation|date('n/j/Y') }}</td>
-          <td data-order="{{ donor.totalDonations }}" class="text-right">{{ donor.totalDonations|number_format }}</td>
-          <td data-order="{{ donor.totalAmount }}" class="text-right">{{ donor.totalAmount|format_currency(donor.currency) }}</td>
-          <td data-order="{{ donor.totalProcessingFee }}" class="text-right">{{ donor.totalProcessingFee|format_currency(donor.currency) }}</td>
-          <td data-order="{{ donor.totalNetAmount }}" class="text-right font-weight-bold">{{ donor.totalNetAmount|format_currency(donor.currency) }}</td>
+          <td data-order="{{ donor.totalDonations }}" class="text-end">{{ donor.totalDonations|number_format }}</td>
+          <td data-order="{{ donor.totalAmount }}" class="text-end">{{ donor.totalAmount|format_currency(donor.currency) }}</td>
+          <td data-order="{{ donor.totalProcessingFee }}" class="text-end">{{ donor.totalProcessingFee|format_currency(donor.currency) }}</td>
+          <td data-order="{{ donor.totalNetAmount }}" class="text-end font-weight-bold">{{ donor.totalNetAmount|format_currency(donor.currency) }}</td>
         </tr>
         {% endfor %}
       </tbody>

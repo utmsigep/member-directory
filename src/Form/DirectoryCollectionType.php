@@ -33,7 +33,11 @@ class DirectoryCollectionType extends AbstractType
             ->add('showMemberStatus', null, [
                 'label' => 'Show Member Status Column?',
             ])
-            ->add('memberStatuses')
+            ->add('memberStatuses', null, [
+                'attr' => [
+                    'class' => 'selectpicker',
+                ],
+            ])
             ->add('filterLost', ChoiceType::class, [
                 'choices' => $filterChoices,
             ])

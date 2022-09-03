@@ -24,7 +24,7 @@ class AdminControllerTest extends WebTestCase
         $client->request('GET', '/admin/');
         $this->assertResponseIsSuccessful();
         $this->assertPageTitleSame('Member Directory - Administration');
-        $this->assertSelectorTextContains('span.h4', 'Administration');
+        $this->assertSelectorTextContains('span.display-6', 'Administration');
     }
 
     public function testDenyWithUserRole()

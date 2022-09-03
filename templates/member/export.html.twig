@@ -30,12 +30,12 @@
         {% if form.tags is defined %}{{ form_row(form.tags) }}{% endif %}
       </div>
       <div class="col-md-6">
-        <label>Columns <a href="#" class="btn btn-sm btn-link ml-5 column-check-toggle" data-targets="member_export[columns][]" data-status="1" data-all-string="All" data-none-string="None">Select All</a></label>
+        <label>Columns <a href="#" class="btn btn-sm btn-link ms-5 column-check-toggle" data-targets="member_export[columns][]" data-status="1" data-all-string="All" data-none-string="None">Select All</a></label>
         {{ form_widget(form.columns) }}
       </div>
     </div>
   </div>
-  <div class="card-footer text-right">
+  <div class="card-footer text-end">
     <button class="btn btn-primary">{{ button_label|default('Export') }}</button>
   </div>
 </div>

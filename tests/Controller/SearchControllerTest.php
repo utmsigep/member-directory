@@ -24,7 +24,7 @@ class SearchControllerTest extends WebTestCase
         $client->request('GET', '/directory/search/');
         $this->assertResponseIsSuccessful();
         $this->assertPageTitleSame('Member Directory - Search Results');
-        $this->assertSelectorTextContains('span.h4', 'Search Results');
+        $this->assertSelectorTextContains('span.display-6', 'Search Results');
         $this->assertSelectorTextContains('div.h3', 'No Members matched your search criteria.');
     }
 
@@ -38,7 +38,7 @@ class SearchControllerTest extends WebTestCase
         $client->request('GET', '/directory/search/?q=Carter');
         $this->assertResponseIsSuccessful();
         $this->assertPageTitleSame('Member Directory - Carter');
-        $this->assertSelectorTextContains('span.h4', 'Search Results');
+        $this->assertSelectorTextContains('span.display-6', 'Search Results');
         $this->assertSelectorTextContains('div.card-body > a', 'Carter Jenkens');
     }
 

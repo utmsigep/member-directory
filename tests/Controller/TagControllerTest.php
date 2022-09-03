@@ -24,7 +24,7 @@ class TagControllerTest extends WebTestCase
         $client->request('GET', '/admin/tags/');
         $this->assertResponseIsSuccessful();
         $this->assertPageTitleSame('Member Directory - Tags');
-        $this->assertSelectorTextContains('span.h4', 'Tags');
+        $this->assertSelectorTextContains('span.display-6', 'Tags');
     }
 
     public function testShowWithAdminRole()
@@ -37,7 +37,7 @@ class TagControllerTest extends WebTestCase
         $client->request('GET', '/admin/tags/1');
         $this->assertResponseIsSuccessful();
         $this->assertPageTitleSame('Member Directory - 1901 Club');
-        $this->assertSelectorTextContains('span.h4', '1901 Club');
+        $this->assertSelectorTextContains('span.display-6', '1901 Club');
     }
 
     public function testEditWithAdminRole()
@@ -50,7 +50,7 @@ class TagControllerTest extends WebTestCase
         $client->request('GET', '/admin/tags/1/edit');
         $this->assertResponseIsSuccessful();
         $this->assertPageTitleSame('Member Directory - 1901 Club');
-        $this->assertSelectorTextContains('span.h4', '1901 Club');
+        $this->assertSelectorTextContains('span.display-6', '1901 Club');
     }
 
     public function testNewWithAdminRole()
@@ -63,7 +63,7 @@ class TagControllerTest extends WebTestCase
         $client->request('GET', '/admin/tags/new');
         $this->assertResponseIsSuccessful();
         $this->assertPageTitleSame('Member Directory - New Tag');
-        $this->assertSelectorTextContains('span.h4', 'New Tag');
+        $this->assertSelectorTextContains('span.display-6', 'New Tag');
     }
 
     public function testDenyWithUserRole()
