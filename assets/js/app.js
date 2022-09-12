@@ -3,7 +3,7 @@
 // Javascript
 const $ = require('jquery');
 global.$ = global.jQuery = $;
-require('popper.js');
+require('@popperjs/core');
 require('select2');
 require('bootstrap');
 require('bootstrap-autocomplete');
