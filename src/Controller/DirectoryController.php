@@ -237,7 +237,7 @@ class DirectoryController extends AbstractController
                 'label' => 'Exclude Inactive',
                 'required' => false,
                 'row_attr' => [
-                    'class' => 'mb-0'
+                    'class' => 'mb-0',
                 ],
             ])
             ->getForm()
