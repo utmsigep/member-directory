@@ -53,7 +53,7 @@ function addFormToCollection($collectionHolderClass) {
 }
 
 function addCollectionFormDeleteLink($collectionFormLi) {
-    var $removeFormButton = $('<div class="input-group-append"><button type="button" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i><span class="sr-only">Delete</span></button></div>');
+    var $removeFormButton = $('<button type="button" class="btn btn-sm bg-danger text-bg-danger"><i class="fas fa-trash"></i><span class="sr-only">Delete</span></button>');
     $('div.input-group', $collectionFormLi).append($removeFormButton);
     $removeFormButton.on('click', function(e) {
         // remove the li for the form
