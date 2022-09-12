@@ -170,18 +170,18 @@ var formatMemberTooltip = function (data) {
 var formatTags = function (data) {
   var tags = '';
   if (data.isLost) {
-    tags += '<span class="badge badge-warning me-1">Lost</span>';
+    tags += '<span class="badge bg-warning text-bg-warning me-1">Lost</span>';
   }
   if (data.isDeceased) {
-    tags += '<span class="badge badge-dark me-1">Deceased</span>';
+    tags += '<span class="badge bg-black text-white me-1">Deceased</span>';
   }
   if (data.isLocalDoNotContact) {
-    tags += '<span class="badge badge-danger me-1">Do Not Contact</span>';
+    tags += '<span class="badge bg-danger text-bg-danger me-1">Do Not Contact</span>';
   }
   if (data.tags.length > 0) {
     $(data.tags).each(function (i, tag) {
       var tagName = sanitizeHTML(tag.tagName);
-      tags += '<span class="badge badge-secondary me-1">' + tagName + '</span>';
+      tags += '<span class="badge bg-secondary text-bg-secondary me-1">' + tagName + '</span>';
     });
   }
   if (!tags) {

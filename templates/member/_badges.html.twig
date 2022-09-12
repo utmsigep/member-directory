@@ -1,14 +1,14 @@
 <div class="mt-1">
   {% if member.isDeceased %}
-  <a href="{{ path('deceased') }}"><sup class="badge badge-dark" title="Deceased">Deceased</sup></a>
+  <a href="{{ path('deceased') }}"><sup class="badge bg-black text-white" title="Deceased">Deceased</sup></a>
   {% endif %}
   {% if member.isLost %}
-  <a href="{{ path('lost') }}"><sup class="badge badge-warning" title="Lost">Lost</sup></a>
+  <a href="{{ path('lost') }}"><sup class="badge bg-warning text-bg-warning" title="Lost">Lost</sup></a>
   {% endif %}
   {% if member.isLocalDoNotContact %}
-  <a href="{{ path('do_not_contact') }}"><sup class="badge badge-danger" title="Do Not Contact">Do Not Contact</sup></a>
+  <a href="{{ path('do_not_contact') }}"><sup class="badge bg-danger text-bg-danger" title="Do Not Contact">Do Not Contact</sup></a>
   {% endif %}
   {% for tag in member.tags %}
-  <a href="{{ path('tag', {tagId: tag.id}) }}"><sup class="badge badge-secondary" title="{{ tag.tagName }}">{{ tag.tagName }}</sup></a>
+  <a href="{{ path('tag', {tagId: tag.id}) }}"><sup class="badge bg-secondary text-bg-secondary" title="{{ tag.tagName }}">{{ tag.tagName }}</sup></a>
   {% endfor %}
 </div>

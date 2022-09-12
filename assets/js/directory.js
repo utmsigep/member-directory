@@ -94,23 +94,23 @@ $(document).ready(function() {
           // Deceased
           if (row.isDeceased) {
             var deceasedLink = Routing.generate('deceased');
-            output += '<a href="' + deceasedLink + '"><sup class="badge badge-dark" title="Deceased">Deceased</sup></a> ';
+            output += '<a href="' + deceasedLink + '"><sup class="badge bg-black text-white" title="Deceased">Deceased</sup></a> ';
           }
           // Lost
           if (row.isLost) {
             var lostLink = Routing.generate('lost');
-            output += '<a href="' + lostLink + '"><sup class="badge badge-warning" title="Lost">Lost</sup></a> ';
+            output += '<a href="' + lostLink + '"><sup class="badge bg-warning text-bg-warning" title="Lost">Lost</sup></a> ';
           }
           // Do Not Contact
           if (row.isLocalDoNotContact) {
             var doNotContactLink = Routing.generate('do_not_contact');
-            output += '<a href="' + doNotContactLink + '"><sup class="badge badge-danger" title="Do Not Contact">Do Not Contact</sup></a> ';
+            output += '<a href="' + doNotContactLink + '"><sup class="badge bg-danger text-bg-danger" title="Do Not Contact">Do Not Contact</sup></a> ';
           }
           // Tags
           if (row.tags) {
             for (var i in row.tags) {
               var tagLink = Routing.generate('tag', {tagId: row.tags[i].id});
-              output += '<a href="' + tagLink + '"><sup class="badge badge-secondary" title="' + sanitizeHTML(row.tags[i].tagName) + '">' + sanitizeHTML(row.tags[i].tagName) + '</sup></a> ';
+              output += '<a href="' + tagLink + '"><sup class="badge bg-secondary text-bg-secondary" title="' + sanitizeHTML(row.tags[i].tagName) + '">' + sanitizeHTML(row.tags[i].tagName) + '</sup></a> ';
             }
           }
           output += '</div>';

@@ -14,7 +14,7 @@
 {% for logEntry in logEntries %}
 <div class="card mb-3 shadow">
   <div class="card-header">
-    <span class="badge badge-secondary">{{ logEntry.action|upper }}</span> {{ logEntry.loggedAt|date('F j, Y g:i a', app.user.timezone|default('UTC')) }} {{ logEntry.username }}
+    <span class="badge bg-secondary text-bg-secondary">{{ logEntry.action|upper }}</span> {{ logEntry.loggedAt|date('F j, Y g:i a', app.user.timezone|default('UTC')) }} {{ logEntry.username }}
   </div>
   <div class="card-body">
     <div class="table-responsive">

@@ -44,7 +44,7 @@
           {% for log in logs %}
           <tr>
             <td>{{ log.loggedAt|date('n/j/Y h:i a', app.user.timezone|default('UTC')) }}</td>
-            <td><span class="badge badge-secondary">{{ log.action|upper }}</span></td>
+            <td><span class="badge bg-secondary text-bg-secondary">{{ log.action|upper }}</span></td>
             <td>
               {{ log.objectClass|replace({'App\\Entity\\': ''}) }} ({{ log.objectId }})
             </td>
