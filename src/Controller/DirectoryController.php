@@ -236,6 +236,9 @@ class DirectoryController extends AbstractController
             ->add('exclude_inactive', CheckboxType::class, [
                 'label' => 'Exclude Inactive',
                 'required' => false,
+                'row_attr' => [
+                    'class' => 'mb-0',
+                ],
             ])
             ->getForm()
         ;

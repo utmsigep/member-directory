@@ -16,10 +16,10 @@
   {% endif %}
   {% endif %}
   <td>{{ donation.campaign }}</td>
-  <td>{{ donation.description }}{% if donation.donorComment %} <span title="{{ donation.donorComment|escape('html_attr') }}" data-toggle="tooltip"><i class="far fa-sticky-note"></i></span>{% endif %}</td>
-  <td class="text-right" data-order="{{ donation.amount }}">{{ donation.amount|format_currency(donation.currency) }}</td>
-  <td class="text-right" data-order="{{ donation.processingFee }}">{{ donation.processingFee|format_currency(donation.currency) }}</td>
-  <td class="text-right font-weight-bold" data-order="{{ donation.netAmount }}">{{ donation.netAmount|format_currency(donation.currency) }}</td>
+  <td>{{ donation.description }}{% if donation.donorComment %} <span title="{{ donation.donorComment|escape('html_attr') }}" data-bs-toggle="tooltip"><i class="far fa-sticky-note"></i></span>{% endif %}</td>
+  <td class="text-end" data-order="{{ donation.amount }}">{{ donation.amount|format_currency(donation.currency) }}</td>
+  <td class="text-end" data-order="{{ donation.processingFee }}">{{ donation.processingFee|format_currency(donation.currency) }}</td>
+  <td class="text-end font-weight-bold" data-order="{{ donation.netAmount }}">{{ donation.netAmount|format_currency(donation.currency) }}</td>
   <td class="text-center" data-order="{{ donation.isRecurring }}">{{ donation.isRecurring ? '<i class="fas fa-redo"></i><span class="sr-only">Yes</span>' : '<span class="sr-only">No</span>' }}</td>
   <td>
     {% if donation.id %}

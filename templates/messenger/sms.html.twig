@@ -26,10 +26,10 @@
             <dd class="col-10">{{ fromTelephoneNumber }}</dd>
           </dl>
           {{ form_row(formSMS.message_body) }}
-          <p class="text-right small"><a href="#" data-toggle="modal" data-target="#personalizationTagsModal">Personalization Tags</a></p>
+          <p class="text-end small"><a href="#" data-bs-toggle="modal" data-bs-target="#personalizationTagsModal">Personalization Tags</a></p>
         </div>
       </div>
-      <div class="text-right mb-3">
+      <div class="text-end mb-3">
         {{ form_widget(formSMS.submit) }}
       </div>
       {{ form_rest(formSMS) }}

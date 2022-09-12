@@ -13,7 +13,7 @@
       <i class="fas fa-check fa-fw text-success"></i> Two-Factor Security is enabled on this account.
     </p>
   </div>
-  <div class="card-footer text-right">
+  <div class="card-footer text-end">
     <form method="post" action="{{ path('app_disable_two_factor') }}">
       <input type="hidden" name="_token" value="{{ csrf_token('disableTwoFactor' ~ app.user.id) }}" />
       <button class="btn btn-delete btn-danger">Deactivate Two-Factor Security</button>

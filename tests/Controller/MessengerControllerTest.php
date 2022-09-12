@@ -57,7 +57,7 @@ class MessengerControllerTest extends WebTestCase
         $client->request('GET', '/messenger/email');
         $this->assertResponseIsSuccessful();
         $this->assertPageTitleSame('Member Directory - Messenger - Email');
-        $this->assertSelectorTextContains('span.h4', 'Send Bulk Email');
+        $this->assertSelectorTextContains('span.display-6', 'Send Bulk Email');
     }
 
     public function testSms()
@@ -70,6 +70,6 @@ class MessengerControllerTest extends WebTestCase
         $client->request('GET', '/messenger/sms');
         $this->assertResponseIsSuccessful();
         $this->assertPageTitleSame('Member Directory - Messenger - SMS');
-        $this->assertSelectorTextContains('span.h4', 'Send Bulk SMS');
+        $this->assertSelectorTextContains('span.display-6', 'Send Bulk SMS');
     }
 }

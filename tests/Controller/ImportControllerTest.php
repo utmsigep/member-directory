@@ -24,7 +24,7 @@ class ImportControllerTest extends WebTestCase
         $client->request('GET', '/directory/import/');
         $this->assertResponseIsSuccessful();
         $this->assertPageTitleSame('Member Directory - Member Import');
-        $this->assertSelectorTextContains('span.h4', 'Member Import');
+        $this->assertSelectorTextContains('span.display-6', 'Member Import');
     }
 
     public function testShowImportWithoutRole()

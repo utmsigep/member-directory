@@ -24,7 +24,7 @@ class DonationControllerTest extends WebTestCase
         $client->request('GET', '/donations/');
         $this->assertResponseIsSuccessful();
         $this->assertPageTitleSame('Member Directory - Donations');
-        $this->assertSelectorTextContains('span.h4', 'Donations');
+        $this->assertSelectorTextContains('span.display-6', 'Donations');
     }
 
     public function testIndexWithAdminRole()
@@ -37,7 +37,7 @@ class DonationControllerTest extends WebTestCase
         $client->request('GET', '/donations/');
         $this->assertResponseIsSuccessful();
         $this->assertPageTitleSame('Member Directory - Donations');
-        $this->assertSelectorTextContains('span.h4', 'Donations');
+        $this->assertSelectorTextContains('span.display-6', 'Donations');
     }
 
     public function testDenyWithUserRole()
@@ -61,7 +61,7 @@ class DonationControllerTest extends WebTestCase
         $client->request('GET', '/donations/1');
         $this->assertResponseIsSuccessful();
         $this->assertPageTitleSame('Member Directory - #11011901-001 - Phillips, Billy (1-0006) @ 2016-11-01 (1000.00 USD)');
-        $this->assertSelectorTextContains('span.h4', '#11011901-001 - Phillips, Billy (1-0006) @ 2016-11-01 (1000.00 USD)');
+        $this->assertSelectorTextContains('span.display-6', '#11011901-001 - Phillips, Billy (1-0006) @ 2016-11-01 (1000.00 USD)');
     }
 
     public function testEditDonation()
@@ -74,7 +74,7 @@ class DonationControllerTest extends WebTestCase
         $client->request('GET', '/donations/1/edit');
         $this->assertResponseIsSuccessful();
         $this->assertPageTitleSame('Member Directory - #11011901-001 - Phillips, Billy (1-0006) @ 2016-11-01 (1000.00 USD)');
-        $this->assertSelectorTextContains('span.h4', '#11011901-001 - Phillips, Billy (1-0006) @ 2016-11-01 (1000.00 USD)');
+        $this->assertSelectorTextContains('span.display-6', '#11011901-001 - Phillips, Billy (1-0006) @ 2016-11-01 (1000.00 USD)');
     }
 
     public function testNewDonation()
@@ -87,7 +87,7 @@ class DonationControllerTest extends WebTestCase
         $client->request('GET', '/donations/new');
         $this->assertResponseIsSuccessful();
         $this->assertPageTitleSame('Member Directory - New Donation');
-        $this->assertSelectorTextContains('span.h4', 'New Donation');
+        $this->assertSelectorTextContains('span.display-6', 'New Donation');
     }
 
     public function testDonorsList()
@@ -100,7 +100,7 @@ class DonationControllerTest extends WebTestCase
         $client->request('GET', '/donations/donors');
         $this->assertResponseIsSuccessful();
         $this->assertPageTitleSame('Member Directory - Donors');
-        $this->assertSelectorTextContains('span.h4', 'Donors');
+        $this->assertSelectorTextContains('span.display-6', 'Donors');
     }
 
     public function testCampaignsList()
@@ -113,6 +113,6 @@ class DonationControllerTest extends WebTestCase
         $client->request('GET', '/donations/campaigns');
         $this->assertResponseIsSuccessful();
         $this->assertPageTitleSame('Member Directory - Campaigns');
-        $this->assertSelectorTextContains('span.h4', 'Campaigns');
+        $this->assertSelectorTextContains('span.display-6', 'Campaigns');
     }
 }

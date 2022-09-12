@@ -82,10 +82,10 @@
         {% for item in subscriberHistory %}
         <table class="table mb-2">
           <tbody>
-            <tr data-target="#campaign-actions-{{ item.ID }}" {% if (item.Actions|length) > 0 %}data-toggle="collapse"{% endif %} style="cursor:pointer;">
+            <tr data-bs-target="#campaign-actions-{{ item.ID }}" {% if (item.Actions|length) > 0 %}data-bs-toggle="collapse"{% endif %} style="cursor:pointer;">
               <td class="w-25">{{ item.Type }}</td>
               <td class="w-75"><a href="{{ path('email_campaign_view', {campaignId: item.ID }) }}" target="_blank">{{ item.Name }}</a></td>
-              <td class="text-right {% if item.Actions|length > 0 %}font-weight-bold{% endif %}">{{ item.Actions|length }}</td>
+              <td class="text-end {% if item.Actions|length > 0 %}font-weight-bold{% endif %}">{{ item.Actions|length }}</td>
             </tr>
             <tr class="collapse" id="campaign-actions-{{ item.ID }}">
               <td colspan="3">

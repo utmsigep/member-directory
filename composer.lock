@@ -801,16 +801,16 @@
         },
         {
             "name": "doctrine/dbal",
-            "version": "3.4.3",
+            "version": "3.4.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "a24b89d663d8f261199bc0a91c48016042ebda85"
+                "reference": "4cbbe6e4b9ef6c69d5f4c968c637476f47bb54f5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/a24b89d663d8f261199bc0a91c48016042ebda85",
-                "reference": "a24b89d663d8f261199bc0a91c48016042ebda85",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/4cbbe6e4b9ef6c69d5f4c968c637476f47bb54f5",
+                "reference": "4cbbe6e4b9ef6c69d5f4c968c637476f47bb54f5",
                 "shasum": ""
             },
             "require": {
@@ -825,14 +825,14 @@
             "require-dev": {
                 "doctrine/coding-standard": "10.0.0",
                 "jetbrains/phpstorm-stubs": "2022.2",
-                "phpstan/phpstan": "1.8.2",
+                "phpstan/phpstan": "1.8.3",
                 "phpstan/phpstan-strict-rules": "^1.3",
-                "phpunit/phpunit": "9.5.21",
+                "phpunit/phpunit": "9.5.24",
                 "psalm/plugin-phpunit": "0.17.0",
                 "squizlabs/php_codesniffer": "3.7.1",
                 "symfony/cache": "^5.4|^6.0",
                 "symfony/console": "^4.4|^5.4|^6.0",
-                "vimeo/psalm": "4.24.0"
+                "vimeo/psalm": "4.27.0"
             },
             "suggest": {
                 "symfony/console": "For helpful console commands such as SQL execution and import of files."
@@ -892,7 +892,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/dbal/issues",
-                "source": "https://github.com/doctrine/dbal/tree/3.4.3"
+                "source": "https://github.com/doctrine/dbal/tree/3.4.4"
             },
             "funding": [
                 {
@@ -908,7 +908,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-08-28T17:26:36+00:00"
+            "time": "2022-09-01T21:26:42+00:00"
         },
         {
             "name": "doctrine/deprecations",
@@ -1245,28 +1245,28 @@
         },
         {
             "name": "doctrine/inflector",
-            "version": "2.0.4",
+            "version": "2.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/inflector.git",
-                "reference": "8b7ff3e4b7de6b2c84da85637b59fd2880ecaa89"
+                "reference": "ade2b3bbfb776f27f0558e26eed43b5d9fe1b392"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/inflector/zipball/8b7ff3e4b7de6b2c84da85637b59fd2880ecaa89",
-                "reference": "8b7ff3e4b7de6b2c84da85637b59fd2880ecaa89",
+                "url": "https://api.github.com/repos/doctrine/inflector/zipball/ade2b3bbfb776f27f0558e26eed43b5d9fe1b392",
+                "reference": "ade2b3bbfb776f27f0558e26eed43b5d9fe1b392",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.2 || ^8.0"
             },
             "require-dev": {
-                "doctrine/coding-standard": "^8.2",
-                "phpstan/phpstan": "^0.12",
-                "phpstan/phpstan-phpunit": "^0.12",
-                "phpstan/phpstan-strict-rules": "^0.12",
-                "phpunit/phpunit": "^7.0 || ^8.0 || ^9.0",
-                "vimeo/psalm": "^4.10"
+                "doctrine/coding-standard": "^9",
+                "phpstan/phpstan": "^1.8",
+                "phpstan/phpstan-phpunit": "^1.1",
+                "phpstan/phpstan-strict-rules": "^1.3",
+                "phpunit/phpunit": "^8.5 || ^9.5",
+                "vimeo/psalm": "^4.25"
             },
             "type": "library",
             "autoload": {
@@ -1316,7 +1316,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/inflector/issues",
-                "source": "https://github.com/doctrine/inflector/tree/2.0.4"
+                "source": "https://github.com/doctrine/inflector/tree/2.0.5"
             },
             "funding": [
                 {
@@ -1332,7 +1332,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-10-22T20:16:43+00:00"
+            "time": "2022-09-07T09:01:28+00:00"
         },
         {
             "name": "doctrine/instantiator",
@@ -2291,16 +2291,16 @@
         },
         {
             "name": "genyaa/usps-php-api",
-            "version": "v1.1.1",
+            "version": "v1.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/GeNyaa/USPS-php-api.git",
-                "reference": "456f47edfeecebd9321d2dc82d6b70aa81b08822"
+                "reference": "78d1bc4a07691b5eee2a0a4d2e1530fcc84b47c7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/GeNyaa/USPS-php-api/zipball/456f47edfeecebd9321d2dc82d6b70aa81b08822",
-                "reference": "456f47edfeecebd9321d2dc82d6b70aa81b08822",
+                "url": "https://api.github.com/repos/GeNyaa/USPS-php-api/zipball/78d1bc4a07691b5eee2a0a4d2e1530fcc84b47c7",
+                "reference": "78d1bc4a07691b5eee2a0a4d2e1530fcc84b47c7",
                 "shasum": ""
             },
             "require": {
@@ -2344,9 +2344,9 @@
             ],
             "support": {
                 "issues": "https://github.com/GeNyaa/USPS-php-api/issues",
-                "source": "https://github.com/GeNyaa/USPS-php-api/tree/v1.1.1"
+                "source": "https://github.com/GeNyaa/USPS-php-api/tree/v1.2.1"
             },
-            "time": "2022-04-15T14:39:14+00:00"
+            "time": "2022-09-08T21:46:02+00:00"
         },
         {
             "name": "geocodio/geocodio-library-php",
@@ -4335,16 +4335,16 @@
         },
         {
             "name": "sensio/framework-extra-bundle",
-            "version": "v6.2.7",
+            "version": "v6.2.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sensiolabs/SensioFrameworkExtraBundle.git",
-                "reference": "b27b8d6a43c508db1ea0df6c87774dd49014913c"
+                "reference": "bb962f8aed09e60b0942545f6e4842ffeee4aafd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensiolabs/SensioFrameworkExtraBundle/zipball/b27b8d6a43c508db1ea0df6c87774dd49014913c",
-                "reference": "b27b8d6a43c508db1ea0df6c87774dd49014913c",
+                "url": "https://api.github.com/repos/sensiolabs/SensioFrameworkExtraBundle/zipball/bb962f8aed09e60b0942545f6e4842ffeee4aafd",
+                "reference": "bb962f8aed09e60b0942545f6e4842ffeee4aafd",
                 "shasum": ""
             },
             "require": {
@@ -4407,9 +4407,9 @@
             ],
             "support": {
                 "issues": "https://github.com/sensiolabs/SensioFrameworkExtraBundle/issues",
-                "source": "https://github.com/sensiolabs/SensioFrameworkExtraBundle/tree/v6.2.7"
+                "source": "https://github.com/sensiolabs/SensioFrameworkExtraBundle/tree/v6.2.8"
             },
-            "time": "2022-06-16T09:06:24+00:00"
+            "time": "2022-09-05T16:44:56+00:00"
         },
         {
             "name": "spomky-labs/otphp",
@@ -10989,16 +10989,16 @@
         },
         {
             "name": "twilio/sdk",
-            "version": "6.41.0",
+            "version": "6.42.0",
             "source": {
                 "type": "git",
                 "url": "git@github.com:twilio/twilio-php.git",
-                "reference": "3e6b81216052aac086efd6334a0fc358c38c2e20"
+                "reference": "fff5abe683e7d51912ee782012684daa0959e45b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twilio/twilio-php/zipball/3e6b81216052aac086efd6334a0fc358c38c2e20",
-                "reference": "3e6b81216052aac086efd6334a0fc358c38c2e20",
+                "url": "https://api.github.com/repos/twilio/twilio-php/zipball/fff5abe683e7d51912ee782012684daa0959e45b",
+                "reference": "fff5abe683e7d51912ee782012684daa0959e45b",
                 "shasum": ""
             },
             "require": {
@@ -11034,7 +11034,7 @@
                 "sms",
                 "twilio"
             ],
-            "time": "2022-08-24T20:39:42+00:00"
+            "time": "2022-09-07T19:17:29+00:00"
         },
         {
             "name": "willdurand/jsonp-callback-validator",
@@ -11375,16 +11375,16 @@
         },
         {
             "name": "nikic/php-parser",
-            "version": "v4.14.0",
+            "version": "v4.15.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "34bea19b6e03d8153165d8f30bba4c3be86184c1"
+                "reference": "0ef6c55a3f47f89d7a374e6f835197a0b5fcf900"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/34bea19b6e03d8153165d8f30bba4c3be86184c1",
-                "reference": "34bea19b6e03d8153165d8f30bba4c3be86184c1",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/0ef6c55a3f47f89d7a374e6f835197a0b5fcf900",
+                "reference": "0ef6c55a3f47f89d7a374e6f835197a0b5fcf900",
                 "shasum": ""
             },
             "require": {
@@ -11425,9 +11425,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nikic/PHP-Parser/issues",
-                "source": "https://github.com/nikic/PHP-Parser/tree/v4.14.0"
+                "source": "https://github.com/nikic/PHP-Parser/tree/v4.15.1"
             },
-            "time": "2022-05-31T20:59:12+00:00"
+            "time": "2022-09-04T07:30:47+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -11587,16 +11587,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.8.2",
+            "version": "1.8.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "c53312ecc575caf07b0e90dee43883fdf90ca67c"
+                "reference": "f6598a5ff12ca4499a836815e08b4d77a2ddeb20"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/c53312ecc575caf07b0e90dee43883fdf90ca67c",
-                "reference": "c53312ecc575caf07b0e90dee43883fdf90ca67c",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/f6598a5ff12ca4499a836815e08b4d77a2ddeb20",
+                "reference": "f6598a5ff12ca4499a836815e08b4d77a2ddeb20",
                 "shasum": ""
             },
             "require": {
@@ -11620,9 +11620,13 @@
                 "MIT"
             ],
             "description": "PHPStan - PHP Static Analysis Tool",
+            "keywords": [
+                "dev",
+                "static analysis"
+            ],
             "support": {
                 "issues": "https://github.com/phpstan/phpstan/issues",
-                "source": "https://github.com/phpstan/phpstan/tree/1.8.2"
+                "source": "https://github.com/phpstan/phpstan/tree/1.8.5"
             },
             "funding": [
                 {
@@ -11634,33 +11638,29 @@
                     "type": "github"
                 },
                 {
-                    "url": "https://www.patreon.com/phpstan",
-                    "type": "patreon"
-                },
-                {
                     "url": "https://tidelift.com/funding/github/packagist/phpstan/phpstan",
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-07-20T09:57:31+00:00"
+            "time": "2022-09-07T16:05:32+00:00"
         },
         {
             "name": "phpstan/phpstan-doctrine",
-            "version": "1.3.12",
+            "version": "1.3.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan-doctrine.git",
-                "reference": "c5ec462889f3bcee32be57ff26f775295836c173"
+                "reference": "62a3b4252d502f0ead9c145055947b38b8568498"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan-doctrine/zipball/c5ec462889f3bcee32be57ff26f775295836c173",
-                "reference": "c5ec462889f3bcee32be57ff26f775295836c173",
+                "url": "https://api.github.com/repos/phpstan/phpstan-doctrine/zipball/62a3b4252d502f0ead9c145055947b38b8568498",
+                "reference": "62a3b4252d502f0ead9c145055947b38b8568498",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.2 || ^8.0",
-                "phpstan/phpstan": "^1.8.0"
+                "phpstan/phpstan": "^1.8.3"
             },
             "conflict": {
                 "doctrine/collections": "<1.0",
@@ -11678,6 +11678,7 @@
                 "doctrine/mongodb-odm": "^1.3 || ^2.1",
                 "doctrine/orm": "^2.11.0",
                 "doctrine/persistence": "^1.3.8 || ^2.2.1",
+                "gedmo/doctrine-extensions": "^3.8",
                 "nesbot/carbon": "^2.49",
                 "nikic/php-parser": "^4.13.2",
                 "php-parallel-lint/php-parallel-lint": "^1.2",
@@ -11708,9 +11709,9 @@
             "description": "Doctrine extensions for PHPStan",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan-doctrine/issues",
-                "source": "https://github.com/phpstan/phpstan-doctrine/tree/1.3.12"
+                "source": "https://github.com/phpstan/phpstan-doctrine/tree/1.3.13"
             },
-            "time": "2022-08-08T18:06:58+00:00"
+            "time": "2022-09-06T14:54:00+00:00"
         },
         {
             "name": "phpstan/phpstan-symfony",

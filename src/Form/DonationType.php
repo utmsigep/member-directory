@@ -32,6 +32,9 @@ class DonationType extends AbstractType
                     'USD',
                     'CAD',
                 ],
+                'attr' => [
+                    'class' => 'selectpicker',
+                ],
             ])
             ->add('processingFee')
             ->add('netAmount')

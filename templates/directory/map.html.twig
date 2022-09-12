@@ -16,8 +16,8 @@
   {{ form_start(form) }}
   {{ form_widget(form.status) }}
   {{ form_end(form) }}
-  <button class="btn btn-secondary btn-sm mr-1" data-toggle="modal" data-target="#searchFormModal"><i class="fas fa-cog"></i></button>
-  <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#searchResultsModal">Search Results <span class="badge badge-light" id="searchResultCount">0</span></button>
+  <button class="btn btn-secondary btn-sm me-1" data-bs-toggle="modal" data-bs-target="#searchFormModal"><i class="fas fa-cog"></i></button>
+  <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#searchResultsModal">Search Results <span class="badge badge-light" id="searchResultCount">0</span></button>
 </div>
 {% endblock %}
 {% endembed %}
@@ -36,9 +36,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Search Options</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <form id="search-radius-form">
@@ -57,9 +55,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Search Results</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <div id="searchNoResultsFound" class="alert alert-info">

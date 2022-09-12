@@ -17,145 +17,81 @@
   </head>
 
   <body id="page-top">
-    <!-- Page Wrapper -->
-    <div id="wrapper">
 
-      <!-- Sidebar -->
-      <ul class="navbar-nav bg-dark sidebar sidebar-dark accordion" id="accordionSidebar">
+    {% if app.user and is_granted('ROLE_USER') %}
+    <form action="{{ path('search') }}" method="GET">
+      <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+        <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6 text-center" href="{{ path('home') }}">Member Directory</a>
+        <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <input class="form-control form-control-dark w-100 rounded-0 border-0 member-search-autocomplete" type="search" name="q" value="{{ app.request.get('q')|escape('html_attr') }}" placeholder="Directory Search" aria-label="Search" autocomplete="off">
 
-        <!-- Sidebar - Brand -->
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ path('home') }}">
-          <div class="sidebar-brand-icon rotate-n-15">
-            <i class="far fa-address-book fa-2x mr-2"></i>
-          </div>
-        </a>
-
-        {% if app.user and is_granted('ROLE_USER') %}
-        {% include '_main_nav.html.twig' %}
-        {% endif %}
-
-      </ul>
-      <!-- End of Sidebar -->
-
-      <!-- Content Wrapper -->
-      <div id="content-wrapper" class="d-flex flex-column">
-
-        <!-- Main Content -->
-        <div id="content">
-
-          <!-- Topbar -->
-          <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-
-            <!-- Sidebar Toggle (Topbar) -->
-            <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-              <i class="fa fa-bars"></i>
-            </button>
-
-            {% if app.user and is_granted('ROLE_USER') %}
-            <!-- Topbar Search -->
-            <form action="{{ path('search') }}" method="GET" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-              <div class="input-group">
-                <input name="q" type="search" value="{{ app.request.get('q')|escape('html_attr') }}" class="form-control bg-light border-0 small member-search-autocomplete" placeholder="Search Directory ..." aria-label="Search" autocomplete="off">
-                <div class="input-group-append">
-                  <button class="btn btn-primary" type="submit">
-                    <i class="fas fa-search fa-sm"></i>
-                  </button>
-                </div>
+          <div class="nav-menu text-nowrap">
+            <!-- Nav Item - User Information -->
+            <div class="nav-item dropdown no-arrow">
+              <a class="btn rounded-0 border-dark dropdown-toggle text-bg-dark" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="mr-2 text-gray-600 small">{{ (app.user.name ? app.user.name : app.user.email)|u.truncate(45, '...') }}</span>
+                <i class="fas {% if is_granted('ROLE_ADMIN') %}fa-user-shield{% else %}fa-user{% endif %} fa-fw"></i>
+              </a>
+              <!-- Dropdown - User Actions -->
+              <div class="dropdown-menu dropdown-menu-lg-end" aria-labelledby="userDropdown">
+                <a class="dropdown-item" href="{{ path('app_profile') }}">
+                  <i class="fas fa-id-card fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Edit Profile
+                </a>
+                <a class="dropdown-item" href="{{ path('app_change_password')}}">
+                  <i class="fas fa-lock fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Change Password
+                </a>
+                <a class="dropdown-item" href="{{ path('app_manage_two_factor')}}">
+                  <i class="fas fa-stopwatch fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Two-Factor Security
+                </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{{ path('app_logout') }}">
+                  <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Logout
+                </a>
               </div>
-            </form>
-            {% endif %}
-
-            <!-- Topbar Navbar -->
-            <ul class="navbar-nav ml-auto">
-
-              {% if app.user and is_granted('ROLE_USER') %}
-              <!-- Nav Item - Search Dropdown (Visible Only XS) -->
-              <li class="nav-item dropdown no-arrow d-sm-none">
-                <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <i class="fas fa-search fa-fw"></i>
-                </a>
-                <!-- Dropdown - Search -->
-                <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
-                  <form action="{{ path('search') }}" method="GET"class="form-inline mr-auto w-100 navbar-search">
-                    <div class="input-group">
-                      <input type="text" name="q" class="form-control bg-light border-0 small member-search-autocomplete" value="{{ app.request.get('q')|escape('html_attr') }}"  placeholder="Search Directory ..." aria-label="Search" autocomplete="off">
-                      <div class="input-group-append">
-                        <button class="btn btn-primary" type="submit">
-                          <i class="fas fa-search fa-sm"></i>
-                        </button>
-                      </div>
-                    </div>
-                  </form>
-                </div>
-              </li>
-              {% endif %}
-
-              <!-- Nav Item - User Information -->
-              {% if app.user and is_granted('ROLE_USER') %}
-              <li class="nav-item dropdown no-arrow">
-                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ app.user.name ? app.user.name : app.user.email }}</span>
-                  <i class="fas {% if is_granted('ROLE_ADMIN') %}fa-user-shield{% else %}fa-user{% endif %} fa-fw"></i>
-                </a>
-                <!-- Dropdown - User Actions -->
-                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                  <a class="dropdown-item" href="{{ path('app_profile') }}">
-                    <i class="fas fa-id-card fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Edit Profile
-                  </a>
-                  <a class="dropdown-item" href="{{ path('app_change_password')}}">
-                    <i class="fas fa-lock fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Change Password
-                  </a>
-                  <a class="dropdown-item" href="{{ path('app_manage_two_factor')}}">
-                    <i class="fas fa-stopwatch fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Two-Factor Security
-                  </a>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="{{ path('app_logout') }}">
-                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Logout
-                  </a>
-                </div>
-              </li>
-              {% else %}
-              <li class="nav-item"><a class="" href="{{ path('app_login')}}"><i class="fas fa-sign-in-alt fa-fw"></i> <span>Sign In</span></a></li>
-              {% endif %}
-            </ul>
-
-          </nav>
-          <!-- End of Topbar -->
-
-          <!-- Begin Page Content -->
-          <div class="container-fluid">
-            {% include '_alerts.html.twig' %}
-            {% block body %}{% endblock %}
-          </div>
-          <!-- /.container-fluid -->
-
-        </div>
-        <!-- End of Main Content -->
-
-        <!-- Footer -->
-        <footer class="sticky-footer bg-white">
-          <div class="container my-auto">
-            <div class="copyright text-center my-auto">
-              <span>Powered by <a href="https://github.com/utmsigep/member-directory" target="_blank">Member Directory</a> ({{ config.version }})</span>
             </div>
           </div>
-        </footer>
-        <!-- End of Footer -->
+      </header>
+    </form>
+    {% else %}
+    <div class="nav-item"><a class="" href="{{ path('app_login')}}"><i class="fas fa-sign-in-alt fa-fw"></i> <span>Sign In</span></a></div>
+    {% endif %}
+
+    <div class="container-fluid">
+      <div class="row">
+        <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar collapse">
+          <div class="position-sticky pt-3 sidebar-sticky">
+            <ul class="nav flex-column">
+              {% if app.user and is_granted('ROLE_USER') %}
+              {% include '_main_nav.html.twig' %}
+              {% endif %}
+            </ul>
+          </div>
+        </nav>
+
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+          {% include '_alerts.html.twig' %}
+          {% block body %}{% endblock %}
+
+          <!-- Footer -->
+          <footer>
+            <div class="container my-5">
+              <div class="copyright text-center my-auto">
+                <small class="text-muted">Powered by <a href="https://github.com/utmsigep/member-directory" target="_blank">Member Directory</a> ({{ config.version }})</small>
+              </div>
+            </div>
+          </footer>
+          <!-- End of Footer -->
+
+        </main>
 
       </div>
-      <!-- End of Content Wrapper -->
-
     </div>
-    <!-- End of Page Wrapper -->
-
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-      <i class="fas fa-angle-up"></i>
-    </a>
 
     {% include '_modal_confidential.html.twig' %}
     {% include '_toast_template.html.twig' %}

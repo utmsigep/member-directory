@@ -24,7 +24,7 @@ class DirectoryCollectionControllerTest extends WebTestCase
         $client->request('GET', '/admin/directory-collections/');
         $this->assertResponseIsSuccessful();
         $this->assertPageTitleSame('Member Directory - Directory Collections');
-        $this->assertSelectorTextContains('span.h4', 'Directory Collections');
+        $this->assertSelectorTextContains('span.display-6', 'Directory Collections');
     }
 
     public function testShowWithAdminRole()
@@ -37,7 +37,7 @@ class DirectoryCollectionControllerTest extends WebTestCase
         $client->request('GET', '/admin/directory-collections/1');
         $this->assertResponseIsSuccessful();
         $this->assertPageTitleSame('Member Directory - Member');
-        $this->assertSelectorTextContains('span.h4', 'Member');
+        $this->assertSelectorTextContains('span.display-6', 'Member');
     }
 
     public function testEditWithAdminRole()
@@ -50,7 +50,7 @@ class DirectoryCollectionControllerTest extends WebTestCase
         $client->request('GET', '/admin/directory-collections/1/edit');
         $this->assertResponseIsSuccessful();
         $this->assertPageTitleSame('Member Directory - Member');
-        $this->assertSelectorTextContains('span.h4', 'Member');
+        $this->assertSelectorTextContains('span.display-6', 'Member');
     }
 
     public function testNewWithAdminRole()
@@ -63,7 +63,7 @@ class DirectoryCollectionControllerTest extends WebTestCase
         $client->request('GET', '/admin/directory-collections/new');
         $this->assertResponseIsSuccessful();
         $this->assertPageTitleSame('Member Directory - New Directory Collection');
-        $this->assertSelectorTextContains('span.h4', 'New Directory Collection');
+        $this->assertSelectorTextContains('span.display-6', 'New Directory Collection');
     }
 
     public function testDenyWithUserRole()

@@ -53,6 +53,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
 
     /**
      * @var string The hashed password
+     *
      * @ORM\Column(type="string")
      */
     private $password;

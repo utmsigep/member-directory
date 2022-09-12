@@ -36,7 +36,7 @@
           </li>
           {% endfor %}
         </ol>
-        <div class="text-right">
+        <div class="text-end">
           <button type="button" class="add_item_link btn btn-sm btn-secondary" data-collection-holder-class="entityCollection">Add an Attendee</button>
         </div>
 
@@ -44,7 +44,7 @@
     </div>
     {% endif %}
     {{ form_rest(form) }}
-    <div class="text-right">
+    <div class="text-end">
       <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
     </div>
   </div>

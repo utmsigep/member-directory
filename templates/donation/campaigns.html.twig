@@ -20,7 +20,7 @@
         <tr>
           <th>Campaign</th>
           <th>Latest Donation</th>
-          <th nowrap>Donors<sup><span data-toggle="tooltip" title="Non-Member donations excluded from donor count."><i class="fas fa-info-circle fa-fw"></i></sup></span></th>
+          <th nowrap>Donors<sup><span data-bs-toggle="tooltip" title="Non-Member donations excluded from donor count."><i class="fas fa-info-circle fa-fw"></i></sup></span></th>
           <th>Donations</th>
           <th>Amount</th>
           <th>Fees</th>
@@ -32,11 +32,11 @@
         <tr>
           <td data-order="{{ campaign.campaign|escape('html_attr') }}">{{ campaign.campaign }}</td>
           <td data-order="{{ campaign.latestDonation|date('Y-m-d') }}">{{ campaign.latestDonation|date('n/j/Y') }}</td>
-          <td data-order="{{ campaign.totalDonors }}" class="text-right">{{ campaign.totalDonors|number_format }}</td>
-          <td data-order="{{ campaign.totalDonations }}" class="text-right">{{ campaign.totalDonations|number_format }}</td>
-          <td data-order="{{ campaign.totalAmount }}" class="text-right">{{ campaign.totalAmount|format_currency(campaign.currency) }}</td>
-          <td data-order="{{ campaign.totalProcessingFee }}" class="text-right">{{ campaign.totalProcessingFee|format_currency(campaign.currency) }}</td>
-          <td data-order="{{ campaign.totalNetAmount }}" class="text-right font-weight-bold">{{ campaign.totalNetAmount|format_currency(campaign.currency) }}</td>
+          <td data-order="{{ campaign.totalDonors }}" class="text-end">{{ campaign.totalDonors|number_format }}</td>
+          <td data-order="{{ campaign.totalDonations }}" class="text-end">{{ campaign.totalDonations|number_format }}</td>
+          <td data-order="{{ campaign.totalAmount }}" class="text-end">{{ campaign.totalAmount|format_currency(campaign.currency) }}</td>
+          <td data-order="{{ campaign.totalProcessingFee }}" class="text-end">{{ campaign.totalProcessingFee|format_currency(campaign.currency) }}</td>
+          <td data-order="{{ campaign.totalNetAmount }}" class="text-end font-weight-bold">{{ campaign.totalNetAmount|format_currency(campaign.currency) }}</td>
         </tr>
         {% endfor %}
       </tbody>

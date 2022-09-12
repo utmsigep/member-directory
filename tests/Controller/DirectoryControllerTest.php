@@ -35,7 +35,7 @@ class DirectoryControllerTest extends WebTestCase
         $client->request('GET', '/directory/collection/member');
         $this->assertResponseIsSuccessful();
         $this->assertPageTitleSame('Member Directory - Member');
-        $this->assertSelectorTextContains('span.h4', 'Member');
+        $this->assertSelectorTextContains('span.display-6', 'Member');
     }
 
     public function testDataTablesJsonSource()
@@ -62,7 +62,7 @@ class DirectoryControllerTest extends WebTestCase
         $client->request('GET', '/directory/member/1-0001');
         $this->assertResponseIsSuccessful();
         $this->assertPageTitleSame('Member Directory - Carter Jenkens');
-        $this->assertSelectorTextContains('span.h4', 'Carter Jenkens');
+        $this->assertSelectorTextContains('span.display-6', 'Carter Jenkens');
     }
 
     public function testLostMembers()
@@ -75,7 +75,7 @@ class DirectoryControllerTest extends WebTestCase
         $client->request('GET', '/directory/lost');
         $this->assertResponseIsSuccessful();
         $this->assertPageTitleSame('Member Directory - Lost');
-        $this->assertSelectorTextContains('span.h4', 'Lost');
+        $this->assertSelectorTextContains('span.display-6', 'Lost');
     }
 
     public function testDoNotContactMembers()
@@ -88,7 +88,7 @@ class DirectoryControllerTest extends WebTestCase
         $client->request('GET', '/directory/do-not-contact');
         $this->assertResponseIsSuccessful();
         $this->assertPageTitleSame('Member Directory - Do Not Contact');
-        $this->assertSelectorTextContains('span.h4', 'Do Not Contact');
+        $this->assertSelectorTextContains('span.display-6', 'Do Not Contact');
     }
 
     public function testDeceasedMembers()
@@ -101,7 +101,7 @@ class DirectoryControllerTest extends WebTestCase
         $client->request('GET', '/directory/deceased');
         $this->assertResponseIsSuccessful();
         $this->assertPageTitleSame('Member Directory - Deceased');
-        $this->assertSelectorTextContains('span.h4', 'Deceased');
+        $this->assertSelectorTextContains('span.display-6', 'Deceased');
     }
 
     public function testRecentChanges()
@@ -114,7 +114,7 @@ class DirectoryControllerTest extends WebTestCase
         $client->request('GET', '/directory/recent-changes');
         $this->assertResponseIsSuccessful();
         $this->assertPageTitleSame('Member Directory - Recent Changes');
-        $this->assertSelectorTextContains('span.h4', 'Recent Changes');
+        $this->assertSelectorTextContains('span.display-6', 'Recent Changes');
     }
 
     public function testTags()
@@ -127,7 +127,7 @@ class DirectoryControllerTest extends WebTestCase
         $client->request('GET', '/directory/tags/1');
         $this->assertResponseIsSuccessful();
         $this->assertPageTitleSame('Member Directory - 1901 Club');
-        $this->assertSelectorTextContains('span.h4', '1901 Club');
+        $this->assertSelectorTextContains('span.display-6', '1901 Club');
     }
 
     public function testMap()
@@ -140,7 +140,7 @@ class DirectoryControllerTest extends WebTestCase
         $client->request('GET', '/directory/map');
         $this->assertResponseIsSuccessful();
         $this->assertPageTitleSame('Member Directory - Map');
-        $this->assertSelectorTextContains('span.h4', 'Map');
+        $this->assertSelectorTextContains('span.display-6', 'Map');
     }
 
     public function testMapJsonSource()

@@ -4,19 +4,18 @@
 const $ = require('jquery');
 global.$ = global.jQuery = $;
 require('popper.js');
-require('startbootstrap-sb-admin-2/vendor/bootstrap/js/bootstrap.js');
 require('select2');
+require('bootstrap');
 require('bootstrap-autocomplete');
-require('startbootstrap-sb-admin-2/js/sb-admin-2.js');
 require('datatables.net');
-require('datatables.net-bs4');
+require('datatables.net-bs5');
 require('datatables.net-buttons');
 require('datatables.net-buttons/js/buttons.html5.js');
-require('datatables.net-buttons-bs4');
+require('datatables.net-buttons-bs5');
 require('datatables.net-fixedheader');
-require('datatables.net-fixedheader-bs4');
+require('datatables.net-fixedheader-bs5');
 require('datatables.net-responsive');
-require('datatables.net-responsive-bs4');
+require('datatables.net-responsive-bs5');
 require('tablednd');
 require('@fortawesome/fontawesome-free/js/all.js');
 global._ = require('underscore');
@@ -27,12 +26,12 @@ import Routing from '../../vendor/friendsofsymfony/jsrouting-bundle/Resources/pu
 Routing.setRoutingData(routes);
 
 // CSS
-require('startbootstrap-sb-admin-2/scss/sb-admin-2.scss');
+require('bootstrap/dist/css/bootstrap.css');
 require('select2/dist/css/select2.css');
-require('@ttskch/select2-bootstrap4-theme/dist/select2-bootstrap4.css');
-require('datatables.net-bs4/css/dataTables.bootstrap4.css');
-require('datatables.net-fixedheader-bs4/css/fixedHeader.bootstrap4.css');
-require('datatables.net-responsive-bs4/css/responsive.bootstrap4.css');
+require('select2-bootstrap-5-theme/dist/select2-bootstrap-5-theme.css');
+require('datatables.net-bs5/css/dataTables.bootstrap5.css');
+require('datatables.net-fixedheader-bs5/css/fixedHeader.bootstrap5.css');
+require('datatables.net-responsive-bs5/css/responsive.bootstrap5.css');
 require('@fortawesome/fontawesome-free/css/all.css');
 require('../css/app.scss');
 
@@ -40,12 +39,12 @@ require('../css/app.scss');
 $(function () {
 
   // Tooltips
-  $('[data-toggle="tooltip"]').tooltip();
+  $('[data-bs-toggle="tooltip"]').tooltip();
 
   // Bootstrap SelectPicker
   $('.selectpicker[multiple]').select2({});
   $('.selectpicker').not('[multiple]').select2({
-    theme: 'bootstrap4',
+    theme: 'bootstrap-5',
   });
 
   // Hide sidebar on mobile

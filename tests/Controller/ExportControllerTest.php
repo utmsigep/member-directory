@@ -24,6 +24,6 @@ class ExportControllerTest extends WebTestCase
         $client->request('GET', '/directory/export/');
         $this->assertResponseIsSuccessful();
         $this->assertPageTitleSame('Member Directory - Member Export');
-        $this->assertSelectorTextContains('span.h4', 'Member Export');
+        $this->assertSelectorTextContains('span.display-6', 'Member Export');
     }
 }

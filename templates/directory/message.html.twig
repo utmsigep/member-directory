@@ -22,7 +22,7 @@
     </div>
     {% endif %}
     <ul class="nav nav-pills mb-3">
-      <li class="nav-item mr-2">
+      <li class="nav-item me-2">
         <a class="nav-link form_button {% if not member.primaryEmail %}disabled{% endif %}" href="#email_form"><i class="fas fa-at fa-fw"></i> Send Email</a>
       </li>
       {% if is_sms_service_configured() %}
@@ -45,12 +45,12 @@
           </dl>
           {{ form_row(formEmail.subject) }}
           {{ form_row(formEmail.message_body) }}
-          <p class="text-right small"><a href="#" data-toggle="modal" data-target="#personalizationTagsModal">Personalization Tags</a></p>
+          <p class="text-end small"><a href="#" data-bs-toggle="modal" data-bs-target="#personalizationTagsModal">Personalization Tags</a></p>
           {{ form_row(formEmail.reply_to) }}
           {{ form_row(formEmail.send_copy) }}
         </div>
       </div>
-      <div class="text-right mb-3">
+      <div class="text-end mb-3">
         {{ form_widget(formEmail.submit) }}
       </div>
       {{ form_rest(formEmail) }}
@@ -70,10 +70,10 @@
             <dd class="col-10">{{ fromTelephoneNumber }}</dd>
           </dl>
           {{ form_row(formSMS.message_body) }}
-          <p class="text-right small"><a href="#" data-toggle="modal" data-target="#personalizationTagsModal">Personalization Tags</a></p>
+          <p class="text-end small"><a href="#" data-bs-toggle="modal" data-bs-target="#personalizationTagsModal">Personalization Tags</a></p>
         </div>
       </div>
-      <div class="text-right mb-3">
+      <div class="text-end mb-3">
         {{ form_widget(formSMS.submit) }}
       </div>
       {{ form_rest(formSMS) }}

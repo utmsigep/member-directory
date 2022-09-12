@@ -15,4 +15,8 @@ $(document).ready(function() {
       [0, 'desc']
     ]
   });
+
+  $('#communication_log_member').select2({
+    theme: 'bootstrap-5',
+  });
 });
