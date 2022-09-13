@@ -17,7 +17,7 @@ final class Version20220913033448 extends AbstractMigration
     public function up(Schema $schema): void
     {
         $directoryCollectionTable = $schema->getTable('directory_collection');
-        $directoryCollectionTable->addColumn('description', 'text', ['notnull' => true]);
+        $directoryCollectionTable->addColumn('description', 'text', ['notnull' => true, 'default' => '']);
     }
 
     public function down(Schema $schema): void
