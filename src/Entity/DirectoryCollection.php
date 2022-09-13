@@ -82,7 +82,7 @@ class DirectoryCollection
     private $filterDeceased;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      */
     private $description;
 
@@ -235,20 +235,23 @@ class DirectoryCollection
         return $this;
     }
 
-    public function __toString(): string
+    public function getDescription(): string
     {
-        return $this->label;
+        return (string) $this->description;
     }
 
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(string $description): self
+    public function setDescription(?string $description): self
     {
         $this->description = $description;
 
         return $this;
+    }
+
+    /**
+     * Model Methods.
+     */
+    public function __toString(): string
+    {
+        return $this->label;
     }
 }
