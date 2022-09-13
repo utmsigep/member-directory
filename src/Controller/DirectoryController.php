@@ -63,6 +63,7 @@ class DirectoryController extends AbstractController
         if ('html' === $_format) {
             return $this->render('directory/directory.html.twig', [
                 'view_name' => $directoryCollection->getLabel(),
+                'view_description' => $directoryCollection->getDescription(),
                 'group_by' => $directoryCollection->getGroupBy(),
                 'data_source' => $this->generateUrl('directory_collection', ['slug' => $directoryCollection->getSlug(), '_format' => 'json']),
                 'show_status' => $directoryCollection->getShowMemberStatus(),

@@ -24,6 +24,10 @@
 {% endblock %}
 {% endembed %}
 
+{% if view_description is defined %}
+{{ view_description|e('html')|markdown_to_html }}
+{% endif %}
+
 <div class="card shadow">
   <div class="card-body">
     <div class="table-responsive">

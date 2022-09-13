@@ -20,6 +20,9 @@ class DirectoryCollectionType extends AbstractType
 
         $builder
             ->add('label')
+            ->add('description', null, [
+                'required' => false
+            ])
             ->add('icon')
             ->add('groupBy', ChoiceType::class, [
                 'choices' => [

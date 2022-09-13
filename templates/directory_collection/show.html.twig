@@ -19,6 +19,9 @@
       <div class="form-control">{{ directory_collection.label }}</div>
     </div>
     <div class="form-group">
+      <label>Description</label>
+      {{ directory_collection.description|e('html')|markdown_to_html }}
+    <div class="form-group">
       <label>Icon</label>
       <div class="form-control"><i class="fas {{ directory_collection.icon }} fa-fw"></i> {{ directory_collection.icon }}</div>
     </div>

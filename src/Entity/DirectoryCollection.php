@@ -81,6 +81,11 @@ class DirectoryCollection
      */
     private $filterDeceased;
 
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $description;
+
     public function __construct()
     {
         $this->memberStatuses = new ArrayCollection();
@@ -233,5 +238,17 @@ class DirectoryCollection
     public function __toString(): string
     {
         return $this->label;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
     }
 }
