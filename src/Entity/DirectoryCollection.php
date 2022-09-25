@@ -8,82 +8,76 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * @ORM\Entity(repositoryClass="Gedmo\Sortable\Entity\Repository\SortableRepository")
  * @Gedmo\Loggable
  */
+#[ORM\Entity(repositoryClass: 'Gedmo\Sortable\Entity\Repository\SortableRepository')]
 class DirectoryCollection
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
      * @Gedmo\Versioned
      */
+    #[ORM\Column(type: 'string', length: 255)]
     private $label;
 
     /**
-     * @ORM\Column(type="string", length=255)
      * @Gedmo\Versioned
      */
+    #[ORM\Column(type: 'string', length: 255)]
     private $icon = 'fas fa-address-book';
 
-    /**
-     * @ORM\ManyToMany(targetEntity=MemberStatus::class, inversedBy="directoryCollections")
-     */
+    #[ORM\ManyToMany(targetEntity: MemberStatus::class, inversedBy: 'directoryCollections')]
     private $memberStatuses;
 
     /**
-     * @ORM\Column(type="boolean")
      * @Gedmo\Versioned
      */
+    #[ORM\Column(type: 'boolean')]
     private $showMemberStatus;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
      * @Gedmo\Versioned
      */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $groupBy;
 
     /**
      * @Gedmo\Slug(fields={"label"})
-     * @ORM\Column(type="string", length=255, nullable=true)
      * @Gedmo\Versioned
      */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $slug;
 
     /**
      * @Gedmo\SortablePosition
-     * @ORM\Column(type="integer", nullable=true)
      * @Gedmo\Versioned
      */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $position;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
      * @Gedmo\Versioned
      */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $filterLost;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
      * @Gedmo\Versioned
      */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $filterLocalDoNotContact;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
      * @Gedmo\Versioned
      */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $filterDeceased;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+    #[ORM\Column(type: 'text', nullable: true)]
     private $description;
 
     public function __construct()

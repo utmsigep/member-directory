@@ -17,7 +17,7 @@ class DonationControllerTest extends WebTestCase
     public function testIndexWithDonationManagerRole()
     {
         $client = static::createClient();
-        $userRepository = static::$container->get(UserRepository::class);
+        $userRepository = static::getContainer()->get(UserRepository::class);
         $testUser = $userRepository->findOneByEmail('donation.manager@example.com');
         $client->loginUser($testUser);
 
@@ -30,7 +30,7 @@ class DonationControllerTest extends WebTestCase
     public function testIndexWithAdminRole()
     {
         $client = static::createClient();
-        $userRepository = static::$container->get(UserRepository::class);
+        $userRepository = static::getContainer()->get(UserRepository::class);
         $testUser = $userRepository->findOneByEmail('admin@example.com');
         $client->loginUser($testUser);
 
@@ -43,7 +43,7 @@ class DonationControllerTest extends WebTestCase
     public function testDenyWithUserRole()
     {
         $client = static::createClient();
-        $userRepository = static::$container->get(UserRepository::class);
+        $userRepository = static::getContainer()->get(UserRepository::class);
         $testUser = $userRepository->findOneByEmail('user@example.com');
         $client->loginUser($testUser);
 
@@ -54,7 +54,7 @@ class DonationControllerTest extends WebTestCase
     public function testShowDonation()
     {
         $client = static::createClient();
-        $userRepository = static::$container->get(UserRepository::class);
+        $userRepository = static::getContainer()->get(UserRepository::class);
         $testUser = $userRepository->findOneByEmail('donation.manager@example.com');
         $client->loginUser($testUser);
 
@@ -67,7 +67,7 @@ class DonationControllerTest extends WebTestCase
     public function testEditDonation()
     {
         $client = static::createClient();
-        $userRepository = static::$container->get(UserRepository::class);
+        $userRepository = static::getContainer()->get(UserRepository::class);
         $testUser = $userRepository->findOneByEmail('donation.manager@example.com');
         $client->loginUser($testUser);
 
@@ -80,7 +80,7 @@ class DonationControllerTest extends WebTestCase
     public function testNewDonation()
     {
         $client = static::createClient();
-        $userRepository = static::$container->get(UserRepository::class);
+        $userRepository = static::getContainer()->get(UserRepository::class);
         $testUser = $userRepository->findOneByEmail('donation.manager@example.com');
         $client->loginUser($testUser);
 
@@ -93,7 +93,7 @@ class DonationControllerTest extends WebTestCase
     public function testDonorsList()
     {
         $client = static::createClient();
-        $userRepository = static::$container->get(UserRepository::class);
+        $userRepository = static::getContainer()->get(UserRepository::class);
         $testUser = $userRepository->findOneByEmail('donation.manager@example.com');
         $client->loginUser($testUser);
 
@@ -106,7 +106,7 @@ class DonationControllerTest extends WebTestCase
     public function testCampaignsList()
     {
         $client = static::createClient();
-        $userRepository = static::$container->get(UserRepository::class);
+        $userRepository = static::getContainer()->get(UserRepository::class);
         $testUser = $userRepository->findOneByEmail('donation.manager@example.com');
         $client->loginUser($testUser);
 

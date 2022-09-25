@@ -10,7 +10,7 @@ class UpdateControllerTest extends WebTestCase
     public function testUpdateMemberRecord(): void
     {
         $client = static::createClient();
-        $userRepository = static::$container->get(MemberRepository::class);
+        $userRepository = static::getContainer()->get(MemberRepository::class);
         $testMember = $userRepository->findOneByPrimaryEmail('unclebilly@example.org');
 
         $crawler = $client->request('GET', sprintf(

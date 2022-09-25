@@ -1,7 +1,4 @@
 {
-    "bacon/bacon-qr-code": {
-        "version": "2.0.2"
-    },
     "beberlei/assert": {
         "version": "v3.2.7"
     },
@@ -32,20 +29,15 @@
             "config/packages/test/dama_doctrine_test_bundle.yaml"
         ]
     },
-    "dasprid/enum": {
-        "version": "1.0.2"
-    },
     "doctrine/annotations": {
-        "version": "1.0",
+        "version": "1.13",
         "recipe": {
             "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "1.0",
-            "ref": "cb4152ebcadbe620ea2261da1a1c5a9b8cea7672"
+            "branch": "main",
+            "version": "1.10",
+            "ref": "64d8583af5ea57b7afa4aba4b159907f3a148b05"
         },
-        "files": [
-            "config/routes/annotations.yaml"
-        ]
+        "files": []
     },
     "doctrine/cache": {
         "version": "v1.8.0"
@@ -66,27 +58,26 @@
         "version": "v0.5.3"
     },
     "doctrine/doctrine-bundle": {
-        "version": "1.6",
+        "version": "2.7",
         "recipe": {
             "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "1.6",
-            "ref": "453e89b78ded666f351617baca5ae40d20622351"
+            "branch": "main",
+            "version": "2.4",
+            "ref": "da713d006953b90d1c085c1be480ecdd6c4a95e0"
         },
         "files": [
             "config/packages/doctrine.yaml",
-            "config/packages/prod/doctrine.yaml",
             "src/Entity/.gitignore",
             "src/Repository/.gitignore"
         ]
     },
     "doctrine/doctrine-fixtures-bundle": {
-        "version": "3.0",
+        "version": "3.4",
         "recipe": {
             "repo": "github.com/symfony/recipes",
-            "branch": "master",
+            "branch": "main",
             "version": "3.0",
-            "ref": "fc52d86631a6dfd9fdf3381d0b7e3df2069e51b3"
+            "ref": "1f5514cfa15b947298df4d771e694e578d4c204d"
         },
         "files": [
             "src/DataFixtures/AppFixtures.php"
@@ -132,9 +123,6 @@
     "egulias/email-validator": {
         "version": "2.1.8"
     },
-    "endroid/qr-code": {
-        "version": "3.9.1"
-    },
     "erusev/parsedown": {
         "version": "1.7.4"
     },
@@ -171,9 +159,6 @@
     "guzzlehttp/psr7": {
         "version": "2.0.0"
     },
-    "khanamiryan/qrcode-detector-decoder": {
-        "version": "1.0.5.1"
-    },
     "laminas/laminas-code": {
         "version": "3.5.1"
     },
@@ -194,9 +179,6 @@
     },
     "myclabs/deep-copy": {
         "version": "1.10.2"
-    },
-    "myclabs/php-enum": {
-        "version": "1.8.0"
     },
     "nikic/php-parser": {
         "version": "v4.2.1"
@@ -241,12 +223,12 @@
         "version": "5.0.3"
     },
     "phpunit/phpunit": {
-        "version": "9.3",
+        "version": "9.5",
         "recipe": {
             "repo": "github.com/symfony/recipes",
-            "branch": "master",
+            "branch": "main",
             "version": "9.3",
-            "ref": "8b7e50ac5f82e6d41bad88344f7e868c02ae1af5"
+            "ref": "a6249a6c4392e9169b87abf93225f7f9f59025e6"
         },
         "files": [
             ".env.test",
@@ -288,20 +270,17 @@
         "version": "2.2.3"
     },
     "scheb/2fa-bundle": {
-        "version": "5.0",
+        "version": "6.3",
         "recipe": {
             "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "5.0",
-            "ref": "62660e7d21b8b5295c5a6f8ca17dc7099881f267"
+            "branch": "main",
+            "version": "6.0",
+            "ref": "1e6f68089146853a790b5da9946fc5974f6fcd49"
         },
         "files": [
             "config/packages/scheb_2fa.yaml",
             "config/routes/scheb_2fa.yaml"
         ]
-    },
-    "scheb/2fa-qr-code": {
-        "version": "v5.11.0"
     },
     "scheb/2fa-totp": {
         "version": "v5.11.0"
@@ -461,12 +440,12 @@
         "version": "v4.2.7"
     },
     "symfony/flex": {
-        "version": "1.0",
+        "version": "2.2",
         "recipe": {
             "repo": "github.com/symfony/recipes",
-            "branch": "master",
+            "branch": "main",
             "version": "1.0",
-            "ref": "dc3fc2e0334a4137c47cfd5a3ececc601fa61a0b"
+            "ref": "146251ae39e06a95be0fe3d13c807bcf3938b172"
         },
         "files": [
             ".env"
@@ -611,14 +590,8 @@
     "symfony/polyfill-php72": {
         "version": "v1.11.0"
     },
-    "symfony/polyfill-php73": {
-        "version": "v1.11.0"
-    },
     "symfony/polyfill-php80": {
         "version": "v1.17.1"
-    },
-    "symfony/polyfill-php81": {
-        "version": "v1.23.0"
     },
     "symfony/process": {
         "version": "v5.3.0"
@@ -663,9 +636,6 @@
         "version": "v4.2.7"
     },
     "symfony/security-csrf": {
-        "version": "v4.2.7"
-    },
-    "symfony/security-guard": {
         "version": "v4.2.7"
     },
     "symfony/security-http": {

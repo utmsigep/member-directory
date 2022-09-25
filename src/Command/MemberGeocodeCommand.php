@@ -5,6 +5,7 @@ namespace App\Command;
 use App\Entity\Member;
 use App\Service\GeocoderService;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -13,10 +14,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
+#[AsCommand(name: 'app:member:geocode')]
 class MemberGeocodeCommand extends Command
 {
-    protected static $defaultName = 'app:member:geocode';
-
     protected $entityManager;
 
     protected $validator;

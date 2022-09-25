@@ -16,15 +16,11 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @IsGranted("ROLE_ADMIN")
- * @Route("/admin/users")
- */
+#[IsGranted('ROLE_ADMIN')]
+#[Route(path: '/admin/users')]
 class UserController extends AbstractController
 {
-    /**
-     * @Route("/", name="user_index", methods={"GET"})
-     */
+    #[Route(path: '/', name: 'user_index', methods: ['GET'])]
     public function index(UserRepository $userRepository): Response
     {
         return $this->render('user/index.html.twig', [
@@ -32,9 +28,7 @@ class UserController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/new", name="user_new", methods={"GET", "POST"})
-     */
+    #[Route(path: '/new', name: 'user_new', methods: ['GET', 'POST'])]
     public function new(Request $request, UserPasswordHasherInterface $passwordEncoder, EntityManagerInterface $entityManager): Response
     {
         $user = new User();
@@ -61,9 +55,7 @@ class UserController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="user_show", methods={"GET"})
-     */
+    #[Route(path: '/{id}', name: 'user_show', methods: ['GET'])]
     public function show(User $user, ManagerRegistry $doctrine): Response
     {
         $logs = $doctrine->getRepository(LogEntry::class)->findBy(['username' => $user->getUsername()], ['loggedAt' => 'DESC'], 1000);
@@ -74,9 +66,7 @@ class UserController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}/edit", name="user_edit", methods={"GET", "POST"})
-     */
+    #[Route(path: '/{id}/edit', name: 'user_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, User $user, UserPasswordHasherInterface $passwordEncoder, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(UserType::class, $user, ['require_password' => false]);
@@ -104,9 +94,7 @@ class UserController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}/disable-2fa", name="user_disable_two_factor", methods={"POST"})
-     */
+    #[Route(path: '/{id}/disable-2fa', name: 'user_disable_two_factor', methods: ['POST'])]
     public function disableTwoFactor(Request $request, User $user, LoggerInterface $logger, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('disableTwoFactor'.$user->getId(), $request->request->get('_token'))) {
@@ -124,9 +112,7 @@ class UserController extends AbstractController
         return $this->redirectToRoute('user_show', ['id' => $user->getId()]);
     }
 
-    /**
-     * @Route("/{id}", name="user_delete", methods={"POST"})
-     */
+    #[Route(path: '/{id}', name: 'user_delete', methods: ['POST'])]
     public function delete(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {

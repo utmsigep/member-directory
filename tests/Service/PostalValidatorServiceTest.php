@@ -15,10 +15,7 @@ class PostalValidatorServiceTest extends KernelTestCase
         self::bootKernel();
 
         // returns the real and unchanged service container
-        $container = self::$kernel->getContainer();
-
-        // gets the special container that allows fetching private services
-        $container = self::$container;
+        $container = static::getContainer();
 
         $this->postalValidatorService = $container->get(PostalValidatorService::class);
 

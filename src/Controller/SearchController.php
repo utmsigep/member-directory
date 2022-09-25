@@ -8,15 +8,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @IsGranted("ROLE_USER")
- * @Route("/directory/search")
- */
+#[IsGranted('ROLE_USER')]
+#[Route(path: '/directory/search')]
 class SearchController extends AbstractController
 {
-    /**
-     * @Route("/", name="search", options={"expose": true})
-     */
+    #[Route(path: '/', name: 'search', options: ['expose' => true])]
     public function index(MemberRepository $memberRepository, Request $request)
     {
         $results = [];
@@ -29,9 +25,7 @@ class SearchController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/autocomplete", name="search_autocomplete", options={"expose": true})
-     */
+    #[Route(path: '/autocomplete', name: 'search_autocomplete', options: ['expose' => true])]
     public function autoComplete(MemberRepository $memberRepository, Request $request)
     {
         $output = [];

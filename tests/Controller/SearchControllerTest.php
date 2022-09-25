@@ -17,7 +17,7 @@ class SearchControllerTest extends WebTestCase
     public function testEmptySearchPage()
     {
         $client = static::createClient();
-        $userRepository = static::$container->get(UserRepository::class);
+        $userRepository = static::getContainer()->get(UserRepository::class);
         $testUser = $userRepository->findOneByEmail('user@example.com');
         $client->loginUser($testUser);
 
@@ -31,7 +31,7 @@ class SearchControllerTest extends WebTestCase
     public function testMatchingSearchPage()
     {
         $client = static::createClient();
-        $userRepository = static::$container->get(UserRepository::class);
+        $userRepository = static::getContainer()->get(UserRepository::class);
         $testUser = $userRepository->findOneByEmail('user@example.com');
         $client->loginUser($testUser);
 
@@ -45,7 +45,7 @@ class SearchControllerTest extends WebTestCase
     public function testEmptyAutoComplete()
     {
         $client = static::createClient();
-        $userRepository = static::$container->get(UserRepository::class);
+        $userRepository = static::getContainer()->get(UserRepository::class);
         $testUser = $userRepository->findOneByEmail('user@example.com');
         $client->loginUser($testUser);
 
@@ -58,7 +58,7 @@ class SearchControllerTest extends WebTestCase
     public function testMatchingAutoComplete()
     {
         $client = static::createClient();
-        $userRepository = static::$container->get(UserRepository::class);
+        $userRepository = static::getContainer()->get(UserRepository::class);
         $testUser = $userRepository->findOneByEmail('user@example.com');
         $client->loginUser($testUser);
 

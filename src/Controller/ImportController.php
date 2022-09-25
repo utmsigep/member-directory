@@ -10,15 +10,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @IsGranted("ROLE_DIRECTORY_MANAGER")
- * @Route("/directory/import")
- */
+#[IsGranted('ROLE_DIRECTORY_MANAGER')]
+#[Route(path: '/directory/import')]
 class ImportController extends AbstractController
 {
-    /**
-     * @Route("/", name="import")
-     */
+    #[Route(path: '/', name: 'import')]
     public function import(Request $request, CsvToMemberService $csvToMemberService, EntityManagerInterface $entityManager)
     {
         $form = $this->createForm(MemberImportType::class, null);

@@ -3,6 +3,7 @@
 namespace App\Command;
 
 use App\Service\EmailService;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
@@ -11,11 +12,9 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+#[AsCommand(name: 'app:esp:webhook')]
 class EspWebhookCommand extends Command
 {
-    protected static $defaultName = 'app:esp:webhook';
-    protected static $defaultDescription = 'Manage ESP webhooks.';
-
     protected $emailService;
 
     public function __construct(EmailService $emailService)
@@ -27,7 +26,7 @@ class EspWebhookCommand extends Command
     protected function configure()
     {
         $this
-            ->setDescription(self::$defaultDescription)
+            ->setDescription('Manage ESP webhooks.')
             ->addArgument('action', InputArgument::REQUIRED, 'Action to take (list, create, delete)')
             ->addOption('webhook-id', null, InputOption::VALUE_OPTIONAL, 'The UUID for the webhook.')
         ;

@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\CommunicationLog;
-use App\Entity\Donation;
 use App\Entity\Event;
 use App\Entity\Member;
 use App\Form\MemberCommunicationLogType;
@@ -28,16 +27,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @IsGranted("ROLE_USER")
- * @Route("/directory/member")
- */
+#[IsGranted('ROLE_USER')]
+#[Route(path: '/directory/member')]
 class MemberController extends AbstractController
 {
-    /**
-     * @Route("/new", name="member_new")
-     * @IsGranted("ROLE_DIRECTORY_MANAGER")
-     */
+    #[Route(path: '/new', name: 'member_new')]
+    #[IsGranted('ROLE_DIRECTORY_MANAGER')]
     public function memberNew(Request $request, EntityManagerInterface $entityManager): Response
     {
         $member = new Member();
@@ -59,9 +54,7 @@ class MemberController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{localIdentifier}", name="member_show", options={"expose": true}))
-     */
+    #[Route(path: '/{localIdentifier}', name: 'member_show', options: ['expose' => true])]
     public function show(Member $member): Response
     {
         return $this->render('member/show.html.twig', [
@@ -69,10 +62,8 @@ class MemberController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{localIdentifier}/edit", name="member_edit")
-     * @IsGranted("ROLE_DIRECTORY_MANAGER")
-     */
+    #[Route(path: '/{localIdentifier}/edit', name: 'member_edit')]
+    #[IsGranted('ROLE_DIRECTORY_MANAGER')]
     public function memberEdit(Member $member, Request $request, EntityManagerInterface $entityManager): Response
     {
         $originalMember = clone $member;
@@ -94,10 +85,8 @@ class MemberController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{localIdentifier}/delete", name="member_delete")
-     * @IsGranted("ROLE_DIRECTORY_MANAGER")
-     */
+    #[Route(path: '/{localIdentifier}/delete', name: 'member_delete')]
+    #[IsGranted('ROLE_DIRECTORY_MANAGER')]
     public function memberDelete(Member $member, Request $request, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createFormBuilder($member)->getForm();
@@ -116,10 +105,8 @@ class MemberController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{localIdentifier}/change-log", name="member_change_log")
-     * @IsGranted("ROLE_DIRECTORY_MANAGER")
-     */
+    #[Route(path: '/{localIdentifier}/change-log', name: 'member_change_log')]
+    #[IsGranted('ROLE_DIRECTORY_MANAGER')]
     public function changeLog(Member $member, EntityManagerInterface $entityManager): Response
     {
         $logEntries = $entityManager->getRepository(LogEntry::class)->getLogEntries($member);
@@ -130,10 +117,8 @@ class MemberController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{localIdentifier}/communications", name="member_communication_log")
-     * @IsGranted("ROLE_COMMUNICATIONS_MANAGER")
-     */
+    #[Route(path: '/{localIdentifier}/communications', name: 'member_communication_log')]
+    #[IsGranted('ROLE_COMMUNICATIONS_MANAGER')]
     public function communicationLog(Member $member, Request $request, EntityManagerInterface $entityManager): Response
     {
         $communicationLogs = $entityManager->getRepository(CommunicationLog::class)->getCommunicationLogsByMember($member);
@@ -157,10 +142,8 @@ class MemberController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{localIdentifier}/donations", name="member_donations")
-     * @IsGranted("ROLE_DONATION_MANAGER")
-     */
+    #[Route(path: '/{localIdentifier}/donations', name: 'member_donations')]
+    #[IsGranted('ROLE_DONATION_MANAGER')]
     public function donations(Member $member, DonationRepository $donationRepository, ChartService $chartService, EntityManagerInterface $entityManager): Response
     {
         $donationRepository->setDateRange((new \DateTime())->setTimestamp(0), new \DateTime());
@@ -176,10 +159,8 @@ class MemberController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{localIdentifier}/events", name="member_events")
-     * @IsGranted("ROLE_EVENT_MANAGER")
-     */
+    #[Route(path: '/{localIdentifier}/events', name: 'member_events')]
+    #[IsGranted('ROLE_EVENT_MANAGER')]
     public function events(Member $member, Request $request, EntityManagerInterface $entityManager): Response
     {
         $events = $member->getEvents();
@@ -225,10 +206,8 @@ class MemberController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{localIdentifier}/email-subscription", name="member_email_subscription")
-     * @IsGranted("ROLE_EMAIL_MANAGER")
-     */
+    #[Route(path: '/{localIdentifier}/email-subscription', name: 'member_email_subscription')]
+    #[IsGranted('ROLE_EMAIL_MANAGER')]
     public function emailSubscription(Member $member, EmailService $emailService, EntityManagerInterface $entityManager): Response
     {
         if (!$emailService->isConfigured()) {
@@ -251,10 +230,8 @@ class MemberController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{localIdentifier}/add-subscriber", name="member_email_subscribe")
-     * @IsGranted("ROLE_EMAIL_MANAGER")
-     */
+    #[Route(path: '/{localIdentifier}/add-subscriber', name: 'member_email_subscribe')]
+    #[IsGranted('ROLE_EMAIL_MANAGER')]
     public function addSubscriber(Member $member, EmailService $emailService): Response
     {
         if (!$emailService->isConfigured()) {
@@ -276,10 +253,8 @@ class MemberController extends AbstractController
         );
     }
 
-    /**
-     * @Route("/{localIdentifier}/update-subscriber", name="member_email_update")
-     * @IsGranted("ROLE_EMAIL_MANAGER")
-     */
+    #[Route(path: '/{localIdentifier}/update-subscriber', name: 'member_email_update')]
+    #[IsGranted('ROLE_EMAIL_MANAGER')]
     public function updateSubscriber(Member $member, EmailService $emailService): Response
     {
         if (!$emailService->isConfigured()) {
@@ -306,10 +281,8 @@ class MemberController extends AbstractController
         );
     }
 
-    /**
-     * @Route("/{localIdentifier}/remove-subscriber", name="member_email_remove")
-     * @IsGranted("ROLE_EMAIL_MANAGER")
-     */
+    #[Route(path: '/{localIdentifier}/remove-subscriber', name: 'member_email_remove')]
+    #[IsGranted('ROLE_EMAIL_MANAGER')]
     public function removeSubscriber(Member $member, EmailService $emailService): Response
     {
         if (!$emailService->isConfigured()) {
@@ -331,9 +304,7 @@ class MemberController extends AbstractController
         );
     }
 
-    /**
-     * @Route("/{localIdentifier}/vcard", name="member_vcard")
-     */
+    #[Route(path: '/{localIdentifier}/vcard', name: 'member_vcard')]
     public function generateVCard(Member $member): Response
     {
         // Create the VCard
@@ -373,9 +344,7 @@ class MemberController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{localIdentifier}/message", name="member_message")
-     */
+    #[Route(path: '/{localIdentifier}/message', name: 'member_message')]
     public function message(Member $member, Request $request, EmailService $emailService, SmsService $smsService, CommunicationLogService $communicationLogService): Response
     {
         $formEmail = $this->createForm(MemberEmailType::class, null, ['member' => $member, 'acting_user' => $this->getUser()]);

@@ -10,32 +10,28 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\TagRepository")
  * @Gedmo\Loggable
  */
+#[ORM\Entity(repositoryClass: 'App\Repository\TagRepository')]
 class Tag
 {
     use TimestampableEntity;
 
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     * @Groups({"tag_main"})
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
+    #[Groups(['tag_main'])]
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
      * @Gedmo\Versioned
-     * @Groups({"tag_main"})
      */
+    #[ORM\Column(type: 'string', length: 255)]
+    #[Groups(['tag_main'])]
     private $tagName;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=Member::class, inversedBy="tags")
-     * @ORM\OrderBy({"lastName": "ASC", "firstName": "ASC"})
-     */
+    #[ORM\ManyToMany(targetEntity: Member::class, inversedBy: 'tags')]
+    #[ORM\OrderBy(['lastName' => 'ASC', 'firstName' => 'ASC'])]
     private $members;
 
     public function __construct()

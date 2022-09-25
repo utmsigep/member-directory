@@ -2,11 +2,11 @@
 
 namespace App\Controller;
 
-use App\Entity\Event;
-use App\Entity\Member;
-use App\Entity\Tag;
 use App\Form\MemberEmailType;
 use App\Form\MemberSMSType;
+use App\Repository\EventRepository;
+use App\Repository\MemberRepository;
+use App\Repository\TagRepository;
 use App\Service\CommunicationLogService;
 use App\Service\EmailService;
 use App\Service\SmsService;
@@ -16,23 +16,28 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @IsGranted("ROLE_COMMUNICATIONS_MANAGER")
- * @Route("/messenger")
- */
+#[IsGranted('ROLE_COMMUNICATIONS_MANAGER')]
+#[Route(path: '/messenger')]
 class MessengerController extends AbstractController
 {
-    /**
-     * @Route("/", name="messenger_home")
-     */
+    protected $eventRepository;
+    protected $memberRepository;
+    protected $tagRepository;
+
+    public function __construct(EventRepository $eventRepository, MemberRepository $memberRepository, TagRepository $tagRepository)
+    {
+        $this->eventRepository = $eventRepository;
+        $this->memberRepository = $memberRepository;
+        $this->tagRepository = $tagRepository;
+    }
+
+    #[Route(path: '/', name: 'messenger_home')]
     public function home(): Response
     {
         return $this->redirectToRoute('messenger_email');
     }
 
-    /**
-     * @Route("/email", name="messenger_email")
-     */
+    #[Route(path: '/email', name: 'messenger_email')]
     public function email(Request $request, EmailService $emailService, CommunicationLogService $communicationLogService): Response
     {
         $queryRecipients = $this->buildRecipientsFromRequest($request);
@@ -72,9 +77,7 @@ class MessengerController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/sms", name="messenger_sms")
-     */
+    #[Route(path: '/sms', name: 'messenger_sms')]
     public function sms(Request $request, SmsService $smsService, CommunicationLogService $communicationLogService): Response
     {
         $queryRecipients = $this->buildRecipientsFromRequest($request);
@@ -118,13 +121,12 @@ class MessengerController extends AbstractController
 
         // List of identifiers
         if (isset($queryParameters['recipients']) && is_array($queryParameters['recipients'])) {
-            $memberRepository = $this->getDoctrine()->getRepository(Member::class);
-            $queryRecipients = $memberRepository->findByLocalIdentifiers($queryParameters['recipients']);
+            $queryRecipients = $this->memberRepository->findByLocalIdentifiers($queryParameters['recipients']);
         }
 
         // Event attendees
         if (isset($queryParameters['event_id']) && is_numeric($queryParameters['event_id'])) {
-            $event = $this->getDoctrine()->getRepository(Event::class)->find($queryParameters['event_id']);
+            $event = $this->eventRepository->find($queryParameters['event_id']);
             if ($event) {
                 $queryRecipients = $event->getAttendees()->toArray();
             }
@@ -132,7 +134,7 @@ class MessengerController extends AbstractController
 
         // Tagged Members
         if (isset($queryParameters['tag_id']) && is_numeric($queryParameters['tag_id'])) {
-            $tag = $this->getDoctrine()->getRepository(Tag::class)->find($request->query->get('tag_id'));
+            $tag = $this->tagRepository->find($request->query->get('tag_id'));
             if ($tag) {
                 $queryRecipients = $tag->getMembers()->toArray();
             }
