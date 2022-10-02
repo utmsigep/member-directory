@@ -17,7 +17,7 @@ class MemberControllerTest extends WebTestCase
     public function testShowMember()
     {
         $client = static::createClient();
-        $userRepository = static::$container->get(UserRepository::class);
+        $userRepository = static::getContainer()->get(UserRepository::class);
         $testUser = $userRepository->findOneByEmail('user@example.com');
         $client->loginUser($testUser);
 
@@ -30,7 +30,7 @@ class MemberControllerTest extends WebTestCase
     public function testMessageMember()
     {
         $client = static::createClient();
-        $userRepository = static::$container->get(UserRepository::class);
+        $userRepository = static::getContainer()->get(UserRepository::class);
         $testUser = $userRepository->findOneByEmail('directory.manager@example.com');
         $client->loginUser($testUser);
 
@@ -49,7 +49,7 @@ class MemberControllerTest extends WebTestCase
         }
 
         $client = static::createClient();
-        $userRepository = static::$container->get(UserRepository::class);
+        $userRepository = static::getContainer()->get(UserRepository::class);
         $testUser = $userRepository->findOneByEmail('directory.manager@example.com');
         $client->loginUser($testUser);
 
@@ -79,7 +79,7 @@ class MemberControllerTest extends WebTestCase
 
         $client = static::createClient();
         $client->enableProfiler();
-        $userRepository = static::$container->get(UserRepository::class);
+        $userRepository = static::getContainer()->get(UserRepository::class);
         $testUser = $userRepository->findOneByEmail('directory.manager@example.com');
         $client->loginUser($testUser);
 
@@ -103,7 +103,7 @@ class MemberControllerTest extends WebTestCase
     public function testShowChangeLog()
     {
         $client = static::createClient();
-        $userRepository = static::$container->get(UserRepository::class);
+        $userRepository = static::getContainer()->get(UserRepository::class);
         $testUser = $userRepository->findOneByEmail('directory.manager@example.com');
         $client->loginUser($testUser);
 
@@ -116,7 +116,7 @@ class MemberControllerTest extends WebTestCase
     public function testShowChangeLogWithoutRole()
     {
         $client = static::createClient();
-        $userRepository = static::$container->get(UserRepository::class);
+        $userRepository = static::getContainer()->get(UserRepository::class);
         $testUser = $userRepository->findOneByEmail('user@example.com');
         $client->loginUser($testUser);
 
@@ -127,7 +127,7 @@ class MemberControllerTest extends WebTestCase
     public function testGenerateVcard()
     {
         $client = static::createClient();
-        $userRepository = static::$container->get(UserRepository::class);
+        $userRepository = static::getContainer()->get(UserRepository::class);
         $testUser = $userRepository->findOneByEmail('user@example.com');
         $client->loginUser($testUser);
 
@@ -138,7 +138,7 @@ class MemberControllerTest extends WebTestCase
     public function testShowMemberDonations()
     {
         $client = static::createClient();
-        $userRepository = static::$container->get(UserRepository::class);
+        $userRepository = static::getContainer()->get(UserRepository::class);
         $testUser = $userRepository->findOneByEmail('donation.manager@example.com');
         $client->loginUser($testUser);
 
@@ -151,7 +151,7 @@ class MemberControllerTest extends WebTestCase
     public function testShowMemberDonationsWithoutRole()
     {
         $client = static::createClient();
-        $userRepository = static::$container->get(UserRepository::class);
+        $userRepository = static::getContainer()->get(UserRepository::class);
         $testUser = $userRepository->findOneByEmail('user@example.com');
         $client->loginUser($testUser);
 
@@ -162,7 +162,7 @@ class MemberControllerTest extends WebTestCase
     public function testShowMemberCommunications()
     {
         $client = static::createClient();
-        $userRepository = static::$container->get(UserRepository::class);
+        $userRepository = static::getContainer()->get(UserRepository::class);
         $testUser = $userRepository->findOneByEmail('communications.manager@example.com');
         $client->loginUser($testUser);
 
@@ -175,7 +175,7 @@ class MemberControllerTest extends WebTestCase
     public function testShowMemberCommunicationsWithoutRole()
     {
         $client = static::createClient();
-        $userRepository = static::$container->get(UserRepository::class);
+        $userRepository = static::getContainer()->get(UserRepository::class);
         $testUser = $userRepository->findOneByEmail('user@example.com');
         $client->loginUser($testUser);
 
@@ -186,7 +186,7 @@ class MemberControllerTest extends WebTestCase
     public function testEditMember()
     {
         $client = static::createClient();
-        $userRepository = static::$container->get(UserRepository::class);
+        $userRepository = static::getContainer()->get(UserRepository::class);
         $testUser = $userRepository->findOneByEmail('directory.manager@example.com');
         $client->loginUser($testUser);
 
@@ -199,7 +199,7 @@ class MemberControllerTest extends WebTestCase
     public function testEditMemberWithoutRole()
     {
         $client = static::createClient();
-        $userRepository = static::$container->get(UserRepository::class);
+        $userRepository = static::getContainer()->get(UserRepository::class);
         $testUser = $userRepository->findOneByEmail('user@example.com');
         $client->loginUser($testUser);
 
@@ -210,7 +210,7 @@ class MemberControllerTest extends WebTestCase
     public function testNewMember()
     {
         $client = static::createClient();
-        $userRepository = static::$container->get(UserRepository::class);
+        $userRepository = static::getContainer()->get(UserRepository::class);
         $testUser = $userRepository->findOneByEmail('directory.manager@example.com');
         $client->loginUser($testUser);
 
@@ -223,7 +223,7 @@ class MemberControllerTest extends WebTestCase
     public function testNewMemberWithoutRole()
     {
         $client = static::createClient();
-        $userRepository = static::$container->get(UserRepository::class);
+        $userRepository = static::getContainer()->get(UserRepository::class);
         $testUser = $userRepository->findOneByEmail('user@example.com');
         $client->loginUser($testUser);
 

@@ -15,9 +15,8 @@ class UpdateController extends AbstractController
 {
     /**
      * Redirect query string links.
-     *
-     * @Route("/update-my-info")
      */
+    #[Route(path: '/update-my-info')]
     public function updateFromQueryString(Request $request)
     {
         if ($request->get('externalIdentifier') && $request->get('updateToken')) {
@@ -29,9 +28,7 @@ class UpdateController extends AbstractController
         throw $this->createNotFoundException('Member not found.');
     }
 
-    /**
-     * @Route("/update-my-info/{externalIdentifier}/{updateToken}", name="self_service_update")
-     */
+    #[Route(path: '/update-my-info/{externalIdentifier}/{updateToken}', name: 'self_service_update')]
     public function update(Request $request, EmailService $emailService, MemberRepository $memberRepository, EntityManagerInterface $entityManager)
     {
         $member = $memberRepository->findOneBy([

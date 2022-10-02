@@ -1,4 +1,4 @@
-# See the configuration reference at https://github.com/scheb/2fa/blob/master/doc/configuration.md
+# See the configuration reference at https://symfony.com/bundles/SchebTwoFactorBundle/6.x/configuration.html
 scheb_two_factor:
     totp:
         enabled: true
@@ -12,3 +12,6 @@ scheb_two_factor:
         cookie_same_site: "lax"        # The same-site option of the cookie, can be "lax" or "strict"
         cookie_domain: ~               # Domain to use when setting the cookie, fallback to the request domain if not set
         cookie_path: "/"               # Path to use when setting the cookie
+    security_tokens:
+        - Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken
+        - Symfony\Component\Security\Http\Authenticator\Token\PostAuthenticationToken

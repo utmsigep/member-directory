@@ -12,17 +12,13 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class WebhookController extends AbstractController
 {
-    /**
-     * @Route("/webhook", name="webhook")
-     */
+    #[Route(path: '/webhook', name: 'webhook')]
     public function index(Request $request): Response
     {
         return $this->json(['status' => 200, 'title' => 'success', 'details' => 'Webhooks are available.']);
     }
 
-    /**
-     * @Route("/webhook/phone-service", name="webhook_phone_service", methods={"POST"})
-     */
+    #[Route(path: '/webhook/phone-service', name: 'webhook_phone_service', methods: ['POST'])]
     public function phoneServiceWebhook(Request $request, PhoneService $phoneService): Response
     {
         if (!$phoneService->isConfigured()) {
@@ -44,9 +40,7 @@ class WebhookController extends AbstractController
         }
     }
 
-    /**
-     * @Route("/webhook/sms-service", name="webhook_sms_service", methods={"POST"})
-     */
+    #[Route(path: '/webhook/sms-service', name: 'webhook_sms_service', methods: ['POST'])]
     public function smsServiceWebhook(Request $request, SmsService $smsService): Response
     {
         if (!$smsService->isConfigured()) {
@@ -68,9 +62,7 @@ class WebhookController extends AbstractController
         }
     }
 
-    /**
-     * @Route("/webhook/email-service", name="webhook_email_service", methods={"POST"})
-     */
+    #[Route(path: '/webhook/email-service', name: 'webhook_email_service', methods: ['POST'])]
     public function emailServiceWebhook(Request $request, EmailService $emailService): Response
     {
         if (!$emailService->isConfigured()) {

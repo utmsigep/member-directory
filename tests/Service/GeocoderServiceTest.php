@@ -16,11 +16,7 @@ class GeocoderServiceTest extends KernelTestCase
     {
         self::bootKernel();
 
-        // returns the real and unchanged service container
-        $container = self::$kernel->getContainer();
-
-        // gets the special container that allows fetching private services
-        $container = self::$container;
+        $container = static::getContainer();
 
         $mockHttpClient = new MockHttpClient(function ($method, $url) {
             switch ($url) {

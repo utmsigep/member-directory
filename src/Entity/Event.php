@@ -12,57 +12,53 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass=EventRepository::class)
- * @UniqueEntity("code")
- * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
  */
+#[ORM\Entity(repositoryClass: EventRepository::class)]
+#[UniqueEntity('code')]
+#[ORM\HasLifecycleCallbacks]
 class Event
 {
     use TimestampableEntity;
 
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
      * @Gedmo\Versioned
      */
+    #[ORM\Column(type: 'string', length: 255)]
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(allowNull=true)
      * @Gedmo\Versioned
      */
+    #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank(allowNull: true)]
     private $code;
 
     /**
-     * @ORM\Column(type="string", length=255)
      * @Gedmo\Versioned
      */
+    #[ORM\Column(type: 'string', length: 255)]
     private $location;
 
     /**
-     * @ORM\Column(type="text")
      * @Gedmo\Versioned
      */
+    #[ORM\Column(type: 'text')]
     private $description;
 
     /**
-     * @ORM\Column(type="datetime_immutable")
      * @Gedmo\Versioned
      */
+    #[ORM\Column(type: 'datetime_immutable')]
     private $startAt;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=Member::class, inversedBy="events")
-     * @ORM\OrderBy({"lastName": "ASC", "firstName": "ASC"})
-     */
+    #[ORM\ManyToMany(targetEntity: Member::class, inversedBy: 'events')]
+    #[ORM\OrderBy(['lastName' => 'ASC', 'firstName' => 'ASC'])]
     private $attendees;
 
     public function __construct()
@@ -170,9 +166,7 @@ class Event
         );
     }
 
-    /**
-     * @ORM\PreFlush
-     */
+    #[ORM\PreFlush]
     public function updateFieldsIfBlank()
     {
         if (!$this->code) {

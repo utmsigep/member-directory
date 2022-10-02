@@ -17,7 +17,7 @@ class CommunicationControllerTest extends WebTestCase
     public function testIndexWithDCommunicationManagerRole()
     {
         $client = static::createClient();
-        $userRepository = static::$container->get(UserRepository::class);
+        $userRepository = static::getContainer()->get(UserRepository::class);
         $testUser = $userRepository->findOneByEmail('communications.manager@example.com');
         $client->loginUser($testUser);
 
@@ -30,7 +30,7 @@ class CommunicationControllerTest extends WebTestCase
     public function testIndexWithAdminRole()
     {
         $client = static::createClient();
-        $userRepository = static::$container->get(UserRepository::class);
+        $userRepository = static::getContainer()->get(UserRepository::class);
         $testUser = $userRepository->findOneByEmail('admin@example.com');
         $client->loginUser($testUser);
 
@@ -43,7 +43,7 @@ class CommunicationControllerTest extends WebTestCase
     public function testDenyWithUserRole()
     {
         $client = static::createClient();
-        $userRepository = static::$container->get(UserRepository::class);
+        $userRepository = static::getContainer()->get(UserRepository::class);
         $testUser = $userRepository->findOneByEmail('user@example.com');
         $client->loginUser($testUser);
 
@@ -54,7 +54,7 @@ class CommunicationControllerTest extends WebTestCase
     public function testShowCommunication()
     {
         $client = static::createClient();
-        $userRepository = static::$container->get(UserRepository::class);
+        $userRepository = static::getContainer()->get(UserRepository::class);
         $testUser = $userRepository->findOneByEmail('communications.manager@example.com');
         $client->loginUser($testUser);
 
@@ -67,7 +67,7 @@ class CommunicationControllerTest extends WebTestCase
     public function testEditCommunication()
     {
         $client = static::createClient();
-        $userRepository = static::$container->get(UserRepository::class);
+        $userRepository = static::getContainer()->get(UserRepository::class);
         $testUser = $userRepository->findOneByEmail('communications.manager@example.com');
         $client->loginUser($testUser);
 
@@ -80,7 +80,7 @@ class CommunicationControllerTest extends WebTestCase
     public function testNewCommunication()
     {
         $client = static::createClient();
-        $userRepository = static::$container->get(UserRepository::class);
+        $userRepository = static::getContainer()->get(UserRepository::class);
         $testUser = $userRepository->findOneByEmail('communications.manager@example.com');
         $client->loginUser($testUser);
 

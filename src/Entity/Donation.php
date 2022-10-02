@@ -7,139 +7,136 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\DonationRepository")
- * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
  */
+#[ORM\Entity(repositoryClass: 'App\Repository\DonationRepository')]
+#[ORM\HasLifecycleCallbacks]
 class Donation
 {
     use TimestampableEntity;
 
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Member::class, inversedBy="donations")
      * @Gedmo\Versioned
      */
+    #[ORM\ManyToOne(targetEntity: Member::class, inversedBy: 'donations')]
     private $member;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
      * @Gedmo\Versioned
      */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $donorFirstName;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
      * @Gedmo\Versioned
      */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $donorLastName;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
      * @Gedmo\Versioned
      */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $receiptIdentifier;
 
     /**
-     * @ORM\Column(type="datetime_immutable")
      * @Gedmo\Versioned
      */
+    #[ORM\Column(type: 'datetime_immutable')]
     private $receivedAt;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
      * @Gedmo\Versioned
      */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $campaign;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
      * @Gedmo\Versioned
      */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $description;
 
     /**
-     * @ORM\Column(type="decimal", precision=10, scale=2)
      * @Gedmo\Versioned
      */
+    #[ORM\Column(type: 'decimal', precision: 10, scale: 2)]
     private $amount;
 
     /**
-     * @ORM\Column(type="string", length=255)
      * @Gedmo\Versioned
      */
-    private $currency;
+    #[ORM\Column(type: 'string', length: 255)]
+    private $currency = 'USD';
 
     /**
-     * @ORM\Column(type="decimal", precision=10, scale=2)
      * @Gedmo\Versioned
      */
+    #[ORM\Column(type: 'decimal', precision: 10, scale: 2)]
     private $processingFee;
 
     /**
-     * @ORM\Column(type="decimal", precision=10, scale=2)
      * @Gedmo\Versioned
      */
+    #[ORM\Column(type: 'decimal', precision: 10, scale: 2)]
     private $netAmount;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
      * @Gedmo\Versioned
      */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $donorComment;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
      * @Gedmo\Versioned
      */
+    #[ORM\Column(type: 'text', nullable: true)]
     private $internalNotes;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
      * @Gedmo\Versioned
      */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $donationType;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
      * @Gedmo\Versioned
      */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $cardType;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
      * @Gedmo\Versioned
      */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $lastFour;
 
     /**
-     * @ORM\Column(type="boolean")
      * @Gedmo\Versioned
      */
+    #[ORM\Column(type: 'boolean')]
     private $isAnonymous;
 
     /**
-     * @ORM\Column(type="boolean")
      * @Gedmo\Versioned
      */
+    #[ORM\Column(type: 'boolean')]
     private $isRecurring;
 
     /**
-     * @ORM\Column(type="json")
      * @Gedmo\Versioned
      */
+    #[ORM\Column(type: 'json')]
     private $transactionPayload = [];
 
     public function __construct()
     {
         $this->receivedAt = new \DateTimeImmutable();
-        $this->currency = 'USD';
     }
 
     public function getId(): ?int
@@ -388,9 +385,7 @@ class Donation
         return sprintf('#%s - %s @ %s (%s %s)', $this->receiptIdentifier, $donorName, $this->receivedAt->format('Y-m-d'), $this->amount, $this->currency);
     }
 
-    /**
-     * @ORM\PreFlush
-     */
+    #[ORM\PreFlush]
     public function updateFieldsIfBlank()
     {
         if ($this->getMember()) {

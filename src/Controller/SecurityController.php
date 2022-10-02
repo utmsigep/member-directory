@@ -6,8 +6,12 @@ use App\Entity\User;
 use App\Form\ProfileType;
 use App\Form\TwoFactorVerifyType;
 use Doctrine\ORM\EntityManagerInterface;
+use Endroid\QrCode\Builder\Builder;
+use Endroid\QrCode\Encoding\Encoding;
+use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelHigh;
+use Endroid\QrCode\RoundBlockSizeMode\RoundBlockSizeModeMargin;
+use Endroid\QrCode\Writer\PngWriter;
 use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Totp\TotpAuthenticatorInterface;
-use Scheb\TwoFactorBundle\Security\TwoFactor\QrCode\QrCodeGenerator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
@@ -21,9 +25,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 
 class SecurityController extends AbstractController
 {
-    /**
-     * @Route("/profile", name="app_profile")
-     */
+    #[Route(path: '/profile', name: 'app_profile')]
     public function profile(Request $request, EntityManagerInterface $entityManager): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -45,9 +47,7 @@ class SecurityController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/change-password", name="app_change_password")
-     */
+    #[Route(path: '/change-password', name: 'app_change_password')]
     public function changePassword(Request $request, UserPasswordHasherInterface $passwordEncoder, EntityManagerInterface $entityManager): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -95,9 +95,7 @@ class SecurityController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/manage-two-factor", name="app_manage_two_factor")
-     */
+    #[Route(path: '/manage-two-factor', name: 'app_manage_two_factor')]
     public function manageTwoFactor(Request $request, TotpAuthenticatorInterface $totpAuthenticatorService, EntityManagerInterface $entityManager)
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -128,21 +126,29 @@ class SecurityController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/two-factor-qr-code/{totpSecret}", name="app_two_factor_qr_code")
-     */
-    public function renderTotpQrCode($totpSecret, QrCodeGenerator $qrCodeGenerator)
+    #[Route(path: '/two-factor-qr-code/{totpSecret}', name: 'app_two_factor_qr_code')]
+    public function renderTotpQrCode($totpSecret, TotpAuthenticatorInterface $totpAuthenticatorService)
     {
         $user = $this->getUser();
         $user->setTotpSecret($totpSecret);
-        $qrCode = $qrCodeGenerator->getTotpQrCode($user);
 
-        return new Response($qrCode->writeString(), 200, ['Content-Type' => 'image/png']);
+        $qrCodeContent = $totpAuthenticatorService->getQRContent($user);
+
+        $result = Builder::create()
+            ->writer(new PngWriter())
+            ->writerOptions([])
+            ->data($qrCodeContent)
+            ->encoding(new Encoding('UTF-8'))
+            ->errorCorrectionLevel(new ErrorCorrectionLevelHigh())
+            ->size(400)
+            ->margin(0)
+            ->roundBlockSizeMode(new RoundBlockSizeModeMargin())
+            ->build();
+
+        return new Response($result->getString(), 200, ['Content-Type' => 'image/png']);
     }
 
-    /**
-     * @Route("/disable-two-factor", name="app_disable_two_factor", methods={"POST"})
-     */
+    #[Route(path: '/disable-two-factor', name: 'app_disable_two_factor', methods: ['POST'])]
     public function disableTwoFactor(Request $request, TotpAuthenticatorInterface $totpAuthenticatorService, EntityManagerInterface $entityManager)
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -158,9 +164,7 @@ class SecurityController extends AbstractController
         return $this->redirectToRoute('app_manage_two_factor');
     }
 
-    /**
-     * @Route("/login", name="app_login")
-     */
+    #[Route(path: '/login', name: 'app_login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         if ($this->getUser()) {
@@ -175,9 +179,7 @@ class SecurityController extends AbstractController
         return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
     }
 
-    /**
-     * @Route("/logout", name="app_logout")
-     */
+    #[Route(path: '/logout', name: 'app_logout')]
     public function logout()
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');

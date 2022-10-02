@@ -17,7 +17,7 @@ class ExportControllerTest extends WebTestCase
     public function testShowExport()
     {
         $client = static::createClient();
-        $userRepository = static::$container->get(UserRepository::class);
+        $userRepository = static::getContainer()->get(UserRepository::class);
         $testUser = $userRepository->findOneByEmail('user@example.com');
         $client->loginUser($testUser);
 

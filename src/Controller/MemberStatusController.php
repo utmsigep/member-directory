@@ -14,15 +14,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @IsGranted("ROLE_ADMIN")
- * @Route("/admin/member-statuses")
- */
+#[IsGranted('ROLE_ADMIN')]
+#[Route(path: '/admin/member-statuses')]
 class MemberStatusController extends AbstractController
 {
-    /**
-     * @Route("/", name="member_status_index", methods={"GET"})
-     */
+    #[Route(path: '/', name: 'member_status_index', methods: ['GET'])]
     public function memberStatus(MemberStatusRepository $memberStatusRepository): Response
     {
         return $this->render('member_status/index.html.twig', [
@@ -30,9 +26,7 @@ class MemberStatusController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/new", name="member_status_new", methods={"GET", "POST"})
-     */
+    #[Route(path: '/new', name: 'member_status_new', methods: ['GET', 'POST'])]
     public function memberStatusNew(Request $request, EntityManagerInterface $entityManager): Response
     {
         $memberStatus = new MemberStatus();
@@ -66,9 +60,7 @@ class MemberStatusController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="member_status_show", methods={"GET"})
-     */
+    #[Route(path: '/{id}', name: 'member_status_show', methods: ['GET'])]
     public function memberStatusShow(MemberStatus $memberStatus): Response
     {
         return $this->render('member_status/show.html.twig', [
@@ -76,9 +68,7 @@ class MemberStatusController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}/edit", name="member_status_edit", methods={"GET", "POST"})
-     */
+    #[Route(path: '/{id}/edit', name: 'member_status_edit', methods: ['GET', 'POST'])]
     public function memberStatusEdit(Request $request, MemberStatus $memberStatus, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(MemberStatusType::class, $memberStatus);
@@ -97,9 +87,7 @@ class MemberStatusController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="member_status_delete", methods={"POST"})
-     */
+    #[Route(path: '/{id}', name: 'member_status_delete', methods: ['POST'])]
     public function memberStatusDelete(Request $request, MemberStatus $memberStatus, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$memberStatus->getId(), $request->request->get('_token'))) {

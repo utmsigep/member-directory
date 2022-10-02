@@ -14,15 +14,11 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @IsGranted("ROLE_USER")
- * @Route("/directory/export")
- */
+#[IsGranted('ROLE_USER')]
+#[Route(path: '/directory/export')]
 class ExportController extends AbstractController
 {
-    /**
-     * @Route("/", name="export")
-     */
+    #[Route(path: '/', name: 'export')]
     public function export(Request $request, MemberToCsvService $memberToCsvService, MemberRepository $memberRepository)
     {
         $form = $this->createForm(MemberExportType::class, null);
@@ -48,9 +44,7 @@ class ExportController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/by-location", name="export_by_location", options={"expose": true})
-     */
+    #[Route(path: '/by-location', name: 'export_by_location', options: ['expose' => true])]
     public function exportByLocation(Request $request, MemberToCsvService $memberToCsvService, MemberRepository $memberRepository)
     {
         if (!$request->get('latitude') || !$request->get('longitude') || !$request->get('radius')) {

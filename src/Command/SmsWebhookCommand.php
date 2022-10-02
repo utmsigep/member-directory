@@ -3,17 +3,16 @@
 namespace App\Command;
 
 use App\Service\SmsService;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
+#[AsCommand(name: 'app:sms:webhook')]
 class SmsWebhookCommand extends Command
 {
-    protected static $defaultName = 'app:sms:webhook';
-    protected static $defaultDescription = 'Get webhook URL and token for SMS integration.';
-
     protected $smsService;
 
     protected $urlGenerator;
@@ -28,7 +27,7 @@ class SmsWebhookCommand extends Command
     protected function configure()
     {
         $this
-            ->setDescription(self::$defaultDescription)
+            ->setDescription('Get webhook URL and token for SMS integration.')
         ;
     }
 

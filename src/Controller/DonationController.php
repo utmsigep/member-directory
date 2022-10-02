@@ -17,10 +17,8 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @IsGranted("ROLE_DONATION_MANAGER")
- * @Route("/donations")
- */
+#[IsGranted('ROLE_DONATION_MANAGER')]
+#[Route(path: '/donations')]
 class DonationController extends AbstractController
 {
     protected $session;
@@ -36,9 +34,7 @@ class DonationController extends AbstractController
         $this->endDate = new \DateTime($this->session->get('donation_end_date', DonationRepository::DEFAULT_END_DATE));
     }
 
-    /**
-     * @Route("/", name="donation_index", methods={"GET"})
-     */
+    #[Route(path: '/', name: 'donation_index', methods: ['GET'])]
     public function index(DonationRepository $donationRepository, ChartService $chartService, Request $request): Response
     {
         $this->handleDateRequest($request);
@@ -56,9 +52,7 @@ class DonationController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/donors", name="donation_donors", methods={"GET"})
-     */
+    #[Route(path: '/donors', name: 'donation_donors', methods: ['GET'])]
     public function donors(DonationRepository $donationRepository, Request $request): Response
     {
         $this->handleDateRequest($request);
@@ -74,9 +68,7 @@ class DonationController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/campaigns", name="donation_campaigns", methods={"GET"})
-     */
+    #[Route(path: '/campaigns', name: 'donation_campaigns', methods: ['GET'])]
     public function campaigns(DonationRepository $donationRepository, Request $request): Response
     {
         $this->handleDateRequest($request);
@@ -92,9 +84,7 @@ class DonationController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/new", name="donation_new", methods={"GET", "POST"})
-     */
+    #[Route(path: '/new', name: 'donation_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $donation = new Donation();
@@ -119,9 +109,7 @@ class DonationController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/donorbox-import", name="donorbox_import")
-     */
+    #[Route(path: '/donorbox-import', name: 'donorbox_import')]
     public function donorboxImport(Request $request, DonorboxDonationService $donorboxDonationService, EntityManagerInterface $entityManager)
     {
         $form = $this->createForm(DonationImportType::class, null);
@@ -153,9 +141,7 @@ class DonationController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="donation_show", methods={"GET"})
-     */
+    #[Route(path: '/{id}', name: 'donation_show', methods: ['GET'])]
     public function show(Donation $donation): Response
     {
         return $this->render('donation/show.html.twig', [
@@ -163,9 +149,7 @@ class DonationController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}/edit", name="donation_edit", methods={"GET", "POST"})
-     */
+    #[Route(path: '/{id}/edit', name: 'donation_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Donation $donation, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(DonationType::class, $donation, ['timezone' => $this->getUser()->getTimezone()]);
@@ -184,9 +168,7 @@ class DonationController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="donation_delete", methods={"POST"})
-     */
+    #[Route(path: '/{id}', name: 'donation_delete', methods: ['POST'])]
     public function delete(Request $request, Donation $donation, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$donation->getId(), $request->request->get('_token'))) {

@@ -9,10 +9,10 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * @ORM\Entity(repositoryClass=CommunicationLogRepository::class)
- * @UniqueEntity({"member", "type", "loggedAt"})
  * @Gedmo\Loggable
  */
+#[ORM\Entity(repositoryClass: CommunicationLogRepository::class)]
+#[UniqueEntity(['member', 'type', 'loggedAt'])]
 class CommunicationLog
 {
     use TimestampableEntity;
@@ -26,46 +26,40 @@ class CommunicationLog
         'Other' => 'OTHER',
     ];
 
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Member::class, inversedBy="communicationLogs")
-     * @ORM\JoinColumn(nullable=false)
      * @Gedmo\Versioned
      */
+    #[ORM\ManyToOne(targetEntity: Member::class, inversedBy: 'communicationLogs')]
+    #[ORM\JoinColumn(nullable: false)]
     private $member;
 
     /**
-     * @ORM\Column(type="datetime_immutable")
      * @Gedmo\Versioned
      */
+    #[ORM\Column(type: 'datetime_immutable')]
     private $loggedAt;
 
     /**
-     * @ORM\Column(type="string", length=255)
      * @Gedmo\Versioned
      */
+    #[ORM\Column(type: 'string', length: 255)]
     private $type;
 
     /**
-     * @ORM\Column(type="text")
      * @Gedmo\Versioned
      */
+    #[ORM\Column(type: 'text')]
     private $summary;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="communicationLogs")
-     */
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'communicationLogs')]
     private $user;
 
-    /**
-     * @ORM\Column(type="json", nullable=true)
-     */
+    #[ORM\Column(type: 'json', nullable: true)]
     private $payload = [];
 
     public function __construct()

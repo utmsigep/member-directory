@@ -19,15 +19,11 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @IsGranted("ROLE_EVENT_MANAGER")
- * @Route("/events")
- */
+#[IsGranted('ROLE_EVENT_MANAGER')]
+#[Route(path: '/events')]
 class EventController extends AbstractController
 {
-    /**
-     * @Route("/", name="event_index", methods={"GET"})
-     */
+    #[Route(path: '/', name: 'event_index', methods: ['GET'])]
     public function index(EventRepository $eventRepository): Response
     {
         return $this->render('event/index.html.twig', [
@@ -35,9 +31,7 @@ class EventController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/new", name="event_new", methods={"GET", "POST"})
-     */
+    #[Route(path: '/new', name: 'event_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $event = new Event();
@@ -57,9 +51,7 @@ class EventController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="event_show", methods={"GET"})
-     */
+    #[Route(path: '/{id}', name: 'event_show', methods: ['GET'])]
     public function show(Event $event): Response
     {
         return $this->render('event/show.html.twig', [
@@ -67,9 +59,7 @@ class EventController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}/ical", name="event_ical", methods={"GET"})
-     */
+    #[Route(path: '/{id}/ical', name: 'event_ical', methods: ['GET'])]
     public function ical(Event $event): Response
     {
         $ical = new VCalendar([
@@ -92,9 +82,7 @@ class EventController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}/attendee-export", name="event_attendee_export", methods={"GET"})
-     */
+    #[Route(path: '/{id}/attendee-export', name: 'event_attendee_export', methods: ['GET'])]
     public function attendeeExport(Event $event, MemberToCSVService $memberToCsvService): Response
     {
         $members = $event->getAttendees();
@@ -110,9 +98,7 @@ class EventController extends AbstractController
         return $response;
     }
 
-    /**
-     * @Route("/{id}/attendee-import", name="event_attendee_import", methods={"GET", "POST"})
-     */
+    #[Route(path: '/{id}/attendee-import', name: 'event_attendee_import', methods: ['GET', 'POST'])]
     public function attendeeImport(Event $event, Request $request, EntityManagerInterface $entityManager, CsvToMemberService $csvToMemberService): Response
     {
         $form = $this->createForm(EventAttendeeImportType::class, null);
@@ -150,9 +136,7 @@ class EventController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}/edit", name="event_edit", methods={"GET", "POST"})
-     */
+    #[Route(path: '/{id}/edit', name: 'event_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Event $event, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(EventType::class, $event, ['timezone' => $this->getUser()->getTimezone()]);
@@ -170,9 +154,7 @@ class EventController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="event_delete", methods={"POST"})
-     */
+    #[Route(path: '/{id}', name: 'event_delete', methods: ['POST'])]
     public function delete(Request $request, Event $event, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$event->getId(), $request->request->get('_token'))) {

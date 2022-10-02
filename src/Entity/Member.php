@@ -12,303 +12,271 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\MemberRepository")
- * @ORM\Table(indexes={
- *     @ORM\Index(
- *         columns={"first_name", "preferred_name", "middle_name", "last_name"},
- *     flags={"fulltext"})
- * }
- * )
- * @ORM\HasLifecycleCallbacks
- * @UniqueEntity("localIdentifier")
- * @UniqueEntity("externalIdentifier")
- * @UniqueEntity("primaryEmail")
  * @Gedmo\Loggable
  */
+#[ORM\Table]
+#[ORM\Index(columns: ['first_name', 'preferred_name', 'middle_name', 'last_name'], flags: ['fulltext'])]
+#[ORM\Entity(repositoryClass: 'App\Repository\MemberRepository')]
+#[ORM\HasLifecycleCallbacks]
+#[UniqueEntity('localIdentifier')]
+#[UniqueEntity('externalIdentifier')]
+#[UniqueEntity('primaryEmail')]
 class Member
 {
     use TimestampableEntity;
 
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     * @Groups({"member_main"})
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
+    #[Groups(['member_main'])]
     private $id;
 
     /**
-     * @ORM\Column(type="string", nullable=true, length=255, unique=true)
-     * @Assert\NotBlank
-     * @Assert\Regex(
-     *     pattern="/^[a-z0-9\-\_]+$/i",
-     *     htmlPattern="[a-zA-Z0-9\-\_]+",
-     *     match=true,
-     *     message="Only alphanumeric characters, dashes and underscores are allowed."
-     * )
      * @Gedmo\Versioned
-     * @Groups({"member_main"})
      */
+    #[ORM\Column(type: 'string', nullable: true, length: 255, unique: true)]
+    #[Assert\NotBlank]
+    #[Assert\Regex(pattern: '/^[a-z0-9\-\_]+$/i', htmlPattern: '[a-zA-Z0-9\-\_]+', match: true, message: 'Only alphanumeric characters, dashes and underscores are allowed.')]
+    #[Groups(['member_main'])]
     private $localIdentifier;
 
     /**
-     * @ORM\Column(type="string", nullable=true, length=255, unique=true)
-     * @Assert\NotBlank
-     * @Assert\Regex(
-     *     pattern="/^[a-z0-9\-\_]+$/i",
-     *     htmlPattern="[a-zA-Z0-9\-\_]+",
-     *     match=true,
-     *     message="Only alphanumeric characters, dashes and underscores are allowed."
-     * )
      * @Gedmo\Versioned
-     * @Groups({"member_extended"})
      */
+    #[ORM\Column(type: 'string', nullable: true, length: 255, unique: true)]
+    #[Assert\NotBlank]
+    #[Assert\Regex(pattern: '/^[a-z0-9\-\_]+$/i', htmlPattern: '[a-zA-Z0-9\-\_]+', match: true, message: 'Only alphanumeric characters, dashes and underscores are allowed.')]
+    #[Groups(['member_extended'])]
     private $externalIdentifier;
 
     /**
-     * @ORM\ManyToOne(targetEntity=MemberStatus::class, inversedBy="members")
-     * @Assert\NotBlank
      * @Gedmo\Versioned
-     * @Groups({"member_main"})
      */
+    #[ORM\ManyToOne(targetEntity: MemberStatus::class, inversedBy: 'members')]
+    #[Assert\NotBlank]
+    #[Groups(['member_main'])]
     private $status;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
      * @Gedmo\Versioned
-     * @Groups({"member_main"})
      */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Groups(['member_main'])]
     private $prefix;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @Assert\NotBlank
      * @Gedmo\Versioned
-     * @Groups({"member_main"})
      */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Assert\NotBlank]
+    #[Groups(['member_main'])]
     private $firstName;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
      * @Gedmo\Versioned
-     * @Groups({"member_main"})
      */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Groups(['member_main'])]
     private $preferredName;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
      * @Gedmo\Versioned
-     * @Groups({"member_main"})
      */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Groups(['member_main'])]
     private $middleName;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @Assert\NotBlank
      * @Gedmo\Versioned
-     * @Groups({"member_main"})
      */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Assert\NotBlank]
+    #[Groups(['member_main'])]
     private $lastName;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
      * @Gedmo\Versioned
-     * @Groups({"member_main"})
      */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Groups(['member_main'])]
     private $suffix;
 
     /**
-     * @ORM\Column(type="date", nullable=true)
-     * @Assert\Type("\DateTimeInterface")
      * @Gedmo\Versioned
      */
+    #[ORM\Column(type: 'date', nullable: true)]
+    #[Assert\Type('\DateTimeInterface')]
     private $birthDate;
 
     /**
-     * @ORM\Column(type="date", nullable=true)
-     * @Assert\Type("\DateTimeInterface")
      * @Gedmo\Versioned
      */
+    #[ORM\Column(type: 'date', nullable: true)]
+    #[Assert\Type('\DateTimeInterface')]
     private $joinDate;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
      * @Gedmo\Versioned
-     * @Groups({"member_main"})
      */
+    #[ORM\Column(type: 'integer', nullable: true)]
+    #[Groups(['member_main'])]
     private $classYear;
 
     /**
-     * @ORM\Column(type="boolean", nullable=true)
      * @Gedmo\Versioned
-     * @Groups({"member_main"})
      */
+    #[ORM\Column(type: 'boolean', nullable: true)]
+    #[Groups(['member_main'])]
     private $isDeceased = false;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @Assert\Email
      * @Gedmo\Versioned
-     * @Groups({"member_main"})
      */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Assert\Email]
+    #[Groups(['member_main'])]
     private $primaryEmail;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
      * @Gedmo\Versioned
-     * @Groups({"member_main"})
      */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Groups(['member_main'])]
     private $primaryTelephoneNumber;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
      * @Gedmo\Versioned
-     * @Groups({"member_main"})
      */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Groups(['member_main'])]
     private $mailingAddressLine1;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
      * @Gedmo\Versioned
-     * @Groups({"member_main"})
      */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Groups(['member_main'])]
     private $mailingAddressLine2;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
      * @Gedmo\Versioned
-     * @Groups({"member_main"})
      */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Groups(['member_main'])]
     private $mailingCity;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
      * @Gedmo\Versioned
-     * @Groups({"member_main"})
      */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Groups(['member_main'])]
     private $mailingState;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
      * @Gedmo\Versioned
-     * @Groups({"member_main"})
      */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Groups(['member_main'])]
     private $mailingPostalCode;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
      * @Gedmo\Versioned
-     * @Groups({"member_main"})
      */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Groups(['member_main'])]
     private $mailingCountry;
 
     /**
-     * @ORM\Column(type="decimal", precision=10, scale=8, nullable=true)
-     * @Assert\Type("numeric")
-     * @Groups({"member_extended"})
      * @Gedmo\Versioned
      */
+    #[ORM\Column(type: 'decimal', precision: 10, scale: 8, nullable: true)]
+    #[Assert\Type('numeric')]
+    #[Groups(['member_extended'])]
     protected $mailingLatitude;
 
     /**
-     * @ORM\Column(type="decimal", precision=11, scale=8, nullable=true)
-     * @Assert\Type("numeric")
-     * @Groups({"member_extended"})
      * @Gedmo\Versioned
      */
+    #[ORM\Column(type: 'decimal', precision: 11, scale: 8, nullable: true)]
+    #[Assert\Type('numeric')]
+    #[Groups(['member_extended'])]
     protected $mailingLongitude;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
      * @Gedmo\Versioned
      */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $employer;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
      * @Gedmo\Versioned
      */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $jobTitle;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
      * @Gedmo\Versioned
      */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $occupation;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
      * @Gedmo\Versioned
-     * @Assert\Regex(
-     *     pattern="/^https?\:\/\/(www\.)?facebook.com\/(.*)$/i",
-     *     htmlPattern="https?://(www.)?facebook.com/.+",
-     *     message="Please provide a Facebook URL"
-     * )
-     * @Groups({"member_main"})
      */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Assert\Regex(pattern: '/^https?\:\/\/(www\.)?facebook.com\/(.*)$/i', htmlPattern: 'https?://(www.)?facebook.com/.+', message: 'Please provide a Facebook URL')]
+    #[Groups(['member_main'])]
     private $facebookUrl;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
      * @Gedmo\Versioned
-     * @Assert\Regex(
-     *     pattern="/^https?\:\/\/(www\.)?linkedin.com\/(.*)$/i",
-     *     htmlPattern="https?://(www.)?linkedin.com/.+",
-     *     message="Please provide a LinkedIn URL"
-     * )
-     * @Groups({"member_main"})
      */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Assert\Regex(pattern: '/^https?\:\/\/(www\.)?linkedin.com\/(.*)$/i', htmlPattern: 'https?://(www.)?linkedin.com/.+', message: 'Please provide a LinkedIn URL')]
+    #[Groups(['member_main'])]
     private $linkedinUrl;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
      * @Gedmo\Versioned
-     * @Groups({"member_main"})
      */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Groups(['member_main'])]
     private $photoUrl;
 
     /**
-     * @ORM\Column(type="boolean", nullable=true)
      * @Gedmo\Versioned
-     * @Groups({"member_main"})
      */
+    #[ORM\Column(type: 'boolean', nullable: true)]
+    #[Groups(['member_main'])]
     private $isLost = false;
 
     /**
-     * @ORM\Column(type="boolean", nullable=true)
      * @Gedmo\Versioned
-     * @Groups({"member_main"})
      */
+    #[ORM\Column(type: 'boolean', nullable: true)]
+    #[Groups(['member_main'])]
     private $isLocalDoNotContact = false;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
      * @Gedmo\Versioned
      */
+    #[ORM\Column(type: 'text', nullable: true)]
     private $directoryNotes;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=Tag::class, mappedBy="members")
-     * @ORM\OrderBy({"tagName": "ASC"})
-     * @Groups({"member_extended"})
-     */
+    #[ORM\ManyToMany(targetEntity: Tag::class, mappedBy: 'members')]
+    #[ORM\OrderBy(['tagName' => 'ASC'])]
+    #[Groups(['member_extended'])]
     private $tags;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Donation::class, mappedBy="member")
-     * @ORM\OrderBy({"receivedAt": "DESC"})
-     */
+    #[ORM\OneToMany(targetEntity: Donation::class, mappedBy: 'member')]
+    #[ORM\OrderBy(['receivedAt' => 'DESC'])]
     private $donations;
 
-    /**
-     * @ORM\OneToMany(targetEntity=CommunicationLog::class, mappedBy="member", orphanRemoval=true)
-     * @ORM\OrderBy({"loggedAt": "DESC"})
-     */
+    #[ORM\OneToMany(targetEntity: CommunicationLog::class, mappedBy: 'member', orphanRemoval: true)]
+    #[ORM\OrderBy(['loggedAt' => 'DESC'])]
     private $communicationLogs;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=Event::class, mappedBy="attendees")
-     */
+    #[ORM\ManyToMany(targetEntity: Event::class, mappedBy: 'attendees')]
     private $events;
 
     public function __construct()
@@ -815,9 +783,7 @@ class Member
         return sprintf('%s, %s (%s)', $this->lastName, $this->preferredName, $this->localIdentifier);
     }
 
-    /**
-     * @Groups({"member_main"})
-     */
+    #[Groups(['member_main'])]
     public function getDisplayName(): string
     {
         return $this->preferredName.' '.$this->lastName;
@@ -860,13 +826,7 @@ class Member
         return $content;
     }
 
-    /**
-     * Event Listeners.
-     */
-
-    /**
-     * @ORM\PreFlush
-     */
+    #[ORM\PreFlush]
     public function updateFieldsIfBlank()
     {
         // Ensure preferred name is set to first name if left blank

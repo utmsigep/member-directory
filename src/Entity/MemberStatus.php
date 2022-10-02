@@ -11,51 +11,45 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\MemberStatusRepository")
  * @Gedmo\Loggable
- * @UniqueEntity("code")
  */
+#[ORM\Entity(repositoryClass: 'App\Repository\MemberStatusRepository')]
+#[UniqueEntity('code')]
 class MemberStatus
 {
     use TimestampableEntity;
 
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
      * @Gedmo\Versioned
-     * @Groups({"status_main"})
      */
+    #[ORM\Column(type: 'string', length: 255)]
+    #[Groups(['status_main'])]
     private $code;
 
     /**
-     * @ORM\Column(type="string", length=255)
      * @Gedmo\Versioned
-     * @Groups({"status_main"})
      */
+    #[ORM\Column(type: 'string', length: 255)]
+    #[Groups(['status_main'])]
     private $label;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Member::class, mappedBy="status")
-     * @ORM\OrderBy({"lastName": "ASC"})
-     */
+    #[ORM\OneToMany(targetEntity: Member::class, mappedBy: 'status')]
+    #[ORM\OrderBy(['lastName' => 'ASC'])]
     private $members;
 
     /**
-     * @ORM\Column(type="boolean")
-     * @Groups({"status_main"})
      * @Gedmo\Versioned
      */
+    #[ORM\Column(type: 'boolean')]
+    #[Groups(['status_main'])]
     private $isInactive = false;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=DirectoryCollection::class, mappedBy="memberStatuses")
-     */
+    #[ORM\ManyToMany(targetEntity: DirectoryCollection::class, mappedBy: 'memberStatuses')]
     private $directoryCollections;
 
     public function __construct()

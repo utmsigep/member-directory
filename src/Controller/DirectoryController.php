@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\DirectoryCollection;
 use App\Entity\Member;
-use App\Entity\Tag;
 use App\Form\MapFilterType;
 use App\Repository\DirectoryCollectionRepository;
 use App\Repository\MemberRepository;
@@ -23,10 +22,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @IsGranted("ROLE_USER")
- * @Route("/directory")
- */
+#[IsGranted('ROLE_USER')]
+#[Route(path: '/directory')]
 class DirectoryController extends AbstractController
 {
     public const COLUMN_MAP = [
@@ -41,9 +38,7 @@ class DirectoryController extends AbstractController
         null,
     ];
 
-    /**
-     * @Route("/", name="home")
-     */
+    #[Route(path: '/', name: 'home')]
     public function index(DirectoryCollectionRepository $directoryCollectionRepository)
     {
         try {
@@ -55,9 +50,7 @@ class DirectoryController extends AbstractController
         }
     }
 
-    /**
-     * @Route("/collection/{slug}.{_format}", name="directory_collection", defaults={"_format": "html"}), options={"expose" = true})
-     */
+    #[Route(path: '/collection/{slug}.{_format}', name: 'directory_collection', defaults: ['_format' => 'html'])]
     public function directoryCollectionTableSource(DirectoryCollection $directoryCollection, MemberRepository $memberRepository, Request $request, string $_format): Response
     {
         if ('html' === $_format) {
@@ -87,9 +80,7 @@ class DirectoryController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/lost.{_format}", name="lost", defaults={"_format": "html"}, options={"expose": true})
-     */
+    #[Route(path: '/lost.{_format}', name: 'lost', defaults: ['_format' => 'html'], options: ['expose' => true])]
     public function lost(MemberRepository $memberRepository, Request $request, string $_format)
     {
         if ('html' === $_format) {
@@ -115,9 +106,7 @@ class DirectoryController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/do-not-contact.{_format}", name="do_not_contact", defaults={"_format": "html"}, options={"expose": true})
-     */
+    #[Route(path: '/do-not-contact.{_format}', name: 'do_not_contact', defaults: ['_format' => 'html'], options: ['expose' => true])]
     public function doNotContact(MemberRepository $memberRepository, Request $request, string $_format)
     {
         if ('html' === $_format) {
@@ -143,9 +132,7 @@ class DirectoryController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/deceased.{_format}", name="deceased", defaults={"_format": "html"}, options={"expose": true})
-     */
+    #[Route(path: '/deceased.{_format}', name: 'deceased', defaults: ['_format' => 'html'], options: ['expose' => true])]
     public function deceased(MemberRepository $memberRepository, Request $request, string $_format)
     {
         if ('html' === $_format) {
@@ -171,10 +158,8 @@ class DirectoryController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/verify-address-data", name="verify_address_data", options={"expose": true})
-     * @IsGranted("ROLE_DIRECTORY_MANAGER")
-     */
+    #[Route(path: '/verify-address-data', name: 'verify_address_data', options: ['expose' => true])]
+    #[IsGranted('ROLE_DIRECTORY_MANAGER')]
     public function validateMemberAddress(Request $request, PostalValidatorService $postalValidatorService): Response
     {
         if (!$postalValidatorService->isConfigured()) {
@@ -222,9 +207,7 @@ class DirectoryController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/recent-changes", name="member_changes")
-     */
+    #[Route(path: '/recent-changes', name: 'member_changes')]
     public function recentChanges(Request $request, EntityManagerInterface $entityManager)
     {
         $form = $this->createFormBuilder([
@@ -254,9 +237,7 @@ class DirectoryController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/tags/{tagId}.{_format}", name="tag", defaults={"_format": "html"}, options={"expose": true})
-     */
+    #[Route(path: '/tags/{tagId}.{_format}', name: 'tag', defaults: ['_format' => 'html'], options: ['expose' => true])]
     public function tag(MemberRepository $memberRepository, TagRepository $tagRepository, Request $request, $_format, $tagId)
     {
         $tag = $tagRepository->find($tagId);
@@ -291,9 +272,7 @@ class DirectoryController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/map", name="map")
-     */
+    #[Route(path: '/map', name: 'map')]
     public function map(Request $request)
     {
         $form = $this->createForm(MapFilterType::class, null);
@@ -307,9 +286,7 @@ class DirectoryController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/map-search", name="map_search", options={"expose": true})
-     */
+    #[Route(path: '/map-search', name: 'map_search', options: ['expose' => true])]
     public function mapSearch(MemberRepository $memberRepository, Request $request)
     {
         $memberStatuses = $request->get('member_statuses', []);
@@ -328,9 +305,7 @@ class DirectoryController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/map-data", name="map_data", options={"expose": true})
-     */
+    #[Route(path: '/map-data', name: 'map_data', options: ['expose' => true])]
     public function mapData(MemberRepository $memberRepository, Request $request)
     {
         $memberStatuses = $request->get('member_statuses', []);
@@ -344,9 +319,7 @@ class DirectoryController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/email-campaign/{campaignId}", name="email_campaign_view")
-     */
+    #[Route(path: '/email-campaign/{campaignId}', name: 'email_campaign_view')]
     public function viewCampaign($campaignId, EmailService $emailService): Response
     {
         if (!$emailService->isConfigured()) {
@@ -359,9 +332,7 @@ class DirectoryController extends AbstractController
         return $this->redirect($campaign->WebVersionURL);
     }
 
-    /**
-     * @Route("/birthdays", name="birthdays")
-     */
+    #[Route(path: '/birthdays', name: 'birthdays')]
     public function birthdays(MemberRepository $memberRepository): Response
     {
         $birthdays = $memberRepository->findBirthdays();

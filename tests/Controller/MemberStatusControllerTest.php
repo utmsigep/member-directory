@@ -17,7 +17,7 @@ class MemberStatusControllerTest extends WebTestCase
     public function testIndexWithAdminRole()
     {
         $client = static::createClient();
-        $userRepository = static::$container->get(UserRepository::class);
+        $userRepository = static::getContainer()->get(UserRepository::class);
         $testUser = $userRepository->findOneByEmail('admin@example.com');
         $client->loginUser($testUser);
 
@@ -30,7 +30,7 @@ class MemberStatusControllerTest extends WebTestCase
     public function testShowWithAdminRole()
     {
         $client = static::createClient();
-        $userRepository = static::$container->get(UserRepository::class);
+        $userRepository = static::getContainer()->get(UserRepository::class);
         $testUser = $userRepository->findOneByEmail('admin@example.com');
         $client->loginUser($testUser);
 
@@ -43,7 +43,7 @@ class MemberStatusControllerTest extends WebTestCase
     public function testEditWithAdminRole()
     {
         $client = static::createClient();
-        $userRepository = static::$container->get(UserRepository::class);
+        $userRepository = static::getContainer()->get(UserRepository::class);
         $testUser = $userRepository->findOneByEmail('admin@example.com');
         $client->loginUser($testUser);
 
@@ -56,7 +56,7 @@ class MemberStatusControllerTest extends WebTestCase
     public function testNewWithAdminRole()
     {
         $client = static::createClient();
-        $userRepository = static::$container->get(UserRepository::class);
+        $userRepository = static::getContainer()->get(UserRepository::class);
         $testUser = $userRepository->findOneByEmail('admin@example.com');
         $client->loginUser($testUser);
 
@@ -69,7 +69,7 @@ class MemberStatusControllerTest extends WebTestCase
     public function testDenyWithUserRole()
     {
         $client = static::createClient();
-        $userRepository = static::$container->get(UserRepository::class);
+        $userRepository = static::getContainer()->get(UserRepository::class);
         $testUser = $userRepository->findOneByEmail('user@example.com');
         $client->loginUser($testUser);
 

@@ -6,6 +6,11 @@
 <div class="my-5 text-center">
   <h1>Access Denied!</h1>
   <p class="lead">You don't have permission to access that page.</p>
-  <p><a href="{{ path('home') }}" class="btn btn-link">Return to Home Page</a></p>
+  <p>
+    <a href="{{ path('home') }}" class="btn btn-link">Return to Home Page</a>
+    {% if is_granted('IS_AUTHENTICATED_FULLY') or is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+    | <a href="{{ path('app_logout') }}" class="btn btn-link">Logout</a>
+    {% endif %}
+  </p>
 </div>
 {% endblock %}
