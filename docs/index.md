@@ -75,9 +75,27 @@ For donation based organizations, you can track the donor record for your member
 
 ---
 
+![member-events](screenshots/member-events.png)
+
+Track event attendance to measure involvement.
+
+---
+
 ![member-communications](screenshots/member-communications.png)
 
 Track communications with your members to keep your team in sync.
+
+---
+
+![bulk-messenger](screenshots/bulk-messenger.png)
+
+Send mass emails or SMS messages to lists of members.
+
+---
+
+![birthdays](screenshots/birthdays.png)
+
+A birthday view simplifies celebrating monthly member birthdays.
 
 ---
 
@@ -93,6 +111,18 @@ Tags allow for creating groups of members.
 
 ---
 
+![search](screenshots/search.png)
+
+Search the member directory from any page.
+
+---
+
+![admin](screenshots/admin.png)
+
+An admin section provides tools for configuring the directory and managing access.
+
+---
+
 ![user-management](screenshots/user-management.png)
 
 User roles control who can view and modify what information in the directory.
@@ -102,3 +132,11 @@ User roles control who can view and modify what information in the directory.
 ![self-update](screenshots/self-update.png)
 
 Through a secure link, members can update their own information.
+
+---
+
+![two-factor-prompt](screenshots/two-factor-prompt.png)
+
+![two-factor-setup](screenshots/two-factor-setup.png)
+
+Secure your directory data with two-factor authentication.
