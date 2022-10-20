@@ -1,7 +1,4 @@
 {
-    "beberlei/assert": {
-        "version": "v3.2.7"
-    },
     "beberlei/doctrineextensions": {
         "version": "v1.2.0"
     },
@@ -763,9 +760,6 @@
         "files": [
             "config/packages/reset_password.yaml"
         ]
-    },
-    "thecodingmachine/safe": {
-        "version": "v1.2.1"
     },
     "theseer/tokenizer": {
         "version": "1.2.0"
