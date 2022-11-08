@@ -4,9 +4,6 @@ namespace App\Service;
 
 use App\Entity\Member;
 use App\Entity\User;
-use CS_REST_Campaigns;
-use CS_REST_Lists;
-use CS_REST_Subscribers;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -41,19 +38,19 @@ class EmailService
     {
         $this->params = $params;
         $this->router = $router;
-        $this->subscribersClient = new CS_REST_Subscribers(
+        $this->subscribersClient = new \CS_REST_Subscribers(
             $params->get('campaign_monitor.default_list_id'),
             [
                 'api_key' => $params->get('campaign_monitor.api_key'),
             ]
         );
-        $this->campaignsClient = new CS_REST_Campaigns(
+        $this->campaignsClient = new \CS_REST_Campaigns(
             $params->get('campaign_monitor.default_list_id'),
             [
                 'api_key' => $params->get('campaign_monitor.api_key'),
             ]
         );
-        $this->listsClient = new CS_REST_Lists(
+        $this->listsClient = new \CS_REST_Lists(
             $params->get('campaign_monitor.default_list_id'),
             [
                 'api_key' => $params->get('campaign_monitor.api_key'),
