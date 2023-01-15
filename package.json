@@ -1,6 +1,6 @@
 {
     "devDependencies": {
-        "@babel/core": "^7.20.7",
+        "@babel/core": "^7.20.12",
         "@babel/preset-env": "^7.20.2",
         "@symfony/webpack-encore": "^4.2.0",
         "webpack": "^5.75.0",
@@ -21,7 +21,7 @@
         "@popperjs/core": "^2.11.6",
         "bootstrap": "^5.2.3",
         "bootstrap-autocomplete": "github:xcash/bootstrap-autocomplete#xcash-v300",
-        "core-js": "^3.27.0",
+        "core-js": "^3.27.1",
         "datatables.net": "^1.13.1",
         "datatables.net-bs5": "^1.13.1",
         "datatables.net-buttons": "^2.3.3",
