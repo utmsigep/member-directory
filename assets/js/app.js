@@ -35,6 +35,9 @@ require('datatables.net-responsive-bs5/css/responsive.bootstrap5.css');
 require('@fortawesome/fontawesome-free/css/all.css');
 require('../css/app.scss');
 
+// Hotkeys
+import hotkeys from 'hotkeys-js';
+
 // Wait for document load
 $(function () {
 
@@ -57,6 +60,7 @@ $(function () {
       resolverSettings: {
           url: Routing.generate('search_autocomplete')
       },
+      preventEnter: true,
       formatResult: function (item) {
         return {
           text: item.displayName.replace(/[^\w. ]/gi, function (c) {
@@ -65,7 +69,8 @@ $(function () {
         };
       }
   });
-  $('.member-search-autocomplete').on('autocomplete.select', function(evt, item) {
+  $('.member-search-autocomplete').on('autocomplete.select', function(event, item) {
+    event.preventDefault();
     window.location.href = Routing.generate('member_show', {localIdentifier: item.localIdentifier});
   });
 
@@ -102,5 +107,21 @@ $(function () {
       localStorage.setItem('privacyWarning', Date.now());
     }
   }
+
+  // Hotkeys
+  hotkeys('/,shift+/', function(event, handler) {
+    event.preventDefault();
+    console.log(handler.key);
+    switch(handler.key) {
+      case 'shift+/':
+        $('#modalHotkeys').modal('show');
+        break;
+      case '/':
+        const searchField = document.querySelector("#page-top > form > header > input")
+        searchField.focus();
+        searchField.select();
+        break;
+    }
+  });
 
 });
