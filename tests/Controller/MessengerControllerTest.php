@@ -54,10 +54,13 @@ class MessengerControllerTest extends WebTestCase
         $testUser = $userRepository->findOneByEmail('communications.manager@example.com');
         $client->loginUser($testUser);
 
-        $client->request('GET', '/messenger/email');
+        $crawler = $client->request('GET', '/messenger/email');
         $this->assertResponseIsSuccessful();
         $this->assertPageTitleSame('Member Directory - Messenger - Email');
         $this->assertSelectorTextContains('span.display-6', 'Send Bulk Email');
+        $this->assertStringContainsString('Cox, Lucian (1-0007)', $crawler->filter('#member_email_recipients')->html());
+        $this->assertStringNotContainsString('Wallace, Bill (1-0004)', $crawler->filter('#member_email_recipients')->html());
+        $this->assertStringNotContainsString('(1-0013)', $crawler->filter('#member_email_recipients')->html());
     }
 
     public function testSms()
@@ -67,9 +70,12 @@ class MessengerControllerTest extends WebTestCase
         $testUser = $userRepository->findOneByEmail('communications.manager@example.com');
         $client->loginUser($testUser);
 
-        $client->request('GET', '/messenger/sms');
+        $crawler = $client->request('GET', '/messenger/sms');
         $this->assertResponseIsSuccessful();
         $this->assertPageTitleSame('Member Directory - Messenger - SMS');
         $this->assertSelectorTextContains('span.display-6', 'Send Bulk SMS');
+        $this->assertStringContainsString('Jenkens, Carter (1-0001)', $crawler->filter('#member_sms_recipients')->html());
+        $this->assertStringNotContainsString('Gaw, Ben (1-0002)', $crawler->filter('#member_sms_recipients')->html());
+        $this->assertStringNotContainsString('(1-0013)', $crawler->filter('#member_sms_recipients')->html());
     }
 }

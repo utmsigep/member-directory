@@ -34,7 +34,7 @@ class MemberSMSType extends AbstractType
                     return $er->createQueryBuilder('m')
                         ->join('m.status', 's')
                         ->where('s.isInactive = 0')
-                        ->where('m.primaryTelephoneNumber != :empty')
+                        ->andWhere('m.primaryTelephoneNumber != :empty')
                         ->setParameter('empty', '')
                         ->addOrderBy('s.label', 'ASC')
                         ->addOrderBy('m.lastName', 'ASC')
