@@ -49,6 +49,8 @@ class MemberEmailType extends AbstractType
                     return $er->createQueryBuilder('m')
                         ->join('m.status', 's')
                         ->where('s.isInactive = 0')
+                        ->andWhere('m.primaryEmail != :empty')
+                        ->setParameter('empty', '')
                         ->addOrderBy('s.label', 'ASC')
                         ->addOrderBy('m.lastName', 'ASC')
                         ->addOrderBy('m.preferredName', 'ASC')
