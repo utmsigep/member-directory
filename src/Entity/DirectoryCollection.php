@@ -47,6 +47,7 @@ class DirectoryCollection
 
     /**
      * @Gedmo\Slug(fields={"label"})
+     *
      * @Gedmo\Versioned
      */
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
@@ -54,6 +55,7 @@ class DirectoryCollection
 
     /**
      * @Gedmo\SortablePosition
+     *
      * @Gedmo\Versioned
      */
     #[ORM\Column(type: 'integer', nullable: true)]
