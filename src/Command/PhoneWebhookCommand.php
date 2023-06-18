@@ -24,7 +24,7 @@ class PhoneWebhookCommand extends Command
         $this->urlGenerator = $urlGenerator;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Get webhook URL and token for Phone integration.')

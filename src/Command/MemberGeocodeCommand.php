@@ -31,7 +31,7 @@ class MemberGeocodeCommand extends Command
         $this->geocoderService = $geocoderService;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Geocode a member\'s address')

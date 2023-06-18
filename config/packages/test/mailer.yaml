@@ -1,0 +1,5 @@
+framework:
+    mailer:
+        envelope:
+            sender: 'testcase@example.com'
+        dsn: 'null://null'

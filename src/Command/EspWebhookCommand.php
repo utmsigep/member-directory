@@ -23,7 +23,7 @@ class EspWebhookCommand extends Command
         $this->emailService = $emailService;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Manage ESP webhooks.')

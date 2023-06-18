@@ -1,3 +1,9 @@
 default:
     path: /
     controller: App\Controller\DirectoryController::index
+
+controllers:
+    resource:
+        path: ../src/Controller/
+        namespace: App\Controller
+    type: attribute

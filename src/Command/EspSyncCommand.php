@@ -26,7 +26,7 @@ class EspSyncCommand extends Command
         $this->emailService = $emailService;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Updates the Email Service Provider with directory data.')

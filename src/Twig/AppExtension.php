@@ -5,6 +5,9 @@ namespace App\Twig;
 use App\Entity\DirectoryCollection;
 use App\Entity\Tag;
 use App\Entity\User;
+use App\Repository\DirectoryCollectionRepository;
+use App\Repository\TagRepository;
+use App\Repository\UserRepository;
 use App\Service\EmailService;
 use App\Service\PostalValidatorService;
 use App\Service\SmsService;
@@ -15,28 +18,30 @@ use Twig\TwigFunction;
 
 class AppExtension extends AbstractExtension
 {
-    protected $entityManager;
-
-    protected $roleHierarchy;
-
-    protected $postalValidatorService;
-
+    protected $directoryCollectionRepository;
     protected $emailService;
-
+    protected $postalValidatorService;
+    protected $roleHierarchy;
     protected $smsService;
+    protected $tagRepository;
+    protected $userRepository;
 
     public function __construct(
-        EntityManagerInterface $entityManager,
-        RoleHierarchyInterface $roleHierarchy,
-        PostalValidatorService $postalValidatorService,
+        DirectoryCollectionRepository $directoryCollectionRepository,
         EmailService $emailService,
-        SmsService $smsService
+        PostalValidatorService $postalValidatorService,
+        RoleHierarchyInterface $roleHierarchy,
+        SmsService $smsService,
+        TagRepository $tagRepository,
+        UserRepository $userRepository
     ) {
-        $this->entityManager = $entityManager;
-        $this->roleHierarchy = $roleHierarchy;
-        $this->postalValidatorService = $postalValidatorService;
+        $this->directoryCollectionRepository = $directoryCollectionRepository;
         $this->emailService = $emailService;
+        $this->postalValidatorService = $postalValidatorService;
+        $this->roleHierarchy = $roleHierarchy;
         $this->smsService = $smsService;
+        $this->tagRepository = $tagRepository;
+        $this->userRepository = $userRepository;
     }
 
     public function getFunctions(): array
@@ -64,14 +69,14 @@ class AppExtension extends AbstractExtension
 
     public function getDirectoryCollections()
     {
-        $directoryCollections = $this->entityManager->getRepository(DirectoryCollection::class)->findBy([], ['position' => 'ASC']);
+        $directoryCollections = $this->directoryCollectionRepository->findBy([], ['position' => 'ASC', 'label' => 'ASC']);
 
         return $directoryCollections;
     }
 
     public function getTags()
     {
-        $tags = $this->entityManager->getRepository(Tag::class)->findBy([], ['tagName' => 'ASC']);
+        $tags = $this->tagRepository->findBy([], ['tagName' => 'ASC']);
 
         return $tags;
     }

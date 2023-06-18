@@ -19,13 +19,13 @@ class MemberExportType extends AbstractType
 
     protected $tagRepository;
 
-    public function __construct(MemberStatusRepository $memberStatusRepository, TagRepository $tagRespository)
+    public function __construct(MemberStatusRepository $memberStatusRepository, TagRepository $tagRepository)
     {
         $this->memberStatusRepository = $memberStatusRepository;
-        $this->tagRepository = $tagRespository;
+        $this->tagRepository = $tagRepository;
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('default_filters', CheckboxType::class, [
