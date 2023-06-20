@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
 use App\Form\ProfileType;
 use App\Form\TwoFactorVerifyType;
 use Doctrine\ORM\EntityManagerInterface;

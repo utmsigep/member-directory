@@ -2,8 +2,6 @@
 
 namespace App\Twig;
 
-use App\Entity\DirectoryCollection;
-use App\Entity\Tag;
 use App\Entity\User;
 use App\Repository\DirectoryCollectionRepository;
 use App\Repository\TagRepository;
@@ -11,7 +9,6 @@ use App\Repository\UserRepository;
 use App\Service\EmailService;
 use App\Service\PostalValidatorService;
 use App\Service\SmsService;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Role\RoleHierarchyInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
