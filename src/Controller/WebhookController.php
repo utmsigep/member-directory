@@ -24,8 +24,8 @@ class WebhookController extends AbstractController
         if (!$phoneService->isConfigured()) {
             return $this->json(['status' => 500, 'title' => 'error', 'details' => 'Phone service not configured.'], 500);
         }
-        if (!$request->get('token') ||
-            $request->get('token') != $phoneService->getWebhookToken()
+        if (!$request->get('token')
+            || $request->get('token') != $phoneService->getWebhookToken()
         ) {
             return $this->json(['status' => 403, 'title' => 'error', 'details' => 'Invalid credentials.'], 403);
         }
@@ -46,8 +46,8 @@ class WebhookController extends AbstractController
         if (!$smsService->isConfigured()) {
             return $this->json(['status' => 500, 'title' => 'error', 'details' => 'SMS service not configured.'], 500);
         }
-        if (!$request->get('token') ||
-            $request->get('token') != $smsService->getWebhookToken()
+        if (!$request->get('token')
+            || $request->get('token') != $smsService->getWebhookToken()
         ) {
             return $this->json(['status' => 403, 'title' => 'error', 'details' => 'Invalid credentials.'], 403);
         }
@@ -68,8 +68,8 @@ class WebhookController extends AbstractController
         if (!$emailService->isConfigured()) {
             return $this->json(['status' => 500, 'title' => 'error', 'details' => 'Email service not configured.'], 500);
         }
-        if (!$request->get('token') ||
-            $request->get('token') != $emailService->getWebhookToken()
+        if (!$request->get('token')
+            || $request->get('token') != $emailService->getWebhookToken()
         ) {
             return $this->json(['status' => 403, 'title' => 'error', 'details' => 'Invalid credentials.'], 403);
         }

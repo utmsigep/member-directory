@@ -85,9 +85,9 @@ class DonorboxDonationService
         $csvRecords = $csv->getRecords(); // returns all the CSV records as an Iterator object
 
         // Inspect headers for required fields
-        if (!in_array(self::EMAIL_HEADER, $header) ||
-            !in_array(self::AMOUNT_HEADER, $header) ||
-            !in_array(self::RECEIPT_ID_HEADER, $header)
+        if (!in_array(self::EMAIL_HEADER, $header)
+            || !in_array(self::AMOUNT_HEADER, $header)
+            || !in_array(self::RECEIPT_ID_HEADER, $header)
         ) {
             throw new \Exception('File must have a `Email`, `Amount` and `Receipt Id` set.');
         }

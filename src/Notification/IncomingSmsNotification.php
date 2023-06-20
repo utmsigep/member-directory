@@ -12,7 +12,7 @@ class IncomingSmsNotification extends Notification implements EmailNotificationI
 {
     protected $options = [];
 
-    public function __construct(?Member $member = null, $options = [])
+    public function __construct(Member $member = null, $options = [])
     {
         if ($member) {
             parent::__construct(sprintf('Text Message from %s', $member), ['email']);
