@@ -109,7 +109,9 @@ class MemberController extends AbstractController
     #[IsGranted('ROLE_DIRECTORY_MANAGER')]
     public function changeLog(Member $member, EntityManagerInterface $entityManager): Response
     {
-        $logEntries = $entityManager->getRepository(LogEntry::class)->getLogEntries($member);
+        $repo = $entityManager->getRepository(LogEntry::class);
+        // @phpstan-ignore argument.type
+        $logEntries = $repo->getLogEntries($member);
 
         return $this->render('directory/change_log.html.twig', [
             'member' => $member,

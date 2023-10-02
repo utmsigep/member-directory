@@ -1,0 +1,6 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Parameter \\#1 \\$entity of method Gedmo\\\\Loggable\\\\Entity\\\\Repository\\\\LogEntryRepository\\<Gedmo\\\\Loggable\\\\Entity\\\\LogEntry\\>\\:\\:getLogEntries\\(\\) expects Gedmo\\\\Loggable\\\\Entity\\\\LogEntry, App\\\\Entity\\\\Member given\\.$#"
+			count: 1
+			path: src/Controller/MemberController.php
