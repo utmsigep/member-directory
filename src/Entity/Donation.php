@@ -6,11 +6,9 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
-/**
- * @Gedmo\Loggable
- */
 #[ORM\Entity(repositoryClass: 'App\Repository\DonationRepository')]
 #[ORM\HasLifecycleCallbacks]
+#[Gedmo\Loggable]
 class Donation
 {
     use TimestampableEntity;
@@ -20,118 +18,80 @@ class Donation
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\ManyToOne(targetEntity: Member::class, inversedBy: 'donations')]
+    #[Gedmo\Versioned]
     private $member;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Gedmo\Versioned]
     private $donorFirstName;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Gedmo\Versioned]
     private $donorLastName;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Gedmo\Versioned]
     private $receiptIdentifier;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'datetime_immutable')]
+    #[Gedmo\Versioned]
     private $receivedAt;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Gedmo\Versioned]
     private $campaign;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Gedmo\Versioned]
     private $description;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'decimal', precision: 10, scale: 2)]
+    #[Gedmo\Versioned]
     private $amount;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'string', length: 255)]
+    #[Gedmo\Versioned]
     private $currency = 'USD';
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'decimal', precision: 10, scale: 2)]
+    #[Gedmo\Versioned]
     private $processingFee;
 
-    /**
-     * @Gedmo\Versioned
-     */
-    #[ORM\Column(type: 'decimal', precision: 10, scale: 2)]
-    private $netAmount;
+     #[ORM\Column(type: 'decimal', precision: 10, scale: 2)]
+     #[Gedmo\Versioned]
+     private $netAmount;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Gedmo\Versioned]
     private $donorComment;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'text', nullable: true)]
+    #[Gedmo\Versioned]
     private $internalNotes;
 
-    /**
-     * @Gedmo\Versioned
-     */
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Gedmo\Versioned]
+     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $donationType;
 
-    /**
-     * @Gedmo\Versioned
-     */
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Gedmo\Versioned]
+     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $cardType;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Gedmo\Versioned]
     private $lastFour;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'boolean')]
+    #[Gedmo\Versioned]
     private $isAnonymous;
 
-    /**
-     * @Gedmo\Versioned
-     */
-    #[ORM\Column(type: 'boolean')]
+    #[Gedmo\Versioned]
+     #[ORM\Column(type: 'boolean')]
     private $isRecurring;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'json')]
+    #[Gedmo\Versioned]
     private $transactionPayload = [];
 
     public function __construct()

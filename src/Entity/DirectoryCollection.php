@@ -7,10 +7,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
-/**
- * @Gedmo\Loggable
- */
 #[ORM\Entity(repositoryClass: 'Gedmo\Sortable\Entity\Repository\SortableRepository')]
+#[Gedmo\Loggable]
 class DirectoryCollection
 {
     #[ORM\Id]
@@ -18,65 +16,45 @@ class DirectoryCollection
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'string', length: 255)]
+    #[Gedmo\Versioned]
     private $label;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'string', length: 255)]
+    #[Gedmo\Versioned]
     private $icon = 'fas fa-address-book';
 
     #[ORM\ManyToMany(targetEntity: MemberStatus::class, inversedBy: 'directoryCollections')]
     private $memberStatuses;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'boolean')]
+    #[Gedmo\Versioned]
     private $showMemberStatus;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Gedmo\Versioned]
     private $groupBy;
 
-    /**
-     * @Gedmo\Slug(fields={"label"})
-     *
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Gedmo\Slug(fields: ['label'])]
+    #[Gedmo\Versioned]
     private $slug;
 
-    /**
-     * @Gedmo\SortablePosition
-     *
-     * @Gedmo\Versioned
-     */
+    #[Gedmo\SortablePosition]
+    #[Gedmo\Versioned]
     #[ORM\Column(type: 'integer', nullable: true)]
     private $position;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Gedmo\Versioned]
     private $filterLost;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Gedmo\Versioned]
     private $filterLocalDoNotContact;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Gedmo\Versioned]
     private $filterDeceased;
 
     #[ORM\Column(type: 'text', nullable: true)]

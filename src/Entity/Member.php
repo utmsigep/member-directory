@@ -11,9 +11,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @Gedmo\Loggable
- */
 #[ORM\Table]
 #[ORM\Index(columns: ['first_name', 'preferred_name', 'middle_name', 'last_name'], flags: ['fulltext'])]
 #[ORM\Entity(repositoryClass: 'App\Repository\MemberRepository')]
@@ -21,6 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[UniqueEntity('localIdentifier')]
 #[UniqueEntity('externalIdentifier')]
 #[UniqueEntity('primaryEmail')]
+#[Gedmo\Loggable]
 class Member
 {
     use TimestampableEntity;
@@ -31,236 +29,172 @@ class Member
     #[Groups(['member_main'])]
     private $id;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'string', nullable: true, length: 255, unique: true)]
     #[Assert\NotBlank]
     #[Assert\Regex(pattern: '/^[a-z0-9\-\_]+$/i', htmlPattern: '[a-zA-Z0-9\-\_]+', match: true, message: 'Only alphanumeric characters, dashes and underscores are allowed.')]
     #[Groups(['member_main'])]
+    #[Gedmo\Versioned]
     private $localIdentifier;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'string', nullable: true, length: 255, unique: true)]
     #[Assert\NotBlank]
     #[Assert\Regex(pattern: '/^[a-z0-9\-\_]+$/i', htmlPattern: '[a-zA-Z0-9\-\_]+', match: true, message: 'Only alphanumeric characters, dashes and underscores are allowed.')]
     #[Groups(['member_extended'])]
+    #[Gedmo\Versioned]
     private $externalIdentifier;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\ManyToOne(targetEntity: MemberStatus::class, inversedBy: 'members')]
     #[Assert\NotBlank]
     #[Groups(['member_main'])]
+    #[Gedmo\Versioned]
     private $status;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     #[Groups(['member_main'])]
+    #[Gedmo\Versioned]
     private $prefix;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     #[Assert\NotBlank]
     #[Groups(['member_main'])]
+    #[Gedmo\Versioned]
     private $firstName;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     #[Groups(['member_main'])]
+    #[Gedmo\Versioned]
     private $preferredName;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     #[Groups(['member_main'])]
+    #[Gedmo\Versioned]
     private $middleName;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     #[Assert\NotBlank]
     #[Groups(['member_main'])]
+    #[Gedmo\Versioned]
     private $lastName;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     #[Groups(['member_main'])]
+    #[Gedmo\Versioned]
     private $suffix;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'date', nullable: true)]
     #[Assert\Type('\DateTimeInterface')]
+    #[Gedmo\Versioned]
     private $birthDate;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'date', nullable: true)]
     #[Assert\Type('\DateTimeInterface')]
+    #[Gedmo\Versioned]
     private $joinDate;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'integer', nullable: true)]
     #[Groups(['member_main'])]
+    #[Gedmo\Versioned]
     private $classYear;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'boolean', nullable: true)]
     #[Groups(['member_main'])]
+    #[Gedmo\Versioned]
     private $isDeceased = false;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     #[Assert\Email]
     #[Groups(['member_main'])]
+    #[Gedmo\Versioned]
     private $primaryEmail;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     #[Groups(['member_main'])]
+    #[Gedmo\Versioned]
     private $primaryTelephoneNumber;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     #[Groups(['member_main'])]
+    #[Gedmo\Versioned]
     private $mailingAddressLine1;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     #[Groups(['member_main'])]
+    #[Gedmo\Versioned]
     private $mailingAddressLine2;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     #[Groups(['member_main'])]
+    #[Gedmo\Versioned]
     private $mailingCity;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     #[Groups(['member_main'])]
+    #[Gedmo\Versioned]
     private $mailingState;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     #[Groups(['member_main'])]
+    #[Gedmo\Versioned]
     private $mailingPostalCode;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     #[Groups(['member_main'])]
+    #[Gedmo\Versioned]
     private $mailingCountry;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'decimal', precision: 10, scale: 8, nullable: true)]
     #[Assert\Type('numeric')]
     #[Groups(['member_extended'])]
+    #[Gedmo\Versioned]
     protected $mailingLatitude;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'decimal', precision: 11, scale: 8, nullable: true)]
     #[Assert\Type('numeric')]
     #[Groups(['member_extended'])]
+    #[Gedmo\Versioned]
     protected $mailingLongitude;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Gedmo\Versioned]
     private $employer;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Gedmo\Versioned]
     private $jobTitle;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Gedmo\Versioned]
     private $occupation;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     #[Assert\Regex(pattern: '/^https?\:\/\/(www\.)?facebook.com\/(.*)$/i', htmlPattern: 'https?://(www.)?facebook.com/.+', message: 'Please provide a Facebook URL')]
     #[Groups(['member_main'])]
+    #[Gedmo\Versioned]
     private $facebookUrl;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     #[Assert\Regex(pattern: '/^https?\:\/\/(www\.)?linkedin.com\/(.*)$/i', htmlPattern: 'https?://(www.)?linkedin.com/.+', message: 'Please provide a LinkedIn URL')]
     #[Groups(['member_main'])]
+    #[Gedmo\Versioned]
     private $linkedinUrl;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     #[Groups(['member_main'])]
+    #[Gedmo\Versioned]
     private $photoUrl;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'boolean', nullable: true)]
     #[Groups(['member_main'])]
+    #[Gedmo\Versioned]
     private $isLost = false;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'boolean', nullable: true)]
     #[Groups(['member_main'])]
+    #[Gedmo\Versioned]
     private $isLocalDoNotContact = false;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'text', nullable: true)]
+    #[Gedmo\Versioned]
     private $directoryNotes;
 
     #[ORM\ManyToMany(targetEntity: Tag::class, mappedBy: 'members')]

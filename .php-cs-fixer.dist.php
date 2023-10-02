@@ -8,7 +8,7 @@ $config = new PhpCsFixer\Config();
 
 return $config
     ->setRules([
-        '@DoctrineAnnotation' => true,
+        '@DoctrineAnnotation' => false,
         '@PSR1' => true,
         '@PSR12' => true,
         '@PSR2' => true,

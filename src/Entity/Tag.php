@@ -9,10 +9,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-/**
- * @Gedmo\Loggable
- */
 #[ORM\Entity(repositoryClass: 'App\Repository\TagRepository')]
+#[Gedmo\Loggable]
 class Tag
 {
     use TimestampableEntity;
@@ -23,11 +21,9 @@ class Tag
     #[Groups(['tag_main'])]
     private $id;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'string', length: 255)]
     #[Groups(['tag_main'])]
+    #[Gedmo\Versioned]
     private $tagName;
 
     #[ORM\ManyToMany(targetEntity: Member::class, inversedBy: 'tags')]

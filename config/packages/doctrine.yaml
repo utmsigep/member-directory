@@ -28,7 +28,7 @@ doctrine:
                 alias: App
             gedmo_loggable:
                 is_bundle: false
-                type: annotation
+                type: attribute
                 dir: '%kernel.project_dir%/vendor/gedmo/doctrine-extensions/src/Loggable/Entity'
                 prefix: Gedmo\Loggable\Entity
 
