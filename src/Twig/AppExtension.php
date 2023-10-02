@@ -102,6 +102,7 @@ class AppExtension extends AbstractExtension
                 $size
             );
         }
+
         // Default Gravatar image
         return sprintf(
             'https://www.gravatar.com/avatar/%s?size=%d&default=mm',

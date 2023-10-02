@@ -58,9 +58,9 @@ class Donation
     #[Gedmo\Versioned]
     private $processingFee;
 
-     #[ORM\Column(type: 'decimal', precision: 10, scale: 2)]
-     #[Gedmo\Versioned]
-     private $netAmount;
+    #[ORM\Column(type: 'decimal', precision: 10, scale: 2)]
+    #[Gedmo\Versioned]
+    private $netAmount;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     #[Gedmo\Versioned]
@@ -71,11 +71,11 @@ class Donation
     private $internalNotes;
 
     #[Gedmo\Versioned]
-     #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $donationType;
 
     #[Gedmo\Versioned]
-     #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $cardType;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
@@ -87,7 +87,7 @@ class Donation
     private $isAnonymous;
 
     #[Gedmo\Versioned]
-     #[ORM\Column(type: 'boolean')]
+    #[ORM\Column(type: 'boolean')]
     private $isRecurring;
 
     #[ORM\Column(type: 'json')]
