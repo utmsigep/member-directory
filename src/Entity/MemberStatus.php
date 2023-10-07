@@ -10,11 +10,9 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-/**
- * @Gedmo\Loggable
- */
 #[ORM\Entity(repositoryClass: 'App\Repository\MemberStatusRepository')]
 #[UniqueEntity('code')]
+#[Gedmo\Loggable]
 class MemberStatus
 {
     use TimestampableEntity;
@@ -24,29 +22,23 @@ class MemberStatus
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'string', length: 255)]
     #[Groups(['status_main'])]
+    #[Gedmo\Versioned]
     private $code;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'string', length: 255)]
     #[Groups(['status_main'])]
+    #[Gedmo\Versioned]
     private $label;
 
     #[ORM\OneToMany(targetEntity: Member::class, mappedBy: 'status')]
     #[ORM\OrderBy(['lastName' => 'ASC'])]
     private $members;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'boolean')]
     #[Groups(['status_main'])]
+    #[Gedmo\Versioned]
     private $isInactive = false;
 
     #[ORM\ManyToMany(targetEntity: DirectoryCollection::class, mappedBy: 'memberStatuses')]

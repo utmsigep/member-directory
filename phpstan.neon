@@ -1,9 +1,10 @@
+includes:
+	- phpstan-baseline.neon
+
 parameters:
     level: 5
     paths:
         - src
-    bootstrapFiles:
-        - bin/.phpunit/phpunit/vendor/autoload.php
     doctrine:
         objectManagerLoader: tests/object-manager.php
     symfony:

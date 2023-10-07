@@ -8,11 +8,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
-/**
- * @Gedmo\Loggable
- */
 #[ORM\Entity(repositoryClass: CommunicationLogRepository::class)]
 #[UniqueEntity(['member', 'type', 'loggedAt'])]
+#[Gedmo\Loggable]
 class CommunicationLog
 {
     use TimestampableEntity;
@@ -31,29 +29,21 @@ class CommunicationLog
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\ManyToOne(targetEntity: Member::class, inversedBy: 'communicationLogs')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Gedmo\Versioned]
     private $member;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'datetime_immutable')]
+    #[Gedmo\Versioned]
     private $loggedAt;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'string', length: 255)]
+    #[Gedmo\Versioned]
     private $type;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'text')]
+    #[Gedmo\Versioned]
     private $summary;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'communicationLogs')]

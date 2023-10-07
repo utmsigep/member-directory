@@ -11,12 +11,10 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @Gedmo\Loggable
- */
 #[ORM\Entity(repositoryClass: EventRepository::class)]
 #[UniqueEntity('code')]
 #[ORM\HasLifecycleCallbacks]
+#[Gedmo\Loggable]
 class Event
 {
     use TimestampableEntity;
@@ -26,35 +24,25 @@ class Event
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'string', length: 255)]
+    #[Gedmo\Versioned]
     private $name;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank(allowNull: true)]
+    #[Gedmo\Versioned]
     private $code;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'string', length: 255)]
+    #[Gedmo\Versioned]
     private $location;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'text')]
+    #[Gedmo\Versioned]
     private $description;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'datetime_immutable')]
+    #[Gedmo\Versioned]
     private $startAt;
 
     #[ORM\ManyToMany(targetEntity: Member::class, inversedBy: 'events')]
@@ -119,12 +107,12 @@ class Event
         return $this;
     }
 
-    public function getstartAt(): ?\DateTimeImmutable
+    public function getStartAt(): ?\DateTimeImmutable
     {
         return $this->startAt;
     }
 
-    public function setstartAt(\DateTimeImmutable $startAt): self
+    public function setStartAt(\DateTimeImmutable $startAt): self
     {
         $this->startAt = $startAt;
 

@@ -26,7 +26,7 @@ class EspSyncCommand extends Command
         $this->emailService = $emailService;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Updates the Email Service Provider with directory data.')
@@ -66,7 +66,7 @@ class EspSyncCommand extends Command
                 } else {
                     $output['ignored'][] = $member->getDisplayName();
                 }
-            // If is found, check subscription status and update if Active
+                // If is found, check subscription status and update if Active
             } else {
                 if ('Active' == $subscription->State) {
                     if (!$member->getIsLocalDoNotContact()) {

@@ -28,7 +28,7 @@ class UserAddCommand extends Command
         $this->passwordEncoder = $passwordEncoder;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Adds an administrative user to the system.')

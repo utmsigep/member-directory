@@ -14,11 +14,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-/**
- * @Gedmo\Loggable
- */
 #[ORM\Entity(repositoryClass: 'App\Repository\UserRepository')]
 #[UniqueEntity('email')]
+#[Gedmo\Loggable]
 class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFactorInterface
 {
     use TimestampableEntity;
@@ -37,16 +35,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'string', length: 180, unique: true)]
+    #[Gedmo\Versioned]
     private $email;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'json')]
+    #[Gedmo\Versioned]
     private $roles = [];
 
     /**
@@ -63,10 +57,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
     #[ORM\Column(type: 'string', nullable: true)]
     private $totpSecret;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'string', nullable: true)]
+    #[Gedmo\Versioned]
     private $name;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
@@ -75,10 +67,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
     #[ORM\OneToMany(targetEntity: CommunicationLog::class, mappedBy: 'user')]
     private $communicationLogs;
 
-    /**
-     * @Gedmo\Versioned
-     */
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Gedmo\Versioned]
     private $timezone;
 
     public function __construct()
@@ -166,7 +156,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
     /**
      * @see UserInterface
      */
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
         // If you store any temporary, sensitive data on the user, clear it here
         $this->plainPassword = null;
@@ -179,7 +169,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
         return $this;
     }
 
-    public function getPlainPassword()
+    public function getPlainPassword(): ?string
     {
         return $this->plainPassword;
     }

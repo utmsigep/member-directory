@@ -18,13 +18,13 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Gedmo\Loggable\Entity\LogEntry;
 use Sabre\VObject\Component\VCard;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[IsGranted('ROLE_USER')]
@@ -109,7 +109,9 @@ class MemberController extends AbstractController
     #[IsGranted('ROLE_DIRECTORY_MANAGER')]
     public function changeLog(Member $member, EntityManagerInterface $entityManager): Response
     {
-        $logEntries = $entityManager->getRepository(LogEntry::class)->getLogEntries($member);
+        $repo = $entityManager->getRepository(LogEntry::class);
+        // @phpstan-ignore argument.type
+        $logEntries = $repo->getLogEntries($member);
 
         return $this->render('directory/change_log.html.twig', [
             'member' => $member,
