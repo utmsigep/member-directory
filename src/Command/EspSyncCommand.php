@@ -66,7 +66,7 @@ class EspSyncCommand extends Command
                 } else {
                     $output['ignored'][] = $member->getDisplayName();
                 }
-                // If is found, check subscription status and update if Active
+            // If is found, check subscription status and update if Active
             } else {
                 if ('Active' == $subscription->State) {
                     if (!$member->getIsLocalDoNotContact()) {

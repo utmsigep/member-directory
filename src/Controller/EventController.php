@@ -83,7 +83,7 @@ class EventController extends AbstractController
     }
 
     #[Route(path: '/{id}/attendee-export', name: 'event_attendee_export', methods: ['GET'])]
-    public function attendeeExport(Event $event, MemberToCSVService $memberToCsvService): Response
+    public function attendeeExport(Event $event, MemberToCsvService $memberToCsvService): Response
     {
         $members = $event->getAttendees();
         $filename = $event->getCode().'.csv';
