@@ -4,6 +4,8 @@ namespace App\Service;
 
 use App\Entity\Member;
 use App\Entity\MemberStatus;
+use App\EventListener\GeocodeMemberSubscriber;
+
 use Doctrine\ORM\EntityManagerInterface;
 use League\Csv\Reader as CsvReader;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -37,7 +39,7 @@ class CsvToMemberService
             'Middle',
             'Middle Initial',
             'Middle Initials',
-            'Middlename',
+            'MI',
         ],
         'preferredName' => [
             'Preferred Name',
@@ -236,7 +238,6 @@ class CsvToMemberService
             $externalIdentifier = $this->findMappedValue('externalIdentifier', $csvRecord);
             $localIdentifier = $this->findMappedValue('localIdentifier', $csvRecord);
             $firstName = $this->findMappedValue('firstName', $csvRecord);
-            $preferredName = $this->findMappedValue('preferredName', $csvRecord);
             $lastName = $this->findMappedValue('lastName', $csvRecord);
             $primaryEmail = $this->findMappedValue('primaryEmail', $csvRecord);
 
@@ -263,9 +264,9 @@ class CsvToMemberService
                     'lastName' => $lastName,
                 ]);
             }
-            if (null === $member && $preferredName && $lastName) {
+            if (null === $member && $firstName && $lastName) {
                 $member = $this->entityManager->getRepository(Member::class)->findOneBy([
-                    'preferredName' => $preferredName,
+                    'preferredName' => $firstName,
                     'lastName' => $lastName,
                 ]);
             }
@@ -321,7 +322,7 @@ class CsvToMemberService
                 $member->setJobTitle($this->findMappedValue('jobTitle', $csvRecord));
             }
             if (null !== $this->findMappedValue('occupation', $csvRecord)) {
-                $member->setJobTitle($this->findMappedValue('occupation', $csvRecord));
+                $member->setOccupation($this->findMappedValue('occupation', $csvRecord));
             }
             if (null !== $this->findMappedValue('primaryEmail', $csvRecord)) {
                 $member->setPrimaryEmail($this->findMappedValue('primaryEmail', $csvRecord));
