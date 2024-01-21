@@ -802,9 +802,13 @@ class Member implements Loggable
         );
     }
 
-    private function formatEmail(?string $email): string
+    private function formatEmail(?string $email): ?string
     {
-        return trim(mb_strtolower($email));
+        $email = trim(mb_strtolower($email));
+        if ($email === '') {
+            return null;
+        }
+        return $email;
     }
 
     /**

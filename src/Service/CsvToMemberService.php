@@ -237,18 +237,29 @@ class CsvToMemberService
             $localIdentifier = $this->findMappedValue('localIdentifier', $csvRecord);
             $firstName = $this->findMappedValue('firstName', $csvRecord);
             $lastName = $this->findMappedValue('lastName', $csvRecord);
+            $primaryEmail = $this->findMappedValue('primaryEmail', $csvRecord);
 
-            $member = $this->entityManager->getRepository(Member::class)->findOneBy([
-                'externalIdentifier' => $externalIdentifier,
-            ]);
+            $member = null;
 
-            if (null === $member) {
+            if ($externalIdentifier) {
+                $member = $this->entityManager->getRepository(Member::class)->findOneBy([
+                    'externalIdentifier' => $externalIdentifier,
+                ]);
+            }
+
+            if (null === $member && $localIdentifier) {
                 $member = $this->entityManager->getRepository(Member::class)->findOneBy([
                     'localIdentifier' => $localIdentifier,
                 ]);
             }
 
-            if (null === $member) {
+            if (null === $member && $primaryEmail) {
+                $member = $this->entityManager->getRepository(Member::class)->findOneBy([
+                    'primaryEmail' => $primaryEmail,
+                ]);
+            }
+
+            if (null === $member && $firstName && $lastName) {
                 $member = $this->entityManager->getRepository(Member::class)->findOneBy([
                     'firstName' => $firstName,
                     'lastName' => $lastName,
@@ -276,9 +287,7 @@ class CsvToMemberService
                 $member->setPreferredName($this->findMappedValue('preferredName', $csvRecord));
             }
             if (null !== $this->findMappedValue('middleName', $csvRecord)) {
-                if (null != $member->getMiddleName() || '' != $this->findMappedValue('middleName', $csvRecord)) {
-                    $member->setMiddleName($this->findMappedValue('middleName', $csvRecord));
-                }
+                $member->setMiddleName($this->findMappedValue('middleName', $csvRecord));
             }
             if (null !== $this->findMappedValue('lastName', $csvRecord)) {
                 $member->setLastName($this->findMappedValue('lastName', $csvRecord));
