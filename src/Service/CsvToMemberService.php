@@ -236,36 +236,39 @@ class CsvToMemberService
             $externalIdentifier = $this->findMappedValue('externalIdentifier', $csvRecord);
             $localIdentifier = $this->findMappedValue('localIdentifier', $csvRecord);
             $firstName = $this->findMappedValue('firstName', $csvRecord);
+            $preferredName = $this->findMappedValue('preferredName', $csvRecord);
             $lastName = $this->findMappedValue('lastName', $csvRecord);
             $primaryEmail = $this->findMappedValue('primaryEmail', $csvRecord);
 
+            // Locate existing member record or create new
             $member = null;
-
             if ($externalIdentifier) {
                 $member = $this->entityManager->getRepository(Member::class)->findOneBy([
                     'externalIdentifier' => $externalIdentifier,
                 ]);
             }
-
             if (null === $member && $localIdentifier) {
                 $member = $this->entityManager->getRepository(Member::class)->findOneBy([
                     'localIdentifier' => $localIdentifier,
                 ]);
             }
-
             if (null === $member && $primaryEmail) {
                 $member = $this->entityManager->getRepository(Member::class)->findOneBy([
                     'primaryEmail' => $primaryEmail,
                 ]);
             }
-
             if (null === $member && $firstName && $lastName) {
                 $member = $this->entityManager->getRepository(Member::class)->findOneBy([
                     'firstName' => $firstName,
                     'lastName' => $lastName,
                 ]);
             }
-
+            if (null === $member && $preferredName && $lastName) {
+                $member = $this->entityManager->getRepository(Member::class)->findOneBy([
+                    'preferredName' => $preferredName,
+                    'lastName' => $lastName,
+                ]);
+            }
             if (null === $member) {
                 $member = new Member();
             }
