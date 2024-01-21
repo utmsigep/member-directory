@@ -11,36 +11,180 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class CsvToMemberService
 {
-    public const LOCAL_IDENTIFIER_HEADER = 'localIdentifier';
-    public const EXTERNAL_IDENTIFIER_HEADER = 'externalIdentifier';
-    public const PREFIX_HEADER = 'prefix';
-    public const FIRST_NAME_HEADER = 'firstName';
-    public const MIDDLE_NAME_HEADER = 'middleName';
-    public const PREFERRED_NAME_HEADER = 'preferredName';
-    public const LAST_NAME_HEADER = 'lastName';
-    public const SUFFIX_HEADER = 'suffix';
-    public const STATUS_HEADER = 'status';
-    public const BIRTH_DATE_HEADER = 'birthDate';
-    public const JOIN_DATE_HEADER = 'joinDate';
-    public const CLASS_YEAR_HEADER = 'classYear';
-    public const DECEASED_HEADER = 'isDeceased';
-    public const EMPLOYER_HEADER = 'employer';
-    public const JOB_TITLE_HEADER = 'jobTitle';
-    public const OCCUPATION_HEADER = 'occupation';
-    public const PRIMARY_EMAIL_HEADER = 'primaryEmail';
-    public const PRIMARY_TELEPHONE_NUMBER_HEADER = 'primaryTelephoneNumber';
-    public const MAILING_ADDRESS_HEADER = 'mailingAddress';
-    public const MAILING_ADDRESS_LINE1_HEADER = 'mailingAddressLine1';
-    public const MAILING_ADDRESS_LINE2_HEADER = 'mailingAddressLine2';
-    public const MAILING_CITY_HEADER = 'mailingCity';
-    public const MAILING_STATE_HEADER = 'mailingState';
-    public const MAILING_POSTAL_CODE_HEADER = 'mailingPostalCode';
-    public const MAILING_COUNTRY_HEADER = 'mailingCountry';
-    public const MAILING_LATITUDE_HEADER = 'mailingLatitude';
-    public const MAILING_LONGITUDE_HEADER = 'mailingLongitude';
-    public const LOST_HEADER = 'isLost';
-    public const LOCAL_DO_NOT_CONTACT_HEADER = 'isLocalDoNotContact';
-    public const DIRECTORY_NOTES_HEADER = 'directoryNotes';
+    public const COLUMN_MAPPINGS = [
+        'localIdentifier' => [
+            'Local Identifier',
+            'Local ID',
+            'Chapter Number',
+            'Chapter ID',
+        ],
+        'externalIdentifier' => [
+            'External Identifier',
+            'External ID',
+            'National Number',
+            'National ID',
+        ],
+        'prefix' => [
+            'Prefix',
+            'Salutation',
+        ],
+        'firstName' => [
+            'First Name',
+            'First',
+        ],
+        'middleName' => [
+            'Middle Name',
+            'Middle',
+            'Middle Initial',
+            'Middle Initials',
+            'Middlename',
+        ],
+        'preferredName' => [
+            'Preferred Name',
+            'Preferred',
+            'Nickname',
+            'Nick',
+        ],
+        'lastName' => [
+            'Last Name',
+            'Last',
+            'Surname',
+        ],
+        'suffix' => [
+            'Suffix',
+        ],
+        'status' => [
+            'Status',
+            'Status Code',
+            'Member Status',
+            'Member Status Code',
+        ],
+        'birthDate' => [
+            'Birth Date',
+            'Birthday',
+            'Birth',
+            'Birthday Date',
+            'Date of Birth',
+        ],
+        'joinDate' => [
+            'Join Date',
+            'Join',
+            'Joined',
+        ],
+        'classYear' => [
+            'Class Year',
+            'Class',
+            'Graduation Year',
+            'Year',
+        ],
+        'isDeceased' => [
+            'Is Deceased',
+            'Is Deceased?',
+            'Deceased',
+            'Deceased?',
+        ],
+        'employer' => [
+            'Employer',
+            'Employer Name',
+        ],
+        'jobTitle' => [
+            'Job Title',
+            'Job',
+            'Title',
+        ],
+        'occupation' => [
+            'Occupation',
+            'Occupation Name',
+            'Industry',
+        ],
+        'primaryEmail' => [
+            'Primary Email',
+            'Email',
+            'Email Address',
+            'E-mail',
+            'E-mail Address',
+        ],
+        'primaryTelephoneNumber' => [
+            'Primary Telephone Number',
+            'Telephone',
+            'Telephone Number',
+            'Phone',
+            'Phone Number',
+            'Mobile',
+            'Mobile Number',
+            'Cell',
+            'Cell Number',
+        ],
+        'mailingAddress' => [
+            'Mailing Address',
+            'Street Address',
+            'Address',
+        ],
+        'mailingAddressLine1' => [
+            'Mailing Address Line 1',
+            'Address Line 1',
+            'Address 1',
+            'Line 1',
+        ],
+        'mailingAddressLine2' => [
+            'Mailing Address Line 2',
+            'Address Line 2',
+            'Address 2',
+            'Line 2',
+        ],
+        'mailingCity' => [
+            'Mailing City',
+            'City',
+        ],
+        'mailingState' => [
+            'Mailing State',
+            'State',
+            'Province',
+            'Province/State',
+            'State/Province',
+        ],
+        'mailingPostalCode' => [
+            'Mailing Postal Code',
+            'Postal Code',
+            'Postal',
+            'Zip',
+            'Zip Code',
+            'Zip/Postal Code',
+            'Postal Code/Zip',
+            'Postal/Zip Code',
+        ],
+        'mailingCountry' => [
+            'Mailing Country',
+            'Country',
+            'Country/Region',
+        ],
+        'mailingLatitude' => [
+            'Mailing Latitude',
+            'Latitude',
+            'Lat',
+        ],
+        'mailingLongitude' => [
+            'Mailing Longitude',
+            'Longitude',
+            'Long',
+            'Lng',
+        ],
+        'isLost' => [
+            'Is Lost',
+            'Lost',
+            'Lost?',
+        ],
+        'isLocalDoNotContact' => [
+            'Is Do Not Contact',
+            'Do Not Contact',
+            'Do Not Contact?',
+        ],
+        'directoryNotes' => [
+            'Directory Notes',
+            'Notes',
+            'Note',
+        ],
+    ];
 
     protected $entityManager;
 
@@ -66,7 +210,13 @@ class CsvToMemberService
 
     public function getErrors()
     {
-        return $this->errors;
+        $consolidated = [];
+        foreach ($this->errors as $i => $rowErrors) {
+            $rowNumber = $i + 1;
+            $consolidated[$i] = "Row {$rowNumber}: ".join('; ', $rowErrors);
+        }
+
+        return $consolidated;
     }
 
     public function run(UploadedFile $file)
@@ -82,10 +232,11 @@ class CsvToMemberService
 
         // Main import loop
         foreach ($csv->getRecords() as $i => $csvRecord) {
-            $externalIdentifier = (isset($csvRecord[self::EXTERNAL_IDENTIFIER_HEADER])) ? $csvRecord[self::EXTERNAL_IDENTIFIER_HEADER] : null;
-            $localIdentifier = (isset($csvRecord[self::LOCAL_IDENTIFIER_HEADER])) ? $csvRecord[self::LOCAL_IDENTIFIER_HEADER] : null;
-            $firstName = (isset($csvRecord[self::FIRST_NAME_HEADER])) ? $csvRecord[self::FIRST_NAME_HEADER] : null;
-            $lastName = (isset($csvRecord[self::LAST_NAME_HEADER])) ? $csvRecord[self::LAST_NAME_HEADER] : null;
+            $rowNumber = $i + 1;
+            $externalIdentifier = $this->findMappedValue('externalIdentifier', $csvRecord);
+            $localIdentifier = $this->findMappedValue('localIdentifier', $csvRecord);
+            $firstName = $this->findMappedValue('firstName', $csvRecord);
+            $lastName = $this->findMappedValue('lastName', $csvRecord);
 
             $member = $this->entityManager->getRepository(Member::class)->findOneBy([
                 'externalIdentifier' => $externalIdentifier,
@@ -109,122 +260,131 @@ class CsvToMemberService
             }
 
             // Populate fields if set
-            if (isset($csvRecord[self::EXTERNAL_IDENTIFIER_HEADER])) {
-                $member->setExternalIdentifier($csvRecord[self::EXTERNAL_IDENTIFIER_HEADER]);
+            if (null !== $this->findMappedValue('externalIdentifier', $csvRecord)) {
+                $member->setExternalIdentifier($this->findMappedValue('externalIdentifier', $csvRecord));
             }
-            if (isset($csvRecord[self::LOCAL_IDENTIFIER_HEADER])) {
-                $member->setLocalIdentifier($csvRecord[self::LOCAL_IDENTIFIER_HEADER]);
+            if (null !== $this->findMappedValue('localIdentifier', $csvRecord)) {
+                $member->setLocalIdentifier($this->findMappedValue('localIdentifier', $csvRecord));
             }
-            if (isset($csvRecord[self::PREFIX_HEADER])) {
-                $member->setPrefix($csvRecord[self::PREFIX_HEADER]);
+            if (null !== $this->findMappedValue('prefix', $csvRecord)) {
+                $member->setPrefix($this->findMappedValue('prefix', $csvRecord));
             }
-            if (isset($csvRecord[self::FIRST_NAME_HEADER])) {
-                $member->setFirstName($csvRecord[self::FIRST_NAME_HEADER]);
+            if (null !== $this->findMappedValue('firstName', $csvRecord)) {
+                $member->setFirstName($this->findMappedValue('firstName', $csvRecord));
             }
-            if (isset($csvRecord[self::PREFERRED_NAME_HEADER])) {
-                $member->setPreferredName($csvRecord[self::PREFERRED_NAME_HEADER]);
+            if (null !== $this->findMappedValue('preferredName', $csvRecord)) {
+                $member->setPreferredName($this->findMappedValue('preferredName', $csvRecord));
             }
-            if (isset($csvRecord[self::MIDDLE_NAME_HEADER])) {
-                if (null != $member->getMiddleName() || '' != $csvRecord[self::MIDDLE_NAME_HEADER]) {
-                    $member->setMiddleName($csvRecord[self::MIDDLE_NAME_HEADER]);
+            if (null !== $this->findMappedValue('middleName', $csvRecord)) {
+                if (null != $member->getMiddleName() || '' != $this->findMappedValue('middleName', $csvRecord)) {
+                    $member->setMiddleName($this->findMappedValue('middleName', $csvRecord));
                 }
             }
-            if (isset($csvRecord[self::LAST_NAME_HEADER])) {
-                $member->setLastName($csvRecord[self::LAST_NAME_HEADER]);
+            if (null !== $this->findMappedValue('lastName', $csvRecord)) {
+                $member->setLastName($this->findMappedValue('lastName', $csvRecord));
             }
-            if (isset($csvRecord[self::SUFFIX_HEADER])) {
-                $member->setPrefix($csvRecord[self::SUFFIX_HEADER]);
+            if (null !== $this->findMappedValue('suffix', $csvRecord)) {
+                $member->setSuffix($this->findMappedValue('suffix', $csvRecord));
             }
-            if (isset($csvRecord[self::BIRTH_DATE_HEADER]) && strtotime($csvRecord[self::BIRTH_DATE_HEADER])) {
-                $member->setBirthDate(new \DateTime($csvRecord[self::BIRTH_DATE_HEADER]));
+            if ($this->findMappedValue('birthDate', $csvRecord) && strtotime($this->findMappedValue('birthDate', $csvRecord))) {
+                $member->setBirthDate(new \DateTime($this->findMappedValue('birthDate', $csvRecord)));
             }
-            if (isset($csvRecord[self::JOIN_DATE_HEADER]) && strtotime($csvRecord[self::JOIN_DATE_HEADER])) {
-                $member->setJoinDate(new \DateTime($csvRecord[self::JOIN_DATE_HEADER]));
+            if ($this->findMappedValue('joinDate', $csvRecord) && strtotime($this->findMappedValue('joinDate', $csvRecord))) {
+                $member->setJoinDate(new \DateTime($this->findMappedValue('joinDate', $csvRecord)));
             }
-            if (isset($csvRecord[self::CLASS_YEAR_HEADER]) && $csvRecord[self::CLASS_YEAR_HEADER]) {
-                if (null != $member->getClassYear() || 0 != $csvRecord[self::CLASS_YEAR_HEADER]) {
-                    $member->setClassYear((int) $csvRecord[self::CLASS_YEAR_HEADER]);
+            if (null !== $this->findMappedValue('classYear', $csvRecord) && '' !== $this->findMappedValue('classYear', $csvRecord)) {
+                if (0 === (int) $this->findMappedValue('classYear', $csvRecord)) {
+                    $this->errors[$i][] = sprintf(
+                        'Invalid class year: %s',
+                        $this->findMappedValue('classYear', $csvRecord)
+                    );
+                } else {
+                    $member->setClassYear((int) $this->findMappedValue('classYear', $csvRecord));
                 }
             }
-            if (isset($csvRecord[self::DECEASED_HEADER])) {
-                $member->setIsDeceased($this->formatBoolean($csvRecord[self::DECEASED_HEADER]));
+            if (null !== $this->findMappedValue('employer', $csvRecord)) {
+                $member->setEmployer($this->findMappedValue('employer', $csvRecord));
             }
-            if (isset($csvRecord[self::EMPLOYER_HEADER])) {
-                if (null != $member->getEmployer() || '' != $csvRecord[self::EMPLOYER_HEADER]) {
-                    $member->setEmployer($csvRecord[self::EMPLOYER_HEADER]);
+            if (null !== $this->findMappedValue('jobTitle', $csvRecord)) {
+                $member->setJobTitle($this->findMappedValue('jobTitle', $csvRecord));
+            }
+            if (null !== $this->findMappedValue('occupation', $csvRecord)) {
+                $member->setJobTitle($this->findMappedValue('occupation', $csvRecord));
+            }
+            if (null !== $this->findMappedValue('primaryEmail', $csvRecord)) {
+                $member->setPrimaryEmail($this->findMappedValue('primaryEmail', $csvRecord));
+            }
+            if (null !== $this->findMappedValue('primaryTelephoneNumber', $csvRecord)) {
+                $member->setPrimaryTelephoneNumber($this->findMappedValue('primaryTelephoneNumber', $csvRecord));
+            }
+            if (null !== $this->findMappedValue('mailingAddress', $csvRecord)) {
+                $mailingAddress = explode("\n", $this->findMappedValue('mailingAddress', $csvRecord));
+                $member->setMailingAddressLine1($mailingAddress[0]);
+                $member->setMailingAddressLine2(isset($mailingAddress[1]) ? $mailingAddress[1] : '');
+            } else {
+                if (null !== $this->findMappedValue('mailingAddressLine1', $csvRecord)) {
+                    $member->setMailingAddressLine1($this->findMappedValue('mailingAddressLine1', $csvRecord));
+                }
+                if (null !== $this->findMappedValue('mailingAddressLine2', $csvRecord)) {
+                    $member->setMailingAddressLine2($this->findMappedValue('mailingAddressLine2', $csvRecord));
                 }
             }
-            if (isset($csvRecord[self::JOB_TITLE_HEADER])) {
-                if (null != $member->getJobTitle() || '' != $csvRecord[self::JOB_TITLE_HEADER]) {
-                    $member->setJobTitle($csvRecord[self::JOB_TITLE_HEADER]);
-                }
+            if (null !== $this->findMappedValue('mailingCity', $csvRecord)) {
+                $member->setMailingCity($this->findMappedValue('mailingCity', $csvRecord));
             }
-            if (isset($csvRecord[self::OCCUPATION_HEADER])) {
-                if (null != $member->getOccupation() || '' != $csvRecord[self::OCCUPATION_HEADER]) {
-                    $member->setOccupation($csvRecord[self::OCCUPATION_HEADER]);
-                }
+            if (null !== $this->findMappedValue('mailingState', $csvRecord)) {
+                $member->setMailingState($this->findMappedValue('mailingState', $csvRecord));
             }
-            if (isset($csvRecord[self::PRIMARY_EMAIL_HEADER]) && $csvRecord[self::PRIMARY_EMAIL_HEADER]) {
-                $member->setPrimaryEmail($csvRecord[self::PRIMARY_EMAIL_HEADER]);
+            if (null !== $this->findMappedValue('mailingPostalCode', $csvRecord)) {
+                $member->setMailingPostalCode($this->findMappedValue('mailingPostalCode', $csvRecord));
             }
-            if (isset($csvRecord[self::PRIMARY_TELEPHONE_NUMBER_HEADER]) && $csvRecord[self::PRIMARY_TELEPHONE_NUMBER_HEADER]) {
-                $member->setPrimaryTelephoneNumber($csvRecord[self::PRIMARY_TELEPHONE_NUMBER_HEADER]);
-            }
-            if (isset($csvRecord[self::MAILING_ADDRESS_HEADER]) && $csvRecord[self::MAILING_ADDRESS_HEADER]) {
-                $addressLines = explode("\n", $csvRecord[self::MAILING_ADDRESS_HEADER]);
-                $member->setMailingAddressLine1($addressLines[0]);
-                $member->setMailingAddressLine2(isset($addressLines[1]) ? $addressLines[1] : '');
-            }
-            if (isset($csvRecord[self::MAILING_ADDRESS_LINE1_HEADER]) && $csvRecord[self::MAILING_ADDRESS_LINE1_HEADER]) {
-                $member->setMailingAddressLine1($csvRecord[self::MAILING_ADDRESS_LINE1_HEADER]);
-            }
-            if (isset($csvRecord[self::MAILING_ADDRESS_LINE2_HEADER]) && $csvRecord[self::MAILING_ADDRESS_LINE2_HEADER]) {
-                $member->setMailingAddressLine2($csvRecord[self::MAILING_ADDRESS_LINE2_HEADER]);
-            }
-            if (isset($csvRecord[self::MAILING_CITY_HEADER]) && $csvRecord[self::MAILING_CITY_HEADER]) {
-                $member->setMailingCity($csvRecord[self::MAILING_CITY_HEADER]);
-            }
-            if (isset($csvRecord[self::MAILING_STATE_HEADER]) && $csvRecord[self::MAILING_STATE_HEADER]) {
-                $member->setMailingState($csvRecord[self::MAILING_STATE_HEADER]);
-            }
-            if (isset($csvRecord[self::MAILING_POSTAL_CODE_HEADER]) && $csvRecord[self::MAILING_POSTAL_CODE_HEADER]) {
-                $member->setMailingPostalCode($csvRecord[self::MAILING_POSTAL_CODE_HEADER]);
-            }
-            if (isset($csvRecord[self::MAILING_COUNTRY_HEADER]) && $csvRecord[self::MAILING_COUNTRY_HEADER]) {
-                $mailingCountry = $csvRecord[self::MAILING_COUNTRY_HEADER];
-                if ('US' == $mailingCountry) {
-                    $mailingCountry = 'United States';
+            if (null !== $this->findMappedValue('mailingCountry', $csvRecord)) {
+                $mailingCountry = $this->findMappedValue('mailingCountry', $csvRecord);
+                switch ($mailingCountry) {
+                    case 'United States of America':
+                    case 'United States':
+                    case 'USA':
+                    case 'US':
+                        $mailingCountry = 'United States';
+                        break;
+                    case 'Canada':
+                    case 'CA':
+                        $mailingCountry = 'Canada';
+                        break;
+                    case 'Mexico':
+                    case 'MX':
+                        $mailingCountry = 'Mexico';
+                        break;
                 }
                 $member->setMailingCountry($mailingCountry);
             }
-            if (isset($csvRecord[self::MAILING_LATITUDE_HEADER]) && $csvRecord[self::MAILING_LATITUDE_HEADER]) {
-                $member->setMailingLatitude($csvRecord[self::MAILING_LATITUDE_HEADER]);
+            if (null !== $this->findMappedValue('mailingLatitude', $csvRecord) && is_float($this->findMappedValue('mailingLatitude', $csvRecord))) {
+                $member->setMailingLatitude($this->findMappedValue('mailingLatitude', $csvRecord));
             }
-            if (isset($csvRecord[self::MAILING_LONGITUDE_HEADER]) && $csvRecord[self::MAILING_LONGITUDE_HEADER]) {
-                $member->setMailingLongitude($csvRecord[self::MAILING_LONGITUDE_HEADER]);
+            if (null !== $this->findMappedValue('mailingLongitude', $csvRecord) && is_float($this->findMappedValue('mailingLongitude', $csvRecord))) {
+                $member->setMailingLongitude($this->findMappedValue('mailingLongitude', $csvRecord));
             }
-            if (isset($csvRecord[self::LOST_HEADER])) {
-                $member->setIsLost($this->formatBoolean($csvRecord[self::LOST_HEADER]));
+            if (null !== $this->findMappedValue('isDeceased', $csvRecord)) {
+                $member->setIsDeceased($this->formatBoolean($this->findMappedValue('isDeceased', $csvRecord)));
             }
-            if (isset($csvRecord[self::LOCAL_DO_NOT_CONTACT_HEADER])) {
-                $member->setIsLocalDoNotContact($this->formatBoolean($csvRecord[self::LOCAL_DO_NOT_CONTACT_HEADER]));
+            if (null !== $this->findMappedValue('isLost', $csvRecord)) {
+                $member->setIsLost($this->formatBoolean($this->findMappedValue('isLost', $csvRecord)));
             }
-            if (isset($csvRecord[self::DIRECTORY_NOTES_HEADER])) {
-                $member->setDirectoryNotes($csvRecord[self::DIRECTORY_NOTES_HEADER]);
+            if ($this->findMappedValue('isLocalDoNotContact', $csvRecord)) {
+                $member->setIsLocalDoNotContact($this->formatBoolean($this->findMappedValue('isLocalDoNotContact', $csvRecord)));
             }
-            if (isset($csvRecord[self::STATUS_HEADER])) {
-                if (!isset($this->memberStatusMap[$csvRecord[self::STATUS_HEADER]])) {
-                    $this->errors[] = sprintf(
-                        '[%s|%s %s, %s] Unable to set status to "%s" (not mapped)',
-                        $member->getExternalIdentifier(),
-                        $member->getLocalIdentifier(),
-                        $member->getLastName(),
-                        $member->getPreferredName(),
-                        $csvRecord[self::STATUS_HEADER]
+            if (null !== $this->findMappedValue('directoryNotes', $csvRecord)) {
+                $member->setDirectoryNotes($this->findMappedValue('directoryNotes', $csvRecord));
+            }
+            if (null !== $this->findMappedValue('status', $csvRecord)) {
+                if (!isset($this->memberStatusMap[$this->findMappedValue('status', $csvRecord)])) {
+                    $this->errors[$i][] = sprintf(
+                        'status: "%s" does not exist',
+                        $this->findMappedValue('status', $csvRecord)
                     );
-                    continue;
+                } else {
+                    $member->setStatus($this->memberStatusMap[$this->findMappedValue('status', $csvRecord)]);
                 }
-                $member->setStatus($this->memberStatusMap[$csvRecord[self::STATUS_HEADER]]);
             }
             // If elements empty, populate
             if (!$member->getPreferredName()) {
@@ -235,12 +395,8 @@ class CsvToMemberService
             $errors = $this->validator->validate($member);
             if (count($errors) > 0) {
                 foreach ($errors->getIterator() as $error) {
-                    $this->errors[$i] = sprintf(
-                        '[%s|%s %s, %s] %s %s',
-                        $member->getExternalIdentifier(),
-                        $member->getLocalIdentifier(),
-                        $member->getLastName(),
-                        $member->getPreferredName(),
+                    $this->errors[$i][] = sprintf(
+                        '%s: %s',
                         $error->getPropertyPath(),
                         $error->getMessage()
                     );
@@ -254,9 +410,11 @@ class CsvToMemberService
 
     public function getAllowedHeaders(): array
     {
-        $oClass = new \ReflectionClass(__CLASS__);
+        foreach(self::COLUMN_MAPPINGS as $columnMapping) {
+            $allowed[] = $columnMapping[0];
+        }
 
-        return array_values($oClass->getConstants());
+        return $allowed;
     }
 
     private function formatBoolean($bool): bool
@@ -290,5 +448,21 @@ class CsvToMemberService
             $this->memberStatusMap[$memberStatus->getCode()] = $memberStatus;
             $this->memberStatusMap[$memberStatus->getLabel()] = $memberStatus;
         }
+    }
+
+    public function findMappedValue($key, $csvRow)
+    {
+        if (isset(self::COLUMN_MAPPINGS[$key])) {
+            foreach (self::COLUMN_MAPPINGS[$key] as $mappedKey => $mappedValue) {
+                if (isset($csvRow[$key])) {
+                    return trim($csvRow[$key]);
+                }
+                if (isset($csvRow[$mappedValue])) {
+                    return trim($csvRow[$mappedValue]);
+                }
+            }
+        }
+
+        return null;
     }
 }

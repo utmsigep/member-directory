@@ -1,0 +1,7 @@
+# Handle dependency injection for the CsvToMemberService
+services:
+  App\Service\CsvToMemberService:
+    arguments:
+      $entityManager: '@doctrine.orm.entity_manager'
+      $validator: '@validator'
+    public: true
