@@ -71,6 +71,11 @@ class MessengerControllerTest extends WebTestCase
         $client->loginUser($testUser);
 
         $crawler = $client->request('GET', '/messenger/sms');
+        if (!isset($_ENV['TWILIO_DSN']) || !$_ENV['TWILIO_DSN']) {
+            $this->assertResponseRedirects('/messenger/', 302);
+
+            return;
+        }
         $this->assertResponseIsSuccessful();
         $this->assertPageTitleSame('Member Directory - Messenger - SMS');
         $this->assertSelectorTextContains('span.display-6', 'Send Bulk SMS');
