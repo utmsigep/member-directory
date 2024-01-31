@@ -80,6 +80,11 @@ class MessengerController extends AbstractController
     #[Route(path: '/sms', name: 'messenger_sms')]
     public function sms(Request $request, SmsService $smsService, CommunicationLogService $communicationLogService): Response
     {
+        if (!$smsService->isConfigured()) {
+            $this->addFlash('danger', 'SMS service not configured!');
+
+            return $this->redirectToRoute('messenger_home');
+        }
         $queryRecipients = $this->buildRecipientsFromRequest($request);
 
         $formSMS = $this->createForm(MemberSMSType::class, null, [
