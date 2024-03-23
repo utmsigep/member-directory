@@ -76,12 +76,12 @@ class MemberType extends AbstractType
         ;
         if (count($this->tagRepository->findAll())) {
             $builder->add('tags', null, [
-              'by_reference' => false,
-              'query_builder' => function (EntityRepository $er) {
-                  return $er->createQueryBuilder('t')
-                      ->orderBy('t.tagName', 'ASC');
-              },
-          ]);
+                'by_reference' => false,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('t')
+                        ->orderBy('t.tagName', 'ASC');
+                },
+            ]);
         }
     }
 
