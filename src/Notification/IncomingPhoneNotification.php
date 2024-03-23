@@ -12,7 +12,7 @@ class IncomingPhoneNotification extends Notification implements EmailNotificatio
 {
     protected $options = [];
 
-    public function __construct(Member $member = null, $options = [])
+    public function __construct(?Member $member = null, $options = [])
     {
         if ($member) {
             parent::__construct(sprintf('Phone Call from %s', $member), ['email']);
@@ -22,7 +22,7 @@ class IncomingPhoneNotification extends Notification implements EmailNotificatio
         $this->options = $options;
     }
 
-    public function asEmailMessage(EmailRecipientInterface $recipient, string $transport = null): ?EmailMessage
+    public function asEmailMessage(EmailRecipientInterface $recipient, ?string $transport = null): ?EmailMessage
     {
         $message = EmailMessage::fromNotification($this, $recipient);
         $message->getMessage()->getHeaders()->addTextHeader('X-Cmail-GroupName', 'Incoming Phone Notification'); // @phpstan-ignore-line
