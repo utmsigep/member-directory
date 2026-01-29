@@ -22,7 +22,7 @@ jobs:
         ref: ${{ github.head_ref }}
 
     - name: PHP-CS-Fixer
-      uses: docker://oskarstark/php-cs-fixer-ga:3.93.0-php8.1
+      uses: docker://oskarstark/php-cs-fixer-ga
 
     - name: Create PR for CS fixups
       uses: peter-evans/create-pull-request@v8
