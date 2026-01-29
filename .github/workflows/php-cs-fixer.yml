@@ -17,20 +17,20 @@ jobs:
     if: github.actor != 'dependabot[bot]'
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v6
       with:
         ref: ${{ github.head_ref }}
 
     - name: PHP-CS-Fixer
-      uses: docker://oskarstark/php-cs-fixer-ga
+      uses: docker://oskarstark/php-cs-fixer-ga:3.93.0-php8.1
 
     - name: Create PR for CS fixups
-      uses: peter-evans/create-pull-request@v5
+      uses: peter-evans/create-pull-request@v8
       id: create-pull-request
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         title: Fix coding standards in ${{ github.ref }}
-        branch: coding-standards/${{ github.ref }}
+        branch: coding-standards/${{ github.head_ref || github.ref_name }}
         assignees: ${{ github.actor }}
         labels: php-cs-fixer
         body: Please merge these changes into the ${{ github.ref }} branch to fix coding standard violations.
