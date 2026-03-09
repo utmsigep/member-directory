@@ -92,8 +92,7 @@ jobs:
         run: bin/phpunit --coverage-clover build/coverage-${{ matrix.php-versions }}.xml --log-junit build/phpunit-${{ matrix.php-versions }}.xml
         env:
           DATABASE_URL: mysql://root:symfony@127.0.0.1:${{ job.services.mysql.ports['3306'] }}/symfony
-          USPS_USERNAME: ${{ secrets.USPS_USERNAME }}
-          USPS_PASSWORD: ${{ secrets.USPS_PASSWORD }}
+          USPS_AUTH_TOKEN: ${{ secrets.USPS_AUTH_TOKEN }}
           TWILIO_DSN: ${{ secrets.TWILIO_DSN }}
 
       - name: Run PHPStan

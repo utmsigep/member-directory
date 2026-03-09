@@ -3,6 +3,8 @@
 namespace App\DataFixtures;
 
 use App\Entity\Member;
+use App\Entity\MemberStatus;
+use App\Entity\Tag;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -19,12 +21,12 @@ class MemberFixtures extends Fixture implements DependentFixtureInterface
         $this->validator = $validator;
     }
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
-        $memberStatusMember = $this->getReference(MemberStatusFixtures::MEMBER);
-        $memberStatusAlumnus = $this->getReference(MemberStatusFixtures::ALUMNUS);
-        $memberStatusExpelled = $this->getReference(MemberStatusFixtures::EXPELLED);
-        $tag1901Club = $this->getReference(TagFixtures::TAG_1901_CLUB);
+        $memberStatusMember = $this->getReference(MemberStatusFixtures::MEMBER, MemberStatus::class);
+        $memberStatusAlumnus = $this->getReference(MemberStatusFixtures::ALUMNUS, MemberStatus::class);
+        $memberStatusExpelled = $this->getReference(MemberStatusFixtures::EXPELLED, MemberStatus::class);
+        $tag1901Club = $this->getReference(TagFixtures::TAG_1901_CLUB, Tag::class);
 
         $member = new Member();
         $member->setExternalIdentifier(md5('1-0001'));
@@ -263,7 +265,7 @@ class MemberFixtures extends Fixture implements DependentFixtureInterface
         $manager->flush();
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return [
             TagFixtures::class,

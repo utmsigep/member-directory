@@ -1,0 +1,494 @@
+{
+  "lockfile-version": 1,
+  "manifest": {
+    "version": 1,
+    "install": {
+      "composer": {
+        "flake": "git+https://github.com/utmsigep/member-directory.git?ref=add-flox#composer-custom"
+      },
+      "nodejs_20": {
+        "pkg-path": "nodejs_20"
+      },
+      "php": {
+        "flake": "git+https://github.com/utmsigep/member-directory.git?ref=add-flox#php-custom"
+      },
+      "symfony-cli": {
+        "pkg-path": "symfony-cli"
+      }
+    },
+    "hook": {},
+    "profile": {},
+    "options": {},
+    "services": {
+      "web": {
+        "command": "symfony serve"
+      }
+    }
+  },
+  "packages": [
+    {
+      "attr_path": "nodejs_20",
+      "broken": false,
+      "derivation": "/nix/store/96lg0ykcflx53y3vg5bk7z0gw7sf62xr-nodejs-20.20.0.drv",
+      "description": "Event-driven I/O framework for the V8 JavaScript engine",
+      "install_id": "nodejs_20",
+      "license": "MIT",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=aca4d95fce4914b3892661bcb80b8087293536c6",
+      "name": "nodejs-20.20.0",
+      "pname": "nodejs_20",
+      "rev": "aca4d95fce4914b3892661bcb80b8087293536c6",
+      "rev_count": 958961,
+      "rev_date": "2026-03-06T04:56:59Z",
+      "scrape_date": "2026-03-08T04:47:07.297334Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "20.20.0",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/p67sinyz9hpn55z1vwkxlfl8ijl06ry1-nodejs-20.20.0"
+      },
+      "system": "aarch64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "nodejs_20",
+      "broken": false,
+      "derivation": "/nix/store/1r8iyb0bp19zc32w0akk3ahpdvykk2ni-nodejs-20.20.0.drv",
+      "description": "Event-driven I/O framework for the V8 JavaScript engine",
+      "install_id": "nodejs_20",
+      "license": "MIT",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=aca4d95fce4914b3892661bcb80b8087293536c6",
+      "name": "nodejs-20.20.0",
+      "pname": "nodejs_20",
+      "rev": "aca4d95fce4914b3892661bcb80b8087293536c6",
+      "rev_count": 958961,
+      "rev_date": "2026-03-06T04:56:59Z",
+      "scrape_date": "2026-03-08T05:24:02.244252Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "20.20.0",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/sl165k6kchm8vdz0mk8i3gv7kdppcldx-nodejs-20.20.0"
+      },
+      "system": "aarch64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "nodejs_20",
+      "broken": false,
+      "derivation": "/nix/store/9jbjkpp45i1l9yvc9rcv2xma7350g00p-nodejs-20.20.0.drv",
+      "description": "Event-driven I/O framework for the V8 JavaScript engine",
+      "install_id": "nodejs_20",
+      "license": "MIT",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=aca4d95fce4914b3892661bcb80b8087293536c6",
+      "name": "nodejs-20.20.0",
+      "pname": "nodejs_20",
+      "rev": "aca4d95fce4914b3892661bcb80b8087293536c6",
+      "rev_count": 958961,
+      "rev_date": "2026-03-06T04:56:59Z",
+      "scrape_date": "2026-03-08T06:04:12.699616Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "20.20.0",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/hi0i1f9hrjh3xrb7zmxxxry7yaan94qj-nodejs-20.20.0"
+      },
+      "system": "x86_64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "nodejs_20",
+      "broken": false,
+      "derivation": "/nix/store/j6yyn4sy73rfhaf3krmwbr0v5dhmfybx-nodejs-20.20.0.drv",
+      "description": "Event-driven I/O framework for the V8 JavaScript engine",
+      "install_id": "nodejs_20",
+      "license": "MIT",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=aca4d95fce4914b3892661bcb80b8087293536c6",
+      "name": "nodejs-20.20.0",
+      "pname": "nodejs_20",
+      "rev": "aca4d95fce4914b3892661bcb80b8087293536c6",
+      "rev_count": 958961,
+      "rev_date": "2026-03-06T04:56:59Z",
+      "scrape_date": "2026-03-08T06:47:20.146647Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "20.20.0",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/9fs868i30kqm70753nz8y55n24cvavzh-nodejs-20.20.0"
+      },
+      "system": "x86_64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "symfony-cli",
+      "broken": false,
+      "derivation": "/nix/store/w4ywgi02qx88gijgpj6saxrm7cvpg1zi-symfony-cli-5.16.1.drv",
+      "description": "Symfony CLI",
+      "install_id": "symfony-cli",
+      "license": "AGPL-3.0-or-later",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=aca4d95fce4914b3892661bcb80b8087293536c6",
+      "name": "symfony-cli-5.16.1",
+      "pname": "symfony-cli",
+      "rev": "aca4d95fce4914b3892661bcb80b8087293536c6",
+      "rev_count": 958961,
+      "rev_date": "2026-03-06T04:56:59Z",
+      "scrape_date": "2026-03-08T04:48:30.496016Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "5.16.1",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/iq6559spv4a3dm4iw9wpxd2s4f2ajm1s-symfony-cli-5.16.1"
+      },
+      "system": "aarch64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "symfony-cli",
+      "broken": false,
+      "derivation": "/nix/store/aij89ylm7iwvrnq5ks171vp65ipk9nb8-symfony-cli-5.16.1.drv",
+      "description": "Symfony CLI",
+      "install_id": "symfony-cli",
+      "license": "AGPL-3.0-or-later",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=aca4d95fce4914b3892661bcb80b8087293536c6",
+      "name": "symfony-cli-5.16.1",
+      "pname": "symfony-cli",
+      "rev": "aca4d95fce4914b3892661bcb80b8087293536c6",
+      "rev_count": 958961,
+      "rev_date": "2026-03-06T04:56:59Z",
+      "scrape_date": "2026-03-08T05:25:51.174605Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "5.16.1",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/nlmianndkvs538dznxfb97n5nmcgbk7y-symfony-cli-5.16.1"
+      },
+      "system": "aarch64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "symfony-cli",
+      "broken": false,
+      "derivation": "/nix/store/y2vj6rb6i3qbbbxck7573lf939rgf31s-symfony-cli-5.16.1.drv",
+      "description": "Symfony CLI",
+      "install_id": "symfony-cli",
+      "license": "AGPL-3.0-or-later",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=aca4d95fce4914b3892661bcb80b8087293536c6",
+      "name": "symfony-cli-5.16.1",
+      "pname": "symfony-cli",
+      "rev": "aca4d95fce4914b3892661bcb80b8087293536c6",
+      "rev_count": 958961,
+      "rev_date": "2026-03-06T04:56:59Z",
+      "scrape_date": "2026-03-08T06:05:33.647757Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "5.16.1",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/8nhjjy593dcdmn3p8xr31ch13zsibpjw-symfony-cli-5.16.1"
+      },
+      "system": "x86_64-darwin",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "attr_path": "symfony-cli",
+      "broken": false,
+      "derivation": "/nix/store/6v7afmkgqvm29gkcgivipr88fqay8bky-symfony-cli-5.16.1.drv",
+      "description": "Symfony CLI",
+      "install_id": "symfony-cli",
+      "license": "AGPL-3.0-or-later",
+      "locked_url": "https://github.com/flox/nixpkgs?rev=aca4d95fce4914b3892661bcb80b8087293536c6",
+      "name": "symfony-cli-5.16.1",
+      "pname": "symfony-cli",
+      "rev": "aca4d95fce4914b3892661bcb80b8087293536c6",
+      "rev_count": 958961,
+      "rev_date": "2026-03-06T04:56:59Z",
+      "scrape_date": "2026-03-08T06:49:16.677751Z",
+      "stabilities": [
+        "unstable"
+      ],
+      "unfree": false,
+      "version": "5.16.1",
+      "outputs_to_install": [
+        "out"
+      ],
+      "outputs": {
+        "out": "/nix/store/kcwly9x4w7626gj5insy9myldhq09qw7-symfony-cli-5.16.1"
+      },
+      "system": "x86_64-linux",
+      "group": "toplevel",
+      "priority": 5
+    },
+    {
+      "install_id": "composer",
+      "locked-url": "git+https://github.com/utmsigep/member-directory.git?ref=add-flox&rev=1734025e1fa67df3d266d9948cc686294be1eba4",
+      "flake-description": "member-directory custom flox packages",
+      "locked-flake-attr-path": "packages.aarch64-darwin.composer-custom",
+      "derivation": "/nix/store/yipyp8hx48s73d5apihnwcra9abfr023-composer-2.9.5.drv",
+      "outputs": {
+        "out": "/nix/store/prgx1sazwjj0ddsd89r4myx3cpk8bd1h-composer-2.9.5"
+      },
+      "output-names": [
+        "out"
+      ],
+      "outputs-to-install": [
+        "out"
+      ],
+      "requested-outputs-to-install": [],
+      "package-system": "aarch64-darwin",
+      "system": "aarch64-darwin",
+      "name": "composer-2.9.5",
+      "pname": "composer",
+      "version": "2.9.5",
+      "description": "Dependency Manager for PHP",
+      "licenses": [
+        "MIT"
+      ],
+      "broken": false,
+      "unfree": false,
+      "priority": 5
+    },
+    {
+      "install_id": "composer",
+      "locked-url": "git+https://github.com/utmsigep/member-directory.git?ref=add-flox&rev=1734025e1fa67df3d266d9948cc686294be1eba4",
+      "flake-description": "member-directory custom flox packages",
+      "locked-flake-attr-path": "packages.aarch64-linux.composer-custom",
+      "derivation": "/nix/store/c39bznzk5j86yk2xdwnq01bx5q55sfwc-composer-2.9.5.drv",
+      "outputs": {
+        "out": "/nix/store/1pgallrbsrz4j2h6q923gb3myrcr6q93-composer-2.9.5"
+      },
+      "output-names": [
+        "out"
+      ],
+      "outputs-to-install": [
+        "out"
+      ],
+      "requested-outputs-to-install": [],
+      "package-system": "aarch64-linux",
+      "system": "aarch64-linux",
+      "name": "composer-2.9.5",
+      "pname": "composer",
+      "version": "2.9.5",
+      "description": "Dependency Manager for PHP",
+      "licenses": [
+        "MIT"
+      ],
+      "broken": false,
+      "unfree": false,
+      "priority": 5
+    },
+    {
+      "install_id": "composer",
+      "locked-url": "git+https://github.com/utmsigep/member-directory.git?ref=add-flox&rev=1734025e1fa67df3d266d9948cc686294be1eba4",
+      "flake-description": "member-directory custom flox packages",
+      "locked-flake-attr-path": "packages.x86_64-darwin.composer-custom",
+      "derivation": "/nix/store/2ifjqy40d74y2fxds1xgkvpg3lwli2qd-composer-2.9.5.drv",
+      "outputs": {
+        "out": "/nix/store/r1zvvvzrr8bdzq2v1ylzs3b0igp8pgpf-composer-2.9.5"
+      },
+      "output-names": [
+        "out"
+      ],
+      "outputs-to-install": [
+        "out"
+      ],
+      "requested-outputs-to-install": [],
+      "package-system": "x86_64-darwin",
+      "system": "x86_64-darwin",
+      "name": "composer-2.9.5",
+      "pname": "composer",
+      "version": "2.9.5",
+      "description": "Dependency Manager for PHP",
+      "licenses": [
+        "MIT"
+      ],
+      "broken": false,
+      "unfree": false,
+      "priority": 5
+    },
+    {
+      "install_id": "composer",
+      "locked-url": "git+https://github.com/utmsigep/member-directory.git?ref=add-flox&rev=1734025e1fa67df3d266d9948cc686294be1eba4",
+      "flake-description": "member-directory custom flox packages",
+      "locked-flake-attr-path": "packages.x86_64-linux.composer-custom",
+      "derivation": "/nix/store/8hjia0cnidvgr3zkn8bnvrvn3ym0naz9-composer-2.9.5.drv",
+      "outputs": {
+        "out": "/nix/store/2y7ipqr16x3z64iilcxi8xzqdhwa7d2l-composer-2.9.5"
+      },
+      "output-names": [
+        "out"
+      ],
+      "outputs-to-install": [
+        "out"
+      ],
+      "requested-outputs-to-install": [],
+      "package-system": "x86_64-linux",
+      "system": "x86_64-linux",
+      "name": "composer-2.9.5",
+      "pname": "composer",
+      "version": "2.9.5",
+      "description": "Dependency Manager for PHP",
+      "licenses": [
+        "MIT"
+      ],
+      "broken": false,
+      "unfree": false,
+      "priority": 5
+    },
+    {
+      "install_id": "php",
+      "locked-url": "git+https://github.com/utmsigep/member-directory.git?ref=add-flox&rev=1734025e1fa67df3d266d9948cc686294be1eba4",
+      "flake-description": "member-directory custom flox packages",
+      "locked-flake-attr-path": "packages.aarch64-darwin.php-custom",
+      "derivation": "/nix/store/jckzpp2cmlwjrhnkjd9417h7avbwg3ma-php-with-extensions-8.3.30.drv",
+      "outputs": {
+        "out": "/nix/store/f2k2wm857lwr60magpr9g5i4cyrs98cd-php-with-extensions-8.3.30"
+      },
+      "output-names": [
+        "out"
+      ],
+      "outputs-to-install": [
+        "out"
+      ],
+      "requested-outputs-to-install": [],
+      "package-system": "aarch64-darwin",
+      "system": "aarch64-darwin",
+      "name": "php-with-extensions-8.3.30",
+      "pname": "php-with-extensions",
+      "version": "8.3.30",
+      "description": "HTML-embedded scripting language",
+      "licenses": [
+        "PHP-3.01"
+      ],
+      "broken": false,
+      "unfree": false,
+      "priority": 5
+    },
+    {
+      "install_id": "php",
+      "locked-url": "git+https://github.com/utmsigep/member-directory.git?ref=add-flox&rev=1734025e1fa67df3d266d9948cc686294be1eba4",
+      "flake-description": "member-directory custom flox packages",
+      "locked-flake-attr-path": "packages.aarch64-linux.php-custom",
+      "derivation": "/nix/store/0y4wba5wx86gy6x6q4sdhx2c1q4a5jm5-php-with-extensions-8.3.30.drv",
+      "outputs": {
+        "out": "/nix/store/fy80v61rrmd19vcdk629d42lhlplic60-php-with-extensions-8.3.30"
+      },
+      "output-names": [
+        "out"
+      ],
+      "outputs-to-install": [
+        "out"
+      ],
+      "requested-outputs-to-install": [],
+      "package-system": "aarch64-linux",
+      "system": "aarch64-linux",
+      "name": "php-with-extensions-8.3.30",
+      "pname": "php-with-extensions",
+      "version": "8.3.30",
+      "description": "HTML-embedded scripting language",
+      "licenses": [
+        "PHP-3.01"
+      ],
+      "broken": false,
+      "unfree": false,
+      "priority": 5
+    },
+    {
+      "install_id": "php",
+      "locked-url": "git+https://github.com/utmsigep/member-directory.git?ref=add-flox&rev=1734025e1fa67df3d266d9948cc686294be1eba4",
+      "flake-description": "member-directory custom flox packages",
+      "locked-flake-attr-path": "packages.x86_64-darwin.php-custom",
+      "derivation": "/nix/store/p91kh5wffjs0s7zfi79dav7d2lkc2kf2-php-with-extensions-8.3.30.drv",
+      "outputs": {
+        "out": "/nix/store/4kqjr9icsmv3nrssijm42kny50kl13w8-php-with-extensions-8.3.30"
+      },
+      "output-names": [
+        "out"
+      ],
+      "outputs-to-install": [
+        "out"
+      ],
+      "requested-outputs-to-install": [],
+      "package-system": "x86_64-darwin",
+      "system": "x86_64-darwin",
+      "name": "php-with-extensions-8.3.30",
+      "pname": "php-with-extensions",
+      "version": "8.3.30",
+      "description": "HTML-embedded scripting language",
+      "licenses": [
+        "PHP-3.01"
+      ],
+      "broken": false,
+      "unfree": false,
+      "priority": 5
+    },
+    {
+      "install_id": "php",
+      "locked-url": "git+https://github.com/utmsigep/member-directory.git?ref=add-flox&rev=1734025e1fa67df3d266d9948cc686294be1eba4",
+      "flake-description": "member-directory custom flox packages",
+      "locked-flake-attr-path": "packages.x86_64-linux.php-custom",
+      "derivation": "/nix/store/knsfhc46mna6zxqwzk2x1wlgb5ah30rd-php-with-extensions-8.3.30.drv",
+      "outputs": {
+        "out": "/nix/store/51i8l57nqlwqwixm6yy9p6pqzi2qmzs2-php-with-extensions-8.3.30"
+      },
+      "output-names": [
+        "out"
+      ],
+      "outputs-to-install": [
+        "out"
+      ],
+      "requested-outputs-to-install": [],
+      "package-system": "x86_64-linux",
+      "system": "x86_64-linux",
+      "name": "php-with-extensions-8.3.30",
+      "pname": "php-with-extensions",
+      "version": "8.3.30",
+      "description": "HTML-embedded scripting language",
+      "licenses": [
+        "PHP-3.01"
+      ],
+      "broken": false,
+      "unfree": false,
+      "priority": 5
+    }
+  ]
+}

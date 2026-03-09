@@ -23,7 +23,7 @@ class AppConfigService
     private function getVersion(string $projectDirectory): string
     {
         if ('prod' != $_ENV['APP_ENV']) {
-            return (new Version(trim(file_get_contents($projectDirectory.'/VERSION')), $projectDirectory))->getVersion();
+            return (new Version(trim(file_get_contents($projectDirectory.'/VERSION')), $projectDirectory))->asString();
         }
 
         return trim(file_get_contents($projectDirectory.'/VERSION'));

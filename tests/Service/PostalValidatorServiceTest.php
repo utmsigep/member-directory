@@ -4,80 +4,130 @@ namespace App\Tests\Service;
 
 use App\Entity\Member;
 use App\Service\PostalValidatorService;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use PHPUnit\Framework\TestCase;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
+use Symfony\Component\HttpClient\MockHttpClient;
+use Symfony\Component\HttpClient\Response\MockResponse;
 
-class PostalValidatorServiceTest extends KernelTestCase
+class PostalValidatorServiceTest extends TestCase
 {
-    protected PostalValidatorService $postalValidatorService;
-
-    public function setUp(): void
+    public function testConfigured(): void
     {
-        self::bootKernel();
+        $service = new PostalValidatorService(
+            new ParameterBag(['usps.auth_token' => 'test-token']),
+            new MockHttpClient()
+        );
 
-        // returns the real and unchanged service container
-        $container = static::getContainer();
-
-        $this->postalValidatorService = $container->get(PostalValidatorService::class);
-
-        // Skip this suite if not configured correctly
-        if (!$this->postalValidatorService->isConfigured()) {
-            $this->markTestSkipped('PostalValidatorService not configured.');
-        }
+        $this->assertTrue($service->isConfigured());
     }
 
-    public function testConfigured()
+    public function testKnownAddress(): void
     {
-        $this->assertTrue($this->postalValidatorService->isConfigured());
-    }
+        $service = $this->buildService([
+            new MockResponse(json_encode([
+                'address' => [
+                    'streetAddress' => '1100 BROADWAY',
+                    'city' => 'NASHVILLE',
+                    'state' => 'TN',
+                    'ZIPCode' => '37203',
+                    'ZIPPlus4' => '3116',
+                ],
+            ]) ?: '{}', [
+                'http_code' => 200,
+            ]),
+        ]);
 
-    public function testKnownAddress()
-    {
         $member = new Member();
         $member->setMailingAddressLine1('1100 Broadway');
         $member->setMailingCity('Nashville');
         $member->setMailingState('TN');
         $member->setMailingPostalCode('37203');
-        $output = $this->postalValidatorService->validate($member);
+        $output = $service->validate($member);
 
-        $this->assertEquals('1100 BROADWAY', $output['AddressValidateResponse']['Address']['Address2']);
-        $this->assertEquals('NASHVILLE', $output['AddressValidateResponse']['Address']['City']);
-        $this->assertEquals('TN', $output['AddressValidateResponse']['Address']['State']);
-        $this->assertEquals('37203', $output['AddressValidateResponse']['Address']['Zip5']);
-        $this->assertEquals('3116', $output['AddressValidateResponse']['Address']['Zip4']);
+        $this->assertArrayHasKey('address', $output);
+        $this->assertEquals('1100 BROADWAY', $output['address']['streetAddress']);
+        $this->assertEquals('NASHVILLE', $output['address']['city']);
+        $this->assertEquals('TN', $output['address']['state']);
+        $this->assertEquals('37203', $output['address']['ZIPCode']);
+        $this->assertEquals('3116', $output['address']['ZIPPlus4']);
     }
 
-    public function testPOBox()
+    public function testPOBox(): void
     {
+        $service = $this->buildService([
+            new MockResponse(json_encode([
+                'address' => [
+                    'streetAddress' => 'PO BOX 60901',
+                    'city' => 'NASHVILLE',
+                    'state' => 'TN',
+                    'ZIPCode' => '37206',
+                    'ZIPPlus4' => '0901',
+                ],
+            ]) ?: '{}', [
+                'http_code' => 200,
+            ]),
+        ]);
+
         $member = new Member();
         $member->setMailingAddressLine1('PO Box 60901');
         $member->setMailingCity('Nashville');
         $member->setMailingState('TN');
         $member->setMailingPostalCode('37206');
-        $output = $this->postalValidatorService->validate($member);
+        $output = $service->validate($member);
 
-        $this->assertEquals('PO BOX 60901', $output['AddressValidateResponse']['Address']['Address2']);
-        $this->assertEquals('NASHVILLE', $output['AddressValidateResponse']['Address']['City']);
-        $this->assertEquals('TN', $output['AddressValidateResponse']['Address']['State']);
-        $this->assertEquals('37206', $output['AddressValidateResponse']['Address']['Zip5']);
-        $this->assertEquals('0901', $output['AddressValidateResponse']['Address']['Zip4']);
+        $this->assertArrayHasKey('address', $output);
+        $this->assertEquals('PO BOX 60901', $output['address']['streetAddress']);
+        $this->assertEquals('NASHVILLE', $output['address']['city']);
+        $this->assertEquals('TN', $output['address']['state']);
+        $this->assertEquals('37206', $output['address']['ZIPCode']);
+        $this->assertEquals('0901', $output['address']['ZIPPlus4']);
     }
 
-    public function testBaddAddress()
+    public function testBadAddress(): void
     {
+        $service = $this->buildService([
+            new MockResponse(json_encode([
+                'error' => [
+                    'code' => '404',
+                    'message' => 'There is no match for the address requested.',
+                ],
+            ]) ?: '{}', [
+                'http_code' => 404,
+            ]),
+        ]);
+
         $member = new Member();
         $member->setMailingAddressLine1('123 Any Street');
         $member->setMailingCity('Nashville');
         $member->setMailingState('TN');
         $member->setMailingPostalCode('37206');
-        $output = $this->postalValidatorService->validate($member);
+        $output = $service->validate($member);
 
-        $this->assertEquals('-2147219401', $output['AddressValidateResponse']['Address']['Error']['Number']);
-        $this->assertEquals('clsAMS', $output['AddressValidateResponse']['Address']['Error']['Source']);
-        $this->assertEquals(
-            'Address Not Found.',
-            $output['AddressValidateResponse']['Address']['Error']['Description']
+        $this->assertArrayHasKey('error', $output);
+        $this->assertArrayHasKey('message', $output['error']);
+        $this->assertSame('There is no match for the address requested.', $output['error']['message']);
+    }
+
+    public function testMissingRequiredFieldsReturnsErrorWithoutHttpCall(): void
+    {
+        $service = $this->buildService([]);
+
+        $member = new Member();
+        $member->setMailingAddressLine1('');
+        $member->setMailingCity('');
+        $member->setMailingState('');
+
+        $output = $service->validate($member);
+
+        $this->assertSame('400', $output['error']['code']);
+        $this->assertSame('Street address, state, and either city or ZIP Code are required.', $output['error']['message']);
+    }
+
+    private function buildService(array $responses): PostalValidatorService
+    {
+        return new PostalValidatorService(
+            new ParameterBag(['usps.auth_token' => 'test-token']),
+            new MockHttpClient($responses)
         );
-        $this->assertEquals('', $output['AddressValidateResponse']['Address']['Error']['HelpFile']);
-        $this->assertEquals('', $output['AddressValidateResponse']['Address']['Error']['HelpContext']);
     }
 }

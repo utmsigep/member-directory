@@ -12,7 +12,7 @@ class MemberStatusFixtures extends Fixture
     public const ALUMNUS = 'Alumnus';
     public const EXPELLED = 'Expelled';
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $memberStatusMember = new MemberStatus();
         $memberStatusMember->setCode('MEMBER');

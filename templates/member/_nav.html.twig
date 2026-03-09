@@ -1,4 +1,4 @@
-{% set current_route = app.request.get('_route') %}
+{% set current_route = app.request.attributes.get('_route') %}
 <ul class="nav nav-tabs mb-3">
   <li class="nav-item"><a class="nav-link {{ (current_route == 'member_show' or current_route == 'member_edit') ? 'active' }}" href="{{ path('member_show', {localIdentifier: member.localIdentifier}) }}"><i class="fas fa-id-badge"></i> Member Profile</a></li>
   {% if is_granted('ROLE_EMAIL_MANAGER') and is_email_service_configured() and member.primaryEmail %}

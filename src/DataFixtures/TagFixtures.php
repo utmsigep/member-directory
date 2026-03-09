@@ -10,7 +10,7 @@ class TagFixtures extends Fixture
 {
     public const TAG_1901_CLUB = '1901 Club';
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $tag = new Tag();
         $tag->setTagName('1901 Club');

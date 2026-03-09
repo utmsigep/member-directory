@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ parent() }} - {{ app.request.get('q')|escape|default('Search Results') }}{% endblock %}
+{% block title %}{{ parent() }} - {{ app.request.query.get('q')|escape|default('Search Results') }}{% endblock %}
 
 {% block body %}
 {% embed '_page_header.html.twig' %}

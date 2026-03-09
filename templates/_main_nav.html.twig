@@ -1,5 +1,6 @@
-{% set active_route = app.request.get('_route') %}
-{% set route_params_slug = app.request.get('_route_params').slug is defined ? app.request.get('_route_params').slug : null %}
+{% set active_route = app.request.attributes.get('_route') %}
+{% set route_params = app.request.attributes.get('_route_params', {}) %}
+{% set route_params_slug = route_params.slug is defined ? route_params.slug : null %}
 <!-- active_route = {{active_route}}; route_params_slug = {{ route_params_slug }}  -->
 {% for _collection in get_directory_collections() %}
 <li class="nav-item {{ (active_route == 'directory_collection' and route_params_slug == _collection.slug) ? 'active' }}"><a class="nav-link" href="{{ path('directory_collection', {slug: _collection.slug}) }}"><i class="{{ _collection.icon }} fa-fw"></i> <span>{{ _collection.label }}</span></a></li>
