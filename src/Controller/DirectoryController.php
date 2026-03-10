@@ -296,10 +296,14 @@ class DirectoryController extends AbstractController
     public function mapSearch(MemberRepository $memberRepository, Request $request)
     {
         $memberStatuses = $request->query->all('member_statuses');
+        $latitude = (float) $request->query->get('latitude', '0.0');
+        $longitude = (float) $request->query->get('longitude', '0.0');
+        $radius = $request->query->getInt('radius', 0);
+
         $members = $memberRepository->findMembersWithinRadius(
-            $request->query->get('latitude'),
-            $request->query->get('longitude'),
-            $request->query->get('radius'),
+            $latitude,
+            $longitude,
+            $radius,
             ['member_statuses' => $memberStatuses]
         );
 
