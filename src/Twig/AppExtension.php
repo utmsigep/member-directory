@@ -30,7 +30,7 @@ class AppExtension extends AbstractExtension
         RoleHierarchyInterface $roleHierarchy,
         SmsService $smsService,
         TagRepository $tagRepository,
-        UserRepository $userRepository
+        UserRepository $userRepository,
     ) {
         $this->directoryCollectionRepository = $directoryCollectionRepository;
         $this->emailService = $emailService;
