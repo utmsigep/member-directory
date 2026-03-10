@@ -1,0 +1,8 @@
+App\Entity\Member:
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
+              fields: localIdentifier
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
+              fields: externalIdentifier
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
+              fields: primaryEmail
