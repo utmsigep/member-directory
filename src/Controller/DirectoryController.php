@@ -198,6 +198,7 @@ class DirectoryController extends AbstractController
 
         if (!isset($jsonResponse['address'])) {
             $logger->debug('Invalid response from API', $jsonResponse);
+
             return $this->json([
                 'status' => 'error',
                 'message' => 'Invalid response from API.',
