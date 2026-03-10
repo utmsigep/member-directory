@@ -2,7 +2,7 @@ doctrine:
     dbal:
         # configure these for your database server
         driver: 'pdo_mysql'
-        server_version: '5.6'
+        server_version: '5.7'
         charset: utf8mb4
         default_table_options:
             charset: utf8mb4
@@ -147,6 +147,7 @@ doctrine:
 when@test:
     doctrine:
         dbal:
+            use_savepoints: true
             # "TEST_TOKEN" is typically set by ParaTest
             dbname_suffix: '_test%env(default::TEST_TOKEN)%'
 

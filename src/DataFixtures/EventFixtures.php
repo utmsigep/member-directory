@@ -3,15 +3,16 @@
 namespace App\DataFixtures;
 
 use App\Entity\Event;
+use App\Entity\Member;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
 class EventFixtures extends Fixture implements DependentFixtureInterface
 {
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
-        $uncleBilly = $this->getReference(MemberFixtures::UNCLE_BILLY);
+        $uncleBilly = $this->getReference(MemberFixtures::UNCLE_BILLY, Member::class);
 
         $event = new Event();
         $event->setStartAt(new \DateTimeImmutable('2021-08-05 19:00 CDT'));
@@ -24,7 +25,7 @@ class EventFixtures extends Fixture implements DependentFixtureInterface
         $manager->flush();
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return [
             MemberFixtures::class,

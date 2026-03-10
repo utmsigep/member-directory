@@ -77,16 +77,14 @@ $(document).ready(function () {
       mailingPostalCode: mailingPostalCode.val()
     })
       .done(function(data) {
-        if (typeof data.verify.Address1 == 'undefined') {
-          mailingAddressLine1.val(data.verify.Address2);
-          mailingAddressLine2.val('');
-        } else {
-          mailingAddressLine1.val(data.verify.Address1);
-          mailingAddressLine2.val(data.verify.Address2);
-        }
-        mailingCity.val(data.verify.City);
-        mailingState.val(data.verify.State);
-        mailingPostalCode.val(data.verify.Zip5+'-'+data.verify.Zip4);
+        mailingAddressLine1.val(data.address.streetAddress || '');
+        mailingAddressLine2.val(data.address.secondaryAddress || '');
+        mailingCity.val(data.address.city || '');
+        mailingState.val(data.address.state || '');
+
+        var zipCode = data.address.ZIPCode || '';
+        var zipPlus4 = data.address.ZIPPlus4 || '';
+        mailingPostalCode.val(zipPlus4 ? zipCode + '-' + zipPlus4 : zipCode);
 
         var toast = $(toastTemplate);
         $('.toast-header', toast).addClass('bg-success text-light');
@@ -104,7 +102,7 @@ $(document).ready(function () {
         var toast = $(toastTemplate);
         $('.toast-header', toast).addClass('bg-danger text-light');
         $('.toast-title', toast).html('Address Verification');
-        $('.toast-body', toast).html(response.responseJSON.message);
+        $('.toast-body', toast).html(response.responseJSON?.message || 'Address verification failed.');
         $(toast).appendTo(toastContainer);
         $('.toast').toast({
           animation: true,

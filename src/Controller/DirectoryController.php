@@ -13,6 +13,8 @@ use App\Service\PostalValidatorService;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use Psr\Log\LoggerInterface;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -51,7 +53,7 @@ class DirectoryController extends AbstractController
     }
 
     #[Route(path: '/collection/{slug}.{_format}', name: 'directory_collection', defaults: ['_format' => 'html'])]
-    public function directoryCollectionTableSource(DirectoryCollection $directoryCollection, MemberRepository $memberRepository, Request $request, string $_format): Response
+    public function directoryCollectionTableSource(#[MapEntity(mapping: ['slug' => 'slug'])] DirectoryCollection $directoryCollection, MemberRepository $memberRepository, Request $request, string $_format): Response
     {
         if ('html' === $_format) {
             return $this->render('directory/directory.html.twig', [
@@ -64,8 +66,8 @@ class DirectoryController extends AbstractController
         }
 
         $members = $memberRepository->findByDirectoryCollection($directoryCollection, [
-            'limit' => $request->get('length', 100),
-            'offset' => $request->get('start', 0),
+            'limit' => $request->query->getInt('length', 100),
+            'offset' => $request->query->getInt('start', 0),
             'group_by' => $this->getGroupBy($directoryCollection),
             'sort_by' => $this->getSortBy($request),
             'sort_direction' => $this->getSortDirection($request),
@@ -91,8 +93,8 @@ class DirectoryController extends AbstractController
             ]);
         }
         $members = $memberRepository->findLost([
-            'limit' => $request->get('length', 100),
-            'offset' => $request->get('start', 0),
+            'limit' => $request->query->getInt('length', 100),
+            'offset' => $request->query->getInt('start', 0),
             'sort_by' => $this->getSortBy($request),
             'sort_direction' => $this->getSortDirection($request),
         ]);
@@ -117,8 +119,8 @@ class DirectoryController extends AbstractController
             ]);
         }
         $members = $memberRepository->findDoNotContact([
-            'limit' => $request->get('length', 100),
-            'offset' => $request->get('start', 0),
+            'limit' => $request->query->getInt('length', 100),
+            'offset' => $request->query->getInt('start', 0),
             'sort_by' => $this->getSortBy($request),
             'sort_direction' => $this->getSortDirection($request),
         ]);
@@ -143,8 +145,8 @@ class DirectoryController extends AbstractController
             ]);
         }
         $members = $memberRepository->findDeceased([
-            'limit' => $request->get('length', 100),
-            'offset' => $request->get('start', 0),
+            'limit' => $request->query->getInt('length', 100),
+            'offset' => $request->query->getInt('start', 0),
             'sort_by' => $this->getSortBy($request),
             'sort_direction' => $this->getSortDirection($request),
         ]);
@@ -160,7 +162,7 @@ class DirectoryController extends AbstractController
 
     #[Route(path: '/verify-address-data', name: 'verify_address_data', options: ['expose' => true])]
     #[IsGranted('ROLE_DIRECTORY_MANAGER')]
-    public function validateMemberAddress(Request $request, PostalValidatorService $postalValidatorService): Response
+    public function validateMemberAddress(Request $request, PostalValidatorService $postalValidatorService, LoggerInterface $logger): Response
     {
         if (!$postalValidatorService->isConfigured()) {
             return $this->json([
@@ -187,14 +189,16 @@ class DirectoryController extends AbstractController
 
         $jsonResponse = $item->get();
 
-        if (isset($jsonResponse['AddressValidateResponse']['Address']['Error'])) {
+        if (isset($jsonResponse['error'])) {
             return $this->json([
                 'status' => 'error',
-                'message' => $jsonResponse['AddressValidateResponse']['Address']['Error']['Description'],
+                'message' => $jsonResponse['error']['message'] ?? 'Address validation failed.',
             ], 500);
         }
 
-        if (!isset($jsonResponse['AddressValidateResponse']['Address'])) {
+        if (!isset($jsonResponse['address'])) {
+            $logger->debug('Invalid response from API', $jsonResponse);
+
             return $this->json([
                 'status' => 'error',
                 'message' => 'Invalid response from API.',
@@ -203,16 +207,19 @@ class DirectoryController extends AbstractController
 
         return $this->json([
             'status' => 'success',
-            'verify' => $jsonResponse['AddressValidateResponse']['Address'],
+            'address' => $jsonResponse['address'],
         ]);
     }
 
     #[Route(path: '/recent-changes', name: 'member_changes')]
     public function recentChanges(Request $request, EntityManagerInterface $entityManager)
     {
+        $since = $request->query->get('since');
+        $sinceDate = $since ? new \DateTime((string) $since) : new \DateTime(date('Y-m-d', strtotime('-30 day')));
+
         $form = $this->createFormBuilder([
-            'since' => $request->get('since', new \DateTime(date('Y-m-d', strtotime('-30 day')))),
-            'exclude_inactive' => $request->get('exclude_inactive', true),
+            'since' => $sinceDate,
+            'exclude_inactive' => $request->query->getBoolean('exclude_inactive', true),
         ])
             ->add('since', DateType::class, [
                 'widget' => 'single_text',
@@ -257,8 +264,8 @@ class DirectoryController extends AbstractController
             ]);
         }
         $members = $memberRepository->findByTags([$tag], [
-            'limit' => $request->get('length', 100),
-            'offset' => $request->get('start', 0),
+            'limit' => $request->query->getInt('length', 100),
+            'offset' => $request->query->getInt('start', 0),
             'sort_by' => $this->getSortBy($request),
             'sort_direction' => $this->getSortDirection($request),
         ]);
@@ -289,11 +296,15 @@ class DirectoryController extends AbstractController
     #[Route(path: '/map-search', name: 'map_search', options: ['expose' => true])]
     public function mapSearch(MemberRepository $memberRepository, Request $request)
     {
-        $memberStatuses = $request->get('member_statuses', []);
+        $memberStatuses = $request->query->all('member_statuses');
+        $latitude = (float) $request->query->get('latitude', '0.0');
+        $longitude = (float) $request->query->get('longitude', '0.0');
+        $radius = $request->query->getInt('radius', 0);
+
         $members = $memberRepository->findMembersWithinRadius(
-            $request->get('latitude'),
-            $request->get('longitude'),
-            $request->get('radius'),
+            $latitude,
+            $longitude,
+            $radius,
             ['member_statuses' => $memberStatuses]
         );
 
@@ -308,7 +319,7 @@ class DirectoryController extends AbstractController
     #[Route(path: '/map-data', name: 'map_data', options: ['expose' => true])]
     public function mapData(MemberRepository $memberRepository, Request $request)
     {
-        $memberStatuses = $request->get('member_statuses', []);
+        $memberStatuses = $request->query->all('member_statuses');
         $members = $memberRepository->findGeocodedAddresses(['member_statuses' => $memberStatuses]);
 
         return $this->json($members, 200, [], [
@@ -354,7 +365,7 @@ class DirectoryController extends AbstractController
 
     private function getSortBy(Request $request): string
     {
-        $order = $request->get('order');
+        $order = $request->query->all('order');
         if (isset($order[0]['column'], self::COLUMN_MAP[(int) $order[0]['column']])) {
             return self::COLUMN_MAP[(int) $order[0]['column']];
         }
@@ -364,7 +375,7 @@ class DirectoryController extends AbstractController
 
     private function getSortDirection(Request $request): string
     {
-        $order = $request->get('order');
+        $order = $request->query->all('order');
         if (isset($order[0]['dir']) && 'desc' === $order[0]['dir']) {
             return 'DESC';
         }
