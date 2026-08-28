@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\Member;
 use App\Entity\User;
+use App\Service\MemberUpdateTokenGenerator;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -34,7 +35,9 @@ class EmailService
 
     protected $communicationLogService;
 
-    public function __construct(ParameterBagInterface $params, UrlGeneratorInterface $router, EntityManagerInterface $em, LoggerInterface $logger, MailerInterface $mailer, CommunicationLogService $communicationLogService)
+    protected $updateTokenGenerator;
+
+    public function __construct(ParameterBagInterface $params, UrlGeneratorInterface $router, EntityManagerInterface $em, LoggerInterface $logger, MailerInterface $mailer, CommunicationLogService $communicationLogService, MemberUpdateTokenGenerator $updateTokenGenerator)
     {
         $this->params = $params;
         $this->router = $router;
@@ -60,6 +63,7 @@ class EmailService
         $this->logger = $logger;
         $this->mailer = $mailer;
         $this->communicationLogService = $communicationLogService;
+        $this->updateTokenGenerator = $updateTokenGenerator;
     }
 
     public function isConfigured(): bool
@@ -478,7 +482,7 @@ class EmailService
             ],
             [
                 'Key' => 'Update Token',
-                'Value' => $member->getUpdateToken(),
+                'Value' => $this->updateTokenGenerator->generate($member),
             ],
         ];
     }

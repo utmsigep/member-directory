@@ -2,11 +2,13 @@
 
 namespace App\Twig;
 
+use App\Entity\Member;
 use App\Entity\User;
 use App\Repository\DirectoryCollectionRepository;
 use App\Repository\TagRepository;
 use App\Repository\UserRepository;
 use App\Service\EmailService;
+use App\Service\MemberUpdateTokenGenerator;
 use App\Service\PostalValidatorService;
 use App\Service\SmsService;
 use Symfony\Component\Security\Core\Role\RoleHierarchyInterface;
@@ -22,6 +24,7 @@ class AppExtension extends AbstractExtension
     protected $smsService;
     protected $tagRepository;
     protected $userRepository;
+    protected $updateTokenGenerator;
 
     public function __construct(
         DirectoryCollectionRepository $directoryCollectionRepository,
@@ -31,6 +34,7 @@ class AppExtension extends AbstractExtension
         SmsService $smsService,
         TagRepository $tagRepository,
         UserRepository $userRepository,
+        MemberUpdateTokenGenerator $updateTokenGenerator,
     ) {
         $this->directoryCollectionRepository = $directoryCollectionRepository;
         $this->emailService = $emailService;
@@ -39,6 +43,7 @@ class AppExtension extends AbstractExtension
         $this->smsService = $smsService;
         $this->tagRepository = $tagRepository;
         $this->userRepository = $userRepository;
+        $this->updateTokenGenerator = $updateTokenGenerator;
     }
 
     public function getFunctions(): array
@@ -51,7 +56,13 @@ class AppExtension extends AbstractExtension
             new TwigFunction('is_sms_service_configured', [$this, 'isSmsServiceConfigured']),
             new TwigFunction('is_postal_validator_service_configured', [$this, 'isPostalValidatorServiceConfigured']),
             new TwigFunction('gravatar', [$this, 'gravatar']),
+            new TwigFunction('member_update_token', [$this, 'memberUpdateToken']),
         ];
+    }
+
+    public function memberUpdateToken(Member $member): string
+    {
+        return $this->updateTokenGenerator->generate($member);
     }
 
     public function getAllRolesForUser(User $user): array

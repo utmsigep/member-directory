@@ -730,15 +730,6 @@ class Member implements Loggable
         return join(',', $output);
     }
 
-    public function getUpdateToken(): string
-    {
-        return sha1(json_encode([
-            $this->id,
-            $this->externalIdentifier,
-            $this->updatedAt,
-        ]));
-    }
-
     public function formatMemberMessage(string $content): string
     {
         $content = preg_replace('/\[FirstName\]/i', $this->getFirstName(), $content);

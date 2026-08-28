@@ -6,6 +6,7 @@ use App\Entity\Member;
 use App\Form\MemberUpdateType;
 use App\Repository\MemberRepository;
 use App\Service\EmailService;
+use App\Service\MemberUpdateTokenGenerator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,13 +30,13 @@ class UpdateController extends AbstractController
     }
 
     #[Route(path: '/update-my-info/{externalIdentifier}/{updateToken}', name: 'self_service_update')]
-    public function update(Request $request, EmailService $emailService, MemberRepository $memberRepository, EntityManagerInterface $entityManager)
+    public function update(Request $request, EmailService $emailService, MemberRepository $memberRepository, EntityManagerInterface $entityManager, MemberUpdateTokenGenerator $updateTokenGenerator)
     {
         $member = $memberRepository->findOneBy([
             'externalIdentifier' => $request->get('externalIdentifier'),
         ]);
         // If mismatch of updated token, deceased, or in inactive statuses, ignore
-        if (!$member || $request->get('updateToken') != $member->getUpdateToken()
+        if (!$member || !$updateTokenGenerator->isValid($member, $request->get('updateToken'))
             || $member->getIsDeceased()
             || $member->getStatus()->getIsInactive()
         ) {

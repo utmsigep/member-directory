@@ -3,6 +3,7 @@
 namespace App\Tests\Controller;
 
 use App\Repository\MemberRepository;
+use App\Service\MemberUpdateTokenGenerator;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class UpdateControllerTest extends WebTestCase
@@ -11,11 +12,12 @@ class UpdateControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $userRepository = static::getContainer()->get(MemberRepository::class);
+        $updateTokenGenerator = static::getContainer()->get(MemberUpdateTokenGenerator::class);
         $testMember = $userRepository->findOneByPrimaryEmail('unclebilly@example.org');
 
         $crawler = $client->request('GET', sprintf(
             '/update-my-info/d793c0b9b023ea082dea7885cc09268d/%s',
-            $testMember->getUpdateToken()
+            $updateTokenGenerator->generate($testMember)
         ));
 
         $this->assertResponseIsSuccessful();
