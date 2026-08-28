@@ -4,7 +4,6 @@ namespace App\Service;
 
 use App\Entity\Member;
 use App\Entity\User;
-use App\Service\MemberUpdateTokenGenerator;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
