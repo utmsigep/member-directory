@@ -17,11 +17,10 @@ $(document).ready(function() {
 
   var directoryMap = L.map('mapContainer').setView([mailingLatitude, mailingLongitude], 12);
 
-  L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}{r}.png', {
-    subdomains: 'abcd',
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
     minZoom: 1,
-    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright" target="blank">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions" target="blank">CartoDB</a>'
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright" target="blank">OpenStreetMap</a> contributors'
   }).addTo(directoryMap);
 
   var markerIcon = L.Icon.extend({
