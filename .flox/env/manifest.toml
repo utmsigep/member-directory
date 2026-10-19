@@ -16,8 +16,8 @@ version = 1
 ## -------------------------------------------------------------------
 [install]
 nodejs_20.pkg-path = "nodejs_20"
-composer.flake = "git+https://github.com/utmsigep/member-directory.git?ref=add-flox#composer-custom"
-php.flake = "git+https://github.com/utmsigep/member-directory.git?ref=add-flox#php-custom"
+composer.flake = "git+https://github.com/utmsigep/member-directory.git?ref=symfony-8.1#composer-custom"
+php.flake = "git+https://github.com/utmsigep/member-directory.git?ref=symfony-8.1#php-custom"
 symfony-cli.pkg-path = "symfony-cli"
 
 
