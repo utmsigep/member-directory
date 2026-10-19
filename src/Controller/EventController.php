@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Event;
+use App\Entity\User;
 use App\Form\EventAttendeeImportType;
 use App\Form\EventType;
 use App\Repository\EventRepository;
@@ -16,7 +17,8 @@ use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[IsGranted('ROLE_EVENT_MANAGER')]
@@ -32,10 +34,10 @@ class EventController extends AbstractController
     }
 
     #[Route(path: '/new', name: 'event_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(#[CurrentUser] User $currentUser, Request $request, EntityManagerInterface $entityManager): Response
     {
         $event = new Event();
-        $form = $this->createForm(EventType::class, $event, ['timezone' => $this->getUser()->getTimezone()]);
+        $form = $this->createForm(EventType::class, $event, ['timezone' => $currentUser->getTimezone()]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -137,9 +139,9 @@ class EventController extends AbstractController
     }
 
     #[Route(path: '/{id}/edit', name: 'event_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Event $event, EntityManagerInterface $entityManager): Response
+    public function edit(#[CurrentUser] User $currentUser, Request $request, Event $event, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(EventType::class, $event, ['timezone' => $this->getUser()->getTimezone()]);
+        $form = $this->createForm(EventType::class, $event, ['timezone' => $currentUser->getTimezone()]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

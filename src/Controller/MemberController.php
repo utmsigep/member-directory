@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\CommunicationLog;
 use App\Entity\Event;
 use App\Entity\Member;
+use App\Entity\User;
 use App\Form\MemberCommunicationLogType;
 use App\Form\MemberEmailType;
 use App\Form\MemberSMSType;
@@ -18,12 +19,14 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Gedmo\Loggable\Entity\LogEntry;
 use Sabre\VObject\Component\VCard;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -55,7 +58,7 @@ class MemberController extends AbstractController
     }
 
     #[Route(path: '/{localIdentifier}', name: 'member_show', options: ['expose' => true])]
-    public function show(Member $member): Response
+    public function show(#[MapEntity(mapping: ['localIdentifier' => 'localIdentifier'])] Member $member): Response
     {
         return $this->render('member/show.html.twig', [
             'member' => $member,
@@ -64,7 +67,7 @@ class MemberController extends AbstractController
 
     #[Route(path: '/{localIdentifier}/edit', name: 'member_edit')]
     #[IsGranted('ROLE_DIRECTORY_MANAGER')]
-    public function memberEdit(Member $member, Request $request, EntityManagerInterface $entityManager): Response
+    public function memberEdit(#[MapEntity(mapping: ['localIdentifier' => 'localIdentifier'])] Member $member, Request $request, EntityManagerInterface $entityManager): Response
     {
         $originalMember = clone $member;
         $form = $this->createForm(MemberType::class, $member);
@@ -87,7 +90,7 @@ class MemberController extends AbstractController
 
     #[Route(path: '/{localIdentifier}/delete', name: 'member_delete')]
     #[IsGranted('ROLE_DIRECTORY_MANAGER')]
-    public function memberDelete(Member $member, Request $request, EntityManagerInterface $entityManager): Response
+    public function memberDelete(#[MapEntity(mapping: ['localIdentifier' => 'localIdentifier'])] Member $member, Request $request, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createFormBuilder($member)->getForm();
         $form->handleRequest($request);
@@ -107,7 +110,7 @@ class MemberController extends AbstractController
 
     #[Route(path: '/{localIdentifier}/change-log', name: 'member_change_log')]
     #[IsGranted('ROLE_DIRECTORY_MANAGER')]
-    public function changeLog(Member $member, EntityManagerInterface $entityManager): Response
+    public function changeLog(#[MapEntity(mapping: ['localIdentifier' => 'localIdentifier'])] Member $member, EntityManagerInterface $entityManager): Response
     {
         $repo = $entityManager->getRepository(LogEntry::class);
         // @phpstan-ignore argument.type
@@ -121,15 +124,15 @@ class MemberController extends AbstractController
 
     #[Route(path: '/{localIdentifier}/communications', name: 'member_communication_log')]
     #[IsGranted('ROLE_COMMUNICATIONS_MANAGER')]
-    public function communicationLog(Member $member, Request $request, EntityManagerInterface $entityManager): Response
+    public function communicationLog(#[CurrentUser] User $currentUser, #[MapEntity(mapping: ['localIdentifier' => 'localIdentifier'])] Member $member, Request $request, EntityManagerInterface $entityManager): Response
     {
         $communicationLogs = $entityManager->getRepository(CommunicationLog::class)->getCommunicationLogsByMember($member);
         $communicationLog = new CommunicationLog();
-        $form = $this->createForm(MemberCommunicationLogType::class, $communicationLog, ['timezone' => $this->getUser()->getTimezone()]);
+        $form = $this->createForm(MemberCommunicationLogType::class, $communicationLog, ['timezone' => $currentUser->getTimezone()]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $communicationLog->setMember($member);
-            $communicationLog->setUser($this->getUser());
+            $communicationLog->setUser($currentUser);
             $entityManager->persist($communicationLog);
             $entityManager->flush();
             $this->addFlash('success', sprintf('%s communication logged!', $member));
@@ -146,7 +149,7 @@ class MemberController extends AbstractController
 
     #[Route(path: '/{localIdentifier}/donations', name: 'member_donations')]
     #[IsGranted('ROLE_DONATION_MANAGER')]
-    public function donations(Member $member, DonationRepository $donationRepository, ChartService $chartService, EntityManagerInterface $entityManager): Response
+    public function donations(#[MapEntity(mapping: ['localIdentifier' => 'localIdentifier'])] Member $member, DonationRepository $donationRepository, ChartService $chartService, EntityManagerInterface $entityManager): Response
     {
         $donationRepository->setDateRange((new \DateTime())->setTimestamp(0), new \DateTime());
         $donations = $donationRepository->findByMember($member);
@@ -163,7 +166,7 @@ class MemberController extends AbstractController
 
     #[Route(path: '/{localIdentifier}/events', name: 'member_events')]
     #[IsGranted('ROLE_EVENT_MANAGER')]
-    public function events(Member $member, Request $request, EntityManagerInterface $entityManager): Response
+    public function events(#[MapEntity(mapping: ['localIdentifier' => 'localIdentifier'])] Member $member, Request $request, EntityManagerInterface $entityManager): Response
     {
         $events = $member->getEvents();
         $form = $this->createFormBuilder()
@@ -210,7 +213,7 @@ class MemberController extends AbstractController
 
     #[Route(path: '/{localIdentifier}/email-subscription', name: 'member_email_subscription')]
     #[IsGranted('ROLE_EMAIL_MANAGER')]
-    public function emailSubscription(Member $member, EmailService $emailService, EntityManagerInterface $entityManager): Response
+    public function emailSubscription(#[MapEntity(mapping: ['localIdentifier' => 'localIdentifier'])] Member $member, EmailService $emailService, EntityManagerInterface $entityManager): Response
     {
         if (!$emailService->isConfigured()) {
             $this->addFlash('danger', 'Email service not configured.');
@@ -234,7 +237,7 @@ class MemberController extends AbstractController
 
     #[Route(path: '/{localIdentifier}/add-subscriber', name: 'member_email_subscribe')]
     #[IsGranted('ROLE_EMAIL_MANAGER')]
-    public function addSubscriber(Member $member, EmailService $emailService): Response
+    public function addSubscriber(#[MapEntity(mapping: ['localIdentifier' => 'localIdentifier'])] Member $member, EmailService $emailService): Response
     {
         if (!$emailService->isConfigured()) {
             $this->addFlash('danger', 'Email service not configured.');
@@ -257,7 +260,7 @@ class MemberController extends AbstractController
 
     #[Route(path: '/{localIdentifier}/update-subscriber', name: 'member_email_update')]
     #[IsGranted('ROLE_EMAIL_MANAGER')]
-    public function updateSubscriber(Member $member, EmailService $emailService): Response
+    public function updateSubscriber(#[MapEntity(mapping: ['localIdentifier' => 'localIdentifier'])] Member $member, EmailService $emailService): Response
     {
         if (!$emailService->isConfigured()) {
             $this->addFlash('danger', 'Email service not configured.');
@@ -285,7 +288,7 @@ class MemberController extends AbstractController
 
     #[Route(path: '/{localIdentifier}/remove-subscriber', name: 'member_email_remove')]
     #[IsGranted('ROLE_EMAIL_MANAGER')]
-    public function removeSubscriber(Member $member, EmailService $emailService): Response
+    public function removeSubscriber(#[MapEntity(mapping: ['localIdentifier' => 'localIdentifier'])] Member $member, EmailService $emailService): Response
     {
         if (!$emailService->isConfigured()) {
             $this->addFlash('danger', 'Email service not configured.');
@@ -307,7 +310,7 @@ class MemberController extends AbstractController
     }
 
     #[Route(path: '/{localIdentifier}/vcard', name: 'member_vcard')]
-    public function generateVCard(Member $member): Response
+    public function generateVCard(#[MapEntity(mapping: ['localIdentifier' => 'localIdentifier'])] Member $member): Response
     {
         // Create the VCard
         $vcard = new VCard([
@@ -347,9 +350,9 @@ class MemberController extends AbstractController
     }
 
     #[Route(path: '/{localIdentifier}/message', name: 'member_message')]
-    public function message(Member $member, Request $request, EmailService $emailService, SmsService $smsService, CommunicationLogService $communicationLogService): Response
+    public function message(#[CurrentUser] User $currentUser, #[MapEntity(mapping: ['localIdentifier' => 'localIdentifier'])] Member $member, Request $request, EmailService $emailService, SmsService $smsService, CommunicationLogService $communicationLogService): Response
     {
-        $formEmail = $this->createForm(MemberEmailType::class, null, ['member' => $member, 'acting_user' => $this->getUser()]);
+        $formEmail = $this->createForm(MemberEmailType::class, null, ['member' => $member, 'acting_user' => $currentUser]);
         $formEmail->handleRequest($request);
         if ($formEmail->isSubmitted() && $formEmail->isValid()) {
             if (!$member->getPrimaryEmail()) {
@@ -361,14 +364,14 @@ class MemberController extends AbstractController
             $formData['subject'] = $member->formatMemberMessage($formData['subject']);
             $formData['message_body'] = $member->formatMemberMessage($formData['message_body']);
             try {
-                $emailService->sendMemberEmail($formData, $member, $this->getUser());
+                $emailService->sendMemberEmail($formData, $member, $currentUser);
                 $this->addFlash('success', 'Email message sent!');
             } catch (\Exception $e) {
                 $this->addFlash('danger', $e->getMessage());
             }
         }
 
-        $formSMS = $this->createForm(MemberSMSType::class, null, ['member' => $member, 'acting_user' => $this->getUser()]);
+        $formSMS = $this->createForm(MemberSMSType::class, null, ['member' => $member, 'acting_user' => $currentUser]);
         $formSMS->handleRequest($request);
         if ($formSMS->isSubmitted() && $formSMS->isValid()) {
             if (!$member->getPrimaryTelephoneNumber()) {
@@ -379,7 +382,7 @@ class MemberController extends AbstractController
             $formData = $formSMS->getData();
             $message = $member->formatMemberMessage($formData['message_body']);
             try {
-                $smsService->sendMemberSms($message, $member, $this->getUser());
+                $smsService->sendMemberSms($message, $member, $currentUser);
                 $this->addFlash('success', 'SMS message sent!');
             } catch (\Exception $e) {
                 $this->addFlash('danger', $e->getMessage());

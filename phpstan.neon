@@ -5,7 +5,5 @@ parameters:
     doctrine:
         objectManagerLoader: tests/object-manager.php
     symfony:
-        container_xml_path: var/cache/dev/App_KernelDevDebugContainer.xml
-        console_application_loader: tests/console-application.php
-    stubFiles:
-        - stubs/User.stub
+        containerXmlPath: var/cache/dev/App_KernelDevDebugContainer.xml
+        consoleApplicationLoader: tests/console-application.php

@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[IsGranted('ROLE_USER')]
@@ -47,15 +47,15 @@ class ExportController extends AbstractController
     #[Route(path: '/by-location', name: 'export_by_location', options: ['expose' => true])]
     public function exportByLocation(Request $request, MemberToCsvService $memberToCsvService, MemberRepository $memberRepository)
     {
-        if (!$request->get('latitude') || !$request->get('longitude') || !$request->get('radius')) {
+        if (!$request->query->get('latitude') || !$request->query->get('longitude') || !$request->query->get('radius')) {
             throw new BadRequestHttpException('Invalid search parameters.');
         }
 
-        $memberStatuses = $request->get('member_statuses', []);
+        $memberStatuses = $request->query->all('member_statuses');
         $results = $memberRepository->findMembersWithinRadius(
-            (float) $request->get('latitude'),
-            (float) $request->get('longitude'),
-            (int) $request->get('radius'),
+            (float) $request->query->get('latitude'),
+            (float) $request->query->get('longitude'),
+            (int) $request->query->get('radius'),
             ['member_statuses' => $memberStatuses]
         );
 

@@ -7,7 +7,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: 'App\Repository\TagRepository')]
 #[Gedmo\Loggable]
@@ -27,7 +27,7 @@ class Tag
     private $tagName;
 
     #[ORM\ManyToMany(targetEntity: Member::class, inversedBy: 'tags')]
-    #[ORM\OrderBy(['lastName' => 'ASC', 'firstName' => 'ASC'])]
+    #[ORM\OrderBy(['lastName' => \SortDirection::Ascending, 'firstName' => \SortDirection::Ascending])]
     private $members;
 
     public function __construct()

@@ -84,7 +84,7 @@ final class Version20190429003353 extends AbstractMigration
         $extLogEntriesTable->addIndex(['object_id', 'object_class', 'version'], 'log_version_lookup_idx');
         $extLogEntriesTable->setPrimaryKey(['id']);
 
-        $memberTable->addForeignKeyConstraint($memberStatusTable, ['status_id'], ['id'], [], 'FK_70E4FA786BF700BD');
+        $memberTable->addForeignKeyConstraint($memberStatusTable->getName(), ['status_id'], ['id'], [], 'FK_70E4FA786BF700BD');
     }
 
     public function down(Schema $schema): void

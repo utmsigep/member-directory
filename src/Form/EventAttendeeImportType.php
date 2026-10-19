@@ -17,15 +17,15 @@ class EventAttendeeImportType extends AbstractType
                 'mapped' => false,
                 'attr' => ['placeholder' => 'Choose file ...'],
                 'constraints' => [
-                    new File([
-                        'maxSize' => '1024k',
-                        'mimeTypes' => [
+                    new File(
+                        maxSize: '1024k',
+                        mimeTypes: [
                             'text/csv',
                             'text/plain',
                             'application/csv',
                         ],
-                        'mimeTypesMessage' => 'Please upload a valid CSV file.',
-                    ]),
+                        mimeTypesMessage: 'Please upload a valid CSV file.',
+                    ),
                 ],
             ])
         ;

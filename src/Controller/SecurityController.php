@@ -2,13 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Form\ProfileType;
 use App\Form\TwoFactorVerifyType;
 use Doctrine\ORM\EntityManagerInterface;
 use Endroid\QrCode\Builder\Builder;
 use Endroid\QrCode\Encoding\Encoding;
-use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelHigh;
-use Endroid\QrCode\RoundBlockSizeMode\RoundBlockSizeModeMargin;
+use Endroid\QrCode\ErrorCorrectionLevel;
+use Endroid\QrCode\RoundBlockSizeMode;
 use Endroid\QrCode\Writer\PngWriter;
 use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Totp\TotpAuthenticatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,7 +18,8 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -25,11 +27,9 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 class SecurityController extends AbstractController
 {
     #[Route(path: '/profile', name: 'app_profile')]
-    public function profile(Request $request, EntityManagerInterface $entityManager): Response
+    public function profile(#[CurrentUser] User $user, Request $request, EntityManagerInterface $entityManager): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
-
-        $user = $this->getUser();
         $form = $this->createForm(ProfileType::class, $user);
         $form->handleRequest($request);
 
@@ -47,23 +47,21 @@ class SecurityController extends AbstractController
     }
 
     #[Route(path: '/change-password', name: 'app_change_password')]
-    public function changePassword(Request $request, UserPasswordHasherInterface $passwordEncoder, EntityManagerInterface $entityManager): Response
+    public function changePassword(#[CurrentUser] User $user, Request $request, UserPasswordHasherInterface $passwordEncoder, EntityManagerInterface $entityManager): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
-
-        $user = $this->getUser();
         $form = $this->createFormBuilder($user)
             ->add('plainPassword', RepeatedType::class, [
                 'label' => 'Password',
                 'mapped' => false,
                 'constraints' => [
-                    new NotBlank([
-                        'message' => 'Choose a password!',
-                    ]),
-                    new Length([
-                        'min' => 5,
-                        'minMessage' => 'Come on, you can think of a password longer than that!',
-                    ]),
+                    new NotBlank(
+                        message: 'Choose a password!',
+                    ),
+                    new Length(
+                        min: 5,
+                        minMessage: 'Come on, you can think of a password longer than that!',
+                    ),
                 ],
                 'type' => PasswordType::class,
                 'invalid_message' => 'The password fields must match.',
@@ -95,11 +93,9 @@ class SecurityController extends AbstractController
     }
 
     #[Route(path: '/manage-two-factor', name: 'app_manage_two_factor')]
-    public function manageTwoFactor(Request $request, TotpAuthenticatorInterface $totpAuthenticatorService, EntityManagerInterface $entityManager)
+    public function manageTwoFactor(#[CurrentUser] User $user, Request $request, TotpAuthenticatorInterface $totpAuthenticatorService, EntityManagerInterface $entityManager)
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
-
-        $user = $this->getUser();
         if ($user->isTotpAuthenticationEnabled()) {
             return $this->render('security/two_factor_manage.html.twig');
         }
@@ -126,33 +122,29 @@ class SecurityController extends AbstractController
     }
 
     #[Route(path: '/two-factor-qr-code/{totpSecret}', name: 'app_two_factor_qr_code')]
-    public function renderTotpQrCode($totpSecret, TotpAuthenticatorInterface $totpAuthenticatorService)
+    public function renderTotpQrCode(#[CurrentUser] User $user, $totpSecret, TotpAuthenticatorInterface $totpAuthenticatorService)
     {
-        $user = $this->getUser();
         $user->setTotpSecret($totpSecret);
 
         $qrCodeContent = $totpAuthenticatorService->getQRContent($user);
 
-        $result = Builder::create()
-            ->writer(new PngWriter())
-            ->writerOptions([])
-            ->data($qrCodeContent)
-            ->encoding(new Encoding('UTF-8'))
-            ->errorCorrectionLevel(new ErrorCorrectionLevelHigh())
-            ->size(400)
-            ->margin(0)
-            ->roundBlockSizeMode(new RoundBlockSizeModeMargin())
-            ->build();
+        $result = (new Builder(
+            writer: new PngWriter(),
+            data: $qrCodeContent,
+            encoding: new Encoding('UTF-8'),
+            errorCorrectionLevel: ErrorCorrectionLevel::High,
+            size: 400,
+            margin: 0,
+            roundBlockSizeMode: RoundBlockSizeMode::Margin,
+        ))->build();
 
         return new Response($result->getString(), 200, ['Content-Type' => 'image/png']);
     }
 
     #[Route(path: '/disable-two-factor', name: 'app_disable_two_factor', methods: ['POST'])]
-    public function disableTwoFactor(Request $request, TotpAuthenticatorInterface $totpAuthenticatorService, EntityManagerInterface $entityManager)
+    public function disableTwoFactor(#[CurrentUser] User $user, Request $request, TotpAuthenticatorInterface $totpAuthenticatorService, EntityManagerInterface $entityManager)
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
-
-        $user = $this->getUser();
         if ($this->isCsrfTokenValid('disableTwoFactor'.$user->getId(), $request->request->get('_token'))) {
             $user->setTotpSecret(null);
             $entityManager->persist($user);

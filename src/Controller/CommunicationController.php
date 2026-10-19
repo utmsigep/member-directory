@@ -3,13 +3,15 @@
 namespace App\Controller;
 
 use App\Entity\CommunicationLog;
+use App\Entity\User;
 use App\Form\CommunicationLogType;
 use App\Repository\CommunicationLogRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[IsGranted('ROLE_COMMUNICATIONS_MANAGER')]
@@ -25,14 +27,14 @@ class CommunicationController extends AbstractController
     }
 
     #[Route(path: '/new', name: 'communication_new', methods: ['GET', 'POST'])]
-    public function new(EntityManagerInterface $entityManager, Request $request): Response
+    public function new(#[CurrentUser] User $currentUser, EntityManagerInterface $entityManager, Request $request): Response
     {
         $communicationLog = new CommunicationLog();
-        $form = $this->createForm(CommunicationLogType::class, $communicationLog, ['timezone' => $this->getUser()->getTimezone()]);
+        $form = $this->createForm(CommunicationLogType::class, $communicationLog, ['timezone' => $currentUser->getTimezone()]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $communicationLog->setUser($this->getUser());
+            $communicationLog->setUser($currentUser);
             $entityManager->persist($communicationLog);
             $entityManager->flush();
             $this->addFlash('success', sprintf('%s created!', $communicationLog));
@@ -55,9 +57,9 @@ class CommunicationController extends AbstractController
     }
 
     #[Route(path: '/{id}/edit', name: 'communication_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, CommunicationLog $communicationLog, EntityManagerInterface $entityManager): Response
+    public function edit(#[CurrentUser] User $currentUser, Request $request, CommunicationLog $communicationLog, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(CommunicationLogType::class, $communicationLog, ['timezone' => $this->getUser()->getTimezone()]);
+        $form = $this->createForm(CommunicationLogType::class, $communicationLog, ['timezone' => $currentUser->getTimezone()]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

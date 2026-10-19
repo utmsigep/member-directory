@@ -39,8 +39,8 @@ final class Version20200909030146 extends AbstractMigration
         $memberStatusTable = $schema->getTable('member_status');
         $memberStatusTable->addColumn('is_inactive', 'boolean', ['notnull' => true]);
 
-        $directoryCollectionMemberStatusTable->addForeignKeyConstraint($directoryCollectionTable, ['directory_collection_id'], ['id'], ['onDelete' => 'CASCADE'], 'FK_CC64EF66E9D937AC');
-        $directoryCollectionMemberStatusTable->addForeignKeyConstraint($memberStatusTable, ['member_status_id'], ['id'], ['onDelete' => 'CASCADE'], 'FK_CC64EF662BDFD678');
+        $directoryCollectionMemberStatusTable->addForeignKeyConstraint($directoryCollectionTable->getName(), ['directory_collection_id'], ['id'], ['onDelete' => 'CASCADE'], 'FK_CC64EF66E9D937AC');
+        $directoryCollectionMemberStatusTable->addForeignKeyConstraint($memberStatusTable->getName(), ['member_status_id'], ['id'], ['onDelete' => 'CASCADE'], 'FK_CC64EF662BDFD678');
 
         $memberTable = $schema->getTable('member');
         $memberTable->dropColumn('is_external_do_not_contact');

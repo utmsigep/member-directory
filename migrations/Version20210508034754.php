@@ -27,7 +27,7 @@ final class Version20210508034754 extends AbstractMigration
         $resetPasswordRequestTable->setPrimaryKey(['id']);
 
         $userTable = $schema->getTable('user');
-        $resetPasswordRequestTable->addForeignKeyConstraint($userTable, ['user_id'], ['id'], [], 'FK_7CE748AA76ED395');
+        $resetPasswordRequestTable->addForeignKeyConstraint($userTable->getName(), ['user_id'], ['id'], [], 'FK_7CE748AA76ED395');
     }
 
     public function down(Schema $schema): void

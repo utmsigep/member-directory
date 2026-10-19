@@ -117,9 +117,6 @@
     "erusev/parsedown": {
         "version": "1.7.4"
     },
-    "friendsofphp/proxy-manager-lts": {
-        "version": "v1.0.3"
-    },
     "friendsofsymfony/jsrouting-bundle": {
         "version": "2.3",
         "recipe": {
@@ -146,9 +143,6 @@
     },
     "guzzlehttp/psr7": {
         "version": "2.0.0"
-    },
-    "laminas/laminas-code": {
-        "version": "3.5.1"
     },
     "lcobucci/clock": {
         "version": "2.0.0"
@@ -568,9 +562,6 @@
     "symfony/property-info": {
         "version": "v5.1.2"
     },
-    "symfony/proxy-manager-bridge": {
-        "version": "v5.2.1"
-    },
     "symfony/routing": {
         "version": "6.3",
         "recipe": {
@@ -616,9 +607,6 @@
     },
     "symfony/string": {
         "version": "v5.1.2"
-    },
-    "symfony/templating": {
-        "version": "v4.4.8"
     },
     "symfony/translation": {
         "version": "6.3",

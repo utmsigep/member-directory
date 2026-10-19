@@ -30,9 +30,9 @@ final class Version20210409154321 extends AbstractMigration
         $communicationLogTable->addIndex(['user_id'], 'IDX_ED416163A76ED395');
 
         $memberTable = $schema->getTable('member');
-        $communicationLogTable->addForeignKeyConstraint($memberTable, ['member_id'], ['id'], [], 'FK_ED4161637597D3FE');
+        $communicationLogTable->addForeignKeyConstraint($memberTable->getName(), ['member_id'], ['id'], [], 'FK_ED4161637597D3FE');
         $userTable = $schema->getTable('user');
-        $communicationLogTable->addForeignKeyConstraint($userTable, ['user_id'], ['id'], [], 'FK_ED416163A76ED395');
+        $communicationLogTable->addForeignKeyConstraint($userTable->getName(), ['user_id'], ['id'], [], 'FK_ED416163A76ED395');
     }
 
     public function down(Schema $schema): void
