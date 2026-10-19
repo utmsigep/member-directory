@@ -40,7 +40,7 @@ final class Version20200106045144 extends AbstractMigration
         $donationTable->addIndex(['member_id'], 'IDX_31E581A07597D3FE');
         $donationTable->setPrimaryKey(['id']);
         $memberTable = $schema->getTable('member');
-        $donationTable->addForeignKeyConstraint($memberTable, ['member_id'], ['id'], [], 'FK_31E581A07597D3FE');
+        $donationTable->addForeignKeyConstraint($memberTable->getName(), ['member_id'], ['id'], [], 'FK_31E581A07597D3FE');
     }
 
     public function down(Schema $schema): void

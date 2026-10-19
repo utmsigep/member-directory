@@ -19,9 +19,9 @@ class ProfileType extends AbstractType
             ->add('email', EmailType::class, [
                 'label' => 'Login Email',
                 'constraints' => [
-                    new Email([
-                        'message' => 'Must be a valid email address!',
-                    ]),
+                    new Email(
+                        message: 'Must be a valid email address!',
+                    ),
                 ],
             ])
             ->add('timezone', TimezoneType::class, [

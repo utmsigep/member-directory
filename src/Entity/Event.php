@@ -46,7 +46,7 @@ class Event
     private $startAt;
 
     #[ORM\ManyToMany(targetEntity: Member::class, inversedBy: 'events')]
-    #[ORM\OrderBy(['lastName' => 'ASC', 'firstName' => 'ASC'])]
+    #[ORM\OrderBy(['lastName' => \SortDirection::Ascending, 'firstName' => \SortDirection::Ascending])]
     private $attendees;
 
     public function __construct()

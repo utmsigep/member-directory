@@ -3,7 +3,7 @@
 namespace App\EventListener;
 
 use App\Entity\Donation;
-use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\ORM\Event\PrePersistEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 
 class DonationSubscriber
@@ -19,7 +19,7 @@ class DonationSubscriber
         }
     }
 
-    public function prePersist(Donation $donation, LifecycleEventArgs $eventArgs)
+    public function prePersist(Donation $donation, PrePersistEventArgs $eventArgs)
     {
         if ($donation->getMember()) {
             $donation->setDonorFirstName($donation->getMember()->getFirstName());

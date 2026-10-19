@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: 'App\Repository\MemberStatusRepository')]
 #[UniqueEntity('code')]
@@ -33,7 +33,7 @@ class MemberStatus
     private $label;
 
     #[ORM\OneToMany(targetEntity: Member::class, mappedBy: 'status')]
-    #[ORM\OrderBy(['lastName' => 'ASC'])]
+    #[ORM\OrderBy(['lastName' => \SortDirection::Ascending])]
     private $members;
 
     #[ORM\Column(type: 'boolean')]

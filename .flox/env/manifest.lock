@@ -4,13 +4,13 @@
     "version": 1,
     "install": {
       "composer": {
-        "flake": "git+https://github.com/utmsigep/member-directory.git?ref=add-flox#composer-custom"
+        "flake": "git+https://github.com/utmsigep/member-directory.git?ref=symfony-8.1#composer-custom"
       },
       "nodejs_20": {
         "pkg-path": "nodejs_20"
       },
       "php": {
-        "flake": "git+https://github.com/utmsigep/member-directory.git?ref=add-flox#php-custom"
+        "flake": "git+https://github.com/utmsigep/member-directory.git?ref=symfony-8.1#php-custom"
       },
       "symfony-cli": {
         "pkg-path": "symfony-cli"
@@ -211,12 +211,12 @@
     },
     {
       "install_id": "composer",
-      "locked-url": "git+https://github.com/utmsigep/member-directory.git?ref=add-flox&rev=6715d7c6c9ec64f5cc816f8a435d5a78449e9adf",
+      "locked-url": "git+https://github.com/utmsigep/member-directory.git?ref=symfony-8.1&rev=f4bf8675bba8edd163135a11bf30353c2b07e059",
       "flake-description": "member-directory custom flox packages",
       "locked-flake-attr-path": "packages.aarch64-darwin.composer-custom",
-      "derivation": "/nix/store/6jrx123i0m6g3ikr0jfyvja8jm12vakw-composer-2.10.3.drv",
+      "derivation": "/nix/store/8pnlm0bqklziydd2fykyni9ah1h615jm-composer-2.10.2.drv",
       "outputs": {
-        "out": "/nix/store/9m8q1zm76zsr4bsflzwwy2kazxxdykhf-composer-2.10.3"
+        "out": "/nix/store/lxjq20l8v6rn5g68sy9v5mbmi143sq38-composer-2.10.2"
       },
       "output-names": [
         "out"
@@ -227,9 +227,9 @@
       "requested-outputs-to-install": [],
       "package-system": "aarch64-darwin",
       "system": "aarch64-darwin",
-      "name": "composer-2.10.3",
+      "name": "composer-2.10.2",
       "pname": "composer",
-      "version": "2.10.3",
+      "version": "2.10.2",
       "description": "Dependency Manager for PHP",
       "licenses": [
         "MIT"
@@ -240,12 +240,12 @@
     },
     {
       "install_id": "composer",
-      "locked-url": "git+https://github.com/utmsigep/member-directory.git?ref=add-flox&rev=6715d7c6c9ec64f5cc816f8a435d5a78449e9adf",
+      "locked-url": "git+https://github.com/utmsigep/member-directory.git?ref=symfony-8.1&rev=f4bf8675bba8edd163135a11bf30353c2b07e059",
       "flake-description": "member-directory custom flox packages",
       "locked-flake-attr-path": "packages.aarch64-linux.composer-custom",
-      "derivation": "/nix/store/0pynvzaiic4z2f9ivi4v0x6hfwxzc0v3-composer-2.10.3.drv",
+      "derivation": "/nix/store/65hw2d0y3p9gjqbn2cv2pgnf4lna1qss-composer-2.10.2.drv",
       "outputs": {
-        "out": "/nix/store/7ph6p544l35qck2ms10dbyzw8ym17mha-composer-2.10.3"
+        "out": "/nix/store/birgx8ai5vif2m3hyj32w351z77jm0zh-composer-2.10.2"
       },
       "output-names": [
         "out"
@@ -256,9 +256,9 @@
       "requested-outputs-to-install": [],
       "package-system": "aarch64-linux",
       "system": "aarch64-linux",
-      "name": "composer-2.10.3",
+      "name": "composer-2.10.2",
       "pname": "composer",
-      "version": "2.10.3",
+      "version": "2.10.2",
       "description": "Dependency Manager for PHP",
       "licenses": [
         "MIT"
@@ -269,12 +269,12 @@
     },
     {
       "install_id": "composer",
-      "locked-url": "git+https://github.com/utmsigep/member-directory.git?ref=add-flox&rev=6715d7c6c9ec64f5cc816f8a435d5a78449e9adf",
+      "locked-url": "git+https://github.com/utmsigep/member-directory.git?ref=symfony-8.1&rev=f4bf8675bba8edd163135a11bf30353c2b07e059",
       "flake-description": "member-directory custom flox packages",
       "locked-flake-attr-path": "packages.x86_64-linux.composer-custom",
-      "derivation": "/nix/store/6nhbx1afynl4xirzxi9jg1bv22amyl6f-composer-2.10.3.drv",
+      "derivation": "/nix/store/5zmswmr8gfl5ci64k3bhx4fy0hk9ypg1-composer-2.10.2.drv",
       "outputs": {
-        "out": "/nix/store/lvd0imk2s2f191wi95ari0smp5x4s4ds-composer-2.10.3"
+        "out": "/nix/store/djlzhkvbvsgrkm4dpbnfmcagcmzwvs1f-composer-2.10.2"
       },
       "output-names": [
         "out"
@@ -285,9 +285,9 @@
       "requested-outputs-to-install": [],
       "package-system": "x86_64-linux",
       "system": "x86_64-linux",
-      "name": "composer-2.10.3",
+      "name": "composer-2.10.2",
       "pname": "composer",
-      "version": "2.10.3",
+      "version": "2.10.2",
       "description": "Dependency Manager for PHP",
       "licenses": [
         "MIT"
@@ -298,12 +298,12 @@
     },
     {
       "install_id": "php",
-      "locked-url": "git+https://github.com/utmsigep/member-directory.git?ref=add-flox&rev=6715d7c6c9ec64f5cc816f8a435d5a78449e9adf",
+      "locked-url": "git+https://github.com/utmsigep/member-directory.git?ref=symfony-8.1&rev=f4bf8675bba8edd163135a11bf30353c2b07e059",
       "flake-description": "member-directory custom flox packages",
       "locked-flake-attr-path": "packages.aarch64-darwin.php-custom",
-      "derivation": "/nix/store/ml14r97z7gr5v1rbf1hn5c3awii303nf-php-with-extensions-8.3.33.drv",
+      "derivation": "/nix/store/za85i97b3iphwnv4ag5d50zyji0l1b9y-php-with-extensions-8.4.23.drv",
       "outputs": {
-        "out": "/nix/store/w6zx7x9z7j6rhnp9da0103n4hf60ixpv-php-with-extensions-8.3.33"
+        "out": "/nix/store/7gx72hpjns0zbj73yw1gdfqp27gn4abr-php-with-extensions-8.4.23"
       },
       "output-names": [
         "out"
@@ -314,9 +314,9 @@
       "requested-outputs-to-install": [],
       "package-system": "aarch64-darwin",
       "system": "aarch64-darwin",
-      "name": "php-with-extensions-8.3.33",
+      "name": "php-with-extensions-8.4.23",
       "pname": "php-with-extensions",
-      "version": "8.3.33",
+      "version": "8.4.23",
       "description": "HTML-embedded scripting language",
       "licenses": [
         "PHP-3.01"
@@ -327,12 +327,12 @@
     },
     {
       "install_id": "php",
-      "locked-url": "git+https://github.com/utmsigep/member-directory.git?ref=add-flox&rev=6715d7c6c9ec64f5cc816f8a435d5a78449e9adf",
+      "locked-url": "git+https://github.com/utmsigep/member-directory.git?ref=symfony-8.1&rev=f4bf8675bba8edd163135a11bf30353c2b07e059",
       "flake-description": "member-directory custom flox packages",
       "locked-flake-attr-path": "packages.aarch64-linux.php-custom",
-      "derivation": "/nix/store/hiqnmqd6yfb0g1gqrxifw5aw8vdmjq90-php-with-extensions-8.3.33.drv",
+      "derivation": "/nix/store/vmzz3nxab18wgy3gmnnmd5963q4ifd26-php-with-extensions-8.4.23.drv",
       "outputs": {
-        "out": "/nix/store/snj59znvpqx32ylk6daxbfvinmllzf52-php-with-extensions-8.3.33"
+        "out": "/nix/store/g69m3x749gapdmi4a7m90gk20f8x0msp-php-with-extensions-8.4.23"
       },
       "output-names": [
         "out"
@@ -343,9 +343,9 @@
       "requested-outputs-to-install": [],
       "package-system": "aarch64-linux",
       "system": "aarch64-linux",
-      "name": "php-with-extensions-8.3.33",
+      "name": "php-with-extensions-8.4.23",
       "pname": "php-with-extensions",
-      "version": "8.3.33",
+      "version": "8.4.23",
       "description": "HTML-embedded scripting language",
       "licenses": [
         "PHP-3.01"
@@ -356,12 +356,12 @@
     },
     {
       "install_id": "php",
-      "locked-url": "git+https://github.com/utmsigep/member-directory.git?ref=add-flox&rev=6715d7c6c9ec64f5cc816f8a435d5a78449e9adf",
+      "locked-url": "git+https://github.com/utmsigep/member-directory.git?ref=symfony-8.1&rev=f4bf8675bba8edd163135a11bf30353c2b07e059",
       "flake-description": "member-directory custom flox packages",
       "locked-flake-attr-path": "packages.x86_64-linux.php-custom",
-      "derivation": "/nix/store/mfrn9l57qkxsb4yny5nig85cpghhmdlj-php-with-extensions-8.3.33.drv",
+      "derivation": "/nix/store/fgj9fxagdkqifapk7m8sl8vlrq2rl373-php-with-extensions-8.4.23.drv",
       "outputs": {
-        "out": "/nix/store/rwyads11jzl49i5yq2qqv8w924ja39kg-php-with-extensions-8.3.33"
+        "out": "/nix/store/laga4j1q19sfbljvvmibp5g8q0qbdb89-php-with-extensions-8.4.23"
       },
       "output-names": [
         "out"
@@ -372,9 +372,9 @@
       "requested-outputs-to-install": [],
       "package-system": "x86_64-linux",
       "system": "x86_64-linux",
-      "name": "php-with-extensions-8.3.33",
+      "name": "php-with-extensions-8.4.23",
       "pname": "php-with-extensions",
-      "version": "8.3.33",
+      "version": "8.4.23",
       "description": "HTML-embedded scripting language",
       "licenses": [
         "PHP-3.01"

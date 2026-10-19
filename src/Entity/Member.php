@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Loggable\Loggable;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Table]
@@ -195,16 +195,16 @@ class Member implements Loggable
     private $directoryNotes;
 
     #[ORM\ManyToMany(targetEntity: Tag::class, mappedBy: 'members')]
-    #[ORM\OrderBy(['tagName' => 'ASC'])]
+    #[ORM\OrderBy(['tagName' => \SortDirection::Ascending])]
     #[Groups(['member_extended'])]
     private $tags;
 
     #[ORM\OneToMany(targetEntity: Donation::class, mappedBy: 'member')]
-    #[ORM\OrderBy(['receivedAt' => 'DESC'])]
+    #[ORM\OrderBy(['receivedAt' => \SortDirection::Descending])]
     private $donations;
 
     #[ORM\OneToMany(targetEntity: CommunicationLog::class, mappedBy: 'member', orphanRemoval: true)]
-    #[ORM\OrderBy(['loggedAt' => 'DESC'])]
+    #[ORM\OrderBy(['loggedAt' => \SortDirection::Descending])]
     private $communicationLogs;
 
     #[ORM\ManyToMany(targetEntity: Event::class, mappedBy: 'attendees')]

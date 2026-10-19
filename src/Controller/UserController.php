@@ -13,7 +13,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[IsGranted('ROLE_ADMIN')]
@@ -95,7 +96,7 @@ class UserController extends AbstractController
     }
 
     #[Route(path: '/{id}/disable-2fa', name: 'user_disable_two_factor', methods: ['POST'])]
-    public function disableTwoFactor(Request $request, User $user, LoggerInterface $logger, EntityManagerInterface $entityManager): Response
+    public function disableTwoFactor(#[CurrentUser] User $currentUser, Request $request, User $user, LoggerInterface $logger, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('disableTwoFactor'.$user->getId(), $request->request->get('_token'))) {
             $user->setTotpSecret(null);
@@ -104,7 +105,7 @@ class UserController extends AbstractController
             $this->addFlash('success', 'Two-Factor Security disabled.');
             $logger->info(sprintf(
                 '[SECURITY] %s disabled Two-Factor Security on %s',
-                (string) $this->getUser(),
+                (string) $currentUser,
                 (string) $user
             ));
         }

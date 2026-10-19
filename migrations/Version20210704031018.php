@@ -17,17 +17,17 @@ final class Version20210704031018 extends AbstractMigration
     public function up(Schema $schema): void
     {
         $communicationLogTable = $schema->getTable('communication_log');
-        $communicationLogTable->changeColumn('logged_at', ['comment' => '(DC2Type:datetime_immutable)']);
+        $communicationLogTable->modifyColumn('logged_at', ['comment' => '(DC2Type:datetime_immutable)']);
         $donationTable = $schema->getTable('donation');
-        $donationTable->changeColumn('received_at', ['comment' => '(DC2Type:datetime_immutable)']);
+        $donationTable->modifyColumn('received_at', ['comment' => '(DC2Type:datetime_immutable)']);
     }
 
     public function down(Schema $schema): void
     {
         $communicationLogTable = $schema->getTable('communication_log');
-        $communicationLogTable->changeColumn('logged_at', ['comment' => null]);
+        $communicationLogTable->modifyColumn('logged_at', ['comment' => null]);
         $donationTable = $schema->getTable('donation');
-        $donationTable->changeColumn('received_at', ['comment' => null]);
+        $donationTable->modifyColumn('received_at', ['comment' => null]);
     }
 
     public function isTransactional(): bool

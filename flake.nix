@@ -1,7 +1,7 @@
 {
   description = "member-directory custom flox packages";
 
-  inputs.nixpkgs.url = "github:flox/nixpkgs/stable";
+  inputs.nixpkgs.url = "github:NixOS/nixpkgs/ec830498ebdf7052e3ce91646d09ae7b43313384"; # nixpkgs-unstable, php84 8.4.23
 
   outputs = { self, nixpkgs }:
     let

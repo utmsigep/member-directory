@@ -10,7 +10,7 @@ use App\Service\MemberUpdateTokenGenerator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 class UpdateController extends AbstractController
 {
@@ -20,23 +20,23 @@ class UpdateController extends AbstractController
     #[Route(path: '/update-my-info')]
     public function updateFromQueryString(Request $request)
     {
-        if ($request->get('externalIdentifier') && $request->get('updateToken')) {
+        if ($request->query->get('externalIdentifier') && $request->query->get('updateToken')) {
             return $this->redirectToRoute('self_service_update', [
-                'externalIdentifier' => $request->get('externalIdentifier'),
-                'updateToken' => $request->get('updateToken'),
+                'externalIdentifier' => $request->query->get('externalIdentifier'),
+                'updateToken' => $request->query->get('updateToken'),
             ]);
         }
         throw $this->createNotFoundException('Member not found.');
     }
 
     #[Route(path: '/update-my-info/{externalIdentifier}/{updateToken}', name: 'self_service_update')]
-    public function update(Request $request, EmailService $emailService, MemberRepository $memberRepository, EntityManagerInterface $entityManager, MemberUpdateTokenGenerator $updateTokenGenerator)
+    public function update(string $externalIdentifier, string $updateToken, Request $request, EmailService $emailService, MemberRepository $memberRepository, EntityManagerInterface $entityManager, MemberUpdateTokenGenerator $updateTokenGenerator)
     {
         $member = $memberRepository->findOneBy([
-            'externalIdentifier' => $request->get('externalIdentifier'),
+            'externalIdentifier' => $externalIdentifier,
         ]);
         // If mismatch of updated token, deceased, or in inactive statuses, ignore
-        if (!$member || !$updateTokenGenerator->isValid($member, $request->get('updateToken'))
+        if (!$member || !$updateTokenGenerator->isValid($member, $updateToken)
             || $member->getIsDeceased()
             || $member->getStatus()->getIsInactive()
         ) {

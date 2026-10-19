@@ -4,7 +4,7 @@ namespace App\EventListener;
 
 use App\Entity\Member;
 use App\Service\GeocoderService;
-use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\ORM\Event\PrePersistEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Psr\Log\LoggerInterface;
 
@@ -42,7 +42,7 @@ class GeocodeMemberSubscriber
         }
     }
 
-    public function prePersist(Member $member, LifecycleEventArgs $eventArgs)
+    public function prePersist(Member $member, PrePersistEventArgs $eventArgs)
     {
         if ($member->getMailingAddressLine1()
             || $member->getMailingAddressLine2()

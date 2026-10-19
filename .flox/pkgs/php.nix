@@ -1,6 +1,6 @@
 { pkgs, ... }:
 let
-	php = pkgs.php83;
+	php = pkgs.php84;
 in
 php.buildEnv {
 	extensions = ({ enabled, all }:

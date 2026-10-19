@@ -36,8 +36,8 @@ final class Version20210630213016 extends AbstractMigration
 
         $memberTable = $schema->getTable('member');
 
-        $eventMemberTable->addForeignKeyConstraint($eventTable, ['event_id'], ['id'], ['onDelete' => 'CASCADE'], 'FK_427D8D2A71F7E88B');
-        $eventMemberTable->addForeignKeyConstraint($memberTable, ['member_id'], ['id'], ['onDelete' => 'CASCADE'], 'FK_427D8D2A7597D3FE');
+        $eventMemberTable->addForeignKeyConstraint($eventTable->getName(), ['event_id'], ['id'], ['onDelete' => 'CASCADE'], 'FK_427D8D2A71F7E88B');
+        $eventMemberTable->addForeignKeyConstraint($memberTable->getName(), ['member_id'], ['id'], ['onDelete' => 'CASCADE'], 'FK_427D8D2A7597D3FE');
     }
 
     public function down(Schema $schema): void

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\DirectoryCollection;
 use App\Entity\Member;
+use App\Entity\User;
 use App\Form\MapFilterType;
 use App\Repository\DirectoryCollectionRepository;
 use App\Repository\MemberRepository;
@@ -21,7 +22,8 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[IsGranted('ROLE_USER')]
@@ -212,7 +214,7 @@ class DirectoryController extends AbstractController
     }
 
     #[Route(path: '/recent-changes', name: 'member_changes')]
-    public function recentChanges(Request $request, EntityManagerInterface $entityManager)
+    public function recentChanges(#[CurrentUser] User $currentUser, Request $request, EntityManagerInterface $entityManager)
     {
         $since = $request->query->get('since');
         $sinceDate = $since ? new \DateTime((string) $since) : new \DateTime(date('Y-m-d', strtotime('-30 day')));
@@ -236,7 +238,7 @@ class DirectoryController extends AbstractController
 
         $form->handleRequest($request);
         $data = $form->getData();
-        $members = $entityManager->getRepository(Member::class)->findRecentUpdates($data, $this->getUser()->getTimezone());
+        $members = $entityManager->getRepository(Member::class)->findRecentUpdates($data, $currentUser->getTimezone());
 
         return $this->render('directory/recent_changes.html.twig', [
             'members' => $members,

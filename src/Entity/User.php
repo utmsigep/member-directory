@@ -49,11 +49,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
     #[ORM\Column(type: 'string')]
     private $password;
 
-    /**
-     * @var string|null The plaintext password
-     */
-    private $plainPassword;
-
     #[ORM\Column(type: 'string', nullable: true)]
     private $totpSecret;
 
@@ -143,35 +138,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
         $this->password = $password;
 
         return $this;
-    }
-
-    /**
-     * @see UserInterface
-     */
-    public function getSalt(): ?string
-    {
-        return null;
-    }
-
-    /**
-     * @see UserInterface
-     */
-    public function eraseCredentials(): void
-    {
-        // If you store any temporary, sensitive data on the user, clear it here
-        $this->plainPassword = null;
-    }
-
-    public function setPlainPassword(string $plainPassword): self
-    {
-        $this->plainPassword = $plainPassword;
-
-        return $this;
-    }
-
-    public function getPlainPassword(): ?string
-    {
-        return $this->plainPassword;
     }
 
     public function getTotpSecret(): string

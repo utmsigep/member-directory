@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Form\MemberEmailType;
 use App\Form\MemberSMSType;
 use App\Repository\EventRepository;
@@ -13,7 +14,8 @@ use App\Service\SmsService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[IsGranted('ROLE_COMMUNICATIONS_MANAGER')]
@@ -38,12 +40,12 @@ class MessengerController extends AbstractController
     }
 
     #[Route(path: '/email', name: 'messenger_email')]
-    public function email(Request $request, EmailService $emailService, CommunicationLogService $communicationLogService): Response
+    public function email(#[CurrentUser] User $currentUser, Request $request, EmailService $emailService, CommunicationLogService $communicationLogService): Response
     {
         $queryRecipients = $this->buildRecipientsFromRequest($request);
 
         $formEmail = $this->createForm(MemberEmailType::class, null, [
-            'acting_user' => $this->getUser(),
+            'acting_user' => $currentUser,
             'recipients' => $queryRecipients,
         ]);
         $formEmail->handleRequest($request);
@@ -63,7 +65,7 @@ class MessengerController extends AbstractController
                 $formData['subject'] = $member->formatMemberMessage($originalFormData['subject']);
                 $formData['message_body'] = $member->formatMemberMessage($originalFormData['message_body']);
                 try {
-                    $emailService->sendMemberEmail($formData, $member, $this->getUser());
+                    $emailService->sendMemberEmail($formData, $member, $currentUser);
                     $this->addFlash('success', sprintf('Email sent to %s!', $member));
                 } catch (\Exception $e) {
                     $this->addFlash('danger', $e->getMessage());
@@ -78,7 +80,7 @@ class MessengerController extends AbstractController
     }
 
     #[Route(path: '/sms', name: 'messenger_sms')]
-    public function sms(Request $request, SmsService $smsService, CommunicationLogService $communicationLogService): Response
+    public function sms(#[CurrentUser] User $currentUser, Request $request, SmsService $smsService, CommunicationLogService $communicationLogService): Response
     {
         if (!$smsService->isConfigured()) {
             $this->addFlash('danger', 'SMS service not configured!');
@@ -88,7 +90,7 @@ class MessengerController extends AbstractController
         $queryRecipients = $this->buildRecipientsFromRequest($request);
 
         $formSMS = $this->createForm(MemberSMSType::class, null, [
-            'acting_user' => $this->getUser(),
+            'acting_user' => $currentUser,
             'recipients' => $queryRecipients,
         ]);
         $formSMS->handleRequest($request);
@@ -105,7 +107,7 @@ class MessengerController extends AbstractController
                 }
                 $message = $member->formatMemberMessage($formData['message_body']);
                 try {
-                    $smsService->sendMemberSms($message, $member, $this->getUser());
+                    $smsService->sendMemberSms($message, $member, $currentUser);
                     $this->addFlash('success', sprintf('SMS message sent to %s!', $member));
                 } catch (\Exception $e) {
                     $this->addFlash('danger', $e->getMessage());
