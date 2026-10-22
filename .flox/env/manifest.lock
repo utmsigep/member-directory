@@ -4,13 +4,13 @@
     "version": 1,
     "install": {
       "composer": {
-        "flake": "git+https://github.com/utmsigep/member-directory.git?ref=symfony-8.1#composer-custom"
+        "flake": "git+https://github.com/utmsigep/member-directory.git?ref=main#composer-custom"
       },
       "nodejs_20": {
         "pkg-path": "nodejs_20"
       },
       "php": {
-        "flake": "git+https://github.com/utmsigep/member-directory.git?ref=symfony-8.1#php-custom"
+        "flake": "git+https://github.com/utmsigep/member-directory.git?ref=main#php-custom"
       },
       "symfony-cli": {
         "pkg-path": "symfony-cli"
@@ -211,7 +211,7 @@
     },
     {
       "install_id": "composer",
-      "locked-url": "git+https://github.com/utmsigep/member-directory.git?ref=symfony-8.1&rev=f4bf8675bba8edd163135a11bf30353c2b07e059",
+      "locked-url": "git+https://github.com/utmsigep/member-directory.git?ref=main&rev=08bcccd807bd3b5a9b92a4393f48912e39d5afab",
       "flake-description": "member-directory custom flox packages",
       "locked-flake-attr-path": "packages.aarch64-darwin.composer-custom",
       "derivation": "/nix/store/8pnlm0bqklziydd2fykyni9ah1h615jm-composer-2.10.2.drv",
@@ -240,7 +240,7 @@
     },
     {
       "install_id": "composer",
-      "locked-url": "git+https://github.com/utmsigep/member-directory.git?ref=symfony-8.1&rev=f4bf8675bba8edd163135a11bf30353c2b07e059",
+      "locked-url": "git+https://github.com/utmsigep/member-directory.git?ref=main&rev=08bcccd807bd3b5a9b92a4393f48912e39d5afab",
       "flake-description": "member-directory custom flox packages",
       "locked-flake-attr-path": "packages.aarch64-linux.composer-custom",
       "derivation": "/nix/store/65hw2d0y3p9gjqbn2cv2pgnf4lna1qss-composer-2.10.2.drv",
@@ -269,7 +269,7 @@
     },
     {
       "install_id": "composer",
-      "locked-url": "git+https://github.com/utmsigep/member-directory.git?ref=symfony-8.1&rev=f4bf8675bba8edd163135a11bf30353c2b07e059",
+      "locked-url": "git+https://github.com/utmsigep/member-directory.git?ref=main&rev=08bcccd807bd3b5a9b92a4393f48912e39d5afab",
       "flake-description": "member-directory custom flox packages",
       "locked-flake-attr-path": "packages.x86_64-linux.composer-custom",
       "derivation": "/nix/store/5zmswmr8gfl5ci64k3bhx4fy0hk9ypg1-composer-2.10.2.drv",
@@ -298,7 +298,7 @@
     },
     {
       "install_id": "php",
-      "locked-url": "git+https://github.com/utmsigep/member-directory.git?ref=symfony-8.1&rev=f4bf8675bba8edd163135a11bf30353c2b07e059",
+      "locked-url": "git+https://github.com/utmsigep/member-directory.git?ref=main&rev=08bcccd807bd3b5a9b92a4393f48912e39d5afab",
       "flake-description": "member-directory custom flox packages",
       "locked-flake-attr-path": "packages.aarch64-darwin.php-custom",
       "derivation": "/nix/store/za85i97b3iphwnv4ag5d50zyji0l1b9y-php-with-extensions-8.4.23.drv",
@@ -327,7 +327,7 @@
     },
     {
       "install_id": "php",
-      "locked-url": "git+https://github.com/utmsigep/member-directory.git?ref=symfony-8.1&rev=f4bf8675bba8edd163135a11bf30353c2b07e059",
+      "locked-url": "git+https://github.com/utmsigep/member-directory.git?ref=main&rev=08bcccd807bd3b5a9b92a4393f48912e39d5afab",
       "flake-description": "member-directory custom flox packages",
       "locked-flake-attr-path": "packages.aarch64-linux.php-custom",
       "derivation": "/nix/store/vmzz3nxab18wgy3gmnnmd5963q4ifd26-php-with-extensions-8.4.23.drv",
@@ -356,7 +356,7 @@
     },
     {
       "install_id": "php",
-      "locked-url": "git+https://github.com/utmsigep/member-directory.git?ref=symfony-8.1&rev=f4bf8675bba8edd163135a11bf30353c2b07e059",
+      "locked-url": "git+https://github.com/utmsigep/member-directory.git?ref=main&rev=08bcccd807bd3b5a9b92a4393f48912e39d5afab",
       "flake-description": "member-directory custom flox packages",
       "locked-flake-attr-path": "packages.x86_64-linux.php-custom",
       "derivation": "/nix/store/fgj9fxagdkqifapk7m8sl8vlrq2rl373-php-with-extensions-8.4.23.drv",

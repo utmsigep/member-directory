@@ -8,7 +8,6 @@
         "beberlei/doctrineextensions": "^1.5",
         "campaignmonitor/createsend-php": "^7.0",
         "cmen/google-charts-bundle": "^7.1",
-        "composer/package-versions-deprecated": "^1.11",
         "doctrine/doctrine-bundle": "^3.3",
         "doctrine/doctrine-migrations-bundle": "^4.0",
         "doctrine/orm": "^3.5",
